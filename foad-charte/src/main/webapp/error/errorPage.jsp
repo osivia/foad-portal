@@ -1,0 +1,1 @@
+<h1 class="text-danger">Page d'erreur</h1>

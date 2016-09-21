@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<themes>
+    <theme>
+        <name>foad-charte</name>
+        
+        <!-- Favicon -->
+        <link rel="icon" href="/img/favicon.ico" />
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/foad.min.css" title="FOAD" />
+    </theme>
+</themes>

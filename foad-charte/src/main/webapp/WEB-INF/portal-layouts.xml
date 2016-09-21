@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layouts>
+
+    <layout>
+        <name>foad-1-col</name>
+        <uri>/layouts/1-col/index.jsp</uri>
+        <uri state="maximized">/layouts/1-col/maximized.jsp</uri>
+        <regions>
+            <region name="col-1" />
+        </regions>
+    </layout>
+
+    <layout>
+        <name>foad-2-cols</name>
+        <uri>/layouts/2-cols/index.jsp</uri>
+        <uri state="maximized">/layouts/2-cols/maximized.jsp</uri>
+        <regions>
+            <region name="col-1" />
+            <region name="col-2" />
+        </regions>
+    </layout>
+    
+    <layout>
+        <name>foad-workspace</name>
+        <uri>/layouts/workspace/index.jsp</uri>
+        <uri state="maximized">/layouts/workspace/maximized.jsp</uri>
+        <regions>
+            <region name="col-1" />
+            <region name="col-2" />
+            <region name="col-2a" />
+            <region name="col-2b" />
+        </regions>
+    </layout>
+
+</layouts>
+

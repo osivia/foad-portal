@@ -1,0 +1,57 @@
+//
+// Charte FOAD - Header
+// -----------------------------------------------------
+
+
+@header-height: 169px;
+
+
+header {
+    position: relative;
+    height: @header-height;
+    
+    margin-bottom: @line-height-computed;
+    
+    background-image: url("../img/header-background.png");
+    background-repeat: repeat-x;
+    
+    .container-fluid {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        
+        padding-top: @line-height-computed;
+        padding-bottom: @line-height-computed;
+    }
+    
+    .logo {
+        float: left;
+        
+        padding: @padding-base-vertical @padding-base-horizontal;
+        
+        img {
+            vertical-align: middle;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+        
+        > :not(:first-child) {
+            margin-left: @padding-large-horizontal;
+        }
+    }
+    
+    .background-fading {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 250px;
+        
+        #gradient.horizontal(@start-color: fade(#fff, 95%); @end-color: fade(#fff, 0%); @start-percent: 0%; @end-percent: 100%);
+    }
+}

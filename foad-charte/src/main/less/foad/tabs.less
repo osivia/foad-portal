@@ -1,0 +1,70 @@
+//
+// Charte FOAD - Tabs
+// -----------------------------------------------------
+
+
+.tabs-container {
+    margin-bottom: @line-height-computed;
+    
+    background-color: #fff;
+    
+    .tabs {
+        ul {
+            display: table;
+            width: 100%;
+            
+            margin: 0;
+            padding: @padding-large-vertical 0;
+            
+            table-layout: fixed;
+            border-collapse: separate;
+            
+            > li {
+                display: table-cell;
+                float: none;
+                width: 1%;
+                
+                padding: 0 @padding-xs-horizontal;
+                
+                text-align: center;
+                vertical-align: middle;
+                
+                a {
+                    display: inline-block;
+                    
+                    padding: @padding-small-vertical @padding-small-horizontal;
+                    
+                    text-align: center;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    
+                    &:not(:first-child) {
+                        padding-left: floor(@padding-xs-horizontal / 2);
+                    }
+                    
+                    &:not(:last-child) {
+                        padding-right: floor(@padding-xs-horizontal / 2);
+                    }
+                }
+                
+                &.active a {
+                    font-weight: bold;
+                }
+                
+                &:not(.active) a {
+                    color: @text-color;
+                    
+                    &:hover, &:focus {
+                        color: darken(@text-color, 15%);
+                    }
+                }
+                
+                &:not(:first-child) {
+                    border-left-style: solid;
+                    border-width: 1px;
+                    border-color: @text-color;
+                }
+            }
+        }
+    }
+}
