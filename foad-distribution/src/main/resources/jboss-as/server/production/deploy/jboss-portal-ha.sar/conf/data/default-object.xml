@@ -148,7 +148,7 @@
                 </property>
                 <property>
                     <name>theme.id</name>
-                    <value>demo-charte</value>
+                    <value>foad-charte</value>
                 </property>
                 <property>
                     <name>osivia.cms.requestFilteringPolicy</name>
@@ -160,7 +160,7 @@
                 </property>
                 <property>
                     <name>layout.id</name>
-                    <value>demo-2-cols</value>
+                    <value>foad-3-cols</value>
                 </property>
             </properties>
             <security-constraint>
@@ -229,7 +229,7 @@
                         </property>
                         <property>
                             <name>layout.id</name>
-                            <value>demo-1-col</value>
+                            <value>foad-1-col</value>
                         </property>
                     </properties>
                     <security-constraint />
@@ -431,7 +431,7 @@ return nuxeoRequest.toString();</value>
                     <properties>
                         <property>
                             <name>layout.id</name>
-                            <value>demo-workspace</value>
+                            <value>foad-workspace</value>
                         </property>
                     </properties>
                     <security-constraint />

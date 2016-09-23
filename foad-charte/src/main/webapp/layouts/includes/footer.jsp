@@ -4,9 +4,7 @@
 <footer class="hidden-xs">
     <div class="container-fluid">
         <div class="logo">
-            <a href="${requestScope['osivia.home.url']}">
-                <img src="/foad-charte/img/logo-foad-footer.png" alt="FOAD">
-            </a>
+            <img src="/foad-charte/img/logo-foad-footer.png" alt="FOAD">
         </div>
     </div>
 </footer>

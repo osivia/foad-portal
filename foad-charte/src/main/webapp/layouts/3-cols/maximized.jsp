@@ -21,24 +21,20 @@
                 <!-- Notifications -->
                 <p:region regionName="notifications" />
                 
-                <p:region regionName="top" />
-                
                 <div class="row">
                     <!-- Drawer -->
                     <div id="drawer">
                         <p:region regionName="drawer-toolbar" />
                         
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <p:region regionName="col-1" />
                         </div>
                     </div>
                     
-                    <div class="col-sm-6">
-                        <p:region regionName="col-2" />
+                    <div class="col-sm-8">
+                        <p:region regionName="maximized" />
                     </div>
                 </div>
-                
-                <p:region regionName="bottom" />
             </main>
         </div>
     </div>

@@ -47,17 +47,19 @@
                     
                     <div>
                         <div class="col-sm-12">
-                            <p:region regionName="col-2" />
+                            <p:region regionName="cols-top" />
                             
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <p:region regionName="col-2a" />
+                                    <p:region regionName="col-2" />
                                 </div>
                                 
                                 <div class="col-sm-6">
-                                    <p:region regionName="col-2b" />
+                                    <p:region regionName="col-3" />
                                 </div>
                             </div>
+                            
+                            <p:region regionName="cols-bottom" />
                         </div>
                     </div>
                 </div>

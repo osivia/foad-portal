@@ -20,6 +20,21 @@
     </portlet>
     
     
+    <!-- Attributes bundle customizer -->
+    <portlet>
+        <portlet-name>foad-attributes-customizer</portlet-name>
+        <portlet-class>fr.gouv.education.foad.customizer.attributes.AttributesCustomizer</portlet-class>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+        </supports>
+
+        <portlet-info>
+            <title>Attributes customizer</title>
+        </portlet-info>
+    </portlet>
+    
+    
     <!-- Internationalization customizer -->
     <portlet>
         <portlet-name>foad-internationalization-customizer</portlet-name>
