@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,16 +32,17 @@ import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.core.constants.InternalConstants;
 
+import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 
 /**
  * Project customizer.
  *
  * @author Cédric Krommenhoek
- * @see GenericPortlet
+ * @see CMSPortlet
  * @see ICustomizationModule
  */
-public class ProjectCustomizer extends GenericPortlet implements ICustomizationModule {
+public class ProjectCustomizer extends CMSPortlet implements ICustomizationModule {
 
     /** Customizer name. */
     private static final String CUSTOMIZER_NAME = "foad.customizer.project";
