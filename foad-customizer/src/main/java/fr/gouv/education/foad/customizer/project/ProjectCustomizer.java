@@ -131,7 +131,10 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
 
         if (configuration.isBeforeInvocation() && (principal != null)) {
             this.firstConnectionRedirection(portalControllerContext, configuration, principal, bundle);
-            this.cguRedirection(portalControllerContext, configuration, principal, bundle);
+
+            if (StringUtils.isNotEmpty(configuration.getCMSPath())) {
+                this.cguRedirection(portalControllerContext, configuration, principal, bundle);
+            }
         }
     }
 
@@ -235,7 +238,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
         // Get userProfile
         Document userProfile = (Document) nuxeoController.executeNuxeoCommand(new GetProfileCommand(principal.getName()));
         // User level
-        String userLevel = userProfile.getProperties().getString("userprofile:terms_of_use_agreement");
+        String userLevel = userProfile.getProperties().getString("ttc_userprofile:terms_of_use_agreement");
 
         if (!portalLevel.equals(userLevel)) {
             session.setAttribute("osivia.services.cgu.pathToRedirect", configuration.buildRestorableURL());
