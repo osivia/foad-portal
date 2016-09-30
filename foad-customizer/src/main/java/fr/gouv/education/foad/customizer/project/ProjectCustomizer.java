@@ -8,12 +8,14 @@ import java.util.Map;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.portal.core.model.portal.Page;
 import org.jboss.portal.core.model.portal.Window;
+import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.customization.CustomizationContext;
@@ -30,6 +32,8 @@ import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.core.constants.InternalConstants;
+
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 
 /**
  * Project customizer.
@@ -126,14 +130,15 @@ public class ProjectCustomizer extends GenericPortlet implements ICustomizationM
         Bundle bundle = this.bundleFactory.getBundle(customizationContext.getLocale());
 
         if (configuration.isBeforeInvocation() && (principal != null)) {
-            firstConnectionRedirection(portalControllerContext, configuration, principal, bundle);
+            this.firstConnectionRedirection(portalControllerContext, configuration, principal, bundle);
+            this.cguRedirection(portalControllerContext, configuration, principal, bundle);
         }
     }
 
 
     /**
      * First connection redirection.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param configuration project customization configuration
      * @param principal user principal
@@ -174,6 +179,82 @@ public class ProjectCustomizer extends GenericPortlet implements ICustomizationM
 
                 configuration.setRedirectionURL(redirectionUrl);
             }
+        }
+    }
+
+
+    /**
+     * CGU redirection.
+     *
+     * @param portalControllerContext portal controller context
+     * @param configuration project customization configuration
+     * @param principal user principal
+     * @param bundle internationalization bundle
+     */
+    private void cguRedirection(PortalControllerContext portalControllerContext, IProjectCustomizationConfiguration configuration, Principal principal,
+            Bundle bundle) {
+        // Page
+        Page page = configuration.getPage();
+        // Window
+        Window window = page.getChild("virtual", Window.class);
+
+        // HTTP servlet request
+        HttpServletRequest servletRequest = configuration.getHttpServletRequest();
+        // HTTP session
+        HttpSession session = servletRequest.getSession();
+
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(this.getPortletContext());
+        nuxeoController.setServletRequest(servletRequest);
+
+
+        // CGU path
+        String path = page.getProperty("osivia.services.cgu.path");
+        // Portal level
+        String portalLevel = page.getProperty("osivia.services.cgu.level");
+
+        // Is CGU defined ?
+        if ((portalLevel == null) || (path == null)) {
+            return;
+        }
+
+        // CGU already checked (in session) ?
+        Integer checkedLevel = (Integer) session.getAttribute("osivia.services.cgu.level");
+        if ((checkedLevel != null) && checkedLevel.toString().equals(portalLevel)) {
+            return;
+        }
+
+        // No CGU request on CGU !!!
+        if (window != null) {
+            if (window.getDeclaredProperty("osivia.services.cgu.path") != null) {
+                return;
+            }
+        }
+
+
+        // Get userProfile
+        Document userProfile = (Document) nuxeoController.executeNuxeoCommand(new GetProfileCommand(principal.getName()));
+        // User level
+        String userLevel = userProfile.getProperties().getString("userprofile:terms_of_use_agreement");
+
+        if (!portalLevel.equals(userLevel)) {
+            session.setAttribute("osivia.services.cgu.pathToRedirect", configuration.buildRestorableURL());
+
+            // Window properties
+            Map<String, String> properties = new HashMap<String, String>();
+            properties.put("osivia.services.cgu.path", path);
+            properties.put("osivia.services.cgu.level", portalLevel);
+
+            // Redirection URL
+            String redirectionUrl;
+            try {
+                redirectionUrl = this.portalUrlFactory.getStartPortletInNewPage(portalControllerContext, "cgu", bundle.getString("CGU_TITLE"),
+                        "osivia-services-cgu-portailPortletInstance", properties, null);
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+
+            configuration.setRedirectionURL(redirectionUrl);
         }
     }
 
