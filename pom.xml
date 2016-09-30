@@ -13,22 +13,22 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.0-SNAPSHOT</toutatice.version>
+        <toutatice.version>4.4.0-RC4</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.0-SNAPSHOT</directory.version>
+        <directory.version>4.4.0-RC8</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.0-SNAPSHOT</collaboration.version>
+        <collaboration.version>4.4.0-RC4</collaboration.version>
         
         <!-- Other services -->
-        <tasks.version>1.0.0-SNAPSHOT</tasks.version>
-        <procedure.version>1.0.0-SNAPSHOT</procedure.version>
-        <cgu.version>1.0-SNAPSHOT</cgu.version>
-        <first-connection.version>1.0-SNAPSHOT</first-connection.version>
+        <tasks.version>4.4.0-RC1</tasks.version>
+        <procedure.version>4.4.0-RC1</procedure.version>
+        <cgu.version>4.0.0-RC2</cgu.version>
+        <first-connection.version>4.4.0-RC1</first-connection.version>
         
         <!-- Identity SSO -->
-        <identity-sso.version>3.0.8-SNAPSHOT</identity-sso.version>
+        <identity-sso.version>3.0.8</identity-sso.version>
         
         <!-- Java Melody -->
         <java-melody.version>1.2</java-melody.version>
