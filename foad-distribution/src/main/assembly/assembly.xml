@@ -28,7 +28,6 @@
                 <include>org.osivia.services:osivia-services-tasks:war:${tasks.version}</include>
                 <include>org.osivia.services:osivia-services-procedure:war:${procedure.version}</include>
                 <include>org.osivia.services.cgu:osivia-services-cgu-portail:war:${cgu.version}</include>
-                <include>org.osivia.services:osivia-services-first-connection:war:${first-connection.version}</include>
             </includes>
         </dependencySet>
         
