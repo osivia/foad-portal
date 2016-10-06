@@ -13,18 +13,18 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.0-SNAPSHOT</toutatice.version>
+        <toutatice.version>4.4.0-RC5</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.0-SNAPSHOT</directory.version>
+        <directory.version>4.4.0-RC9</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.0-SNAPSHOT</collaboration.version>
+        <collaboration.version>4.4.0-RC5</collaboration.version>
         
         <!-- Other services -->
-        <tasks.version>4.4.0-RC1</tasks.version>
-        <procedure.version>4.4.0-SNAPSHOT</procedure.version>
-        <cgu.version>4.0.0-RC2</cgu.version>
+        <tasks.version>4.4.0-RC2</tasks.version>
+        <procedure.version>4.4.0-RC2</procedure.version>
+        <cgu.version>4.4.0-RC1</cgu.version>
         
         <!-- Identity SSO -->
         <identity-sso.version>3.0.8</identity-sso.version>
