@@ -11,21 +11,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    
-    <!-- jQuery -->
-    <script type='text/javascript' src='/osivia-portal-custom-web-assets/components/jquery/jquery-1.12.4.min.js'></script>
-    <script type='text/javascript' src='/osivia-portal-custom-web-assets/js/jquery-integration.min.js'></script>
-    <script type='text/javascript' src='/osivia-portal-custom-web-assets/components/jquery-ui/jquery-ui-1.11.3.min.js'></script>
-    <link rel='stylesheet' href='/osivia-portal-custom-web-assets/components/jquery-ui/jquery-ui-1.11.3.min.css'>
-    <script type='text/javascript' src='/osivia-portal-custom-web-assets/components/jquery-mobile/jquery.mobile.custom.min.js'></script>
-    
-    <!-- Bootstrap -->
-    <link rel='stylesheet' href='/osivia-portal-custom-web-assets/css/bootstrap/bootstrap.min.css' title='Bootstrap'>
-    <script src='/osivia-portal-custom-web-assets/components/bootstrap/js/bootstrap.min.js'></script>
-    
+
     <!-- Socle -->
     <link rel='stylesheet' href='/osivia-portal-custom-web-assets/css/osivia.min.css'>
-    <script src='/osivia-portal-custom-web-assets/js/socle.min.js'></script>
     
     <!-- Glyphicons -->
     <link rel='stylesheet' href='/osivia-portal-custom-web-assets/css/glyphicons.min.css'>
