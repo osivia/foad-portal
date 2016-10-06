@@ -91,39 +91,30 @@
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter1]]></filterInstanceId>
-                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
+                <filterId><![CDATA[IfFilter]]></filterId>
                 <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
-${command:link("Accepter", "accept", documentPath)}
-${command:link("Refuser", "decline", documentPath)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
+                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailFrom]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[continue]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailTo]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[]]></filterName>
+                <filterName><![CDATA[Si user enregistré]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
+                <filterId><![CDATA[IfFilter]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[Si user non enregistré]]></filterName>
+                <filterPath><![CDATA[2]]></filterPath>
               </filter>
               <filter>
                 <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
@@ -137,6 +128,79 @@ ${command:link("Refuser", "decline", documentPath)}]]></argumentValue>
                 </argumentsList>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[0]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[SendMailFilter2,0]]></filterInstanceId>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+${command:link("Accepter", "accept", documentPath)}.
+
+Vous pouvez vous connecter en utilisant les identifiants suivants :
+
+Login : ${uid}
+Mot de passe : ${generatedPassword}]]></argumentValue>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
+                    <argumentName><![CDATA[body]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailFrom]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[continue]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[Mail d'inscription]]></filterName>
+                <filterPath><![CDATA[2,0]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[SendMailFilter1,0]]></filterInstanceId>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
+                    <argumentName><![CDATA[body]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailFrom]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[continue]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[Mail pour rejoindre l'espace]]></filterName>
+                <filterPath><![CDATA[1,0]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Démarrer]]></label>
@@ -163,13 +227,6 @@ ${command:link("Refuser", "decline", documentPath)}]]></argumentValue>
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[DeleteOnEnding2]]></filterInstanceId>
-                <filterId><![CDATA[DeleteOnEnding]]></filterId>
-                <argumentsList/>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[2]]></filterPath>
-              </filter>
-              <filter>
                 <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
                 <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
                 <argumentsList/>
@@ -189,6 +246,13 @@ ${command:link("Refuser", "decline", documentPath)}]]></argumentValue>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
               </filter>
+              <filter>
+                <filterInstanceId><![CDATA[DeleteOnEnding2]]></filterInstanceId>
+                <filterId><![CDATA[DeleteOnEnding]]></filterId>
+                <argumentsList/>
+                <filterName><![CDATA[]]></filterName>
+                <filterPath><![CDATA[2]]></filterPath>
+              </filter>
             </filtersList>
             <label><![CDATA[Accepter]]></label>
             <actionId><![CDATA[accept]]></actionId>
@@ -196,13 +260,6 @@ ${command:link("Refuser", "decline", documentPath)}]]></argumentValue>
           </action>
           <action>
             <filtersList>
-              <filter>
-                <filterInstanceId><![CDATA[DECLINE_WORKSPACE_INVITATION0]]></filterInstanceId>
-                <filterId><![CDATA[DECLINE_WORKSPACE_INVITATION]]></filterId>
-                <argumentsList/>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
-              </filter>
               <filter>
                 <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
@@ -227,9 +284,21 @@ ${command:link("Refuser", "decline", documentPath)}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailObject]]></argumentName>
                   </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[continue]]></argumentName>
+                  </argument>
                 </argumentsList>
                 <filterName><![CDATA[Notifier par email]]></filterName>
                 <filterPath><![CDATA[2]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[DECLINE_WORKSPACE_INVITATION0]]></filterInstanceId>
+                <filterId><![CDATA[DECLINE_WORKSPACE_INVITATION]]></filterId>
+                <argumentsList/>
+                <filterName><![CDATA[]]></filterName>
+                <filterPath><![CDATA[0]]></filterPath>
               </filter>
               <filter>
                 <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
