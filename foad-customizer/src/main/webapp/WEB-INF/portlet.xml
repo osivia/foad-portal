@@ -5,6 +5,21 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
     version="2.0">
     
+    <!-- Plugin -->
+    <portlet>
+        <portlet-name>foad-plugin</portlet-name>
+        <portlet-class>fr.gouv.education.foad.customizer.plugin.FoadPlugin</portlet-class>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+        </supports>
+
+        <portlet-info>
+            <title>Plugin</title>
+        </portlet-info>
+    </portlet>
+    
+    
     <!-- Regions customizer -->
     <portlet>
         <portlet-name>foad-regions-customizer</portlet-name>
