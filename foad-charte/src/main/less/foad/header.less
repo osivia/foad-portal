@@ -3,14 +3,14 @@
 // -----------------------------------------------------
 
 
-@header-height: 169px;
+@logo-height: 114px;
+@header-background-height: 169px;
+@header-height: min(@logo-height + 2 * @line-height-computed, @header-background-height);
 
 
 header {
     position: relative;
     height: @header-height;
-    
-    margin-bottom: @line-height-computed;
     
     background-image: url("../img/header-background.png");
     background-repeat: repeat-x;
@@ -28,10 +28,6 @@ header {
     }
     
     .logo {
-        float: left;
-        
-        padding: @padding-base-vertical @padding-base-horizontal;
-        
         img {
             vertical-align: middle;
         }
@@ -44,6 +40,42 @@ header {
             margin-left: @padding-large-horizontal;
         }
     }
+    
+    h1 {
+        margin: 0;
+        
+        text-align: center;
+        line-height: 1;
+        
+        a {
+            display: inline-block;
+            height: @logo-height;
+            
+            padding: 0 @padding-large-horizontal;
+            
+            color: @brand-secondary;
+            background-color: fade(#fff, 50%);
+            
+            .transition-property(@transition-property: "color, backgroud-color");
+            .transition-duration(@transition-duration: 200ms);
+            .transition-timing-function(@timing-function: ease);
+            
+            &:hover, &:focus {
+                color: darken(@link-color, @brand-secondary);
+                background-color: fade(#fff, 70%);
+                text-decoration: none;
+            }
+            
+            > * {
+                display: block;                
+            }
+        }
+        
+        small {
+            font-size: 50%;
+        }
+    }
+    
     
     .background-fading {
         position: absolute;

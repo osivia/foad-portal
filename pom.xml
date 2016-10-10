@@ -13,17 +13,17 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.0-RC5</toutatice.version>
+        <toutatice.version>4.4.0-RC6</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.0-RC9</directory.version>
+        <directory.version>4.4.0-RC10</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.0-RC5</collaboration.version>
+        <collaboration.version>4.4.0-RC6</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4.0-RC2</tasks.version>
-        <procedure.version>4.4.0-RC2</procedure.version>
+        <procedure.version>4.4.0-RC3</procedure.version>
         <cgu.version>4.4.0-RC1</cgu.version>
         
         <!-- Identity SSO -->

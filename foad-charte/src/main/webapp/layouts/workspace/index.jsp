@@ -18,9 +18,6 @@
             <main id="page-content" class="container-fluid">
                 <!-- Content navbar -->
                 <jsp:include page="../includes/content-navbar.jsp" />
-            
-                <!-- Notifications -->
-                <p:region regionName="notifications" />
                 
                 <div class="row">
                     <!-- Drawer -->
@@ -47,6 +44,9 @@
                     
                     <div>
                         <div class="col-sm-12">
+                            <!-- Notifications -->
+                            <p:region regionName="notifications" />
+                        
                             <p:region regionName="cols-top" />
                             
                             <div class="row">

@@ -8,11 +8,17 @@
 <!-- Header -->
 <header class="hidden-xs">
     <div class="container-fluid">
-        <!-- Logo -->
-        <p:region regionName="logo" />
-        
-        <!-- Search -->
-        <p:region regionName="search" /> 
+        <div class="row">
+            <div class="col-sm-8">
+                <!-- Logo -->
+                <p:region regionName="logo" />
+            </div>
+            
+            <div class="col-sm-4">
+                <!-- Search -->
+                <p:region regionName="search" />
+            </div>
+        </div>
     </div>
     
     <div class="background-fading"></div>

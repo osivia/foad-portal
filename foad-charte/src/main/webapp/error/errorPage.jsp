@@ -56,14 +56,32 @@
     <!-- Header -->
     <header class="hidden-xs">
         <div class="container-fluid">
-            <!-- Logo -->
-            <div class="logo">
-                <!-- FOAD -->
-                <a href="/portal"> <img src="/foad-charte/img/logo-foad.png" alt="FOAD, Formation Ouverte À Distance">
-                </a>
-
-                <!-- Ministère -->
-                <img src="/foad-charte/img/logo-ministere.png" alt="Ministère de l'Éducation Nationale, de l'Enseignement supérieur et de la Recherche">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="logo">
+                                <!-- FOAD -->
+                                <img src="/foad-charte/img/logo-foad.png" alt="FOAD, Formation Ouverte À Distance">
+                                
+                                <!-- Ministère -->
+                                <img src="/foad-charte/img/logo-ministere.png" alt="Ministère de l'Éducation Nationale, de l'Enseignement supérieur et de la Recherche">
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6">
+                            <h1>
+                                <a href="/">
+                                    <span class="text-middle">
+                                        <span><op:translate key="BRAND" /></span>
+                                        <br>
+                                        <small>Espaces collaboratifs</small>
+                                    </span>
+                                </a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
