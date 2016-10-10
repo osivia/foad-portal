@@ -135,12 +135,16 @@
                     <value>true</value>
                 </property>
                 <property>
+                    <name>osivia.tabs.hideDefaultPage</name>
+                    <value>true</value>
+                </property>
+                <property>
                     <name>portal.defaultObjectName</name>
                     <value>home</value>
                 </property>
                 <property>
                     <name>osivia.profils</name>
-                    <value>&lt;profils&gt;&lt;profil&gt;&lt;roleName&gt;Authenticated&lt;/roleName&gt;&lt;name&gt;Utilisateur-connecte&lt;/name&gt;&lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt;&lt;defaultPageName&gt;&lt;/defaultPageName&gt;&lt;/profil&gt;&lt;/profils&gt;</value>
+                    <value>&lt;profils&gt; &lt;profil&gt; &lt;roleName&gt;Authenticated&lt;/roleName&gt; &lt;name&gt;Utilisateur-connecte&lt;/name&gt; &lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt; &lt;defaultPageName&gt;&lt;/defaultPageName&gt; &lt;/profil&gt; &lt;profil&gt; &lt;roleName&gt;Administrator&lt;/roleName&gt; &lt;name&gt;Administrateur&lt;/name&gt; &lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt; &lt;defaultPageName&gt;&lt;/defaultPageName&gt; &lt;/profil&gt;&lt;/profils&gt;</value>
                 </property>
                 <property>
                     <name>coordination.parameter.implicit_mode</name>
@@ -181,6 +185,7 @@
 
             <page>
                 <page-name>home</page-name>
+                <display-name xml:lang="fr">Accueil</display-name>
                 <properties>
                     <property>
                         <name>order</name>
@@ -197,7 +202,174 @@
                         <unchecked />
                     </policy-permission>
                 </security-constraint>
-                <display-name xml:lang="fr">Accueil</display-name>
+                <window>
+                <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1475831990862</window-name>
+                <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
+                <region>col-2</region>
+                <properties>
+                    <property>
+                        <name>osivia.title</name>
+                        <value>Demande de création d'espace collaboratif</value>
+                    </property>
+                    <property>
+                        <name>osivia.conditionalScope</name>
+                        <value>Utilisateur-connecte</value>
+                    </property>
+                    <property>
+                        <name>osivia.propertyName</name>
+                        <value>note:note</value>
+                    </property>
+                    <property>
+                        <name>osivia.fragmentTypeId</name>
+                        <value>html_property</value>
+                    </property>
+                    <property>
+                        <name>osivia.bootstrapPanelStyle</name>
+                        <value>true</value>
+                    </property>
+                    <property>
+                        <name>osivia.cms.uri</name>
+                        <value>/default-domain/espace-de-publication/demande-de-creation-d</value>
+                    </property>
+                    <property>
+                        <name>portal.windowContentType</name>
+                        <value>portlet</value>
+                    </property>
+                    <property>
+                        <name>theme.order</name>
+                        <value>0</value>
+                    </property>
+                    <property>
+                        <name>osivia.maximized.cms.url</name>
+                        <value>false</value>
+                    </property>
+                    <property>
+                        <name>osivia.hideDecorators</name>
+                        <value>1</value>
+                    </property>
+                    <property>
+                        <name>osivia.mobileCollapse</name>
+                        <value>false</value>
+                    </property>
+                </properties>
+                <height>0</height>
+            </window>
+                <window>
+                    <window-name>toutatice-portail-cms-nuxeo-viewListPortletInstance_1475257334121</window-name>
+                    <instance-ref>toutatice-portail-cms-nuxeo-viewListPortletInstance</instance-ref>
+                    <region>col-3</region>
+                    <properties>
+                        <property>
+                            <name>osivia.title</name>
+                            <value>Rejoindre un espace collaboratif</value>
+                        </property>
+                        <property>
+                            <name>osivia.conditionalScope</name>
+                            <value>Utilisateur-connecte</value>
+                        </property>
+                        <property>
+                            <name>osivia.cms.displayLiveVersion</name>
+                            <value>1</value>
+                        </property>
+                        <property>
+                            <name>osivia.bootstrapPanelStyle</name>
+                            <value>true</value>
+                        </property>
+                        <property>
+                            <name>portal.windowContentType</name>
+                            <value>portlet</value>
+                        </property>
+                        <property>
+                            <name>theme.dyna.partial_refresh_enabled</name>
+                            <value>true</value>
+                        </property>
+                        <property>
+                            <name>osivia.cms.style</name>
+                            <value>workspace-member-requests</value>
+                        </property>
+                        <property>
+                            <name>theme.order</name>
+                            <value>0</value>
+                        </property>
+                        <property>
+                            <name>osivia.maximized.cms.url</name>
+                            <value>false</value>
+                        </property>
+                        <property>
+                            <name>osivia.nuxeoRequest</name>
+                            <value>ecm:path STARTSWITH '/default-domain/workspaces/' AND ecm:primaryType = 'Workspace'</value>
+                        </property>
+                        <property>
+                            <name>osivia.hideDecorators</name>
+                            <value>1</value>
+                        </property>
+                        <property>
+                            <name>osivia.mobileCollapse</name>
+                            <value>false</value>
+                        </property>
+                    </properties>
+                    <height>0</height>
+                </window>
+                <window>
+                    <window-name>toutatice-portail-cms-nuxeo-viewListPortletInstance_1475257567200</window-name>
+                    <instance-ref>toutatice-portail-cms-nuxeo-viewListPortletInstance</instance-ref>
+                    <region>col-1</region>
+                    <properties>
+                        <property>
+                            <name>osivia.title</name>
+                            <value>Mes espaces collaboratifs</value>
+                        </property>
+                        <property>
+                            <name>osivia.conditionalScope</name>
+                            <value>Utilisateur-connecte</value>
+                        </property>
+                        <property>
+                            <name>osivia.cms.displayLiveVersion</name>
+                            <value>1</value>
+                        </property>
+                        <property>
+                            <name>osivia.bootstrapPanelStyle</name>
+                            <value>true</value>
+                        </property>
+                        <property>
+                            <name>portal.windowContentType</name>
+                            <value>portlet</value>
+                        </property>
+                        <property>
+                            <name>theme.dyna.partial_refresh_enabled</name>
+                            <value>true</value>
+                        </property>
+                        <property>
+                            <name>osivia.cms.style</name>
+                            <value>editorial</value>
+                        </property>
+                        <property>
+                            <name>theme.order</name>
+                            <value>0</value>
+                        </property>
+                        <property>
+                            <name>osivia.maximized.cms.url</name>
+                            <value>false</value>
+                        </property>
+                        <property>
+                            <name>osivia.nuxeoRequest</name>
+                            <value>ecm:primaryType = 'Workspace' AND ecm:path STARTSWITH '/default-domain/workspaces' ORDER BY dc:title ASC</value>
+                        </property>
+                        <property>
+                            <name>osivia.ajaxLink</name>
+                            <value>1</value>
+                        </property>
+                        <property>
+                            <name>osivia.hideDecorators</name>
+                            <value>1</value>
+                        </property>
+                        <property>
+                            <name>osivia.mobileCollapse</name>
+                            <value>false</value>
+                        </property>
+                    </properties>
+                    <height>0</height>
+                </window>
             </page>
 
             <page>
