@@ -156,7 +156,12 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             // Page
             Page page = configuration.getPage();
             // Window
-            Window window = page.getChild("virtual", Window.class);
+            Window window;
+            if (page == null) {
+                window = null;
+            } else {
+                window = page.getChild("virtual", Window.class);
+            }
 
             // Prevent loop on first connection portlet
             if ((window == null) || !BooleanUtils.toBoolean(window.getDeclaredProperty(FIRST_CONNECTION_INDICATOR_PROPERTY))) {
@@ -198,66 +203,67 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             Bundle bundle) {
         // Page
         Page page = configuration.getPage();
-        // Window
-        Window window = page.getChild("virtual", Window.class);
 
-        // HTTP servlet request
-        HttpServletRequest servletRequest = configuration.getHttpServletRequest();
-        // HTTP session
-        HttpSession session = servletRequest.getSession();
+        if (page != null) {
+            // Window
+            Window window = page.getChild("virtual", Window.class);
 
-        // Nuxeo controller
-        NuxeoController nuxeoController = new NuxeoController(this.getPortletContext());
-        nuxeoController.setServletRequest(servletRequest);
+            // HTTP servlet request
+            HttpServletRequest servletRequest = configuration.getHttpServletRequest();
+            // HTTP session
+            HttpSession session = servletRequest.getSession();
+
+            // Nuxeo controller
+            NuxeoController nuxeoController = new NuxeoController(this.getPortletContext());
+            nuxeoController.setServletRequest(servletRequest);
 
 
-        // CGU path
-        String path = page.getProperty("osivia.services.cgu.path");
-        // Portal level
-        String portalLevel = page.getProperty("osivia.services.cgu.level");
+            // CGU path
+            String path = page.getProperty("osivia.services.cgu.path");
+            // Portal level
+            String portalLevel = page.getProperty("osivia.services.cgu.level");
 
-        // Is CGU defined ?
-        if ((portalLevel == null) || (path == null)) {
-            return;
-        }
-
-        // CGU already checked (in session) ?
-        Integer checkedLevel = (Integer) session.getAttribute("osivia.services.cgu.level");
-        if ((checkedLevel != null) && checkedLevel.toString().equals(portalLevel)) {
-            return;
-        }
-
-        // No CGU request on CGU !!!
-        if (window != null) {
-            if (window.getDeclaredProperty("osivia.services.cgu.path") != null) {
+            // Is CGU defined ?
+            if ((portalLevel == null) || (path == null)) {
                 return;
             }
-        }
 
-
-        // Get userProfile
-        Document userProfile = (Document) nuxeoController.executeNuxeoCommand(new GetProfileCommand(principal.getName()));
-        // User level
-        String userLevel = userProfile.getProperties().getString("ttc_userprofile:terms_of_use_agreement");
-
-        if (!portalLevel.equals(userLevel)) {
-            session.setAttribute("osivia.services.cgu.pathToRedirect", configuration.buildRestorableURL());
-
-            // Window properties
-            Map<String, String> properties = new HashMap<String, String>();
-            properties.put("osivia.services.cgu.path", path);
-            properties.put("osivia.services.cgu.level", portalLevel);
-
-            // Redirection URL
-            String redirectionUrl;
-            try {
-                redirectionUrl = this.portalUrlFactory.getStartPortletInNewPage(portalControllerContext, "cgu", bundle.getString("CGU_TITLE"),
-                        "osivia-services-cgu-portailPortletInstance", properties, null);
-            } catch (PortalException e) {
-                throw new RuntimeException(e);
+            // CGU already checked (in session) ?
+            Integer checkedLevel = (Integer) session.getAttribute("osivia.services.cgu.level");
+            if ((checkedLevel != null) && checkedLevel.toString().equals(portalLevel)) {
+                return;
             }
 
-            configuration.setRedirectionURL(redirectionUrl);
+            // No CGU request on CGU !!!
+            if ((window != null) && StringUtils.isNotEmpty(window.getDeclaredProperty("osivia.services.cgu.path"))) {
+                return;
+            }
+
+
+            // Get userProfile
+            Document userProfile = (Document) nuxeoController.executeNuxeoCommand(new GetProfileCommand(principal.getName()));
+            // User level
+            String userLevel = userProfile.getProperties().getString("ttc_userprofile:terms_of_use_agreement");
+
+            if (!portalLevel.equals(userLevel)) {
+                session.setAttribute("osivia.services.cgu.pathToRedirect", configuration.buildRestorableURL());
+
+                // Window properties
+                Map<String, String> properties = new HashMap<String, String>();
+                properties.put("osivia.services.cgu.path", path);
+                properties.put("osivia.services.cgu.level", portalLevel);
+
+                // Redirection URL
+                String redirectionUrl;
+                try {
+                    redirectionUrl = this.portalUrlFactory.getStartPortletInNewPage(portalControllerContext, "cgu", bundle.getString("CGU_TITLE"),
+                            "osivia-services-cgu-portailPortletInstance", properties, null);
+                } catch (PortalException e) {
+                    throw new RuntimeException(e);
+                }
+
+                configuration.setRedirectionURL(redirectionUrl);
+            }
         }
     }
 
