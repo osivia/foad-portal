@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<document repository="default" id="7e9988d1-76af-4d99-8635-b8db0bcd842b">
+<document repository="default" id="59bf6f05-bed0-4432-bd1c-a79b5be14407">
   <system>
     <type>ProcedureModel</type>
     <path>invitation-request</path>
     <lifecycle-state>project</lifecycle-state>
     <lifecycle-policy>default</lifecycle-policy>
     <facet>Versionable</facet>
+    <facet>Folderish</facet>
     <access-control>
       <acl name="inherited">
         <entry principal="admin" permission="Everything" grant="true"/>
@@ -16,62 +17,63 @@
     </access-control>
   </system>
   <schema xmlns:uid="http://project.nuxeo.com/geide/schemas/uid/" name="uid">
-    <uid:uid/>
+    <uid:uid><![CDATA[]]></uid:uid>
     <uid:minor_version/>
     <uid:major_version/>
   </schema>
   <schema xmlns:dc="http://www.nuxeo.org/ecm/schemas/dublincore/" name="dublincore">
     <dc:creator><![CDATA[admin]]></dc:creator>
-    <dc:source/>
-    <dc:nature/>
+    <dc:source><![CDATA[]]></dc:source>
+    <dc:nature><![CDATA[]]></dc:nature>
     <dc:contributors>
       <item><![CDATA[admin]]></item>
     </dc:contributors>
-    <dc:created><![CDATA[2016-09-14T15:25:00.57Z]]></dc:created>
-    <dc:description/>
-    <dc:rights/>
+    <dc:created><![CDATA[2016-10-18T09:12:28.54Z]]></dc:created>
+    <dc:description><![CDATA[]]></dc:description>
+    <dc:rights><![CDATA[]]></dc:rights>
     <dc:subjects/>
-    <dc:publisher/>
+    <dc:publisher><![CDATA[]]></dc:publisher>
     <dc:valid/>
-    <dc:format/>
+    <dc:format><![CDATA[]]></dc:format>
     <dc:issued/>
-    <dc:modified><![CDATA[2016-09-30T07:38:15.00Z]]></dc:modified>
-    <dc:language/>
-    <dc:coverage/>
+    <dc:modified><![CDATA[2016-10-18T10:25:09.00Z]]></dc:modified>
+    <dc:language><![CDATA[]]></dc:language>
+    <dc:coverage><![CDATA[]]></dc:coverage>
     <dc:expired/>
     <dc:lastContributor><![CDATA[admin]]></dc:lastContributor>
     <dc:title><![CDATA[Demande d'invitation à un espace]]></dc:title>
   </schema>
   <schema xmlns:ttc="http://www.nuxeo.org/ecm/project/schemas/ACRENNES2/toutatice" name="toutatice">
-    <ttc:queryPart/>
-    <ttc:selectors/>
-    <ttc:childrenPageTemplate/>
+    <ttc:queryPart><![CDATA[]]></ttc:queryPart>
+    <ttc:selectors><![CDATA[]]></ttc:selectors>
+    <ttc:childrenPageTemplate><![CDATA[]]></ttc:childrenPageTemplate>
     <ttc:contextualizeExternalContents><![CDATA[false]]></ttc:contextualizeExternalContents>
     <ttc:hiddenInNavigation/>
     <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
     <ttc:showInMenu><![CDATA[false]]></ttc:showInMenu>
-    <ttc:spaceID><![CDATA[efd9c70f-5279-4ecb-8b8c-4c03942e659d]]></ttc:spaceID>
+    <ttc:spaceID><![CDATA[b2a35fbc-1e62-4fc4-adda-67a438f4e2b9]]></ttc:spaceID>
     <ttc:tabOrder><![CDATA[0]]></ttc:tabOrder>
     <ttc:contextualizeInternalContents><![CDATA[false]]></ttc:contextualizeInternalContents>
-    <ttc:pageScope/>
-    <ttc:extensionUrl/>
+    <ttc:pageScope><![CDATA[]]></ttc:pageScope>
+    <ttc:extensionUrl><![CDATA[]]></ttc:extensionUrl>
     <ttc:isPreloadedOnLogin><![CDATA[false]]></ttc:isPreloadedOnLogin>
     <ttc:domainID><![CDATA[default-domain]]></ttc:domainID>
     <ttc:webid><![CDATA[procedure_invitation-request]]></ttc:webid>
     <ttc:keywords/>
-    <ttc:editorialTitle/>
+    <ttc:editorialTitle><![CDATA[]]></ttc:editorialTitle>
     <ttc:vignette/>
-    <ttc:abstract/>
-    <ttc:pageTemplate/>
+    <ttc:abstract><![CDATA[]]></ttc:abstract>
+    <ttc:pageTemplate><![CDATA[]]></ttc:pageTemplate>
     <ttc:images/>
-    <ttc:theme/>
-    <ttc:explicitUrl/>
+    <ttc:theme><![CDATA[]]></ttc:theme>
+    <ttc:explicitUrl><![CDATA[]]></ttc:explicitUrl>
     <ttc:lstTargetedPublic/>
     <ttc:useES><![CDATA[false]]></ttc:useES>
   </schema>
   <schema xmlns:pcd="http://www.nuxeo.org/ecm/project/schemas/osivia/models/procedure" name="procedure">
     <pcd:startingStep><![CDATA[init]]></pcd:startingStep>
     <pcd:globalVariablesDefinitions/>
+    <pcd:procedureType/>
     <pcd:authorizedActors/>
     <pcd:steps>
       <step>
@@ -82,6 +84,7 @@
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
         <acquitable><![CDATA[false]]></acquitable>
+        <endStepMsg/>
         <closable><![CDATA[false]]></closable>
         <globalVariablesReferences/>
         <name><![CDATA[Initialisation]]></name>
@@ -132,6 +135,7 @@
             <stepReference><![CDATA[request]]></stepReference>
           </action>
         </actions>
+        <notifEmail><![CDATA[false]]></notifEmail>
         <actionIdNo><![CDATA[]]></actionIdNo>
       </step>
       <step>
@@ -142,6 +146,7 @@
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[request]]></reference>
         <acquitable><![CDATA[true]]></acquitable>
+        <endStepMsg><![CDATA[]]></endStepMsg>
         <closable><![CDATA[false]]></closable>
         <globalVariablesReferences/>
         <name><![CDATA[Demande d'invitation]]></name>
@@ -151,19 +156,12 @@
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
-                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
+                <filterInstanceId><![CDATA[DeleteOnEnding2]]></filterInstanceId>
+                <filterId><![CDATA[DeleteOnEnding]]></filterId>
                 <argumentsList/>
                 <filterName/>
-                <filterPath><![CDATA[0]]></filterPath>
+                <filterPath><![CDATA[2]]></filterPath>
               </filter>
-            </filtersList>
-            <label><![CDATA[Accepter]]></label>
-            <actionId><![CDATA[accept]]></actionId>
-            <stepReference><![CDATA[endStep]]></stepReference>
-          </action>
-          <action>
-            <filtersList>
               <filter>
                 <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
                 <filterId><![CDATA[SET_ACTOR]]></filterId>
@@ -183,6 +181,20 @@
                 <filterPath><![CDATA[1]]></filterPath>
               </filter>
               <filter>
+                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
+                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
+                <argumentsList/>
+                <filterName><![CDATA[]]></filterName>
+                <filterPath><![CDATA[0]]></filterPath>
+              </filter>
+            </filtersList>
+            <label><![CDATA[Accepter]]></label>
+            <actionId><![CDATA[accept]]></actionId>
+            <stepReference><![CDATA[accepted]]></stepReference>
+          </action>
+          <action>
+            <filtersList>
+              <filter>
                 <filterInstanceId><![CDATA[DECLINE_WORKSPACE_INVITATION0]]></filterInstanceId>
                 <filterId><![CDATA[DECLINE_WORKSPACE_INVITATION]]></filterId>
                 <argumentsList/>
@@ -192,23 +204,25 @@
             </filtersList>
             <label><![CDATA[Refuser]]></label>
             <actionId><![CDATA[decline]]></actionId>
-            <stepReference><![CDATA[declineMotivation]]></stepReference>
+            <stepReference><![CDATA[endStep]]></stepReference>
           </action>
         </actions>
+        <notifEmail><![CDATA[false]]></notifEmail>
         <actionIdNo><![CDATA[decline]]></actionIdNo>
       </step>
       <step>
-        <stringMsg><![CDATA[Votre demande d'accès à l'espace ${workspaceTitle} a été rejetée.]]></stringMsg>
+        <stringMsg><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[2]]></index>
         <authorizedGroups/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
-        <reference><![CDATA[declineMotivation]]></reference>
+        <reference><![CDATA[accepted]]></reference>
         <acquitable><![CDATA[false]]></acquitable>
+        <endStepMsg><![CDATA[]]></endStepMsg>
         <closable><![CDATA[true]]></closable>
         <globalVariablesReferences/>
-        <name><![CDATA[Demande refusée]]></name>
-        <actionIdDefault><![CDATA[]]></actionIdDefault>
+        <name><![CDATA[Demande acceptée]]></name>
+        <actionIdDefault><![CDATA[close]]></actionIdDefault>
         <notifiable><![CDATA[true]]></notifiable>
         <actions>
           <action>
@@ -218,6 +232,7 @@
             <stepReference><![CDATA[endStep]]></stepReference>
           </action>
         </actions>
+        <notifEmail><![CDATA[true]]></notifEmail>
         <actionIdNo><![CDATA[]]></actionIdNo>
       </step>
     </pcd:steps>

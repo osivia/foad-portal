@@ -122,49 +122,67 @@
                 <window-state>maximized</window-state>
             </supported-window-states>
             <properties>
+                <!-- Layout -->
+                <property>
+                    <name>layout.id</name>
+                    <value>foad-3-cols</value>
+                </property>
+                <!-- Thème -->
+                <property>
+                    <name>theme.id</name>
+                    <value>foad-charte</value>
+                </property>
+                <!-- Renderer -->
+                <property>
+                    <name>theme.renderSetId</name>
+                    <value>OsiviaDefaultRenderer</value>
+                </property>
+            
+                <!-- Page par défaut du portail -->
+                <property>
+                    <name>portal.defaultObjectName</name>
+                    <value>home</value>
+                </property>
+                
                 <property>
                     <name>coordination.event.implicit_mode</name>
                     <value>true</value>
                 </property>
                 <property>
-                    <name>theme.renderSetId</name>
-                    <value>OsiviaDefaultRenderer</value>
+                    <name>coordination.parameter.implicit_mode</name>
+                    <value>true</value>
                 </property>
+                
+                <!-- Support de l'Ajax -->
                 <property>
                     <name>theme.dyna.partial_refresh_enabled</name>
                     <value>true</value>
                 </property>
+                
+                <!-- Masquer la page d'accueil -->
                 <property>
                     <name>osivia.tabs.hideDefaultPage</name>
-                    <value>true</value>
+                    <value>false</value>
                 </property>
-                <property>
-                    <name>portal.defaultObjectName</name>
-                    <value>home</value>
-                </property>
+                <!-- Profils -->
                 <property>
                     <name>osivia.profils</name>
                     <value>&lt;profils&gt; &lt;profil&gt; &lt;roleName&gt;Authenticated&lt;/roleName&gt; &lt;name&gt;Utilisateur-connecte&lt;/name&gt; &lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt; &lt;defaultPageName&gt;&lt;/defaultPageName&gt; &lt;/profil&gt; &lt;profil&gt; &lt;roleName&gt;Administrator&lt;/roleName&gt; &lt;name&gt;Administrateur&lt;/name&gt; &lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt; &lt;defaultPageName&gt;&lt;/defaultPageName&gt; &lt;/profil&gt;&lt;/profils&gt;</value>
                 </property>
-                <property>
-                    <name>coordination.parameter.implicit_mode</name>
-                    <value>true</value>
-                </property>
-                <property>
-                    <name>theme.id</name>
-                    <value>foad-charte</value>
-                </property>
+                <!-- Filtre des requêtes -->
                 <property>
                     <name>osivia.cms.requestFilteringPolicy</name>
                     <value>none</value>
                 </property>
+                <!-- Type du portail -->
                 <property>
                     <name>osivia.portal.portalType</name>
                     <value>static</value>
                 </property>
+                <!-- Contextualisation des liens externes -->
                 <property>
-                    <name>layout.id</name>
-                    <value>foad-3-cols</value>
+                    <name>osivia.cms.outgoingRecontextualizationSupport</name>
+                    <value>1</value>
                 </property>
             </properties>
             <security-constraint>

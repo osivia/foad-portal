@@ -101,6 +101,28 @@
     </dependencies>
     
     
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>nuxeo-exports</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptorSourceDirectory>src/main/assembly/nuxeo</descriptorSourceDirectory>
+                            <finalName>export</finalName>
+                        </configuration>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    
     <profiles>
     
         <!-- Development environment -->
@@ -167,7 +189,6 @@
                 <defaultGoal>package</defaultGoal>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <executions>
                             <execution>
