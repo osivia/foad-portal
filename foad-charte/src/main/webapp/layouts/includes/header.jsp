@@ -1,12 +1,8 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
 
 
-<!-- Toolbar -->
-<p:region regionName="toolbar" />
-
-
 <!-- Header -->
-<header class="hidden-xs">
+<header class="banner hidden-xs">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-8">

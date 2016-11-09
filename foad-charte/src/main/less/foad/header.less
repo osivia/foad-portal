@@ -5,12 +5,12 @@
 
 @logo-height: 114px;
 @header-background-height: 169px;
-@header-height: min(@logo-height + 2 * @line-height-computed, @header-background-height);
+@inner-height: min(@header-background-height - 3 * @line-height-computed, @logo-height);
 
 
 header {
     position: relative;
-    height: @header-height;
+    height: @header-background-height;
     
     background-image: url("../img/header-background.png");
     background-repeat: repeat-x;
@@ -24,11 +24,13 @@ header {
         z-index: 1;
         
         padding-top: @line-height-computed;
-        padding-bottom: @line-height-computed;
+        padding-bottom: 2 * @line-height-computed;
     }
     
     .logo {
         img {
+            max-height: @inner-height;
+            
             vertical-align: middle;
         }
         
@@ -49,20 +51,21 @@ header {
         
         a {
             display: inline-block;
-            height: @logo-height;
+            height: @inner-height;
             
             padding: 0 @padding-large-horizontal;
             
             color: @brand-secondary;
-            background-color: fade(#fff, 50%);
+            background-color: fade(#fff, 70%);
             
-            .transition-property(@transition-property: "color, backgroud-color");
+            .box-shadow(@shadow: 0 0 10px 10px fade(#fff, 70%));
+            
+            .transition-property(@transition-property: color);
             .transition-duration(@transition-duration: 200ms);
             .transition-timing-function(@timing-function: ease);
             
             &:hover, &:focus {
                 color: darken(@link-color, @brand-secondary);
-                background-color: fade(#fff, 70%);
                 text-decoration: none;
             }
             

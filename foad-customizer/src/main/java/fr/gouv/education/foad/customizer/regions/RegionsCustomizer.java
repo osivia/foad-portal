@@ -92,12 +92,16 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
 
         // Context path
         String contextPath = (String) attributes.get(IRenderedRegions.CUSTOMIZER_ATTRIBUTE_THEME_CONTEXT_PATH);
-
+        
         if (CHARTE_CONTEXT_PATH.equals(contextPath)) {
+            // Replace default toolbar region
+            renderedRegion.customizeRenderedRegion("toolbar", "/regions/toolbar.jsp");
+            // Add condensed toolbar region
+            renderedRegion.customizeRenderedRegion("condensed-toolbar", "/regions/condensed-toolbar.jsp");
             // Add logo region
             renderedRegion.customizeRenderedRegion("logo", "/regions/logo.jsp");
             // Replace default tabs region
-            renderedRegion.customizeRenderedRegion("tabs", "/regions/tabs.jsp");
+            // renderedRegion.customizeRenderedRegion("tabs", "/regions/tabs.jsp");
         }
     }
 

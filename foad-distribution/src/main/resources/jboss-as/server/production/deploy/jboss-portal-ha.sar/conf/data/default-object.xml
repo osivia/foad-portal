@@ -22,9 +22,7 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.                  ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<!DOCTYPE deployments PUBLIC
-   "-//JBoss Portal//DTD Portal Object 2.6//EN"
-   "http://www.jboss.org/portal/dtd/portal-object_2_6.dtd">
+<!DOCTYPE deployments PUBLIC "-//JBoss Portal//DTD Portal Object 2.6//EN" "http://www.jboss.org/portal/dtd/portal-object_2_6.dtd">
 
 <deployments>
 
@@ -169,6 +167,11 @@
                     <name>osivia.profils</name>
                     <value>&lt;profils&gt; &lt;profil&gt; &lt;roleName&gt;Authenticated&lt;/roleName&gt; &lt;name&gt;Utilisateur-connecte&lt;/name&gt; &lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt; &lt;defaultPageName&gt;&lt;/defaultPageName&gt; &lt;/profil&gt; &lt;profil&gt; &lt;roleName&gt;Administrator&lt;/roleName&gt; &lt;name&gt;Administrateur&lt;/name&gt; &lt;nuxeoVirtualUser&gt;&lt;/nuxeoVirtualUser&gt; &lt;defaultPageName&gt;&lt;/defaultPageName&gt; &lt;/profil&gt;&lt;/profils&gt;</value>
                 </property>
+                <!-- Styles -->
+                <property>
+                    <name>osivia.liste_styles</name>
+                    <value>box-shadow,workspace-header-background,thumbnail,workspace-title</value>
+                </property>
                 <!-- Filtre des requêtes -->
                 <property>
                     <name>osivia.cms.requestFilteringPolicy</name>
@@ -182,6 +185,16 @@
                 <!-- Contextualisation des liens externes -->
                 <property>
                     <name>osivia.cms.outgoingRecontextualizationSupport</name>
+                    <value>1</value>
+                </property>
+                
+                <!-- CGU -->
+                <property>
+                    <name>osivia.services.cgu.path</name>
+                    <value>cgu</value>
+                </property>
+                <property>
+                    <name>osivia.services.cgu.level</name>
                     <value>1</value>
                 </property>
             </properties>
@@ -480,7 +493,67 @@
                     </properties>
                     <security-constraint />
                     <window>
-                        <window-name>osivia-services-taskbar-instance_1455123323845</window-name>
+                        <window-name>osivia-services-calendar-instance_1477040797709</window-name>
+                        <instance-ref>osivia-services-calendar-instance</instance-ref>
+                        <region>col-3</region>
+                        <properties>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Prochains évènements</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>theme.dyna.partial_refresh_enabled</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>osivia.taskbar.linked.id</name>
+                                <value>CALENDAR</value>
+                            </property>
+                            <property>
+                                <name>osivia.linkedTaskbarItemId</name>
+                                <value>CALENDAR</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>0</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>osivia.calendar.defaultView</name>
+                                <value>planning</value>
+                            </property>
+                            <property>
+                                <name>osivia.calendar.cmsPath</name>
+                                <value>${taskPath}</value>
+                            </property>
+                            <property>
+                                <name>osivia.ajaxLink</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.calendar.compactView</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
+                    <window>
+                        <window-name>osivia-services-taskbar-instance_1474358854414</window-name>
                         <instance-ref>osivia-services-taskbar-instance</instance-ref>
                         <region>col-1</region>
                         <properties>
@@ -536,7 +609,327 @@
                         <height>0</height>
                     </window>
                     <window>
-                        <window-name>toutatice-portail-cms-nuxeo-viewListPortletInstance_1455124169314</window-name>
+                        <window-name>osivia-services-workspace-participants-instance_1478278624413</window-name>
+                        <instance-ref>osivia-services-workspace-participants-instance</instance-ref>
+                        <region>workspace-header-2</region>
+                        <properties>
+                            <property>
+                                <name>participants.display.owner</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>osivia.style</name>
+                                <value>box-shadow</value>
+                            </property>
+                            <property>
+                                <name>theme.dyna.partial_refresh_enabled</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>2</value>
+                            </property>
+                            <property>
+                                <name>osivia.ajaxLink</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>participants.display.admin</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Participants</value>
+                            </property>
+                            <property>
+                                <name>participants.display.reader</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>participants.max</name>
+                                <value>10</value>
+                            </property>
+                            <property>
+                                <name>participants.display.contributor</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>participants.view</name>
+                                <value>COMPACT</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.taskbar.linked.id</name>
+                                <value>WORKSPACE_PARTICIPANTS</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>participants.display.writer</name>
+                                <value>true</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
+                    <window>
+                        <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1478530592861</window-name>
+                        <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
+                        <region>workspace-header-1</region>
+                        <properties>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Vignette</value>
+                            </property>
+                            <property>
+                                <name>osivia.propertyName</name>
+                                <value>ttc:vignette</value>
+                            </property>
+                            <property>
+                                <name>osivia.fragmentTypeId</name>
+                                <value>document_picture</value>
+                            </property>
+                            <property>
+                                <name>osivia.cms.uri</name>
+                                <value>${basePath}</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>osivia.style</name>
+                                <value>thumbnail</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideEmptyPortlet</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
+                                <value>1</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
+                    <window>
+                        <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1478530954679</window-name>
+                        <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
+                        <region>cols-top-2</region>
+                        <properties>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Description</value>
+                            </property>
+                            <property>
+                                <name>osivia.propertyName</name>
+                                <value>dc:description</value>
+                            </property>
+                            <property>
+                                <name>osivia.fragmentTypeId</name>
+                                <value>text_property</value>
+                            </property>
+                            <property>
+                                <name>osivia.cms.uri</name>
+                                <value>${basePath}</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>osivia.style</name>
+                                <value>box-shadow</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideEmptyPortlet</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
+                                <value>1</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
+                    <window>
+                        <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1478539693367</window-name>
+                        <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
+                        <region>workspace-header-1</region>
+                        <properties>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Bannière</value>
+                            </property>
+                            <property>
+                                <name>osivia.propertyName</name>
+                                <value>ttcs:headImage</value>
+                            </property>
+                            <property>
+                                <name>osivia.fragmentTypeId</name>
+                                <value>document_picture</value>
+                            </property>
+                            <property>
+                                <name>osivia.cms.uri</name>
+                                <value>${basePath}</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>osivia.style</name>
+                                <value>workspace-header-background</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideEmptyPortlet</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>0</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
+                                <value>1</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
+                    <window>
+                        <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1478598188217</window-name>
+                        <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
+                        <region>workspace-header-2</region>
+                        <properties>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Titre</value>
+                            </property>
+                            <property>
+                                <name>osivia.propertyName</name>
+                                <value>dc:title</value>
+                            </property>
+                            <property>
+                                <name>osivia.fragmentTypeId</name>
+                                <value>text_property</value>
+                            </property>
+                            <property>
+                                <name>osivia.cms.uri</name>
+                                <value>${basePath}</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>osivia.style</name>
+                                <value>box-shadow,workspace-title</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>0</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
+                                <value>1</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
+                    <window>
+                        <window-name>toutatice-portail-cms-nuxeo-viewListPortletInstance_1474536312484</window-name>
                         <instance-ref>toutatice-portail-cms-nuxeo-viewListPortletInstance</instance-ref>
                         <region>col-2</region>
                         <properties>
@@ -557,16 +950,20 @@
                                 <value>portlet</value>
                             </property>
                             <property>
+                                <name>theme.dyna.partial_refresh_enabled</name>
+                                <value>true</value>
+                            </property>
+                            <property>
                                 <name>osivia.cms.style</name>
                                 <value>normal</value>
                             </property>
                             <property>
-                                <name>osivia.cms.maxItems</name>
-                                <value>10</value>
-                            </property>
-                            <property>
                                 <name>osivia.beanShell</name>
                                 <value>on</value>
+                            </property>
+                            <property>
+                                <name>osivia.cms.pageSize</name>
+                                <value>10</value>
                             </property>
                             <property>
                                 <name>theme.order</name>
@@ -578,12 +975,16 @@
                             </property>
                             <property>
                                 <name>osivia.nuxeoRequest</name>
-                                <value>StringBuilder builder = new StringBuilder();&#13;
-builder.append("ecm:path STARTSWITH '").append(basePath).append("' ");&#13;
-builder.append("AND ecm:mixinType &lt;&gt; 'Folderish' ");&#13;
-builder.append("AND ecm:primaryType &lt;&gt; 'Staple' ");&#13;
-builder.append("ORDER BY dc:modified DESC");&#13;
-return builder.toString();</value>
+                                <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
+                                    nuxeoRequest.append("ecm:path STARTSWITH '").append(basePath).append("' ");&#13;
+                                    nuxeoRequest.append("AND ecm:mixinType &lt;&gt; 'Folderish' ");&#13;
+                                    nuxeoRequest.append("AND ecm:primaryType &lt;&gt; 'Staple' ");&#13;
+                                    nuxeoRequest.append("ORDER BY dc:modified DESC");&#13;
+                                    return nuxeoRequest.toString();</value>
+                            </property>
+                            <property>
+                                <name>osivia.ajaxLink</name>
+                                <value>1</value>
                             </property>
                             <property>
                                 <name>osivia.hideDecorators</name>

@@ -1,0 +1,41 @@
+//
+// Charte FOAD - Toolbar
+// -----------------------------------------------------
+
+
+.toolbar {
+    &.condensed-toolbar {
+        @media (min-width: @screen-sm-min) {
+            padding-top: 50px;
+            
+            background-image: url("../img/toolbar-background.png");
+            background-repeat: repeat-x;
+            
+            .navbar {
+                &.navbar-default {
+                    background-color: fade(@navbar-default-bg, 70%);
+                }
+                
+//                .navbar-brand, .navbar-nav {
+//                    background-color: fade(@navbar-default-bg, 70%);
+//                }
+                
+                .navbar-nav {
+                    > .open {
+                        > a {
+                            &, &:hover, &:focus {
+                                background-color: fade(@navbar-default-link-active-bg, 70%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.drawer-toolbar-header {
+    background-image: url("../img/drawer-background.png");
+    background-repeat: repeat-x;
+}

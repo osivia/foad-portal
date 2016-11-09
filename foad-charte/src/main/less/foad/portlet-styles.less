@@ -1,0 +1,64 @@
+//
+// Charte FOAD - Portlet styles
+// -----------------------------------------------------
+
+
+.portlet-container {
+    
+    &.box-shadow {
+        padding: @padding-base-vertical @padding-base-horizontal;
+                
+        background-color: fade(@body-bg, 70%);
+    
+        .box-shadow(@shadow: 0 0 5px 5px fade(@body-bg, 70%));
+    }
+    
+    
+    &.workspace-header-background {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        
+        overflow: hidden;
+        
+        margin-bottom: 0;
+        
+        background-color: @body-bg;
+        
+        img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            
+            min-height: 100%;
+            min-width: 100%;
+            max-width: none;
+            
+            margin: auto;
+        }
+    }
+    
+    &.workspace-title {
+        font-size: @font-size-h3;
+    }
+    
+    &.thumbnail {
+        img {
+            &, &.img-responsive {
+                max-width: none;
+            }
+        }
+    }
+    
+}
+
+
+.filter(@filter) {
+    -webkit-filter: @filter;
+            filter: @filter;
+}

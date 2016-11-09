@@ -11,8 +11,16 @@
 
 
 <body>
-    <jsp:include page="../includes/header.jsp" />
-    
+    <!-- Condensed toolbar -->
+    <p:region regionName="condensed-toolbar" />
+
+    <!-- Tabs -->
+    <div class="tabs-container hidden-xs">
+        <div class="container-fluid">
+            <p:region regionName="tabs" />
+        </div>
+    </div>
+
     <div class="wrapper-outer">
         <div class="wrapper-inner">
             <main id="page-content" class="container-fluid">
@@ -46,8 +54,12 @@
                         <div class="col-sm-12">
                             <!-- Notifications -->
                             <p:region regionName="notifications" />
-                        
-                            <p:region regionName="cols-top" />
+                           
+                            <!-- Workspace header -->
+                            <div class="workspace-header">
+                                <p:region regionName="workspace-header-1" />
+                                <p:region regionName="workspace-header-2" />
+                            </div>
                             
                             <div class="row">
                                 <div class="col-sm-6">

@@ -9,3 +9,37 @@
     
     background-color: #fff;
 }
+
+
+.workspace-header {
+    position: relative;
+        
+    margin-bottom: @line-height-computed;
+    padding: @line-height-computed @padding-large-horizontal 0;
+
+    .dyna-window {
+        text-align: center;
+        font-size: 0;
+        
+        > * {
+            display: inline-block;
+            
+            font-size: @font-size-base;
+        }
+    }
+    
+    @media screen and (min-width: @screen-sm-min) {
+        > * {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        
+        > :nth-child(1) {
+            padding-right: @padding-large-horizontal;
+        }
+        
+        > :nth-child(2) {
+            width: 10000px;
+        }
+    }
+}

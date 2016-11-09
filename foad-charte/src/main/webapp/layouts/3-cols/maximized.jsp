@@ -10,6 +10,9 @@
 
 
 <body>
+    <!-- Toolbar -->
+    <p:region regionName="toolbar" />
+
     <jsp:include page="../includes/header.jsp" />
     
     <div class="wrapper-outer">

@@ -14,19 +14,37 @@
     <!-- Title -->
     <h2 class="sr-only"><op:translate key="TABS_TITLE" /></h2>
     
-    <ul>
-        <c:forEach var="userPage" items="${userPages}">
-            <li class="${userPage.id eq currentId ? 'active' : ''}">
-                <a href="${userPage.url}">${userPage.name}</a>
-                
-                <!-- Close -->
-                <c:if test="${not empty userPage.closePageUrl}">
-                    <a href="${userPage.closePageUrl}" title="${closeLabel}" data-toggle="tooltip" data-placement="bottom">
-                        <i class="glyphicons glyphicons-remove"></i>
-                        <span class="sr-only">${closeLabel}</span>
+    <!-- Home -->
+    <c:if test="${not empty userPortal.defaultPage}">
+        <div class="home">
+            <ul>
+                <li class="${userPortal.defaultPage.id eq currentId ? 'active' : ''}">
+                    <a href="${userPortal.defaultPage.url}" title="${userPortal.defaultPage.name}" data-toggle="tooltip" data-placement="bottom">
+                        <i class="halflings halflings-home"></i>
+                        <span class="sr-only">${userPortal.defaultPage.name}</span>
                     </a>
+                </li>
+            </ul>
+        </div>
+    </c:if>
+    
+    <div>
+        <ul>
+            <c:forEach var="userPage" items="${userPages}">
+                <c:if test="${not userPage.defaultPage}">
+                    <li class="${userPage.id eq currentId ? 'active' : ''}">
+                        <a href="${userPage.url}">${userPage.name}</a>
+                        
+                        <!-- Close -->
+                        <c:if test="${not empty userPage.closePageUrl}">
+                            <a href="${userPage.closePageUrl}" title="${closeLabel}" data-toggle="tooltip" data-placement="bottom">
+                                <i class="glyphicons glyphicons-remove"></i>
+                                <span class="sr-only">${closeLabel}</span>
+                            </a>
+                        </c:if>
+                    </li>
                 </c:if>
-            </li>
-        </c:forEach>
-    </ul>
+            </c:forEach>
+        </ul>
+    </div>
 </nav>

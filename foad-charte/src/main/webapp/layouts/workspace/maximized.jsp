@@ -11,7 +11,15 @@
 
 
 <body>
-    <jsp:include page="../includes/header.jsp" />
+    <!-- Condensed toolbar -->
+    <p:region regionName="condensed-toolbar" />
+
+    <!-- Tabs -->
+    <div class="tabs-container hidden-xs">
+        <div class="container-fluid">
+            <p:region regionName="tabs" />
+        </div>
+    </div>
     
     <div class="wrapper-outer">
         <div class="wrapper-inner">
