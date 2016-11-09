@@ -119,7 +119,7 @@
             <isFieldSet><![CDATA[false]]></isFieldSet>
             <superLabel><![CDATA[Description]]></superLabel>
             <helpText/>
-            <required><![CDATA[false]]></required>
+            <required><![CDATA[true]]></required>
           </globalVariablesReference>
           <globalVariablesReference>
             <variableName><![CDATA[title]]></variableName>
