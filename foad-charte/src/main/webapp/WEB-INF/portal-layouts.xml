@@ -45,6 +45,7 @@
             <region name="col-1" />
             <region name="workspace-header-1" />
             <region name="workspace-header-2" />
+            <region name="cols-top" />
             <region name="col-2" />
             <region name="col-3" />
             <region name="cols-bottom" />

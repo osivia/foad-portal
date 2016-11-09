@@ -61,6 +61,8 @@
                                 <p:region regionName="workspace-header-2" />
                             </div>
                             
+                            <p:region regionName="cols-top" />
+                            
                             <div class="row">
                                 <div class="col-sm-6">
                                     <p:region regionName="col-2" />

@@ -755,7 +755,7 @@
                     <window>
                         <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1478530954679</window-name>
                         <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
-                        <region>cols-top-2</region>
+                        <region>workspace-header-2</region>
                         <properties>
                             <property>
                                 <name>osivia.title</name>
@@ -1009,6 +1009,78 @@
                         </property>
                     </properties>
                     <security-constraint />
+                    <window>
+                        <window-name>osivia-services-workspace-participants-instance_1478695730421</window-name>
+                        <instance-ref>osivia-services-workspace-participants-instance</instance-ref>
+                        <region>cols-top</region>
+                        <properties>
+                            <property>
+                                <name>osivia.title</name>
+                                <value>Participants</value>
+                            </property>
+                            <property>
+                                <name>participants.display.reader</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>participants.max</name>
+                                <value>10</value>
+                            </property>
+                            <property>
+                                <name>participants.display.contributor</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>participants.view</name>
+                                <value>COMPACT</value>
+                            </property>
+                            <property>
+                                <name>osivia.bootstrapPanelStyle</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>participants.display.owner</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>portal.windowContentType</name>
+                                <value>portlet</value>
+                            </property>
+                            <property>
+                                <name>theme.order</name>
+                                <value>0</value>
+                            </property>
+                            <property>
+                                <name>osivia.maximized.cms.url</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>participants.display.admin</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>participants.display.writer</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>osivia.mobileCollapse</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.taskbar.linked.id</name>
+                                <value>WORKSPACE_PARTICIPANTS</value>
+                            </property>
+                        </properties>
+                        <height>0</height>
+                    </window>
                     <window>
                         <window-name>osivia-services-taskbar-instance_1455123323845</window-name>
                         <instance-ref>osivia-services-taskbar-instance</instance-ref>

@@ -13,10 +13,9 @@
 
 .workspace-header {
     position: relative;
+    
+    padding: 0 @padding-large-horizontal;
         
-    margin-bottom: @line-height-computed;
-    padding: @line-height-computed @padding-large-horizontal 0;
-
     .dyna-window {
         text-align: center;
         font-size: 0;
@@ -28,18 +27,48 @@
         }
     }
     
+    @media screen and (max-width: @screen-xs-max) {
+        .dyna-region {
+            &:first-child {
+                > * > * {
+                    &:first-child {
+                        padding-top: @line-height-computed;
+                    }
+                }
+            }
+            
+            &:last-child {
+                > * > * {
+                    &:last-child {
+                        padding-bottom: @line-height-computed;
+                    }
+                }
+            }
+        }
+    }
+    
     @media screen and (min-width: @screen-sm-min) {
-        > * {
+        .dyna-region {
             display: table-cell;
             vertical-align: middle;
-        }
-        
-        > :nth-child(1) {
-            padding-right: @padding-large-horizontal;
-        }
-        
-        > :nth-child(2) {
-            width: 10000px;
+            
+            &:nth-child(1) {
+                padding-right: @padding-large-horizontal;
+            }
+            
+            &:nth-child(2) {
+                width: 10000px;
+            }
+            
+            > * > * {
+                &:first-child {
+                    margin-top: @line-height-computed;
+                }
+                
+                &:last-child {
+                    margin-bottom: @line-height-computed;
+                }
+            }
         }
     }
 }
