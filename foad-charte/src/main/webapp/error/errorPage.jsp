@@ -96,13 +96,29 @@
                 <!-- Title -->
                 <h2 class="sr-only"><op:translate key="TABS_TITLE" /></h2>
 
-                <ul>
-                    <li class="">
-                        <a href="#">
-                            <span><op:translate key="ERROR" /></span>
-                        </a>
-                    </li>
-                </ul>
+                <div class="primary-tabs">
+                    <div class="pull-left">
+                        <ul class="home">
+                            <li role="presentation">
+                                <c:set var="title"><op:translate key="HOME" /></c:set>
+                                <a href="/" title="${title}" data-toggle="tooltip" data-placement="bottom">
+                                    <i class="halflings halflings-home"></i>
+                                    <span class="sr-only">${title}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                
+                    <div class="fixed-tabs-container">
+                        <ul>
+                            <li class="active">
+                                <a href="#">
+                                    <span><op:translate key="ERROR" /></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
         </div>
     </div>
