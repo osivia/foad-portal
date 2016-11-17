@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.portal.core.model.portal.Page;
 import org.jboss.portal.core.model.portal.Window;
+import org.jboss.portal.theme.impl.render.dynamic.DynaRenderOptions;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
@@ -172,7 +173,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
                 Map<String, String> properties = new HashMap<>();
                 properties.put(InternalConstants.PROP_WINDOW_TITLE, displayName);
                 properties.put("osivia.ajaxLink", "1");
-                properties.put("theme.dyna.partial_refresh_enabled", String.valueOf(true));
+                properties.put(DynaRenderOptions.PARTIAL_REFRESH_ENABLED, String.valueOf(true));
                 properties.put(FIRST_CONNECTION_INDICATOR_PROPERTY, String.valueOf(true));
                 properties.put("osivia.services.firstConnection.redirectionUrl", StringEscapeUtils.escapeHtml(configuration.buildRestorableURL()));
 
