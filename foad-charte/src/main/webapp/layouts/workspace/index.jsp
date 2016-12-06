@@ -37,15 +37,6 @@
                                 <div class="col-auto">
                                     <p:region regionName="col-1" />
                                 </div>
-                                
-                                <div
-                                    <c:choose>
-                                        <c:when test="${requestScope['osivia.panels.navigation-panel.closed']}">class="hidden"</c:when>
-                                        <c:otherwise>class="col-auto"</c:otherwise>
-                                    </c:choose>
-                                >
-                                    <p:region regionName="navigation-panel" />
-                                </div>
                             </div>
                         </div>
                     </div>

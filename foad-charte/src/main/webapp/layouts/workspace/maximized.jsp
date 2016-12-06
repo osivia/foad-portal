@@ -41,7 +41,7 @@
                                 <div
                                     <c:choose>
                                         <c:when test="${requestScope['osivia.panels.navigation-panel.closed']}">class="hidden"</c:when>
-                                        <c:otherwise>class="col-auto"</c:otherwise>
+                                        <c:otherwise>class="col-auto hidden-sm"</c:otherwise>
                                     </c:choose>
                                 >
                                     <p:region regionName="navigation-panel" />
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     
-                    <div>
+                    <div class="clearfix">
                         <div class="col-sm-12">
                             <!-- Notifications -->
                             <p:region regionName="notifications" />
