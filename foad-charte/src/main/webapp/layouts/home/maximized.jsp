@@ -10,15 +10,10 @@
 
 
 <body>
-    <!-- Condensed toolbar -->
-    <p:region regionName="condensed-toolbar" />
+    <!-- Toolbar -->
+    <p:region regionName="toolbar" />
 
-    <!-- Tabs -->
-    <div class="tabs-container hidden-xs">
-        <div class="container-fluid">
-            <p:region regionName="tabs" />
-        </div>
-    </div>
+    <jsp:include page="../includes/header.jsp" />
     
     <div class="wrapper-outer">
         <div class="wrapper-inner">
@@ -28,15 +23,8 @@
             
                 <!-- Notifications -->
                 <p:region regionName="notifications" />
-                
-                <div class="row">
-                    <!-- Drawer -->
-                    <div id="drawer">
-                        <p:region regionName="drawer-toolbar" />
-                    </div>
-                </div>
 
-                <p:region regionName="col-1" />
+                <p:region regionName="maximized" />
             </main>
         </div>
     </div>

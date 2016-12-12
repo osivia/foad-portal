@@ -5,6 +5,11 @@
 
 .portlet-container {
     
+    &.no-margin {
+        margin: 0;   
+    }
+    
+    
     &.box-shadow {
         padding: @padding-base-vertical @padding-base-horizontal;
                 
@@ -53,10 +58,4 @@
         }
     }
     
-}
-
-
-.filter(@filter) {
-    -webkit-filter: @filter;
-            filter: @filter;
 }

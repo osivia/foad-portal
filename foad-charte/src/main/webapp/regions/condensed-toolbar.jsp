@@ -165,6 +165,17 @@
                         </ul>
                     </c:otherwise>
                 </c:choose>
+                
+                
+                <!-- AJAX waiter-->
+                <div class="nav navbar-nav navbar-right">
+                    <p class="navbar-text ajax-waiter">
+                        <span class="label label-info">
+                            <i class="halflings halflings-refresh"></i>
+                            <span><op:translate key="AJAX_REFRESH" /></span>
+                        </span>
+                    </p>
+                </div>
             </div>
         </div>
     </nav>

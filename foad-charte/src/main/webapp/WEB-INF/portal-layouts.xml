@@ -38,6 +38,27 @@
     </layout>
     
     <layout>
+        <name>foad-home-anonymous</name>
+        <uri>/layouts/home/index-anonymous.jsp</uri>
+        <uri state="maximized">/layouts/home/maximized.jsp</uri>
+        <regions>
+            <region name="col-1" />
+            <region name="col-2" />
+        </regions>
+    </layout>
+    
+    <layout>
+        <name>foad-home-member</name>
+        <uri>/layouts/home/index-member.jsp</uri>
+        <uri state="maximized">/layouts/home/maximized.jsp</uri>
+        <regions>
+            <region name="col-1" />
+            <region name="col-2" />
+            <region name="col-3" />
+        </regions>
+    </layout>
+    
+    <layout>
         <name>foad-workspace</name>
         <uri>/layouts/workspace/index.jsp</uri>
         <uri state="maximized">/layouts/workspace/maximized.jsp</uri>

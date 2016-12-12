@@ -53,6 +53,9 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
     /** First connection indicator window property name. */
     private static final String FIRST_CONNECTION_INDICATOR_PROPERTY = "first-connection";
 
+    /** CGU level session attribute. */
+    private static final String CGU_LEVEL_SESSION_ATTRIBUTE = "osivia.services.cgu.level";
+
 
     /** Portal URL factory. */
     private final IPortalUrlFactory portalUrlFactory;
@@ -222,7 +225,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             // CGU path
             String path = page.getProperty("osivia.services.cgu.path");
             // Portal level
-            String portalLevel = page.getProperty("osivia.services.cgu.level");
+            String portalLevel = page.getProperty(CGU_LEVEL_SESSION_ATTRIBUTE);
 
             // Is CGU defined ?
             if ((portalLevel == null) || (path == null)) {
@@ -230,8 +233,8 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             }
 
             // CGU already checked (in session) ?
-            Integer checkedLevel = (Integer) session.getAttribute("osivia.services.cgu.level");
-            if ((checkedLevel != null) && checkedLevel.toString().equals(portalLevel)) {
+            String checkedLevel = (String) session.getAttribute(CGU_LEVEL_SESSION_ATTRIBUTE);
+            if (StringUtils.equals(portalLevel, checkedLevel)) {
                 return;
             }
 
@@ -245,6 +248,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             Document userProfile = (Document) nuxeoController.executeNuxeoCommand(new GetProfileCommand(principal.getName()));
             // User level
             String userLevel = userProfile.getProperties().getString("ttc_userprofile:terms_of_use_agreement");
+            session.setAttribute(CGU_LEVEL_SESSION_ATTRIBUTE, userLevel);
 
             if (!portalLevel.equals(userLevel)) {
                 session.setAttribute("osivia.services.cgu.pathToRedirect", configuration.buildRestorableURL());
@@ -252,7 +256,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
                 // Window properties
                 Map<String, String> properties = new HashMap<String, String>();
                 properties.put("osivia.services.cgu.path", path);
-                properties.put("osivia.services.cgu.level", portalLevel);
+                properties.put(CGU_LEVEL_SESSION_ATTRIBUTE, portalLevel);
 
                 // Redirection URL
                 String redirectionUrl;
