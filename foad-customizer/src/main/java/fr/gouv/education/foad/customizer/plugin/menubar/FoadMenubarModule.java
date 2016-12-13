@@ -37,7 +37,7 @@ public class FoadMenubarModule implements MenubarModule {
     @Override
     public void customizeDocument(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
             DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
-        Set<String> removedIdentifiers = new HashSet<>(Arrays.asList(new String[]{"VALIDATION_WF_URL", "REMOTE_PUBLISHING_URL"}));
+        Set<String> removedIdentifiers = new HashSet<>(Arrays.asList(new String[]{"SYNCHRONIZE_ACTION", "VALIDATION_WF_URL", "REMOTE_PUBLISHING_URL"}));
         List<MenubarItem> removedItems = new ArrayList<>(removedIdentifiers.size());
         
         for (MenubarItem item : menubar) {
