@@ -233,7 +233,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             }
 
             // CGU already checked (in session) ?
-            String checkedLevel = (String) session.getAttribute(CGU_LEVEL_SESSION_ATTRIBUTE);
+            String checkedLevel = String.valueOf(session.getAttribute(CGU_LEVEL_SESSION_ATTRIBUTE));
             if (StringUtils.equals(portalLevel, checkedLevel)) {
                 return;
             }
