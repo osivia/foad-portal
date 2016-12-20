@@ -52,9 +52,6 @@
                     
                     <div class="clearfix">
                         <div class="col-sm-12">
-                            <!-- Notifications -->
-                            <p:region regionName="notifications" />
-                        
                             <p:region regionName="maximized" />
                         </div>
                     </div>

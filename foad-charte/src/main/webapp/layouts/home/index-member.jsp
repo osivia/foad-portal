@@ -21,10 +21,7 @@
             <main id="page-content" class="container-fluid">
                 <!-- Content navbar -->
                 <jsp:include page="../includes/content-navbar.jsp" />
-            
-                <!-- Notifications -->
-                <p:region regionName="notifications" />
-                
+      
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
                         <div class="panel panel-default">

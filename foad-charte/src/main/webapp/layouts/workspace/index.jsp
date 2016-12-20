@@ -43,9 +43,6 @@
                     
                     <div>
                         <div class="col-sm-12">
-                            <!-- Notifications -->
-                            <p:region regionName="notifications" />
-                           
                             <!-- Workspace header -->
                             <div class="workspace-header">
                                 <p:region regionName="workspace-header-1" />
