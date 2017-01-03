@@ -102,11 +102,6 @@
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
-                  <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[group]]></argumentName>
-                  </argument>
                 </argumentsList>
                 <filterName><![CDATA[Acteurs de la tâche : propriétaires]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
@@ -120,14 +115,22 @@
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
-                  <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[group]]></argumentName>
-                  </argument>
                 </argumentsList>
                 <filterName><![CDATA[Acteurs de la tâche : administrateurs]]></filterName>
                 <filterPath><![CDATA[0]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[SET_ADDITIONAL_AUTHORIZATION2]]></filterInstanceId>
+                <filterId><![CDATA[SET_ADDITIONAL_AUTHORIZATION]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[role_workspace-management]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[id]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[Administrateurs d'espaces]]></filterName>
+                <filterPath><![CDATA[2]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Démarrer]]></label>

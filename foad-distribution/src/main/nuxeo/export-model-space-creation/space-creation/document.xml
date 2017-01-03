@@ -146,11 +146,6 @@
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
-                  <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[group]]></argumentName>
-                  </argument>
                 </argumentsList>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
@@ -224,11 +219,6 @@
                     <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue/>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[group]]></argumentName>
                   </argument>
                 </argumentsList>
                 <filterName><![CDATA[]]></filterName>
