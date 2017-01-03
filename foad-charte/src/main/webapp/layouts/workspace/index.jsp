@@ -28,14 +28,17 @@
                 <jsp:include page="../includes/content-navbar.jsp" />
                 
                 <div class="row">
-                    <!-- Drawer -->
-                    <div id="drawer" class="taskbar-container taskbar-affix">
-                        <p:region regionName="drawer-toolbar" />
-                        
-                        <div class="col-auto">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <p:region regionName="col-1" />
+                    <!-- Taskbar -->
+                    <div class="taskbar-container taskbar-affix">
+                        <!-- Drawer -->
+                        <div id="drawer">
+                            <p:region regionName="drawer-toolbar" />
+                            
+                            <div class="col-auto">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p:region regionName="col-1" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
