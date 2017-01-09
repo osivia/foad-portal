@@ -9,6 +9,7 @@ import java.util.Set;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.DocumentContext;
 import org.osivia.portal.api.cms.EcmDocument;
+import org.osivia.portal.api.cms.impl.BasicPublicationInfos;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.menubar.MenubarItem;
 import org.osivia.portal.api.menubar.MenubarModule;
@@ -37,7 +38,13 @@ public class FoadMenubarModule implements MenubarModule {
     @Override
     public void customizeDocument(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
             DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
-        Set<String> removedIdentifiers = new HashSet<>(Arrays.asList(new String[]{"SYNCHRONIZE_ACTION", "VALIDATION_WF_URL", "REMOTE_PUBLISHING_URL"}));
+        Set<String> removedIdentifiers = new HashSet<>(Arrays.asList(new String[]{"SYNCHRONIZE_ACTION", "REMOTE_PUBLISHING_URL"}));
+
+        BasicPublicationInfos publicationInfos = documentContext.getPublicationInfos(BasicPublicationInfos.class);
+        if (publicationInfos.isDraft()) {
+            removedIdentifiers.add("VALIDATION_WF_URL");
+        }
+
         List<MenubarItem> removedItems = new ArrayList<>(removedIdentifiers.size());
         
         for (MenubarItem item : menubar) {
