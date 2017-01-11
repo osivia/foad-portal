@@ -51,6 +51,11 @@ parallel portalbranch: {
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -f opentoutatice"
 		}
+		stage("collab-tools") {
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'collab-tools', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-collab-tools/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    
+		    sh "'${mvnHome}/bin/mvn' clean install -f collab-tools"
+		}		
 		stage("checkin") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'checkin', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-checkin/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
