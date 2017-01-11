@@ -812,6 +812,19 @@ return nuxeoRequest.toString();</value>
                     </properties>
                     <security-constraint />
                 </page>
+                
+                <page>
+                    <page-name>publish2cols</page-name>
+                    <display-name xml:lang="fr">Page 2 colonnes</display-name>
+                    <properties>
+                        <!-- Layout -->
+                        <property>
+                            <name>layout.id</name>
+                            <value>foad-2-cols</value>
+                        </property>
+                    </properties>
+                    <security-constraint />
+                </page>                
 
                 <page>
                     <page-name>portalSitePublish</page-name>

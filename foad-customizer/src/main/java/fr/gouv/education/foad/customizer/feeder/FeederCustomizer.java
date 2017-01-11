@@ -17,13 +17,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.portal.api.customization.CustomizationContext;
 import org.osivia.portal.api.customization.CustomizationModuleMetadatas;
 import org.osivia.portal.api.customization.ICustomizationModule;
 import org.osivia.portal.api.customization.ICustomizationModulesRepository;
 import org.osivia.portal.api.directory.v2.DirServiceFactory;
 import org.osivia.portal.api.directory.v2.model.Person;
-import org.osivia.portal.api.directory.v2.service.PersonService;
 import org.osivia.portal.api.feeder.IFeederService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -149,7 +149,7 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
             }
 
             // Create, Update LDAP
-            PersonService service = DirServiceFactory.getService(PersonService.class);
+            PersonUpdateService service = DirServiceFactory.getService(PersonUpdateService.class);
             if (service != null) {
                 Person p = service.getPerson(userId);
                 if (p == null) {
