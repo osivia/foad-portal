@@ -1,6 +1,10 @@
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 
 <%@ page contentType="text/html" isELIgnored="false"%>
+
+
+<c:set var="brand"><op:translate key="BRAND" /></c:set>
 
 
 <div class="row">
@@ -15,13 +19,9 @@
     </div>
     
     <div class="col-sm-6">
-        <h1>
+        <h1 class="logo">
             <a href="${requestScope['osivia.home.url']}">
-                <span class="text-middle">
-                    <span><op:translate key="BRAND" /></span>
-                    <br>
-                    <small>Espaces collaboratifs</small>
-                </span>
+                <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
             </a>
         </h1>
     </div>

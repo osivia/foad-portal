@@ -5,6 +5,13 @@
 <%@ page contentType="text/html" isELIgnored="false"%>
 
 
+<c:set var="stateItems" value="${requestScope['osivia.toolbar.menubar.stateItems']}" />
+<c:set var="userProfileUrl" value="${requestScope['osivia.toolbar.myprofile']}" />
+<c:set var="userSettingsUrl" value="${requestScope['osivia.toolbar.userSettings.url']}" />
+
+<c:set var="brand"><op:translate key="BRAND" /></c:set>
+
+
 <div class="toolbar condensed-toolbar">
     <nav class="navbar navbar-default navbar-fixed-top">
         <h2 class="sr-only"><op:translate key="TOOLBAR_TITLE" /></h2>
@@ -37,16 +44,7 @@
                             </p>
                         </div>
                     </c:forEach>
-                    
-                    <!-- AJAX waiter-->
-                    <!-- <div class="pull-right">
-                        <p class="navbar-text ajax-waiter">
-                            <span class="label label-info">
-                                <i class="halflings halflings-refresh"></i>
-                            </span>
-                        </p>
-                    </div> -->
-        
+                   
                     <!-- Title -->
                     <div class="clearfix">
                         <p class="navbar-text text-overflow">${requestScope['osivia.header.title']}</p>
@@ -56,7 +54,7 @@
                 <!-- Brand -->
                 <div class="hidden-xs">
                     <a href="${requestScope['osivia.home.url']}" class="navbar-brand">
-                        <span><op:translate key="BRAND" /></span>
+                        <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
                     </a>
                 </div>
             </div>
@@ -144,13 +142,27 @@
                                     <li class="dropdown-header hidden-lg" role="presentation">${requestScope['osivia.toolbar.person'].displayName}</li>
                                 
                                     <!-- User profile -->
-                                    <c:if test="${not empty requestScope['osivia.toolbar.myprofile']}">
+                                    <c:if test="${not empty userProfileUrl}">
                                         <li role="presentation">
-                                            <a href="${requestScope['osivia.toolbar.myprofile']}" role="menuitem">
+                                            <a href="${userProfileUrl}" role="menuitem">
                                                 <i class="glyphicons glyphicons-nameplate"></i>
                                                 <span><op:translate key="MY_PROFILE" /></span>
                                             </a>
                                         </li>
+                                    </c:if>
+                                    
+                                    <!-- User settings -->
+                                    <c:if test="${not empty userSettingsUrl}">
+                                        <li role="presentation">
+                                            <a href="${userSettingsUrl}" role="menuitem">
+                                                <i class="glyphicons glyphicons-cogwheel"></i>
+                                                <span><op:translate key="USER_SETTINGS"/></span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+
+                                    <c:if test="${not empty userProfileUrl or not empty userSettingsUrl}">
+                                        <li class="divider" role="presentation"></li>
                                     </c:if>
                                     
                                     <!-- Logout -->
@@ -165,17 +177,6 @@
                         </ul>
                     </c:otherwise>
                 </c:choose>
-                
-                
-                <!-- AJAX waiter-->
-                <%-- <div class="nav navbar-nav navbar-right">
-                    <p class="navbar-text ajax-waiter">
-                        <span class="label label-info">
-                            <i class="halflings halflings-refresh"></i>
-                            <span><op:translate key="AJAX_REFRESH" /></span>
-                        </span>
-                    </p>
-                </div> --%>
             </div>
         </div>
     </nav>

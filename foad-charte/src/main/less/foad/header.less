@@ -3,9 +3,8 @@
 // -----------------------------------------------------
 
 
-@logo-height: 114px;
 @header-background-height: 169px;
-@inner-height: min(@header-background-height - 3 * @line-height-computed, @logo-height);
+@inner-height: @header-background-height - 3 * @line-height-computed;
 
 
 header {
@@ -26,12 +25,10 @@ header {
         padding-top: @line-height-computed;
         padding-bottom: 2 * @line-height-computed;
     }
-    
+
     .logo {
         img {
             max-height: @inner-height;
-            
-            vertical-align: middle;
         }
         
         a {
@@ -44,40 +41,42 @@ header {
     }
     
     h1 {
-        margin: 0;
+        margin: floor(@line-height-computed / 2) 0;
         
         text-align: center;
-        line-height: 1;
-        
-        a {
-            display: inline-block;
-            height: @inner-height;
-            
-            padding: 0 @padding-large-horizontal;
-            
-            color: @brand-secondary;
-            background-color: fade(#fff, 70%);
-            
-            .box-shadow(@shadow: 0 0 10px 10px fade(#fff, 70%));
-            
-            .transition-property(@transition-property: color);
-            .transition-duration(@transition-duration: 200ms);
-            .transition-timing-function(@timing-function: ease);
-            
-            &:hover, &:focus {
-                color: darken(@link-color, @brand-secondary);
-                text-decoration: none;
-            }
-            
-            > * {
-                display: block;                
-            }
-        }
-        
-        small {
-            font-size: 50%;
-        }
     }
+    
+//        line-height: 1;
+//        
+//        a {
+//            
+//            height: @inner-height;
+//            
+//            padding: 0 @padding-large-horizontal;
+//            
+//            color: @brand-secondary;
+//            background-color: fade(#fff, 70%);
+//            
+//            .box-shadow(@shadow: 0 0 10px 10px fade(#fff, 70%));
+//            
+//            .transition-property(@transition-property: color);
+//            .transition-duration(@transition-duration: 200ms);
+//            .transition-timing-function(@timing-function: ease);
+//            
+//            &:hover, &:focus {
+//                color: darken(@link-color, @brand-secondary);
+//                text-decoration: none;
+//            }
+//            
+//            > * {
+//                display: block;                
+//            }
+//        }
+//        
+//        small {
+//            font-size: 50%;
+//        }
+//    }
     
     
     .background-fading {
