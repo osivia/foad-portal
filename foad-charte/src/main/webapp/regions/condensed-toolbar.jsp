@@ -9,8 +9,6 @@
 <c:set var="userProfileUrl" value="${requestScope['osivia.toolbar.myprofile']}" />
 <c:set var="userSettingsUrl" value="${requestScope['osivia.toolbar.userSettings.url']}" />
 
-<c:set var="brand"><op:translate key="BRAND" /></c:set>
-
 
 <div class="toolbar condensed-toolbar">
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -54,7 +52,7 @@
                 <!-- Brand -->
                 <div class="hidden-xs">
                     <a href="${requestScope['osivia.home.url']}" class="navbar-brand">
-                        <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
+                        <img src="/foad-charte/img/logo-tribu.png" alt="${requestScope['osivia.header.application.name']}">
                     </a>
                 </div>
             </div>

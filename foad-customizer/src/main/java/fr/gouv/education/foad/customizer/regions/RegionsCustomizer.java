@@ -96,6 +96,8 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
         if (CHARTE_CONTEXT_PATH.equals(contextPath)) {
             // Replace default toolbar region
             renderedRegion.customizeRenderedRegion("toolbar", "/regions/toolbar.jsp");
+            // Replace default drawer toolbar region
+            renderedRegion.customizeRenderedRegion("drawer-toolbar", "/regions/drawer-toolbar.jsp");
             // Add condensed toolbar region
             renderedRegion.customizeRenderedRegion("condensed-toolbar", "/regions/condensed-toolbar.jsp");
             // Add logo region

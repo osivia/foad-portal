@@ -78,9 +78,9 @@ public class FoadPlugin extends AbstractPluginPortlet {
         // Factory
         TaskbarFactory factory = this.getTaskbarService().getFactory();
 
-        // Forum
-        TaskbarItem forum = factory.createCmsTaskbarItem("FORUMS", "FORUMS_TASK", "glyphicons glyphicons-conversation", "Folder");
-        items.add(forum);
+        // Forums
+        TaskbarItem forums = factory.createCmsTaskbarItem("FORUMS", "FORUMS_TASK", "glyphicons glyphicons-conversation", "Folder");
+        items.add(forums);
     }
 
 }

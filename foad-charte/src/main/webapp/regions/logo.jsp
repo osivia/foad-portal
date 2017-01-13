@@ -4,9 +4,6 @@
 <%@ page contentType="text/html" isELIgnored="false"%>
 
 
-<c:set var="brand"><op:translate key="BRAND" /></c:set>
-
-
 <div class="row">
     <div class="col-sm-6">
         <div class="logo">
@@ -21,9 +18,8 @@
     <div class="col-sm-6">
         <h1 class="logo">
             <a href="${requestScope['osivia.home.url']}">
-                <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
+                <img src="/foad-charte/img/logo-tribu.png" alt="${requestScope['osivia.header.application.name']}">
             </a>
         </h1>
     </div>
 </div>
-
