@@ -257,11 +257,12 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
                 Map<String, String> properties = new HashMap<String, String>();
                 properties.put("osivia.services.cgu.path", path);
                 properties.put(CGU_LEVEL_SESSION_ATTRIBUTE, portalLevel);
-
+                properties.put("osivia.title", bundle.getString("CGU_TITLE"));
+                properties.put("osivia.hideTitle", "1");
                 // Redirection URL
                 String redirectionUrl;
                 try {
-                    redirectionUrl = this.portalUrlFactory.getStartPortletInNewPage(portalControllerContext, "cgu", bundle.getString("CGU_TITLE"),
+                    redirectionUrl = this.portalUrlFactory.getStartPortletInNewPage(portalControllerContext, "cgu", bundle.getString("CGU_TITLE_MINI"),
                             "osivia-services-cgu-portailPortletInstance", properties, null);
                 } catch (PortalException e) {
                     throw new RuntimeException(e);
