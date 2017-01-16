@@ -104,7 +104,7 @@
       <step>
         <stringMsg><![CDATA[]]></stringMsg>
         <index><![CDATA[0]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
@@ -197,7 +197,7 @@
       <step>
         <stringMsg><![CDATA[Acceptez-vous la demande de création de l'espace « ${title} » ${empty description ? '' : '('}${description}${empty description ? '' : ')'} de la part de ${user:link(procedureInitiator)} ?]]></stringMsg>
         <index><![CDATA[1]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[accept]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[question]]></reference>
@@ -270,7 +270,7 @@
       <step>
         <stringMsg><![CDATA[Votre demande de création de l'espace « ${title} » a été acceptée.]]></stringMsg>
         <index><![CDATA[2]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
         <reference><![CDATA[information]]></reference>

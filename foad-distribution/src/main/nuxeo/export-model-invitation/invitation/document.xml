@@ -79,7 +79,7 @@
       <step>
         <stringMsg><![CDATA[]]></stringMsg>
         <index><![CDATA[0]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
@@ -217,7 +217,7 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
       <step>
         <stringMsg><![CDATA[${user:link(procedureInitiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
         <index><![CDATA[1]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[accept]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[invitation]]></reference>
@@ -297,7 +297,7 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
       <step>
         <stringMsg><![CDATA[${user:link(uid)} a refusé l'invitation à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[2]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
         <reference><![CDATA[declined]]></reference>

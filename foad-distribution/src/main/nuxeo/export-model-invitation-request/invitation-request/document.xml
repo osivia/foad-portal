@@ -79,7 +79,7 @@
       <step>
         <stringMsg><![CDATA[]]></stringMsg>
         <index><![CDATA[0]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
@@ -144,7 +144,7 @@
       <step>
         <stringMsg><![CDATA[${user:link(procedureInitiator)} demande à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[1]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[accept]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[request]]></reference>
@@ -216,7 +216,7 @@
       <step>
         <stringMsg><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[2]]></index>
-        <authorizedGroups/>
+        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
         <reference><![CDATA[accepted]]></reference>
