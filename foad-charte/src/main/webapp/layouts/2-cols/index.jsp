@@ -32,13 +32,13 @@
                     <!-- Drawer -->
                     <div id="drawer">
                         <p:region regionName="drawer-toolbar" />
+                    </div>
                         
-                        <div class="col-sm-6">
-                            <p:region regionName="col-1" />
-                        </div>
+                    <div class="col-sm-6 col-md-5 col-lg-4">
+                        <p:region regionName="col-1" />
                     </div>
                     
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 col-md-7 col-lg-8">
                         <p:region regionName="col-2" />
                     </div>
                 </div>

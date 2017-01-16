@@ -30,10 +30,6 @@
                     <!-- Drawer -->
                     <div id="drawer">
                         <p:region regionName="drawer-toolbar" />
-                        
-                        <div class="col-sm-6">
-                            <p:region regionName="col-1" />
-                        </div>
                     </div>
                     
                     <div class="col-sm-6">
