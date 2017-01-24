@@ -794,6 +794,79 @@ return nuxeoRequest.toString();</value>
                     <height>0</height>
                 </window>
             </page>
+            
+			<page>
+				<page-name>Administration</page-name>
+				<display-name xml:lang="fr">Administration</display-name>
+				<properties />
+				<security-constraint>
+					<policy-permission>
+						<action-name>view</action-name>
+						<role-name>Administrator</role-name>
+					</policy-permission>
+				</security-constraint>
+				<window>
+					<window-name>toutatice-portail-cms-nuxeo-viewListPortletInstance_1485273716661</window-name>
+					<instance-ref>toutatice-portail-cms-nuxeo-viewListPortletInstance</instance-ref>
+					<region>col-1</region>
+					<properties>
+						<property>
+							<name>osivia.title</name>
+							<value>Tous les espaces de travail</value>
+						</property>
+						<property>
+							<name>osivia.cms.displayLiveVersion</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>osivia.bootstrapPanelStyle</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>portal.windowContentType</name>
+							<value>portlet</value>
+						</property>
+						<property>
+							<name>theme.dyna.partial_refresh_enabled</name>
+							<value>true</value>
+						</property>
+						<property>
+							<name>osivia.cms.style</name>
+							<value>editorial</value>
+						</property>
+						<property>
+							<name>osivia.cms.pageSizeMax</name>
+							<value>10</value>
+						</property>
+						<property>
+							<name>osivia.cms.pageSize</name>
+							<value>10</value>
+						</property>
+						<property>
+							<name>theme.order</name>
+							<value>0</value>
+						</property>
+						<property>
+							<name>osivia.maximized.cms.url</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>osivia.nuxeoRequest</name>
+							<value>ecm:primaryType = 'Workspace' AND ecm:path STARTSWITH
+								'/default-domain/workspaces' ORDER BY dc:title</value>
+						</property>
+						<property>
+							<name>osivia.ajaxLink</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>osivia.mobileCollapse</name>
+							<value>false</value>
+						</property>
+					</properties>
+					<height>0</height>
+				</window>
+			</page>            
 
             <page>
                 <page-name>templates</page-name>
