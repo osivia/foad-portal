@@ -833,7 +833,7 @@ return nuxeoRequest.toString();</value>
 						<property>
 							<name>osivia.cms.style</name>
 							<value>editorial</value>
-						</property
+						</property>
 						<property>
 							<name>osivia.beanShell</name>
 							<value>on</value>
