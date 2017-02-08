@@ -39,6 +39,7 @@
         <module>foad-charte</module>
         <module>foad-customizer</module>
         <module>foad-distribution</module>
+        <module>foad-generator</module>
     </modules>
     
     
