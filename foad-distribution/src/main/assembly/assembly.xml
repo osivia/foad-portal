@@ -18,6 +18,7 @@
                 <!-- FOAD -->
                 <include>${project.groupId}:foad-charte:war:${project.version}</include>
                 <include>${project.groupId}:foad-customizer:war:${project.version}</include>
+                <include>${project.groupId}:foad-generator:war:${project.version}</include>
                 <!-- Toutatice CMS -->
                 <include>toutatice-portail.cms:toutatice-portail-cms-nuxeo-web:war:${toutatice.version}</include>
                 <!-- Directory -->
