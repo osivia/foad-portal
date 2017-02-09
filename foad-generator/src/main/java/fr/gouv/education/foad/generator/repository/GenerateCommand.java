@@ -70,25 +70,31 @@ public class GenerateCommand implements INuxeoCommand {
         Document docRoot = documentService.getDocument(new PathRef(path));
         
         Random random = new Random();
+        int folderId = 0;
+        int fileId = 0;
+        
         for(int i = 0; i < configuration.getNbOfRootFolers(); i++) {
         	
-			Document folder = createFolder(documentService, docRoot, random, Integer.toString(i));
+			Document folder = createFolder(documentService, docRoot, random, Integer.toString(folderId));
+			folderId = folderId +1;
 			
 			for(int j = 0; j < configuration.getNbOfSubFolers(); j++) {
 				
-				Document subfolder = createFolder(documentService, folder, random, Integer.toString(i) + "-" + Integer.toString(j));
+				Document subfolder = createFolder(documentService, folder, random, Integer.toString(folderId));
+				folderId = folderId +1;
 
 				for(int k = 0; k < configuration.getNbOfSubItems(); k++) {
 					
-					createFile(documentService, random, subfolder, Integer.toString(i) + "-" + Integer.toString(j) + "-" + Integer.toString(k));
+					createFile(documentService, random, subfolder, Integer.toString(fileId));
+					fileId = fileId + 1;
 				}
 				
 			}
 			
 			for(int k = 0; k < configuration.getNbOfSubItems(); k++) {
 				
-				createFile(documentService, random, folder, Integer.toString(i) + "-" + Integer.toString(k));
-				
+				createFile(documentService, random, folder, Integer.toString(fileId));
+				fileId = fileId + 1;
 
 			}
 			
