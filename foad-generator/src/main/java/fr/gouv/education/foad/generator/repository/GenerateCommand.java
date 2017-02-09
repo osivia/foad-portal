@@ -111,12 +111,12 @@ public class GenerateCommand implements INuxeoCommand {
 		PropertyMap properties;
 		
 		properties = new PropertyMap();
-		properties.set("dc:title", fairy.textProducer().latinWord(4));
+		properties.set("dc:title", "fichier-tmc-" +space_prefix+ "-" + id);
 		String user = "utilisateur-" + space_prefix + "-" + random.nextInt(configuration.getNbOfUsersPerWks()) + "@example.org";
 		properties.set("dc:creator", user);
 		
 		if((random.nextInt(2) % 2) == 0) {
-			LOGGER.warn("Create note fichier-tmc-" +space_prefix+ "-" + id);
+			LOGGER.debug("Create note fichier-tmc-" +space_prefix+ "-" + id);
 
 			properties.set("note:note", fairy.textProducer().latinWord(12));
 
@@ -124,7 +124,7 @@ public class GenerateCommand implements INuxeoCommand {
 			
 		}
 		else {
-			LOGGER.warn("Create file fichier-tmc-" +space_prefix+ "-" + id);
+			LOGGER.debug("Create file fichier-tmc-" +space_prefix+ "-" + id);
 
 			Document file = documentService.createDocument(folder, "File", "fichier-tmc-" +space_prefix+ "-" +id, properties);
 			
@@ -139,9 +139,9 @@ public class GenerateCommand implements INuxeoCommand {
 	private Document createFolder(DocumentService documentService,
 			Document docRoot, Random random, String id) throws Exception {
 		
-		LOGGER.warn("Create folder dossier-tmc-" +space_prefix+ "-" +id);
+		LOGGER.info("Create folder dossier-tmc-" +space_prefix+ "-" +id);
 		PropertyMap properties = new PropertyMap();
-		properties.set("dc:title", fairy.textProducer().latinWord(4));
+		properties.set("dc:title", "dossier-tmc-" +space_prefix+ "-" + id);
 		String user = "utilisateur-" + space_prefix + "-" + random.nextInt(configuration.getNbOfUsersPerWks()) + "@example.org";
 		properties.set("dc:creator", user);
 		Document folder = documentService.createDocument(docRoot, "Folder", "dossier-tmc-" +space_prefix+ "-" +id, properties);
@@ -153,7 +153,7 @@ public class GenerateCommand implements INuxeoCommand {
      */
     @Override
     public String getId() {
-        return "";
+        return "generator" + space_prefix;
     }
 
 

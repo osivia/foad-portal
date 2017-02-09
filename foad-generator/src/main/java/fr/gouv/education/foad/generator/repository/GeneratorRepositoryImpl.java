@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -23,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.osivia.directory.v2.model.ext.WorkspaceRole;
 import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.directory.v2.service.WorkspaceService;
+import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cache.services.CacheInfo;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.directory.v2.model.Person;
@@ -184,7 +187,7 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         NuxeoController nuxeoController = this.getNuxeoController(portalControllerContext);
         nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
         nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_PORTLET_CONTEXT);
-        nuxeoController.setAsynchronousCommand(true);
+        nuxeoController.setAsynchronousCommand(false);
 
         Locale locale = nuxeoController.getRequest().getLocale();
 
@@ -192,9 +195,9 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         
         for(int i = 0; i < configuration.getNbOfworkspaces(); i++) {
         	
-        	LOGGER.warn("creating space  "+Integer.toString(i));
+        	LOGGER.info("creating space  "+Integer.toString(i));
         	
-        	Person owner = createUser(fairy, i, 0);
+        	Person owner = createUser(portalControllerContext, fairy, i, 0);
 	        
         	String workspaceId = "espace-tmc-" + Integer.toString(i);
         	WorkspaceCreationForm form = new WorkspaceCreationForm();
@@ -209,9 +212,9 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
 			Random random = new Random();
 			
 			for(int j = 1; j < configuration.getNbOfUsersPerWks(); j++) {
-				Person createUser = createUser(fairy, i, j);
+				Person createUser = createUser(portalControllerContext, fairy, i, j);
 				
-				LOGGER.warn("Adding user  "+createUser.getCn()+ " in " +workspaceId);
+				LOGGER.debug("Adding user  "+createUser.getCn()+ " in " +workspaceId);
 				
 				workspaceService.addOrModifyMember(workspaceId, createUser.getDn(), roles[random.nextInt(rolesSize)]);
 			}
@@ -222,10 +225,10 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
     }
 
 
-	private Person createUser(Fairy fairy, int i, int j) {
+	private Person createUser(PortalControllerContext portalControllerContext, Fairy fairy, int i, int j) {
 		
 
-		LOGGER.warn("creating user  "+Integer.toString(i) + "-" + Integer.toString(j));
+		LOGGER.debug("creating user  "+Integer.toString(i) + "-" + Integer.toString(j));
 		
 		Person owner = personService.getEmptyPerson();
 		String uid = "utilisateur-" + Integer.toString(i) + "-" + Integer.toString(j)+ "@example.org";
@@ -245,6 +248,14 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
     	personService.create(owner);
     	personService.updatePassword(owner, "tmc");
     	
+    	Map<String, String> nxproperties = new HashMap<String, String>();
+    	nxproperties.put("ttc_userprofile:terms_of_use_agreement", "1");
+		try {
+			personService.update(portalControllerContext, owner, null, nxproperties );
+		} catch (PortalException e) {
+			LOGGER.error("error cgu");
+		}
+    	
     	return owner;
     	
 	}
@@ -263,13 +274,13 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         NuxeoController nuxeoController = this.getNuxeoController(portalControllerContext);
         nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
         nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_PORTLET_CONTEXT);
-        nuxeoController.setAsynchronousCommand(true);
+        nuxeoController.setAsynchronousCommand(false);
         
         for(int i = 0; i < configuration.getNbOfworkspaces(); i++) {
         	
         	
         	try {
-        		LOGGER.warn("deleting space  "+Integer.toString(i));
+        		LOGGER.info("deleting space  "+Integer.toString(i));
         		NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext("/default-domain/workspaces/espace-tmc-" + Integer.toString(i));
         	
 	        	if(documentContext.getDoc() != null) {
