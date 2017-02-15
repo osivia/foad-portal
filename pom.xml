@@ -27,7 +27,7 @@
         <cgu.version>4.4</cgu.version>
         
         <!-- Identity SSO -->
-        <identity-sso.version>3.0.8</identity-sso.version>
+        <identity-sso.version>3.0.9</identity-sso.version>
         
         <!-- Java Melody -->
         <java-melody.version>1.2</java-melody.version>
