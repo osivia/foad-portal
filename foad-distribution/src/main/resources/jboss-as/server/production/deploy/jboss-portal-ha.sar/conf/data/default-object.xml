@@ -1460,7 +1460,7 @@ return nuxeoRequest.toString();</value>
                     <window>
                         <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1486112284854</window-name>
                         <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
-                        <region>col-2</region>
+                        <region>cols-top</region>
                         <properties>
                             <property>
                                 <name>osivia.title</name>
@@ -1552,7 +1552,7 @@ return nuxeoRequest.toString();</value>
 					        </property>                            
                             <property>
                                 <name>theme.order</name>
-                                <value>1</value>
+                                <value>0</value>
                             </property>
                             <property>
                                 <name>osivia.maximized.cms.url</name>
@@ -1988,7 +1988,7 @@ return nuxeoRequest.toString();
                     <window>
                         <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1486112284854</window-name>
                         <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
-                        <region>col-2</region>
+                        <region>cols-top</region>
                         <properties>
                             <property>
                                 <name>osivia.title</name>
@@ -2024,7 +2024,7 @@ return nuxeoRequest.toString();
                             </property>
                             <property>
                                 <name>theme.order</name>
-                                <value>0</value>
+                                <value>1</value>
                             </property>
                             <property>
                                 <name>osivia.hideDecorators</name>
