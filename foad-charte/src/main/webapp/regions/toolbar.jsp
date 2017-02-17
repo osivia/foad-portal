@@ -8,8 +8,7 @@
 <c:set var="stateItems" value="${requestScope['osivia.toolbar.menubar.stateItems']}" />
 <c:set var="userProfileUrl" value="${requestScope['osivia.toolbar.myprofile']}" />
 <c:set var="userSettingsUrl" value="${requestScope['osivia.toolbar.userSettings.url']}" />
-
-<c:set var="brand"><op:translate key="BRAND" /></c:set>
+<c:set var="helpUrl" value="${requestScope['toolbar.help.url']}" />
 
 
 <div class="toolbar">
@@ -57,7 +56,7 @@
 
                 <!-- Brand -->
                 <a href="${requestScope['osivia.home.url']}" class="navbar-brand hidden-xs">
-                    <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
+                    <img src="/foad-charte/img/logo-tribu.png" alt="${requestScope['osivia.header.application.name']}">
                 </a>
             </div>
 
@@ -82,11 +81,11 @@
                         <!-- User links -->
                         <ul class="nav navbar-nav navbar-right">
                             <!-- Help -->
-                            <c:if test="${not empty requestScope['osivia.toolbar.helpURL']}">
+                            <c:if test="${not empty helpUrl}">
                                 <li>
-                                    <a href="${requestScope['osivia.toolbar.helpURL']}" class="navbar-link">
-                                        <i class="halflings halflings-question-sign"></i>
-                                        <span class="hidden-sm"><op:translate key="HELP" /></span>
+                                    <a href="${helpUrl}" class="navbar-link">
+                                        <i class="glyphicons glyphicons-question-sign"></i>
+                                        <span class="visible-lg-inline"><op:translate key="HELP" /></span>
                                     </a>
                                 </li>
                             </c:if>

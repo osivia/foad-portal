@@ -8,6 +8,7 @@
 <c:set var="stateItems" value="${requestScope['osivia.toolbar.menubar.stateItems']}" />
 <c:set var="userProfileUrl" value="${requestScope['osivia.toolbar.myprofile']}" />
 <c:set var="userSettingsUrl" value="${requestScope['osivia.toolbar.userSettings.url']}" />
+<c:set var="helpUrl" value="${requestScope['toolbar.help.url']}" />
 
 
 <div class="toolbar condensed-toolbar">
@@ -77,6 +78,16 @@
     
                         <!-- User links -->
                         <ul class="nav navbar-nav navbar-right">
+                            <!-- Help -->
+                            <c:if test="${not empty helpUrl}">
+                                <li>
+                                    <a href="${helpUrl}" class="navbar-link">
+                                        <i class="glyphicons glyphicons-question-sign"></i>
+                                        <span class="visible-lg-inline"><op:translate key="HELP" /></span>
+                                    </a>
+                                </li>
+                            </c:if>
+                        
                             <!-- Tasks -->
                             <c:if test="${not empty requestScope['osivia.toolbar.tasks.url']}">
                                 <c:set var="title"><op:translate key="NOTIFICATION_TASKS" /></c:set>

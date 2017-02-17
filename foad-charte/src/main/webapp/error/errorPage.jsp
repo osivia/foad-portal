@@ -3,10 +3,13 @@
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 
 
+<c:set var="brand"><op:translate key="BRAND" /></c:set>
+
+
 <html>
 
 <head>
-    <title><op:translate key="ERROR" /> - <op:translate key="BRAND" /></title>
+    <title><op:translate key="ERROR" /> - ${brand}</title>
     
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -46,7 +49,7 @@
                     </div>
                 
                     <!-- Brand -->
-                    <a href="/" class="navbar-brand hidden-xs"><op:translate key="BRAND" /></a>
+                    <a href="/" class="navbar-brand hidden-xs">${brand}</a>
                 </div>
             </div>
         </div>
@@ -70,13 +73,9 @@
                         </div>
                         
                         <div class="col-sm-6">
-                            <h1>
+                            <h1 class="logo">
                                 <a href="/">
-                                    <span class="text-middle">
-                                        <span><op:translate key="BRAND" /></span>
-                                        <br>
-                                        <small>Espaces collaboratifs</small>
-                                    </span>
+                                    <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
                                 </a>
                             </h1>
                         </div>

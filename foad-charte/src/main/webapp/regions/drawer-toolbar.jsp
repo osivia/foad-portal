@@ -8,6 +8,7 @@
 <c:set var="userPages" value="${userPortal.userPages}" />
 <c:set var="userProfileUrl" value="${requestScope['osivia.toolbar.myprofile']}" />
 <c:set var="userSettingsUrl" value="${requestScope['osivia.toolbar.userSettings.url']}" />
+<c:set var="helpUrl" value="${requestScope['toolbar.help.url']}" />
 
 <c:set var="searchPlaceholder"><op:translate key="SEARCH_PLACEHOLDER" /></c:set>
 
@@ -53,14 +54,26 @@
                     </div>
                     
                     <div class="pull-right text-nowrap">
+                        <!-- Help -->
+                        <c:if test="${not empty helpUrl}">
+                            <a href="${helpUrl}" class="btn btn-link">
+                                <i class="halflings halflings-question-sign"></i>
+                                <span class="sr-only"><op:translate key="HELP" /></span>
+                            </a>
+                        </c:if>
+                    
+                        <!-- Search -->
                         <button type="button" onclick="showDrawerSearch();" class="btn btn-link">
                             <i class="halflings halflings-search"></i>
+                            <span class="sr-only"><op:translate key="SEARCH" /></span>
                         </button>
                         
+                        <!-- User -->
                         <c:choose>
                             <c:when test="${empty requestScope['osivia.toolbar.principal']}">
                                 <a href="${requestScope['osivia.toolbar.loginURL']}" class="btn btn-link">
                                     <i class="halflings halflings-log-in"></i>
+                                    <span class="sr-only"><op:translate key="LOGIN" /></span>
                                 </a>
                             </c:when>
                             
