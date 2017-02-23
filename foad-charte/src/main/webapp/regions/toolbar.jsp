@@ -61,9 +61,45 @@
             </div>
 
             <div class="hidden-xs">
-                <c:choose>
-                    <c:when test="${empty requestScope['osivia.toolbar.principal']}">
-                        <ul class="nav navbar-nav navbar-right">
+                <!-- Administration -->
+                <c:out value="${requestScope['osivia.toolbar.administrationContent']}" escapeXml="false" />
+            
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Help -->
+                    <c:if test="${not empty helpUrl}">
+                        <li>
+                            <a href="${helpUrl}" class="navbar-link">
+                                <i class="glyphicons glyphicons-question-sign"></i>
+                                <span class="visible-lg-inline"><op:translate key="HELP" /></span>
+                            </a>
+                        </li>
+                    </c:if>
+                    
+                    <!-- Tasks -->
+                    <c:if test="${not empty requestScope['osivia.toolbar.tasks.url']}">
+                        <c:set var="title"><op:translate key="NOTIFICATION_TASKS" /></c:set>
+                        <li>
+                            <button type="button" name="open-tasks" class="btn btn-link navbar-btn" data-target="#osivia-modal" data-load-url="${requestScope['osivia.toolbar.tasks.url']}" data-load-callback-function="tasksModalCallback" data-title="${title}" data-footer="true">
+                                <i class="glyphicons glyphicons-bell"></i>
+                                <span class="sr-only">${title}</span>
+                                
+                                <span class="counter small">
+                                    <c:choose>
+                                        <c:when test="${requestScope['osivia.toolbar.tasks.count'] gt 0}">
+                                            <span class="label label-danger">${requestScope['osivia.toolbar.tasks.count']}</span>
+                                        </c:when>
+                                        
+                                        <c:otherwise>
+                                            <span class="label label-default">0</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </span>
+                            </button>
+                        </li>
+                    </c:if>
+                    
+                    <c:choose>
+                        <c:when test="${empty requestScope['osivia.toolbar.principal']}">
                             <!-- Login -->
                             <li>
                                 <a href="${requestScope['osivia.toolbar.loginURL']}" class="navbar-link">
@@ -71,49 +107,9 @@
                                     <span><op:translate key="LOGIN" /></span>
                                 </a>
                             </li>
-                        </ul>
-                    </c:when>
-
-                    <c:otherwise>
-                        <!-- Administration -->
-                        <c:out value="${requestScope['osivia.toolbar.administrationContent']}" escapeXml="false" />
-
-                        <!-- User links -->
-                        <ul class="nav navbar-nav navbar-right">
-                            <!-- Help -->
-                            <c:if test="${not empty helpUrl}">
-                                <li>
-                                    <a href="${helpUrl}" class="navbar-link">
-                                        <i class="glyphicons glyphicons-question-sign"></i>
-                                        <span class="visible-lg-inline"><op:translate key="HELP" /></span>
-                                    </a>
-                                </li>
-                            </c:if>
-
-                            <!-- Tasks -->
-                            <c:if test="${not empty requestScope['osivia.toolbar.tasks.url']}">
-                                <c:set var="title"><op:translate key="NOTIFICATION_TASKS" /></c:set>
-                                <li>
-                                    <button type="button" name="open-tasks" class="btn btn-link navbar-btn" data-target="#osivia-modal"
-                                        data-load-url="${requestScope['osivia.toolbar.tasks.url']}" data-load-callback-function="tasksModalCallback"
-                                        data-title="${title}" data-footer="true">
-                                        <i class="glyphicons glyphicons-bell"></i>
-                                        <span class="sr-only">${title}</span>
-                                        <span class="counter small">
-                                            <c:choose>
-                                                <c:when test="${requestScope['osivia.toolbar.tasks.count'] gt 0}">
-                                                    <span class="label label-danger">${requestScope['osivia.toolbar.tasks.count']}</span>
-                                                </c:when>
-    
-                                                <c:otherwise>
-                                                    <span class="label label-default">0</span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </span>
-                                    </button>
-                                </li>
-                            </c:if>
-
+                        </c:when>
+        
+                        <c:otherwise>
                             <!-- User bar -->
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -122,15 +118,15 @@
                                             <i class="halflings halflings-user"></i>
                                             <span class="visible-lg-inline">${requestScope['osivia.toolbar.principal']}</span>
                                         </c:when>
-    
+                                        
                                         <c:otherwise>
-                                            <img class="avatar" src="${requestScope['osivia.toolbar.person'].avatar.url}" alt="">
+                                            <img class="avatar" src="${requestScope['osivia.toolbar.person'].avatar.url}" alt="${requestScope['osivia.toolbar.person'].displayName}" />
                                             <span class="visible-lg-inline">${requestScope['osivia.toolbar.person'].displayName}</span>
                                         </c:otherwise>
                                     </c:choose>
                                     <span class="caret"></span>
                                 </a>
-
+                                
                                 <ul class="dropdown-menu" role="menu">
                                     <li class="dropdown-header hidden-lg" role="presentation">${requestScope['osivia.toolbar.person'].displayName}</li>
                                 
@@ -153,11 +149,11 @@
                                             </a>
                                         </li>
                                     </c:if>
-
+    
                                     <c:if test="${not empty userProfileUrl or not empty userSettingsUrl}">
                                         <li class="divider" role="presentation"></li>
                                     </c:if>
-
+                                    
                                     <!-- Logout -->
                                     <li role="presentation">
                                         <a href="#" onclick="logout()" role="menuitem">
@@ -167,9 +163,9 @@
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
-                    </c:otherwise>
-                </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
             </div>
         </div>
     </nav>

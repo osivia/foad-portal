@@ -17,6 +17,10 @@
     margin-top: -(@line-height-computed + 2 * @padding-vertical + @border-width);
     margin-bottom: @line-height-computed;
     
+    body.fixed-layout & {
+        margin-bottom: floor(@line-height-computed / 2);
+    }
+    
     .tabs {
         ul {
             margin: 0;

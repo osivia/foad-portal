@@ -20,25 +20,23 @@
         </div>
     </div>
     
-    <div class="wrapper-outer">
-        <div class="wrapper-inner">
-            <main id="page-content" class="container-fluid">
-                <!-- Content navbar -->
-                <jsp:include page="../includes/content-navbar.jsp" />
-       
-                <div class="row">
-                    <!-- Drawer -->
-                    <div id="drawer">
-                        <p:region regionName="drawer-toolbar" />
-                    </div>
-                    
-                    <div class="col-sm-6">
-                        <p:region regionName="maximized" />
-                    </div>
+    <main>
+        <div class="container-fluid">
+            <!-- Content navbar -->
+            <jsp:include page="../includes/content-navbar.jsp" />
+   
+            <div class="row">
+                <!-- Drawer -->
+                <div id="drawer">
+                    <p:region regionName="drawer-toolbar" />
                 </div>
-            </main>
+                
+                <div class="col-sm-6">
+                    <p:region regionName="maximized" />
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
     
     <jsp:include page="../includes/footer.jsp" />
 </body>

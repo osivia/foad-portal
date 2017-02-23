@@ -1,10 +1,26 @@
 //
-// Charte FOAD - Header
+// Charte FOAD - Layout
 // -----------------------------------------------------
 
 
+body.fixed-layout {
+    .content-navbar, .portlet-container {
+        margin-bottom: floor(@line-height-computed / 2);
+    }
+    
+    .row {
+        margin-left: floor(@grid-gutter-width / -4);
+        margin-right: floor(@grid-gutter-width / -4);
+    }
+            
+    [class^=col] {
+        padding-left: floor(@grid-gutter-width / 4);
+        padding-right: floor(@grid-gutter-width / 4);
+    }
+}
+
+
 #maximized {
-    margin-bottom: @line-height-computed;
     padding: @padding-large-vertical @padding-large-horizontal;
     
     background-color: #fff;
@@ -12,6 +28,24 @@
     @media screen and (max-width: @screen-xs-max) {
         margin-left: floor(@grid-gutter-width / -2);
         margin-right: floor(@grid-gutter-width / -2);
+    }
+    
+    @media screen and (min-width: @screen-sm-min) {
+        body:not(.fixed-layout) & {
+            margin-bottom: @line-height-computed;
+        }
+    }
+    
+    .page-header {
+        margin: floor(@line-height-computed / 2) 0;
+        
+        .h2 {
+            margin: 0;
+        }
+    }
+    
+    .portlet-container {
+        margin-bottom: 0;
     }
 }
 
@@ -37,7 +71,7 @@
             &:first-child {
                 > * > * {
                     &:first-child {
-                        padding-top: @line-height-computed;
+                        padding-top: floor(@line-height-computed / 2);
                     }
                 }
             }
@@ -45,7 +79,7 @@
             &:last-child {
                 > * > * {
                     &:last-child {
-                        padding-bottom: @line-height-computed;
+                        padding-bottom: floor(@line-height-computed / 2);
                     }
                 }
             }
@@ -67,13 +101,28 @@
             
             > * > * {
                 &:first-child {
-                    margin-top: @line-height-computed;
+                    margin-top: floor(@line-height-computed / 2);
                 }
                 
                 &:last-child {
-                    margin-bottom: @line-height-computed;
+                    margin-bottom: floor(@line-height-computed / 2);
                 }
             }
         }
+    }
+}
+
+
+footer {
+    position: relative;
+    
+    border-top-style: solid;
+    border-width: 1px;
+    border-color: @navbar-default-border;
+    
+    .box-shadow(@shadow: 0 -1px 1px fade(#000, 5%));
+    
+    body.fixed-layout & {
+        display: none;
     }
 }

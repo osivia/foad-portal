@@ -10,7 +10,7 @@
 </head>
 
 
-<body>
+<body class="fixed-layout">
     <!-- Condensed toolbar -->
     <p:region regionName="condensed-toolbar" />
 
@@ -21,47 +21,44 @@
         </div>
     </div>
     
-    <div class="wrapper-outer">
-        <div class="wrapper-inner">
-            <main id="page-content" class="container-fluid">
-                <!-- Content navbar -->
-                <jsp:include page="../includes/content-navbar.jsp" />
+    <main>
+        <div class="container-fluid flexbox">
+            <!-- Content navbar -->
+            <jsp:include page="../includes/content-navbar.jsp" />
 
-                <div class="row">
-                    <!-- Taskbar -->
-                    <div class="taskbar-container taskbar-affix">
-                        <!-- Drawer -->
-                        <div id="drawer">
-                            <p:region regionName="drawer-toolbar" />
-                            
-                            <div class="col-auto">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <p:region regionName="col-1" />
-                                    </div>
-                                    
-                                    <div
-                                        <c:choose>
-                                            <c:when test="${requestScope['osivia.panels.navigation-panel.closed']}">class="hidden"</c:when>
-                                            <c:otherwise>class="col-auto hidden-sm"</c:otherwise>
-                                        </c:choose>
-                                    >
-                                        <p:region regionName="navigation-panel" />
-                                    </div>
-                                </div>
+            <div class="row flexbox">
+                <!-- Drawer -->
+                <div id="drawer" class="col-auto flexbox">
+                    <div class="row flexbox">
+                        <p:region regionName="drawer-toolbar" />
+                    
+                        <div class="col-auto flexbox">
+                            <div class="scrollbox">
+                                <p:region regionName="col-1" />
+                            </div>
+                        </div>
+                                
+                        <div
+                            <c:choose>
+                                <c:when test="${requestScope['osivia.panels.navigation-panel.closed']}">class="hidden"</c:when>
+                                <c:otherwise>class="col-auto flexbox hidden-sm"</c:otherwise>
+                            </c:choose>
+                        >
+                            <div class="scrollbox">
+                                <p:region regionName="navigation-panel" />
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="clearfix">
-                        <div class="col-sm-12">
-                            <p:region regionName="maximized" />
-                        </div>
+                </div>
+                
+                <div class="col-offset-auto col-auto flexbox">
+                    <div class="scrollbox">
+                        <p:region regionName="maximized" />
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
-    </div>
+    </main>
     
     <jsp:include page="../includes/footer.jsp" />
 </body>
