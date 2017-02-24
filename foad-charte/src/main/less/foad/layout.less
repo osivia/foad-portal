@@ -17,6 +17,20 @@ body.fixed-layout {
         padding-left: floor(@grid-gutter-width / 4);
         padding-right: floor(@grid-gutter-width / 4);
     }
+    
+    @media screen and (min-width: @screen-sm-min) {
+        .maximized {
+            &, > .dyna-region {
+                .flexbox();
+            }
+        }
+        
+        #maximized {
+            .flexbox();
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+    }
 }
 
 

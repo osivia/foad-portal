@@ -52,7 +52,7 @@
                 </div>
                 
                 <div class="col-offset-auto col-auto flexbox">
-                    <div class="scrollbox">
+                    <div class="maximized scrollbox">
                         <p:region regionName="maximized" />
                     </div>
                 </div>
