@@ -1579,6 +1579,10 @@ return nuxeoRequest.toString();</value>
                                 <name>osivia.mobileCollapse</name>
                                 <value>false</value>
                             </property>
+                             <property>
+                                <name>osivia.useES</name>
+                                <value>on</value>
+                            </property>                            
                         </properties>
                         <height>0</height>
                     </window>
@@ -1853,6 +1857,10 @@ return builder.toString();</value>
                                 <name>osivia.mobileCollapse</name>
                                 <value>false</value>
                             </property>
+                            <property>
+                                <name>osivia.useES</name>
+                                <value>on</value>
+                            </property>                            
                         </properties>
                         <height>0</height>
                     </window>
