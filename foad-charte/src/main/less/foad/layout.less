@@ -31,8 +31,17 @@ body.fixed-layout {
         
         #maximized {
             .flexbox();
+            
             overflow-x: hidden;
             overflow-y: auto;
+            
+            padding-bottom: 0;
+            
+            .page-header {
+                ~ * {
+                    padding-bottom: @padding-large-vertical;
+                }
+            }
         }
     }
 }
