@@ -1725,6 +1725,10 @@ return nuxeoRequest.toString();
                                 <value>Participants</value>
                             </property>
                             <property>
+                                <name>osivia.style</name>
+                                <value>box-shadow</value>
+                            </property>
+                            <property>
                                 <name>participants.display.reader</name>
                                 <value>false</value>
                             </property>
