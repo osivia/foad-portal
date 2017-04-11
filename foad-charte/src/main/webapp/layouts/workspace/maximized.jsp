@@ -10,7 +10,7 @@
 </head>
 
 
-<body class="fixed-layout">
+<body class="fixed-layout condensed-layout">
     <!-- Condensed toolbar -->
     <p:region regionName="condensed-toolbar" />
 

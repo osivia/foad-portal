@@ -7,41 +7,50 @@
 @import "mixins/flex.less";
 
 
-body.fixed-layout {
-    .content-navbar, .portlet-container {
-        margin-bottom: floor(@line-height-computed / 2);
-    }
-    
-    .row {
-        margin-left: floor(@grid-gutter-width / -4);
-        margin-right: floor(@grid-gutter-width / -4);
-    }
-            
-    [class^=col] {
-        padding-left: floor(@grid-gutter-width / 4);
-        padding-right: floor(@grid-gutter-width / 4);
-    }
-    
-    @media screen and (min-width: @screen-sm-min) {
-        .maximized {
-            &, > .dyna-region {
-                .flexbox();
-            }
-        }
-        
-        #maximized {
-            .flexbox();
-            
-            overflow-x: hidden;
-            overflow-y: auto;
-            
-            padding-bottom: 0;
-            
-            .page-header {
-                ~ * {
-                    padding-bottom: @padding-large-vertical;
+body {
+    &.fixed-layout {
+        @media screen and (min-width: @screen-sm-min) {
+            .maximized {
+                &, > .dyna-region {
+                    .flexbox();
                 }
             }
+            
+            #maximized {
+                .flexbox();
+                
+                overflow-x: hidden;
+                overflow-y: auto;
+                
+                &:not(.flexbox) {
+                    .dyna-window:not(.flexbox) {
+                        padding-bottom: @padding-large-vertical;
+                    }
+                }
+//                padding-bottom: 0;
+                
+//                .page-header {
+//                    ~ * {
+//                        padding-bottom: @padding-large-vertical;
+//                    }
+//                }
+            }
+        }
+    }
+    
+    &.condensed-layout {
+        .content-navbar, .portlet-container {
+            margin-bottom: floor(@line-height-computed / 2);
+        }
+        
+        .row {
+            margin-left: floor(@grid-gutter-width / -4);
+            margin-right: floor(@grid-gutter-width / -4);
+        }
+                
+        [class|=col] {
+            padding-left: floor(@grid-gutter-width / 4);
+            padding-right: floor(@grid-gutter-width / 4);
         }
     }
 }
@@ -151,7 +160,7 @@ footer {
     
     .box-shadow(@shadow: 0 -1px 1px fade(#000, 5%));
     
-    body.fixed-layout & {
+    body.condensed-layout & {
         display: none;
     }
 }
