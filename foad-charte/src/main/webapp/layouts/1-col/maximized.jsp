@@ -21,7 +21,7 @@
     </div>
     
     <main>
-        <div class="container-fluid">
+        <div class="container-fluid flexbox">
             <!-- Content navbar -->
             <jsp:include page="../includes/content-navbar.jsp" />
 
@@ -32,7 +32,9 @@
                 </div>
             </div>
             
-            <p:region regionName="maximized" />
+            <div class="scrollbox">
+                <p:region regionName="maximized" />
+            </div>
         </div>
     </main>
     
