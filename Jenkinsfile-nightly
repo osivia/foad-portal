@@ -1,5 +1,5 @@
 parallel portalbranch: {
-	node {
+	node('atlantia') {
 		env.JAVA_HOME="${tool 'jdk7'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		def mvnHome
@@ -46,7 +46,7 @@ parallel portalbranch: {
 		}
 	}
 }, nuxeobranch : {
-	node {
+	node('atlantia') {
 		env.JAVA_HOME="${tool 'jdk7'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		def mvnHome
@@ -74,7 +74,7 @@ parallel portalbranch: {
 		stage("file-versioning") {
             checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'file-versioning', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-file-versioning/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
             
-            sh "'${mvnHome}/bin/mvn' clean install -U -f file-versioning"
+            sh "'${mvnHome}/bin/mvn' clean deploy -U -f file-versioning"
         }
 		stage("notifications") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'notifications', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-portal-notifications/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
@@ -111,6 +111,11 @@ parallel portalbranch: {
 		    
 		    sh "'${mvnHome}/bin/mvn' clean deploy -f ottc-news"
 		}		
+		stage("drive") {
+			checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'drive', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-drive/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+
+			sh "'${mvnHome}/bin/mvn' clean deploy -U -f drive"
+		}
 		stage("nx-distrib") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'nx-distrib', remote: 'http://www.osivia.org/repos/osivia-services/nx-distributions/ottc-collab/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    sh "'${mvnHome}/bin/mvn' clean deploy -f nx-distrib"
