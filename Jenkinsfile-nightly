@@ -1,9 +1,9 @@
 parallel portalbranch: {
 	node('atlantia') {
-		env.JAVA_HOME="${tool 'jdk7'}"
+		env.JAVA_HOME="${tool 'jdk7-atlantia'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		def mvnHome
-		mvnHome = tool 'maven3'
+		mvnHome = tool 'maven3-atlantia'
 		stage("osivia-portal") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-portal', remote: 'http://www.osivia.org/repos/osivia-portal/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
@@ -47,10 +47,10 @@ parallel portalbranch: {
 	}
 }, nuxeobranch : {
 	node('atlantia') {
-		env.JAVA_HOME="${tool 'jdk7'}"
+		env.JAVA_HOME="${tool 'jdk7-atlantia'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		def mvnHome
-		mvnHome = tool 'maven3'
+		mvnHome = tool 'maven3-atlantia'
 		stage("opentoutatice") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'opentoutatice', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
