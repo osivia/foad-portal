@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<document repository="default" id="59bf6f05-bed0-4432-bd1c-a79b5be14407">
+<document repository="default" id="76a5a6e1-ec46-419d-a40a-5b8ae21f7690">
   <system>
     <type>ProcedureModel</type>
-    <path>invitation-request</path>
+    <path>default-domain/procedures/models/invitation-request</path>
     <lifecycle-state>project</lifecycle-state>
-    <lifecycle-policy>default</lifecycle-policy>
+    <lifecycle-policy>undefined</lifecycle-policy>
     <facet>Versionable</facet>
     <facet>Folderish</facet>
     <access-control>
       <acl name="inherited">
-        <entry principal="admin" permission="Everything" grant="true"/>
         <entry principal="Administrator" permission="Everything" grant="true"/>
         <entry principal="members" permission="Read" grant="true"/>
       </acl>
@@ -28,7 +26,7 @@
     <dc:contributors>
       <item><![CDATA[admin]]></item>
     </dc:contributors>
-    <dc:created><![CDATA[2016-10-18T09:12:28.54Z]]></dc:created>
+    <dc:created><![CDATA[2016-11-23T14:22:17.43Z]]></dc:created>
     <dc:description><![CDATA[]]></dc:description>
     <dc:rights><![CDATA[]]></dc:rights>
     <dc:subjects/>
@@ -36,7 +34,7 @@
     <dc:valid/>
     <dc:format><![CDATA[]]></dc:format>
     <dc:issued/>
-    <dc:modified><![CDATA[2016-10-18T10:25:09.00Z]]></dc:modified>
+    <dc:modified><![CDATA[2016-11-23T14:22:17.00Z]]></dc:modified>
     <dc:language><![CDATA[]]></dc:language>
     <dc:coverage><![CDATA[]]></dc:coverage>
     <dc:expired/>
@@ -51,7 +49,7 @@
     <ttc:hiddenInNavigation/>
     <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
     <ttc:showInMenu><![CDATA[false]]></ttc:showInMenu>
-    <ttc:spaceID><![CDATA[b2a35fbc-1e62-4fc4-adda-67a438f4e2b9]]></ttc:spaceID>
+    <ttc:spaceID><![CDATA[aaff1644-6764-4015-ac61-46c5d6e6511a]]></ttc:spaceID>
     <ttc:tabOrder><![CDATA[0]]></ttc:tabOrder>
     <ttc:contextualizeInternalContents><![CDATA[false]]></ttc:contextualizeInternalContents>
     <ttc:pageScope><![CDATA[]]></ttc:pageScope>
@@ -73,22 +71,23 @@
   <schema xmlns:pcd="http://www.nuxeo.org/ecm/project/schemas/osivia/models/procedure" name="procedure">
     <pcd:startingStep><![CDATA[init]]></pcd:startingStep>
     <pcd:globalVariablesDefinitions/>
-    <pcd:procedureType/>
+    <pcd:procedureType><![CDATA[]]></pcd:procedureType>
+    <pcd:webIdParent/>
     <pcd:authorizedActors/>
     <pcd:steps>
       <step>
         <stringMsg><![CDATA[]]></stringMsg>
         <index><![CDATA[0]]></index>
-        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
         <acquitable><![CDATA[false]]></acquitable>
-        <endStepMsg/>
+        <endStepMsg><![CDATA[]]></endStepMsg>
         <closable><![CDATA[false]]></closable>
         <globalVariablesReferences/>
         <name><![CDATA[Initialisation]]></name>
         <actionIdDefault><![CDATA[start]]></actionIdDefault>
+        <actors/>
         <notifiable><![CDATA[false]]></notifiable>
         <actions>
           <action>
@@ -101,6 +100,11 @@
                     <argumentValue><![CDATA[${workspaceId}_owner]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[group]]></argumentName>
                   </argument>
                 </argumentsList>
                 <filterName><![CDATA[Acteurs de la tâche : propriétaires]]></filterName>
@@ -115,22 +119,14 @@
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[group]]></argumentName>
+                  </argument>
                 </argumentsList>
                 <filterName><![CDATA[Acteurs de la tâche : administrateurs]]></filterName>
                 <filterPath><![CDATA[0]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[SET_ADDITIONAL_AUTHORIZATION2]]></filterInstanceId>
-                <filterId><![CDATA[SET_ADDITIONAL_AUTHORIZATION]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[role_workspace-management]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[id]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[Administrateurs d'espaces]]></filterName>
-                <filterPath><![CDATA[2]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Démarrer]]></label>
@@ -144,7 +140,6 @@
       <step>
         <stringMsg><![CDATA[${user:link(procedureInitiator)} demande à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[1]]></index>
-        <actors/>
         <actionIdYes><![CDATA[accept]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[request]]></reference>
@@ -154,6 +149,7 @@
         <globalVariablesReferences/>
         <name><![CDATA[Demande d'invitation]]></name>
         <actionIdDefault><![CDATA[]]></actionIdDefault>
+        <actors/>
         <notifiable><![CDATA[true]]></notifiable>
         <actions>
           <action>
@@ -162,7 +158,7 @@
                 <filterInstanceId><![CDATA[DeleteOnEnding2]]></filterInstanceId>
                 <filterId><![CDATA[DeleteOnEnding]]></filterId>
                 <argumentsList/>
-                <filterName/>
+                <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[2]]></filterPath>
               </filter>
               <filter>
@@ -175,7 +171,7 @@
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
                   <argument>
-                    <argumentValue/>
+                    <argumentValue><![CDATA[]]></argumentValue>
                     <argumentType><![CDATA[BOOLEAN]]></argumentType>
                     <argumentName><![CDATA[group]]></argumentName>
                   </argument>
@@ -216,7 +212,6 @@
       <step>
         <stringMsg><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[2]]></index>
-        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
         <reference><![CDATA[accepted]]></reference>
@@ -226,6 +221,7 @@
         <globalVariablesReferences/>
         <name><![CDATA[Demande acceptée]]></name>
         <actionIdDefault><![CDATA[close]]></actionIdDefault>
+        <actors/>
         <notifiable><![CDATA[true]]></notifiable>
         <actions>
           <action>

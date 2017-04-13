@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<document repository="default" id="0ced1ff5-5c10-403f-a598-c41ddbe8aa02">
+<document repository="default" id="699da0bd-9c86-46b6-8a45-7f725f7c740b">
   <system>
     <type>ProcedureModel</type>
-    <path>invitation</path>
+    <path>default-domain/procedures/models/invitation</path>
     <lifecycle-state>project</lifecycle-state>
-    <lifecycle-policy>default</lifecycle-policy>
+    <lifecycle-policy>undefined</lifecycle-policy>
     <facet>Versionable</facet>
     <facet>Folderish</facet>
     <access-control>
       <acl name="inherited">
-        <entry principal="admin" permission="Everything" grant="true"/>
         <entry principal="Administrator" permission="Everything" grant="true"/>
         <entry principal="members" permission="Read" grant="true"/>
       </acl>
@@ -28,7 +26,7 @@
     <dc:contributors>
       <item><![CDATA[admin]]></item>
     </dc:contributors>
-    <dc:created><![CDATA[2016-10-18T09:12:28.45Z]]></dc:created>
+    <dc:created><![CDATA[2016-11-23T14:22:17.25Z]]></dc:created>
     <dc:description><![CDATA[]]></dc:description>
     <dc:rights><![CDATA[]]></dc:rights>
     <dc:subjects/>
@@ -36,7 +34,7 @@
     <dc:valid/>
     <dc:format><![CDATA[]]></dc:format>
     <dc:issued/>
-    <dc:modified><![CDATA[2016-10-18T10:26:09.00Z]]></dc:modified>
+    <dc:modified><![CDATA[2017-04-13T12:46:07.99Z]]></dc:modified>
     <dc:language><![CDATA[]]></dc:language>
     <dc:coverage><![CDATA[]]></dc:coverage>
     <dc:expired/>
@@ -51,7 +49,7 @@
     <ttc:hiddenInNavigation/>
     <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
     <ttc:showInMenu><![CDATA[false]]></ttc:showInMenu>
-    <ttc:spaceID><![CDATA[b2a35fbc-1e62-4fc4-adda-67a438f4e2b9]]></ttc:spaceID>
+    <ttc:spaceID><![CDATA[aaff1644-6764-4015-ac61-46c5d6e6511a]]></ttc:spaceID>
     <ttc:tabOrder><![CDATA[0]]></ttc:tabOrder>
     <ttc:contextualizeInternalContents><![CDATA[false]]></ttc:contextualizeInternalContents>
     <ttc:pageScope><![CDATA[]]></ttc:pageScope>
@@ -74,12 +72,12 @@
     <pcd:startingStep><![CDATA[init]]></pcd:startingStep>
     <pcd:globalVariablesDefinitions/>
     <pcd:procedureType/>
+    <pcd:webIdParent/>
     <pcd:authorizedActors/>
     <pcd:steps>
       <step>
         <stringMsg><![CDATA[]]></stringMsg>
         <index><![CDATA[0]]></index>
-        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
@@ -89,36 +87,11 @@
         <globalVariablesReferences/>
         <name><![CDATA[Initialisation]]></name>
         <actionIdDefault><![CDATA[start]]></actionIdDefault>
+        <actors/>
         <notifiable><![CDATA[false]]></notifiable>
         <actions>
           <action>
             <filtersList>
-              <filter>
-                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
-                <filterId><![CDATA[IfFilter]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[IfCondition]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[Si user non enregistré]]></filterName>
-                <filterPath><![CDATA[2]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
-                <filterId><![CDATA[IfFilter]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[IfCondition]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[Si user enregistré]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
-              </filter>
               <filter>
                 <filterInstanceId><![CDATA[SendMailFilter2,0]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
@@ -127,10 +100,7 @@
                     <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
 ${command:link("Accepter", "accept", documentPath)}.
 
-Vous pouvez vous connecter en utilisant les identifiants suivants :
-
-Login : ${uid}
-Mot de passe : ${generatedPassword}]]></argumentValue>
+Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.  ]]></argumentValue>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentName><![CDATA[body]]></argumentName>
                   </argument>
@@ -159,12 +129,40 @@ Mot de passe : ${generatedPassword}]]></argumentValue>
                 <filterPath><![CDATA[2,0]]></filterPath>
               </filter>
               <filter>
+                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
+                <filterId><![CDATA[IfFilter]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[Si user non enregistré]]></filterName>
+                <filterPath><![CDATA[2]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[${uid}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[]]></filterName>
+                <filterPath><![CDATA[0]]></filterPath>
+              </filter>
+              <filter>
                 <filterInstanceId><![CDATA[SendMailFilter1,0]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
                 <argumentsList>
                   <argument>
                     <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
-${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
+${command:link("Accepter", "accept", documentPath)}
+
+Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.  ]]></argumentValue>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentName><![CDATA[body]]></argumentName>
                   </argument>
@@ -193,17 +191,17 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
                 <filterPath><![CDATA[1,0]]></filterPath>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
+                <filterId><![CDATA[IfFilter]]></filterId>
                 <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[${uid}]]></argumentValue>
+                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[Si user enregistré]]></filterName>
+                <filterPath><![CDATA[1]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Démarrer]]></label>
@@ -217,7 +215,6 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
       <step>
         <stringMsg><![CDATA[${user:link(procedureInitiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
         <index><![CDATA[1]]></index>
-        <actors/>
         <actionIdYes><![CDATA[accept]]></actionIdYes>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[invitation]]></reference>
@@ -227,6 +224,7 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
         <globalVariablesReferences/>
         <name><![CDATA[Invitation]]></name>
         <actionIdDefault><![CDATA[]]></actionIdDefault>
+        <actors/>
         <notifiable><![CDATA[true]]></notifiable>
         <actions>
           <action>
@@ -237,13 +235,6 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
                 <argumentsList/>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[2]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
-                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
-                <argumentsList/>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
               </filter>
               <filter>
                 <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE1]]></filterInstanceId>
@@ -257,6 +248,13 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
                 </argumentsList>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
+              </filter>
+              <filter>
+                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
+                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
+                <argumentsList/>
+                <filterName><![CDATA[]]></filterName>
+                <filterPath><![CDATA[0]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Accepter]]></label>
@@ -297,7 +295,6 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
       <step>
         <stringMsg><![CDATA[${user:link(uid)} a refusé l'invitation à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
         <index><![CDATA[2]]></index>
-        <actors/>
         <actionIdYes><![CDATA[]]></actionIdYes>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
         <reference><![CDATA[declined]]></reference>
@@ -307,6 +304,7 @@ ${command:link("Accepter", "accept", documentPath)}]]></argumentValue>
         <globalVariablesReferences/>
         <name><![CDATA[Invitation refusée]]></name>
         <actionIdDefault><![CDATA[close]]></actionIdDefault>
+        <actors/>
         <notifiable><![CDATA[true]]></notifiable>
         <actions>
           <action>
