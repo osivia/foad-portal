@@ -8,5 +8,8 @@
         
         <!-- CSS -->
         <link rel="stylesheet" href="/css/foad.min.css" title="FOAD" />
+        
+        <!-- JavaScript -->
+        <script type="text/javascript" src="/js/foad.js"></script>
     </theme>
 </themes>
