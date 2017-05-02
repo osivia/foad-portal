@@ -29,16 +29,16 @@ parallel portalbranch: {
 //		    
 //		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-procedures"
 //		}
-		stage("osivia-tasks") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-tasks', remote: 'http://www.osivia.org/repos/osivia-services/tasks/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		    
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-tasks"
-		}
-		stage("cgu") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'cgu', remote: 'http://www.osivia.org/repos/osivia-services/cgu/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		    
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f cgu"
-		}		
+//		stage("osivia-tasks") {
+//		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-tasks', remote: 'http://www.osivia.org/repos/osivia-services/tasks/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+//		    
+//		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-tasks"
+//		}
+//		stage("cgu") {
+//		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'cgu', remote: 'http://www.osivia.org/repos/osivia-services/cgu/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+//		    
+//		    sh "'${mvnHome}/bin/mvn' clean install -U -f cgu"
+//		}		
 		stage("foad-distribution") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad', remote: 'http://www.osivia.org/repos/osivia-demo/foad/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
