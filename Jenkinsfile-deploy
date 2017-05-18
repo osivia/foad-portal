@@ -1,0 +1,27 @@
+parallel portalbranch: {
+	node {
+		env.JAVA_HOME="${tool 'jdk7'}"
+		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+		def mvnHome
+		mvnHome = tool 'maven3'
+		stage("foad-distribution") {
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad', remote: 'http://www.osivia.org/repos/osivia-demo/foad/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    
+		    sh "'${mvnHome}/bin/mvn' clean install -U -f foad -Punpack,pack"
+			sh "scp foad/foad-distribution/foad-distribution.zip root@192.168.0.200:/root"
+		}
+	}
+}, nuxeobranch : {
+	node {
+		env.JAVA_HOME="${tool 'jdk7'}"
+		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+		def mvnHome
+		mvnHome = tool 'maven3'
+		stage("nx-distrib") {
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'nx-distrib', remote: 'http://www.osivia.org/repos/osivia-services/nx-distributions/ottc-collab/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    sh "'${mvnHome}/bin/mvn' clean install -U -f nx-distrib"
+		}
+	}
+}
+
+
