@@ -128,6 +128,33 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
                 .get(IProjectCustomizationConfiguration.CUSTOMIZER_ATTRIBUTE_CONFIGURATION);
         // HTTP servlet request
         HttpServletRequest servletRequest = configuration.getHttpServletRequest();
+        
+        
+//        	----- debug des headers ------- 
+//        List<String> headerLogs = new ArrayList<String>();
+//
+//        Enumeration headerNames = servletRequest.getHeaderNames();
+//        boolean display = false;
+//        while(headerNames.hasMoreElements()) {
+//        	String nextElement = (String) headerNames.nextElement();
+//        	String header = servletRequest.getHeader(nextElement);
+//        	headerLogs.add(nextElement + " >> " + header);
+//        	
+//        	if(nextElement.equalsIgnoreCase("x-forwarded-for") && !(header.equals("172.29.58.252") || header.equals("172.29.58.251"))) {
+//        		display = true;
+//        	}
+//        }
+//        if(display) {
+//        	System.out.println("=========== Headers ===========");
+//        	for(String log : headerLogs) {
+//        		System.out.println(log);
+//        	}
+//        	System.out.println("======================");
+//        }
+//        
+    	
+    	
+        
         // Principal
         Principal principal = servletRequest.getUserPrincipal();
         // Bundle

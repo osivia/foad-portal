@@ -11,6 +11,7 @@ import org.jboss.portal.core.controller.ControllerContext;
 import org.jboss.portal.core.controller.ControllerException;
 import org.jboss.portal.core.model.portal.command.render.RenderPageCommand;
 import org.jboss.portal.core.theme.PageRendition;
+import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.theming.IAttributesBundle;
@@ -27,13 +28,20 @@ import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoConnectionProperties;
  */
 public class CustomizedAttributesBundle implements IAttributesBundle {
 
-    /** SSO applications attribute name. */
+    /**
+	 * 
+	 */
+	private static final String FIM_URL_RETOUR = "freduurlretour";
+	/** SSO applications attribute name. */
     private static final String APPLICATIONS = "osivia.sso.applications";
     /** Toolbar help URL. */
     private static final String TOOLBAR_HELP_URL = "toolbar.help.url";
 
     /** Singleton instance. */
     private static final IAttributesBundle INSTANCE = new CustomizedAttributesBundle();
+    
+    
+	private static final String PORTAL_LOGOUT = "/portal/logout";
 
 
     /** Attribute names. */
@@ -61,7 +69,7 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         this.applications = new ArrayList<String>();
         this.applications.add(NuxeoConnectionProperties.getPublicBaseUri().toString().concat("/logout"));
         this.applications.add(System.getProperty("cas.logout"));
-
+        
         // Portal URL factory
         this.portalUrlFactory = Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
     }
@@ -87,9 +95,24 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(controllerContext);
         
-        
+        List<String> applisToLogout = new ArrayList<String>(applications);
         // SSO applications
-        attributes.put(APPLICATIONS, this.applications);
+        
+
+        if(portalControllerContext != null && portalControllerContext.getHttpServletRequest() != null) {
+
+        	String headerUrlRetour = portalControllerContext.getHttpServletRequest().getHeader(FIM_URL_RETOUR);
+        	if(StringUtils.isNotBlank(headerUrlRetour)) {
+        		
+                // Si Header FIM présent, logout portal en ajax + redirection vers FIM
+            	// Sinon, logout classique portail        		
+        		String portalLogout = (String) attributes.get(Constants.ATTR_TOOLBAR_SIGN_OUT_URL);
+        		applisToLogout.add(portalLogout);
+            	attributes.put(Constants.ATTR_TOOLBAR_SIGN_OUT_URL, headerUrlRetour);
+
+        	}
+        }
+        attributes.put(APPLICATIONS, applisToLogout);
 
         // Toolbar help URL
         String helpUrl;
