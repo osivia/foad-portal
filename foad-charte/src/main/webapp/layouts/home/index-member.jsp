@@ -37,6 +37,13 @@
                 </div>
                 
                 <div class="col-sm-6 col-md-8">
+                	<div class="row">
+                		<div class="col-md-12">
+                			<p:region regionName="top" />
+                		</div>
+                	</div>
+                	
+                
                     <div class="row">
                         <div class="col-md-6">
                             <p:region regionName="col-2" />
