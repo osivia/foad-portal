@@ -1105,7 +1105,7 @@ return nuxeoRequest.toString();</value>
 			        </property>
 			        <property>
 			          <name>layout.id</name>
-			          <value>foad-2-cols</value>
+			          <value>foad-3-cols</value>
 			        </property>
 			        <property>
 			          <name>osivia.cms.displayLiveVersion</name>
@@ -1290,6 +1290,54 @@ return nuxeoRequest.toString();</value>
 			        <height>0</height>
 			      </window>
 			      <window>
+			        <window-name>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance_1498040165971</window-name>
+			        <instance-ref>toutatice-portail-cms-nuxeo-viewFragmentPortletInstance</instance-ref>
+			        <region>col-3</region>
+			        <properties>
+			          <property>
+			            <name>osivia.title</name>
+			            <value>Rechercher des utilisateurs</value>
+			          </property>
+			          <property>
+			            <name>osivia.propertyName</name>
+			            <value>note:note</value>
+			          </property>
+			          <property>
+			            <name>osivia.fragmentTypeId</name>
+			            <value>html_property</value>
+			          </property>
+			          <property>
+			            <name>osivia.bootstrapPanelStyle</name>
+			            <value>true</value>
+			          </property>
+			          <property>
+			            <name>osivia.cms.uri</name>
+			            <value>chercher-des-utilisateur</value>
+			          </property>
+			          <property>
+			            <name>portal.windowContentType</name>
+			            <value>portlet</value>
+			          </property>
+			          <property>
+			            <name>theme.order</name>
+			            <value>0</value>
+			          </property>
+			          <property>
+			            <name>osivia.maximized.cms.url</name>
+			            <value>false</value>
+			          </property>
+			          <property>
+			            <name>osivia.hideDecorators</name>
+			            <value>1</value>
+			          </property>
+			          <property>
+			            <name>osivia.mobileCollapse</name>
+			            <value>false</value>
+			          </property>
+			        </properties>
+			        <height>0</height>
+			      </window>
+			      <window>
 			        <window-name>toutatice-portail-cms-nuxeo-viewListPortletInstance_1496937134103</window-name>
 			        <instance-ref>toutatice-portail-cms-nuxeo-viewListPortletInstance</instance-ref>
 			        <region>col-2</region>
@@ -1345,33 +1393,33 @@ return nuxeoRequest.toString();</value>
 			          <property>
 			            <name>osivia.nuxeoRequest</name>
 			            <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
-			nuxeoRequest.append("ecm:path STARTSWITH '/' ");&#13;
-			&#13;
-			// Title&#13;
-			if (params.get("keywords") != null) {&#13;
-			nuxeoRequest.append("AND").append(NXQLFormater.formatTextSearch("dc:title", params.get("keywords"))).append(" ");&#13;
-			}&#13;
-			&#13;
-			&#13;
-			// Fulltext&#13;
-			if (params.get("fulltext") != null) {&#13;
-			nuxeoRequest.append("AND ecm:fulltext = '").append( params.get("fulltext")).append("' ");&#13;
-			}&#13;
-			&#13;
-			// Date&#13;
-			if (params.get("modified") != null) {&#13;
-			nuxeoRequest.append(" AND " + NXQLFormater.formatDateSearch("dc:modified",params.get("modified"))) ;&#13;
-			}&#13;
-			&#13;
-			// academie&#13;
-			if (params.get("academie") != null) {&#13;
-			nuxeoRequest.append(" AND " + &#13;
-			NXQLFormater.formatVocabularySearch("foad:academie",params.get("academie"))) ;&#13;
-			&#13;
-			}&#13;
-			&#13;
-			nuxeoRequest.append("ORDER BY dc:modified DESC");&#13;
-			return nuxeoRequest.toString();</value>
+						nuxeoRequest.append("ecm:path STARTSWITH '/' ");&#13;
+						&#13;
+						// Title&#13;
+						if (params.get("keywords") != null) {&#13;
+						nuxeoRequest.append("AND").append(NXQLFormater.formatTextSearch("dc:title", params.get("keywords"))).append(" ");&#13;
+						}&#13;
+						&#13;
+						&#13;
+						// Fulltext&#13;
+						if (params.get("fulltext") != null) {&#13;
+						nuxeoRequest.append("AND ecm:fulltext = '").append( params.get("fulltext")).append("' ");&#13;
+						}&#13;
+						&#13;
+						// Date&#13;
+						if (params.get("modified") != null) {&#13;
+						nuxeoRequest.append(" AND " + NXQLFormater.formatDateSearch("dc:modified",params.get("modified"))) ;&#13;
+						}&#13;
+						&#13;
+						// academie&#13;
+						if (params.get("academie") != null) {&#13;
+						nuxeoRequest.append(" AND " + &#13;
+						NXQLFormater.formatVocabularySearch("foad:academie",params.get("academie"))) ;&#13;
+						&#13;
+						}&#13;
+						&#13;
+						nuxeoRequest.append("ORDER BY dc:modified DESC");&#13;
+						return nuxeoRequest.toString();</value>
 			          </property>
 			          <property>
 			            <name>osivia.hideDecorators</name>
