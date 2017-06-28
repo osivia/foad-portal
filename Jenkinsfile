@@ -103,7 +103,7 @@ parallel portalbranch: {
 		//    sh "'${mvnHome}/bin/mvn' clean install -U -f ecm-toutapad"
 		//}
 		stage("wf-integration") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'wf-integration', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-workflows-integration/branches/2.0']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'wf-integration', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-workflows-integration/branches/2.0-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f wf-integration"
 		}
