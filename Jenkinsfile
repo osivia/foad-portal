@@ -77,16 +77,16 @@ parallel portalbranch: {
         //    
         //    sh "'${mvnHome}/bin/mvn' clean install -U -f file-versioning"
         //}
-		//stage("notifications") {
-		//    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'notifications', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-portal-notifications/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		//    
-		//    sh "'${mvnHome}/bin/mvn' clean install -U -f notifications"
-		//}
-		stage("simpleui") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'simpleui', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-simple-ui/branches/2.1-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		stage("notifications") {
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'notifications', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-portal-notifications/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f simpleui"
+		    sh "'${mvnHome}/bin/mvn' clean install -U -f notifications"
 		}
+		//stage("simpleui") {
+		//    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'simpleui', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-simple-ui/branches/2.1-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		//    
+		//    sh "'${mvnHome}/bin/mvn' clean install -U -f simpleui"
+		//}
 		//stage("es-customizer") {
 		//    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'es-customizer', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-elasticsearch-customizer/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		//    
@@ -117,10 +117,10 @@ parallel portalbranch: {
 		//
 		//	sh "'${mvnHome}/bin/mvn' clean install -U -f drive"
 		//}
-		stage("foad-nx-custom") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad-nx-custom', remote: 'http://www.osivia.org/repos/osivia-demo/foad/nuxeo/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f foad-nx-custom"
-		}		
+		//stage("foad-nx-custom") {
+		//    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad-nx-custom', remote: 'http://www.osivia.org/repos/osivia-demo/foad/nuxeo/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		//    sh "'${mvnHome}/bin/mvn' clean install -U -f foad-nx-custom"
+		//}		
 		stage("nx-distrib") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'nx-distrib', remote: 'http://www.osivia.org/repos/osivia-services/nx-distributions/ottc-collab/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f nx-distrib"
