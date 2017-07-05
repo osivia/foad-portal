@@ -22,8 +22,8 @@
 
 <!-- Piwik -->
 <script type="text/javascript">
-	var u = "https://hn-piwik-pr.ac-nancy-metz.fr/";
-	var ui = 11;
+	var u = "https://wa.phm.education.gouv.fr/foad/";
+	var ui = 2;
 	var _paq = _paq || [];
 	_paq.push([ 'trackPageView' ]);
 	_paq.push([ 'enableLinkTracking' ]);
@@ -43,6 +43,6 @@
 </script>
 <noscript>
     <p>
-        <img src="https://hn-piwik-pr.ac-nancy-metz.fr/p.php?idsite=11" style="border: 0;" alt="" />
+        <img src="https://wa.phm.education.gouv.fr/foad/p.php?idsite=11" style="border: 0;" alt="" />
     </p>
 </noscript>
