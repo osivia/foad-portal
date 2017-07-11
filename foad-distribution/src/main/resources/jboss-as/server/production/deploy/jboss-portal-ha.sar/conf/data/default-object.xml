@@ -1027,23 +1027,22 @@
                             <name>theme.order</name>
                             <value>0</value>
                         </property>
-                        <property>
-                            <name>osivia.nuxeoRequest</name>
-                            <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
-nuxeoRequest.append("ecm:primaryType = 'Workspace' ");&#13;
-nuxeoRequest.append("AND ecm:path STARTSWITH '/default-domain/workspaces' ");&#13;
-&#13;
-// Keywords search&#13;
-List keywords = params.get("workspace-keywords");&#13;
-if (keywords != null) {&#13;
-nuxeoRequest.append("AND ");&#13;
-nuxeoRequest.append(NXQLFormater.formatAdvancedSearch(keywords));&#13;
-nuxeoRequest.append(" ");&#13;
-}&#13;
-&#13;
-nuxeoRequest.append("ORDER BY dc:created DESC");&#13;
-return nuxeoRequest.toString();</value>
-                        </property>
+				          <property>
+				            <name>osivia.nuxeoRequest</name>
+				            <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
+				nuxeoRequest.append("ecm:primaryType = 'Workspace' ");&#13;
+				nuxeoRequest.append("AND ecm:path STARTSWITH '/default-domain/workspaces' ");&#13;
+				&#13;
+				// Keywords search&#13;
+				if (params.get("workspace-keywords") != null) {&#13;
+				&#13;
+				nuxeoRequest.append("AND ").append(NXQLFormater.formatTextSearch("dc:title", params.get("workspace-keywords"))).append(" ");&#13;
+				&#13;
+				}&#13;
+				&#13;
+				nuxeoRequest.append("ORDER BY dc:title");&#13;
+				return nuxeoRequest.toString();</value>
+				          </property>
                         <property>
                             <name>osivia.ajaxLink</name>
                             <value>1</value>
