@@ -1,13 +1,15 @@
 /*
- * 
+ *
  */
 package fr.gouv.education.foad.customizer.feeder;
 
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.Name;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletException;
@@ -15,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.portal.api.customization.CustomizationContext;
 import org.osivia.portal.api.customization.CustomizationModuleMetadatas;
@@ -33,7 +33,10 @@ import org.xml.sax.InputSource;
 
 
 /**
- * The Class FeederCustomizer.
+ * LDAP feeder customizer.
+ * 
+ * @see GenericPortlet
+ * @see ICustomizationModule
  */
 public class FeederCustomizer extends GenericPortlet implements ICustomizationModule {
 
@@ -42,18 +45,17 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
     /** Customization modules repository attribute name. */
     private static final String ATTRIBUTE_CUSTOMIZATION_MODULES_REPOSITORY = "CustomizationModulesRepository";
 
-    /** The Constant CAS_ATTRIBUTE_PREFIX. */
+    /** CAS attribute prefix. */
     private static final String CAS_ATTRIBUTE_PREFIX = "cas:";
 
 
     /** Customization modules repository. */
     private ICustomizationModulesRepository repository;
 
+
     /** Customization module metadatas. */
     private final CustomizationModuleMetadatas metadatas;
 
-    /** The logger. */
-    protected static Log logger = LogFactory.getLog(FeederCustomizer.class);
 
     /**
      * Constructor.
@@ -66,7 +68,7 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
 
     /**
      * Generate customization module metadatas.
-     * 
+     *
      * @return metadatas
      */
     private CustomizationModuleMetadatas generateMetadatas() {
@@ -106,11 +108,8 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
     @Override
     public void customize(String customizationID, CustomizationContext context) {
         // Parsing reponse cas
-
-
         try {
-
-            final Map<String, Object> attributes = context.getAttributes();
+            Map<String, Object> attributes = context.getAttributes();
 
             HttpServletRequest request = (HttpServletRequest) attributes.get(IFeederService.CUSTOMIZER_ATTRIBUTE_REQUEST);
 
@@ -122,18 +121,16 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
 
             Element authentication = (Element) doc.getElementsByTagName("cas:serviceResponse").item(0);
 
-            String userId = "";
-
             Map<String, String> personAttributes = new HashMap<String, String>();
 
             // User is Mandatory
-            userId = authentication.getElementsByTagName("cas:user").item(0).getTextContent();
+            String userId = authentication.getElementsByTagName("cas:user").item(0).getTextContent();
 
 
             NodeList casAttributesList = authentication.getElementsByTagName("cas:attributes");
             if (casAttributesList != null) {
                 Node casAttributes = casAttributesList.item(0);
-                if(casAttributes != null) {
+                if (casAttributes != null) {
                     for (int i = 0; i < casAttributes.getChildNodes().getLength(); i++) {
                         Node casAttribute = casAttributes.getChildNodes().item(i);
                         if (casAttribute.getNodeType() == Node.ELEMENT_NODE) {
@@ -145,43 +142,49 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
                         }
                     }
                 }
-
             }
 
-            // Create, Update LDAP
+            // Update LDAP
             PersonUpdateService service = DirServiceFactory.getService(PersonUpdateService.class);
             if (service != null) {
-                Person p = service.getPerson(userId);
-                if (p == null) {
-                    p = service.getEmptyPerson();
-                    p.setCn(userId);
+                Name userDn = service.getEmptyPerson().buildDn(userId);
+                Person person = service.getPersonNoCache(userDn);
+                if (person == null) {
+                    person = service.getEmptyPerson();
+                    person.setCn(userId);
+                    person.setUid(userId);
+                    person.setSn(personAttributes.get("sn"));
+                    person.setCn(personAttributes.get("cn"));
+                    person.setDisplayName(personAttributes.get("displayName"));
+                    person.setMail(personAttributes.get("mail"));
+                    person.setGivenName(personAttributes.get("givenName"));
+                    person.setExternal("fim".equals(personAttributes.get("source")));
+                    person.setLastConnection(new Date());
 
-                    p.setUid(userId);
-                    p.setSn(personAttributes.get("sn"));
-                    p.setCn(personAttributes.get("cn"));
-                    p.setDisplayName(personAttributes.get("displayName"));
-                    p.setMail(personAttributes.get("mail"));
-                    p.setGivenName(personAttributes.get("givenName"));
-
-                    service.create(p);
+                    service.create(person);
                 } else {
                     if (personAttributes.size() > 0) {
-                        if (personAttributes.get("sn") != null)
-                            p.setSn(personAttributes.get("sn"));
-                        if (personAttributes.get("cn") != null)
-                            p.setCn(personAttributes.get("cn"));
-                        if (personAttributes.get("displayName") != null)
-                            p.setDisplayName(personAttributes.get("displayName"));
-                        if (personAttributes.get("mail") != null)
-                            p.setMail(personAttributes.get("mail"));
-                        if (personAttributes.get("givenName") != null)
-                            p.setGivenName(personAttributes.get("givenName"));
+                        if (personAttributes.get("sn") != null) {
+                            person.setSn(personAttributes.get("sn"));
+                        }
+                        if (personAttributes.get("cn") != null) {
+                            person.setCn(personAttributes.get("cn"));
+                        }
+                        if (personAttributes.get("displayName") != null) {
+                            person.setDisplayName(personAttributes.get("displayName"));
+                        }
+                        if (personAttributes.get("mail") != null) {
+                            person.setMail(personAttributes.get("mail"));
+                        }
+                        if (personAttributes.get("givenName") != null) {
+                            person.setGivenName(personAttributes.get("givenName"));
+                        }
                     }
 
-                    service.update(p);
+                    person.setLastConnection(new Date());
+
+                    service.update(person);
                 }
-
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
