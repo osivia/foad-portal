@@ -149,6 +149,8 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
             if (service != null) {
                 Name userDn = service.getEmptyPerson().buildDn(userId);
                 Person person = service.getPersonNoCache(userDn);
+                
+                // User inconnu dans le LDAP
                 if (person == null) {
                     person = service.getEmptyPerson();
                     person.setCn(userId);
@@ -163,6 +165,7 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
 
                     service.create(person);
                 } else {
+
                     if (personAttributes.size() > 0) {
                         if (personAttributes.get("sn") != null) {
                             person.setSn(personAttributes.get("sn"));
@@ -179,8 +182,13 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
                         if (personAttributes.get("givenName") != null) {
                             person.setGivenName(personAttributes.get("givenName"));
                         }
-                    }
 
+                        
+                    }
+                    // Màj de statut externe si non renseigné
+                    if (person.getExternal() == null) {
+                    	person.setExternal("fim".equals(personAttributes.get("source")));
+                    }
                     person.setLastConnection(new Date());
 
                     service.update(person);
