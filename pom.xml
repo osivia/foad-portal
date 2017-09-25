@@ -4,7 +4,7 @@
 
     <groupId>fr.gouv.education.foad</groupId>
     <artifactId>foad-parent</artifactId>
-    <version>1.9</version>
+    <version>1.10-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>FOAD - Parent</name>
@@ -178,7 +178,7 @@
     
     
     <scm>
-        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-demo/foad/tags/1.9</developerConnection>
+        <developerConnection>scm:svn:http://www.osivia.org/repos/osivia-demo/foad/trunk</developerConnection>
     </scm>
     
     
