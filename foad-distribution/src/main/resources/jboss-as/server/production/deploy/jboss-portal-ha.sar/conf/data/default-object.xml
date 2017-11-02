@@ -106,7 +106,7 @@
 
     <deployment>
         <parent-ref />
-        <if-exists>overwrite</if-exists>
+        <if-exists>keep</if-exists>
         <portal>
             <portal-name>foad</portal-name>
             <supported-modes>
