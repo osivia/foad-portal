@@ -19,7 +19,7 @@
         <directory.version>4.4.6</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.11</collaboration.version>
+        <collaboration.version>4.4.12</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4</tasks.version>
