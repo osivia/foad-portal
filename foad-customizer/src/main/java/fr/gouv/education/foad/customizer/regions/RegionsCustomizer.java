@@ -102,6 +102,8 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
             renderedRegion.customizeRenderedRegion("condensed-toolbar", "/regions/condensed-toolbar.jsp");
             // Add logo region
             renderedRegion.customizeRenderedRegion("logo", "/regions/logo.jsp");
+            // Add statistics region
+            renderedRegion.customizeRenderedRegion("stats", "/regions/stats.jsp");
         }
     }
 
