@@ -40,7 +40,7 @@ parallel portalbranch: {
 //		    sh "'${mvnHome}/bin/mvn' clean install -U -f cgu"
 //		}
 		stage("osivia-onlyoffice") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-onlyoffce', remote: 'http://www.osivia.org/repos/osivia-services/onlyoffice/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-onlyoffice', remote: 'http://www.osivia.org/repos/osivia-services/onlyoffice/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-onlyoffice"
 		}
