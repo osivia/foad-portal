@@ -13,7 +13,7 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4-SNAPSHOT</toutatice.version>
+        <toutatice.version>4.4.12-RC1</toutatice.version>
         
         <!-- Directory -->
         <directory.version>4.4.6</directory.version>
@@ -25,7 +25,7 @@
         <tasks.version>4.4</tasks.version>
         <procedure.version>4.4</procedure.version>
         <cgu.version>4.4</cgu.version>
-        <onlyoffice.version>1.0.0-SNAPSHOT</onlyoffice.version>
+        <onlyoffice.version>4.4-RC1</onlyoffice.version>
         
         <!-- Identity SSO -->
         <identity-sso.version>3.0.9</identity-sso.version>
