@@ -37,18 +37,29 @@ import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoConnectionProperties;
  */
 public class CustomizedAttributesBundle implements IAttributesBundle {
 
-    /** . */
+	
+	/** . */
     private static final String FIM_URL_RETOUR = "freduurlretour";
 
     /** SSO applications attribute name. */
     private static final String APPLICATIONS = "osivia.sso.applications";
     /** Toolbar help URL. */
     private static final String TOOLBAR_HELP_URL = "toolbar.help.url";
+
+    /** Piwik url */
+	private static final String STATS_SERVER_URL = "stats.server.url";
+	/** Piwik siteId -identifiant de Tribu dans piwik */
+	private static final String STATS_SERVER_SITEID = "stats.server.siteid";
+	/** identifiant de la custom dimension Id de l'espace dans piwik */
+	private static final String STATS_DIM_SPACEID = "stats.dim.spaceid";
+	/** identifiant de la custom dimension Titre de l'espace dans piwik */
+	private static final String STATS_DIM_SPACETITLE = "stats.dim.spacetitle";
+	
     /** Current space title. */
     private static final String SPACE_TITLE = "stats.space.title";
     /** Current space identifier. */
     private static final String SPACE_ID = "stats.space.id";
-
+    
     /** Singleton instance. */
     private static final IAttributesBundle INSTANCE = new CustomizedAttributesBundle();
 
@@ -213,6 +224,19 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 
         attributes.put(SPACE_TITLE, spaceTitle);
         attributes.put(SPACE_ID, spaceId);
+        
+        if(StringUtils.isNotBlank(System.getProperty(STATS_SERVER_URL))) {
+        	attributes.put(STATS_SERVER_URL, System.getProperty(STATS_SERVER_URL));
+        }
+        if(StringUtils.isNotBlank(System.getProperty(STATS_SERVER_SITEID))) {
+        	attributes.put(STATS_SERVER_SITEID, System.getProperty(STATS_SERVER_SITEID));
+        }
+        if(StringUtils.isNotBlank(System.getProperty(STATS_DIM_SPACEID))) {
+        	attributes.put(STATS_DIM_SPACEID, System.getProperty(STATS_DIM_SPACEID));
+        }
+        if(StringUtils.isNotBlank(System.getProperty(STATS_DIM_SPACETITLE))) {
+        	attributes.put(STATS_DIM_SPACETITLE, System.getProperty(STATS_DIM_SPACETITLE));
+        }        
     }
 
 
