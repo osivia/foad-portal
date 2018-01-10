@@ -31,7 +31,7 @@
 		
 		_paq.push([ 'trackPageView' ]);
 		_paq.push([ 'enableLinkTracking' ]);
-		_paq.push([ 'setTrackerUrl', u + '/piwik.php' ]);
+		_paq.push([ 'setTrackerUrl', u + '/p.php' ]);
 		_paq.push([ 'setSiteId', ui ]);
 		function piwikIntegrated() {
 			(function() {
@@ -40,14 +40,14 @@
 				g.type = 'text/javascript';
 				g.async = true;
 				g.defer = true;
-				g.src = u + '/piwik.js';
+				g.src = u + '/p.js';
 				s.parentNode.insertBefore(g, s);
 			})();
 		}
 	</script>
 	<noscript>
 	    <p>
-	        <img src="${serverUrl}/piwik.php?idsite=${serverSiteId}" style="border: 0;" alt="" />
+	        <img src="${serverUrl}/p.php?idsite=${serverSiteId}" style="border: 0;" alt="" />
 	    </p>
 	</noscript>
 	
