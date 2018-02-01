@@ -5,25 +5,25 @@ parallel portalbranch: {
 		def mvnHome
 		mvnHome = tool 'maven3'
 		stage("osivia-portal") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-portal', remote: 'http://www.osivia.org/repos/osivia-portal/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-portal', remote: 'http://www.osivia.org/repos/osivia-portal/branches/4.4-patchsecu']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -Punpack,pack -f osivia-portal"
 		}
 		stage("toutatice-cms") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'toutatice-cms', remote: 'http://projet.toutatice.fr/repos/toutatice-portail/cms/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'toutatice-cms', remote: 'http://projet.toutatice.fr/repos/toutatice-portail/cms/branches/4.4-patchsecu']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -Punpack,pack -f toutatice-cms"
 		}
-		stage("osivia-directory") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-directory', remote: 'http://www.osivia.org/repos/osivia-services/directory/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		    
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-directory"
-		}
-		stage("osivia-collaboration") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-collaboration', remote: 'http://www.osivia.org/repos/osivia-services/collaboration/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		    
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-collaboration"
-		}
+//		stage("osivia-directory") {
+//		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-directory', remote: 'http://www.osivia.org/repos/osivia-services/directory/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+//		    
+//		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-directory"
+//		}
+//		stage("osivia-collaboration") {
+//		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-collaboration', remote: 'http://www.osivia.org/repos/osivia-services/collaboration/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+//		    
+//		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-collaboration"
+//		}
 //		stage("osivia-procedures") {
 //		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'osivia-procedures', remote: 'http://www.osivia.org/repos/osivia-services/procedure/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 //		    
