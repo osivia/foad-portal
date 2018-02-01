@@ -11,7 +11,3 @@ function addLoadEvent(func) {
 		}
 	}
 }
-
-addLoadEvent(function() {
-	window.setTimeout("piwikIntegrated();", 1000)
-});

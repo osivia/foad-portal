@@ -44,6 +44,11 @@
 				s.parentNode.insertBefore(g, s);
 			})();
 		}
+		
+		addLoadEvent(function() {
+			window.setTimeout("piwikIntegrated();", 1000)
+		});
+
 	</script>
 	<noscript>
 	    <p>
