@@ -40,7 +40,7 @@ parallel portalbranch: {
 //		    sh "'${mvnHome}/bin/mvn' clean install -U -f cgu"
 //		}		
 		stage("foad-distribution") {
-		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad', remote: 'http://www.osivia.org/repos/osivia-demo/foad/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad', remote: 'http://www.osivia.org/repos/osivia-demo/foad/branches/maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f foad -Punpack,pack"
 			//sh "scp foad/foad-distribution/foad-distribution.zip root@192.168.0.200:/root"
