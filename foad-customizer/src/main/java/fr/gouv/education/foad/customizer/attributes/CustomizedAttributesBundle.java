@@ -60,6 +60,7 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
     /** Current space identifier. */
     private static final String SPACE_ID = "stats.space.id";
     
+    
     /** Singleton instance. */
     private static final IAttributesBundle INSTANCE = new CustomizedAttributesBundle();
 
@@ -86,6 +87,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         this.names = new HashSet<String>();
         this.names.add(APPLICATIONS);
         this.names.add(TOOLBAR_HELP_URL);
+        this.names.add(STATS_SERVER_URL);
+        this.names.add(STATS_SERVER_SITEID);
+        this.names.add(STATS_DIM_SPACEID);
+        this.names.add(STATS_DIM_SPACETITLE);
         this.names.add(SPACE_TITLE);
         this.names.add(SPACE_ID);
 
