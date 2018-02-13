@@ -77,11 +77,11 @@ parallel portalbranch: {
 		//    
 		//    sh "'${mvnHome}/bin/mvn' clean install -U -f file-naming"
 		//}
-		//stage("file-versioning") {
-        //    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'file-versioning', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-file-versioning/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
-        //    
-        //    sh "'${mvnHome}/bin/mvn' clean install -U -f file-versioning"
-        //}
+		stage("file-versioning") {
+            checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'file-versioning', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-file-versioning/branches/1.0-MAINTENANCE']], workspaceUpdater: [$class: 'UpdateUpdater']])
+            
+            sh "'${mvnHome}/bin/mvn' clean install -U -f file-versioning"
+        }
 		stage("notifications") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'notifications', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-portal-notifications/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
