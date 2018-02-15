@@ -57,7 +57,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h2 class="panel-title">
-                                            <span><op:translate key="JOIN_WORKSPACES_PANEL_TITLE" /></span>
+                                            <span><op:translate key="OTHER_WORKSPACES_PANEL_TITLE" /></span>
                                         </h2>
                                     </div>
                                 
