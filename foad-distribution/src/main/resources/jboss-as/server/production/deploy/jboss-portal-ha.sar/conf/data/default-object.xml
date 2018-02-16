@@ -104,7 +104,7 @@
         </context>
     </deployment>
 
-        <deployment>
+    <deployment>
         <parent-ref />
         <if-exists>keep</if-exists>
         <portal>
@@ -1111,7 +1111,7 @@ return nuxeoRequest.toString();</value>
     
                 <page>
                     <page-name>search</page-name>
-                    <display-name xml:lang="fr">Recherche</display-name>
+                    <display-name xml:lang="fr">Recherche de documents</display-name>
                     
                     <properties>
                         <property>
@@ -1309,7 +1309,7 @@ return nuxeoRequest.toString();</value>
                                 <name>osivia.nuxeoRequest</name>
                                 <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
 nuxeoRequest.append("ecm:path STARTSWITH '/' ");&#13;
-nuxeoRequest.append("AND ecm:primaryType &lt;&gt; 'Staple' ");&#13;
+nuxeoRequest.append("AND ecm:primaryType NOT IN ('Domain', 'SectionRoot', 'TemplateRoot', 'WorkspaceRoot', 'WebConfigurationFolder', 'WebConfiguration', 'ProceduresContainer', 'ProcedureModel', 'ProcedureInstance', 'Staple') ");&#13;
 &#13;
 // Search&#13;
 if (params.get("search") != null) {&#13;
