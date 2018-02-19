@@ -13,19 +13,19 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4-SNAPSHOT</toutatice.version>
+        <toutatice.version>4.4.12-RC5</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4-SNAPSHOT</directory.version>
+        <directory.version>4.4.12-RC5</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4-SNAPSHOT</collaboration.version>
+        <collaboration.version>4.4.12-RC5</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4</tasks.version>
         <procedure.version>4.4</procedure.version>
         <cgu.version>4.4</cgu.version>
-        <onlyoffice.version>4.4-SNAPSHOT</onlyoffice.version>
+        <onlyoffice.version>4.4.12-RC5</onlyoffice.version>
         
         <!-- Identity SSO -->
         <identity-sso.version>3.0.9</identity-sso.version>
