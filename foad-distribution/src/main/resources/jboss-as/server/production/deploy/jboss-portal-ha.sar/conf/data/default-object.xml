@@ -380,7 +380,7 @@
                             <name>osivia.nuxeoRequest</name>
                             <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
 nuxeoRequest.append("ecm:primaryType = 'Workspace' ");&#13;
-nuxeoRequest.append("AND ttcs:visibility = 'PUBLIC' ");&#13;
+nuxeoRequest.append("AND ttcs:visibility IN ('PUBLIC', 'PUBLIC_INVITATION') ");&#13;
 &#13;
 // Keywords search&#13;
 List keywords = params.get("keywords");&#13;
