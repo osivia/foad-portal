@@ -2660,11 +2660,11 @@ return nuxeoRequest.toString();</value>
                         <properties>
                             <property>
                                 <name>osivia.title</name>
-                                <value>Statistiques de création de documents</value>
+                                <value>Statistiques</value>
                             </property>
                             <property>
                                 <name>osivia.bootstrapPanelStyle</name>
-                                <value>false</value>
+                                <value>true</value>
                             </property>
                             <property>
                                 <name>portal.windowContentType</name>
@@ -2704,6 +2704,10 @@ return builder.toString();</value>
                             </property>
                             <property>
                                 <name>osivia.hideDecorators</name>
+                                <value>1</value>
+                            </property>
+                            <property>
+                                <name>osivia.hideTitle</name>
                                 <value>1</value>
                             </property>
                             <property>
