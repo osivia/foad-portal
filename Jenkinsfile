@@ -107,11 +107,11 @@ parallel portalbranch: {
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f ecm-toutapad"
 		}
-		//stage("wf-integration") {
-		//    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'wf-integration', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-workflows-integration/branches/2.0-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		//    
-		//    sh "'${mvnHome}/bin/mvn' clean install -U -f wf-integration"
-		//}
+		stage("wf-integration") {
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'wf-integration', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-workflows-integration/branches/2.0-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    
+		    sh "'${mvnHome}/bin/mvn' clean install -U -f wf-integration"
+		}
 		//stage("ottc-news") {
 		//   checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'ottc-news', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-news/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		//    
@@ -131,11 +131,11 @@ parallel portalbranch: {
 		//    
 		//    sh "'${mvnHome}/bin/mvn' clean install -U -f ottc-jwt"
 		//}	
-		stage("ottc-onlyoffice") {
-		   checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'ottc-onlyoffice', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
-		    
-		    sh "'${mvnHome}/bin/mvn' clean install -U -f ottc-onlyoffice"
-		}		
+		//stage("ottc-onlyoffice") {
+		//   checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'ottc-onlyoffice', remote: 'http://projet.toutatice.fr/repos/toutatice-ecm/opentoutatice-addons/opentoutatice-onlyoffice/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		//    
+		//    sh "'${mvnHome}/bin/mvn' clean install -U -f ottc-onlyoffice"
+		//}		
 		stage("nx-distrib") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'nx-distrib', remote: 'http://www.osivia.org/repos/osivia-services/nx-distributions/ottc-collab/branches/4.4-maintenance']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f nx-distrib"
