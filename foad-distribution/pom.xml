@@ -97,7 +97,12 @@
 			<version>${onlyoffice.version}</version>
 			<type>war</type>
         </dependency>
-        
+        <dependency>
+        	<groupId>org.osivia.services</groupId>
+			<artifactId>osivia-services-document-creation</artifactId>
+			<version>${document-creation.version}</version>
+			<type>war</type>
+        </dependency>
         
         <!-- Identity SSO -->
         <dependency>
