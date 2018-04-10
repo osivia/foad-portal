@@ -44,6 +44,11 @@ parallel portalbranch: {
 		    
 		    sh "'${mvnHome}/bin/mvn' clean install -U -f osivia-onlyoffice"
 		}
+		stage("document-creation") {
+		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'document-creation', remote: 'http://www.osivia.org/repos/osivia-services/document-creation/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
+		    
+		    sh "'${mvnHome}/bin/mvn' clean install -U -f document-creation"
+		}		
 		stage("foad-distribution") {
 		    checkout([$class: 'SubversionSCM', additionalCredentials: [], excludedCommitMessages: '', excludedRegions: '', excludedRevprop: '', excludedUsers: '', filterChangelog: false, ignoreDirPropChanges: false, includedRegions: '', locations: [[credentialsId: '', depthOption: 'infinity', ignoreExternalsOption: true, local: 'foad', remote: 'http://www.osivia.org/repos/osivia-demo/foad/trunk']], workspaceUpdater: [$class: 'UpdateUpdater']])
 		    
