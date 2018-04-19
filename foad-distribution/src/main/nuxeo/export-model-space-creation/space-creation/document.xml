@@ -34,7 +34,7 @@
     <dc:valid/>
     <dc:format><![CDATA[]]></dc:format>
     <dc:issued/>
-    <dc:modified><![CDATA[2018-04-18T14:03:02.00Z]]></dc:modified>
+    <dc:modified><![CDATA[2018-04-19T13:48:21.00Z]]></dc:modified>
     <dc:language><![CDATA[]]></dc:language>
     <dc:coverage><![CDATA[]]></dc:coverage>
     <dc:expired/>
@@ -219,6 +219,24 @@
           <action>
             <filtersList>
               <filter>
+                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[group]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[]]></filterName>
+                <filterPath><![CDATA[1]]></filterPath>
+              </filter>
+              <filter>
                 <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
                 <argumentsList>
@@ -282,6 +300,13 @@ Pôle FOAD]]></argumentValue>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[0]]></filterPath>
               </filter>
+            </filtersList>
+            <label><![CDATA[Accepter]]></label>
+            <actionId><![CDATA[accept]]></actionId>
+            <stepReference><![CDATA[information]]></stepReference>
+          </action>
+          <action>
+            <filtersList>
               <filter>
                 <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
                 <filterId><![CDATA[SET_ACTOR]]></filterId>
@@ -291,54 +316,9 @@ Pôle FOAD]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
-                  <argument>
-                    <argumentValue><![CDATA[]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[group]]></argumentName>
-                  </argument>
                 </argumentsList>
-                <filterName><![CDATA[]]></filterName>
+                <filterName><![CDATA[Définir l'acteur]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
-              </filter>
-            </filtersList>
-            <label><![CDATA[Accepter]]></label>
-            <actionId><![CDATA[accept]]></actionId>
-            <stepReference><![CDATA[information]]></stepReference>
-          </action>
-          <action>
-            <filtersList>
-              <filter>
-                <filterInstanceId><![CDATA[SendMailFilter0]]></filterInstanceId>
-                <filterId><![CDATA[SendMailFilter]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[La demande de création d'espace ${title} (${description}) a été refusée.]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailFrom]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[continue]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailTo]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[Refus de création d'espace ${title}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[Mail informatif aux administrateurs]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
               </filter>
               <filter>
                 <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
@@ -347,12 +327,12 @@ Pôle FOAD]]></argumentValue>
                   <argument>
                     <argumentValue><![CDATA[Bonjour,
 
-Votre demande de création d’espace « ${title} » a été refusée.
+Votre demande de création d’espace « ${title} (${description}) » a été refusée.
 
 Vous pouvez formuler une nouvelle demande d’espace en prenant en compte les préconisations suivantes :
 
 -          Le nom proposé doit correspondre à la description.
--          Le nom ne peut être "espace de tests, essai, espace collaboratif, Mon espace perso… »
+-          Le nom ne peut être « espace de tests, essai, espace collaboratif, mon espace perso… »
 -          La description doit être suffisamment claire,
 -          Il ne peut pas s'agir d’un espace de stockage ou d’un espace personnel.
 
@@ -387,17 +367,37 @@ Pôle FOAD]]></argumentValue>
                 <filterPath><![CDATA[2]]></filterPath>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterInstanceId><![CDATA[SendMailFilter0]]></filterInstanceId>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
                 <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
+                    <argumentValue><![CDATA[La demande de création d'espace ${title} (${description}) a été refusée.]]></argumentValue>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
+                    <argumentName><![CDATA[body]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentName><![CDATA[mailFrom]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[continue]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[Refus de création d'espace ${title}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[Définir l'acteur]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[Mail informatif aux administrateurs]]></filterName>
+                <filterPath><![CDATA[0]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Refuser]]></label>
@@ -434,12 +434,12 @@ Pôle FOAD]]></argumentValue>
         <actionIdNo><![CDATA[]]></actionIdNo>
       </step>
       <step>
-        <stringMsg><![CDATA[Votre demande de création d’espace « ${title} » a été refusée.
+        <stringMsg><![CDATA[Votre demande de création d’espace « ${title} (${description}) » a été refusée.
 
 Vous pouvez formuler une nouvelle demande d’espace en prenant en compte les préconisations suivantes :
 
 -          Le nom proposé doit correspondre à la description.
--          Le nom ne peut être "espace de tests, essai, espace collaboratif, Mon espace perso… »
+-          Le nom ne peut être « espace de tests, essai, espace collaboratif, mon espace perso… »
 -          La description doit être suffisamment claire,
 -          Il ne peut pas s'agir d’un espace de stockage ou d’un espace personnel.
 ]]></stringMsg>
