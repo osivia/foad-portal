@@ -26,7 +26,7 @@
         <procedure.version>4.4</procedure.version>
         <cgu.version>4.4</cgu.version>
         <onlyoffice.version>4.4.13</onlyoffice.version>
-        <document-creation.version>4.4.13</document-creation.version>
+        <document-creation.version>4.4-SNAPSHOT</document-creation.version>
         
         <!-- Identity SSO -->
         <identity-sso.version>3.0.9</identity-sso.version>
