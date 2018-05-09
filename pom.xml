@@ -43,6 +43,7 @@
         <module>foad-distribution</module>
         <!-- <module>foad-generator</module>  -->
         <module>foad-integrity</module>
+        <module>foad-nx-custom</module>
     </modules>
     
     
