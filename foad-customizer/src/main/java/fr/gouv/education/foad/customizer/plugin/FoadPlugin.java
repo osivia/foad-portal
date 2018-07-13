@@ -7,6 +7,7 @@ import org.osivia.portal.api.menubar.MenubarModule;
 
 import fr.gouv.education.foad.customizer.plugin.menubar.FoadMenubarModule;
 import fr.toutatice.portail.cms.nuxeo.api.domain.AbstractPluginPortlet;
+import fr.toutatice.portail.cms.nuxeo.api.domain.FragmentType;
 
 /**
  * FOAD plugin.
@@ -44,6 +45,7 @@ public class FoadPlugin extends AbstractPluginPortlet {
     protected void customizeCMSProperties(String customizationID, CustomizationContext context) {
         // Customize menubar modules
         this.customizeMenubarModules(context);
+        this.customizeFragments(context);
     }
 
 
@@ -59,6 +61,15 @@ public class FoadPlugin extends AbstractPluginPortlet {
         // FOAD menubar module
         MenubarModule foadModule = new FoadMenubarModule();
         modules.add(foadModule);
+    }
+    
+    private void customizeFragments(CustomizationContext context) {
+
+    	List<FragmentType> fragmentTypes = this.getFragmentTypes(context);
+    	
+    	FragmentType denyFromLocalAccounts = new FragmentType("denyFromLocalAccounts", "Fragment interdit aux utilisateurs locaux", new DenyFromLocalAccountsFragment(null, true));
+    	fragmentTypes.add(denyFromLocalAccounts);
+    	
     }
 
 }

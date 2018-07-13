@@ -44,6 +44,15 @@
             <version>${directory.version}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- CMS nuxeo web fragments -->
+        <dependency>
+            <groupId>toutatice-portail.cms</groupId>
+            <artifactId>toutatice-portail-cms-nuxeo-web</artifactId>
+            <version>${toutatice.version}</version>
+            <classifier>classes</classifier>
+            <!-- <scope>provided</scope> -->
+        </dependency>        
     </dependencies>
 
 </project>

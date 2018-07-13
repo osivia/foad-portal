@@ -66,9 +66,9 @@
 
         <!-- Collaboration -->        
         <dependency>
-            <groupId>org.osivia.services</groupId>
-            <artifactId>osivia-services-collaboration-ear</artifactId>
-            <version>${collaboration.version}</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-collaboration-ear</artifactId>
+            <version>${project.version}</version>
             <type>ear</type>
         </dependency>
         

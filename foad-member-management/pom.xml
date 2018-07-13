@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.gouv.education.foad</groupId>
+		<artifactId>foad-parent</artifactId>
+		<version>4.4-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>foad-member-management</artifactId>
+	<name>FOAD - Members management</name>
+	<packaging>war</packaging>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.osivia.services.workspace</groupId>
+			<artifactId>osivia-services-workspace-member-management</artifactId>
+			<version>${collaboration.version}</version>
+			<classifier>classes</classifier>
+			<scope>provided</scope>
+		</dependency>
+		
+ 		<!-- Directory -->
+ 		<dependency>
+            <groupId>org.osivia.services.directory.socle</groupId>
+            <artifactId>osivia-services-directory-socle-interfaces</artifactId>
+            <version>${directory.version}</version>
+            <scope>provided</scope>
+        </dependency>		
+
+		<dependency>
+			<groupId>org.osivia.services.workspace</groupId>
+			<artifactId>osivia-services-workspace-member-management</artifactId>
+			<version>${collaboration.version}</version>
+			<type>war</type>
+		</dependency>
+	
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<overlays>
+						<overlay>
+					        <groupId>org.osivia.services.workspace</groupId>
+					        <artifactId>osivia-services-workspace-member-management</artifactId>
+							<type>war</type>
+						</overlay>
+					</overlays>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

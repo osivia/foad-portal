@@ -24,7 +24,7 @@
                 <!-- Directory -->
                 <include>org.osivia.services.directory:osivia-services-directory-ear:ear:${directory.version}</include>
                 <!-- Collaboration -->
-                <include>org.osivia.services:osivia-services-collaboration-ear:ear:${collaboration.version}</include>
+                <include>${project.groupId}:foad-collaboration-ear:ear:${project.version}</include>
                 <!-- Other services -->
                 <include>org.osivia.services:osivia-services-tasks:war:${tasks.version}</include>
                 <include>org.osivia.services:osivia-services-procedure:war:${procedure.version}</include>
