@@ -620,7 +620,7 @@ return nuxeoRequest.toString();</value>
                         </property>
                         <property>
                             <name>osivia.fragmentTypeId</name>
-                            <value>html_property</value>
+                            <value>denyFromLocalAccounts</value>
                         </property>
                         <property>
                             <name>osivia.conditionalScope</name>
@@ -1065,6 +1065,44 @@ return nuxeoRequest.toString();</value>
                     </properties>
                     <height>0</height>
                 </window>
+                
+				<window>
+					<window-name>foad-integrity-instance_1521822193199</window-name>
+					<instance-ref>foad-integrity-instance</instance-ref>
+					<region>col-1</region>
+					<properties>
+						<property>
+							<name>theme.order</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>osivia.maximized.cms.url</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>osivia.bootstrapPanelStyle</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>portal.windowContentType</name>
+							<value>portlet</value>
+						</property>
+						<property>
+							<name>osivia.hideDecorators</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>osivia.mobileCollapse</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>osivia.hideTitle</name>
+							<value>1</value>
+						</property>
+					</properties>
+					<height>0</height>
+				</window>                
+                
             </page>
     
             <page>
