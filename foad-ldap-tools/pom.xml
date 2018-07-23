@@ -8,10 +8,10 @@
         <version>4.4-SNAPSHOT</version>
     </parent>
 
-    <artifactId>foad-integrity</artifactId>
+    <artifactId>foad-ldap-tools</artifactId>
     <packaging>war</packaging>
 
-    <name>FOAD - Integrity</name>
+    <name>FOAD - Integrity and LDAP tools</name>
     
     
     <dependencies>
@@ -28,7 +28,7 @@
         <!-- Workspace modifications -->
  		<dependency>
             <groupId>org.osivia.services.workspace</groupId>
-            <artifactId>osivia-services-workspace-edition</artifactId>
+            <artifactId>osivia-services-workspace-member-management</artifactId>
             <version>${collaboration.version}</version>
             <classifier>classes</classifier>
         </dependency>         

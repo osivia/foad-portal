@@ -1,5 +1,11 @@
 package fr.gouv.education.foad.integrity.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.portlet.ActionRequest;
@@ -13,10 +19,16 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.api.internationalization.Bundle;
+import org.osivia.portal.api.internationalization.IBundleFactory;
+import org.osivia.portal.api.notifications.INotificationsService;
+import org.osivia.portal.api.notifications.NotificationsType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
@@ -46,6 +58,14 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     /** service. */
     @Autowired
     private IntegrityService service;
+    
+    /** Bundle factory. */
+    @Autowired
+    protected IBundleFactory bundleFactory;
+
+    /** Notifications service. */
+    @Autowired
+    protected INotificationsService notificationsService;    
 
 
     /**
@@ -119,7 +139,99 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
         
         this.service.checkIntegrity(portalControllerContext, BooleanUtils.toBoolean(repare));
     }
+    
+    /**
+     * Purge users
+     *
+     * @param request action request
+     * @param response action response
+     * @throws PortletException
+     */
+    @ActionMapping(value = "purgeUsers")
+    public void purgeUsers(ActionRequest request, ActionResponse response) throws PortletException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
+        String purge = request.getParameter("purge");
+        
+        this.service.purgeUsers(portalControllerContext, BooleanUtils.toBoolean(purge));
+    }
+    
+
+    /**
+     * 
+     * @return
+     */
+    @ModelAttribute
+    public ChgValidDateForm getChgValidDateForm() {
+    	return new ChgValidDateForm();
+    	
+    }
+    
+    @ActionMapping
+    public void chgValidDate(@ModelAttribute ChgValidDateForm form, ActionRequest request, ActionResponse response) {
+    	
+    	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+    	
+    	String button = request.getParameter("btnName");
+    	boolean test = true;
+    	if(StringUtils.isNotBlank(button) && "run".equals(button)) {
+    		test = false;
+    	}
+    	
+    	Date validity = null;
+    	Date current = null;
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			validity = sdf.parse(form.getValidityDate());
+		} catch (ParseException e) {
+			IBundleFactory bundleFactory2 = getBundleFactory();
+			Bundle bundle = bundleFactory2.getBundle(null);
+			getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_DATE_ERROR"), NotificationsType.ERROR);
+			
+		}
+		
+		if(validity != null) {
+		
+	    	if(StringUtils.isNotBlank(form.getCurrentDate())) {
+	    		try {
+	    			current = sdf.parse(form.getCurrentDate());
+				} catch (ParseException e) {
+					IBundleFactory bundleFactory2 = getBundleFactory();
+					Bundle bundle = bundleFactory2.getBundle(null);
+					getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_DATE_ERROR"), NotificationsType.ERROR);
+					
+				}
+	    		
+	    	}    	
+	    	Integer accountModified = 0;
+	    	
+	    	if(current != null) {
+	    		accountModified = service.chgValidDate(validity, current, test);
+	    	}
+	    	else {
+	    		if(StringUtils.isNotBlank(form.getLogins())) {
+	    			
+	    			String[] split = form.getLogins().split(";");
+	    			List<String> logins = new ArrayList<String>();
+	    					
+	    			for(int i = 0; i < split.length; i++) {
+	    				String trim = StringUtils.trim(split[i]);
+	    				if(StringUtils.isNotBlank(trim)) {
+	    					logins.add(trim);
+	    				}
+	    			}
+	    			
+	    			accountModified = service.chgValidDate(validity, logins, test);
+	
+	    		}
+	    	}
+	    	IBundleFactory bundleFactory2 = getBundleFactory();
+			Bundle bundle = bundleFactory2.getBundle(null);
+			getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_MODIF_OK", accountModified), NotificationsType.SUCCESS);
+		}
+    }
 
     /**
      * {@inheritDoc}
