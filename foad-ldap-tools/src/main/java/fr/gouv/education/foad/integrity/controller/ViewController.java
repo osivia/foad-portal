@@ -168,7 +168,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     	
     }
     
-    @ActionMapping
+    @ActionMapping(value = "chgValidDate")
     public void chgValidDate(@ModelAttribute ChgValidDateForm form, ActionRequest request, ActionResponse response) {
     	
     	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);

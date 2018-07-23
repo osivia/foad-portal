@@ -14,7 +14,7 @@
 <portlet:actionURL name="checkIntegrity" var="repareIntegrityUrl" >
 	<portlet:param name="repare" value="true"/>
 </portlet:actionURL>
-<portlet:actionURL name="testPurgeUsers" var="testPurgeUsersUrl" >
+<portlet:actionURL name="purgeUsers" var="testPurgeUsersUrl" >
 	<portlet:param name="purge" value="false"/>
 </portlet:actionURL>
 <portlet:actionURL name="purgeUsers" var="purgeUsersUrl" >
@@ -22,7 +22,7 @@
 </portlet:actionURL>
 
 
-<portlet:actionURL name="chgValidDateUrl" var="chgValidDateUrl" >
+<portlet:actionURL name="chgValidDate" var="chgValidDateUrl" >
 </portlet:actionURL>
 
 <h3><op:translate key="INTEG_TITLE" /></h3>

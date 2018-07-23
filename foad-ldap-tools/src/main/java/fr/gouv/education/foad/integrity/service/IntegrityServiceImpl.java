@@ -164,6 +164,8 @@ public class IntegrityServiceImpl implements IntegrityService {
 		c.add(Calendar.MONTH, -2);
 		referenceDate = c.getTime();
 		
+		int count = 0;		
+		
 		for(Person p : persons) {
 			log.info("No connection date avaliable for "+p.getUid());
 			
@@ -202,6 +204,8 @@ public class IntegrityServiceImpl implements IntegrityService {
 					if(purge) {
 						memberRepo.updateInvitations(portalControllerContext, form);
 					}
+					
+					count++;
 				}
 				catch(PortletException e) {
 					log.error(e);
@@ -217,6 +221,9 @@ public class IntegrityServiceImpl implements IntegrityService {
 				personService.delete(p);
 			}
 		}
+		
+		log.info(count+" account(s) deleted. Change done.");
+
 		
 	}
 
