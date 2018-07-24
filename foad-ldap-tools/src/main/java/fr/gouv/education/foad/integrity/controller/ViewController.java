@@ -172,6 +172,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     public void chgValidDate(@ModelAttribute ChgValidDateForm form, ActionRequest request, ActionResponse response) {
     	
     	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+		IBundleFactory bundleFactory2 = getBundleFactory();
+		Bundle bundle = bundleFactory2.getBundle(null);
     	
     	String button = request.getParameter("btnName");
     	boolean test = true;
@@ -186,8 +188,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 		try {
 			validity = sdf.parse(form.getValidityDate());
 		} catch (ParseException e) {
-			IBundleFactory bundleFactory2 = getBundleFactory();
-			Bundle bundle = bundleFactory2.getBundle(null);
+
 			getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_DATE_ERROR"), NotificationsType.ERROR);
 			
 		}
@@ -198,15 +199,18 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 	    		try {
 	    			current = sdf.parse(form.getCurrentDate());
 				} catch (ParseException e) {
-					IBundleFactory bundleFactory2 = getBundleFactory();
-					Bundle bundle = bundleFactory2.getBundle(null);
-					getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_DATE_ERROR"), NotificationsType.ERROR);
+
+					getNotificationsService().addSimpleNotification(pcc, bundle.getString("CURRENT_DATE_ERROR"), NotificationsType.ERROR);
 					
 				}
 	    		
 	    	}    	
 	    	Integer accountModified = 0;
 	    	
+	    	if((current != null && StringUtils.isNotBlank(form.getLogins())) || (current == null && StringUtils.isBlank(form.getLogins()))) {
+
+				getNotificationsService().addSimpleNotification(pcc, bundle.getString("METHOD_NOT_CHOOSE"), NotificationsType.ERROR);
+	    	}
 	    	if(current != null) {
 	    		accountModified = service.chgValidDate(validity, current, test);
 	    	}
@@ -227,8 +231,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 	
 	    		}
 	    	}
-	    	IBundleFactory bundleFactory2 = getBundleFactory();
-			Bundle bundle = bundleFactory2.getBundle(null);
+
 			getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_MODIF_OK", accountModified), NotificationsType.SUCCESS);
 		}
     }

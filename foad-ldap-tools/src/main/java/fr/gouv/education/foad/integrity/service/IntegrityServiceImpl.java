@@ -273,8 +273,7 @@ public class IntegrityServiceImpl implements IntegrityService {
 		
 		for(String login : logins) {
 			Person person = personService.getEmptyPerson();
-			person.setUid(login);
-			Name dn = person.buildBaseDn();
+			Name dn = person.buildDn(login);
 			person = personService.getPersonNoCache(dn);
 			
 			if(person != null && person.getUid().endsWith("@tribu.local")) {
