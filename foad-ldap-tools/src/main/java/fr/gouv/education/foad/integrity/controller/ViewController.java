@@ -124,7 +124,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
 
     /**
-     * Generate data action mapping.
+     * 
      *
      * @param request action request
      * @param response action response
@@ -141,6 +141,24 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     }
     
     /**
+     * 
+     *
+     * @param request action request
+     * @param response action response
+     * @throws PortletException
+     */
+    @ActionMapping(value = "purgeInvit")    
+    public void purgeInvit(ActionRequest request, ActionResponse response) throws PortletException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+
+    	String test = request.getParameter("test");
+    	
+    	this.service.purgeInvit(portalControllerContext, BooleanUtils.toBoolean(test));
+    	
+    }
+    
+    /**
      * Purge users
      *
      * @param request action request
@@ -148,26 +166,43 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
      * @throws PortletException
      */
     @ActionMapping(value = "purgeUsers")
-    public void purgeUsers(ActionRequest request, ActionResponse response) throws PortletException {
+    public void purgeUsers(@ModelAttribute PurgeUsersForm form, ActionRequest request, ActionResponse response) throws PortletException {
         // Portal controller context
-        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+    	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+		IBundleFactory bundleFactory2 = getBundleFactory();
+		Bundle bundle = bundleFactory2.getBundle(null);
 
-        String purge = request.getParameter("purge");
-        
-        this.service.purgeUsers(portalControllerContext, BooleanUtils.toBoolean(purge));
-    }
-    
+        String button = request.getParameter("btnName");
+    	boolean test = true;
+    	if(StringUtils.isNotBlank(button) && "run".equals(button)) {
+    		test = false;
+    	}
+    	
+    	if(StringUtils.isNotBlank(form.getLogins())) {
+			
+			String[] split = form.getLogins().split(";");
+			List<String> logins = new ArrayList<String>();
+					
+			for(int i = 0; i < split.length; i++) {
+				String trim = StringUtils.trim(split[i]);
+				if(StringUtils.isNotBlank(trim)) {
+					logins.add(trim);
+				}
+			}
+			
+	        this.service.purgeUsers(pcc, logins, test);
 
-    /**
-     * 
-     * @return
-     */
-    @ModelAttribute
-    public ChgValidDateForm getChgValidDateForm() {
-    	return new ChgValidDateForm();
+		}
+    	else {
+			getNotificationsService().addSimpleNotification(pcc, bundle.getString("PURGE_LOGINS_ERROR"), NotificationsType.ERROR);
+
+    	}
+    	
     	
     }
     
+
+
     @ActionMapping(value = "chgValidDate")
     public void chgValidDate(@ModelAttribute ChgValidDateForm form, ActionRequest request, ActionResponse response) {
     	
@@ -204,15 +239,13 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 					
 				}
 	    		
-	    	}    	
-	    	Integer accountModified = 0;
-	    	
+	    	} 
 	    	if((current != null && StringUtils.isNotBlank(form.getLogins())) || (current == null && StringUtils.isBlank(form.getLogins()))) {
 
 				getNotificationsService().addSimpleNotification(pcc, bundle.getString("METHOD_NOT_CHOOSE"), NotificationsType.ERROR);
 	    	}
 	    	if(current != null) {
-	    		accountModified = service.chgValidDate(validity, current, test);
+	    		service.chgValidDate(pcc, validity, current, test);
 	    	}
 	    	else {
 	    		if(StringUtils.isNotBlank(form.getLogins())) {
@@ -227,14 +260,35 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 	    				}
 	    			}
 	    			
-	    			accountModified = service.chgValidDate(validity, logins, test);
+	    			service.chgValidDate(pcc, validity, logins, test);
 	
 	    		}
 	    	}
 
-			getNotificationsService().addSimpleNotification(pcc, bundle.getString("VALIDITY_MODIF_OK", accountModified), NotificationsType.SUCCESS);
 		}
     }
+    
+    /**
+     * 
+     * @return
+     */
+    @ModelAttribute
+    public ChgValidDateForm getChgValidDateForm() {
+    	return new ChgValidDateForm();
+    	
+    }
+    
+    
+    /**
+     * 
+     * @return
+     */
+    @ModelAttribute
+    public PurgeUsersForm getPurgeUsersForm() {
+    	return new PurgeUsersForm();
+    	
+    }
+        
 
     /**
      * {@inheritDoc}

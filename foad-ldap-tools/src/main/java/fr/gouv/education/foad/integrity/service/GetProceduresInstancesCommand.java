@@ -1,5 +1,8 @@
 package fr.gouv.education.foad.integrity.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.nuxeo.ecm.automation.client.Constants;
 import org.nuxeo.ecm.automation.client.OperationRequest;
 import org.nuxeo.ecm.automation.client.Session;
@@ -22,47 +25,13 @@ import fr.toutatice.portail.cms.nuxeo.api.NuxeoQueryFilterContext;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class GetProceduresInstancesCommand implements INuxeoCommand {
 
-//    /** Workspace identifier. */
-//    private final String workspaceId;
-//    /** Model identifier. */
     private final String modelId;
     /** Invitation state. */
     private final String step;
     /** Invitation uid. */
-    private final String uid;    
-//    /** User identifiers. */
-//    private final Set<String> identifiers;
-
-
-//    /**
-//     * Constructor.
-//     *
-//     * @param workspaceId workspace identifier
-//     */
-//    public GetProceduresInstancesCommand(String workspaceId) {
-//        this(workspaceId, null, false);
-//    }
-//
-//    /**
-//     * Constructor.
-//     *
-//     * @param workspaceId workspace identifier
-//     * @param request invitation request indicator
-//     */
-//    public GetProceduresInstancesCommand(String workspaceId, boolean request) {
-//        this(workspaceId, null, request);
-//    }
-//
-//    /**
-//     * Constructor.
-//     * 
-//     * @param workspaceId workspace identifier
-//     * @param invitationState invitation state
-//     */
-//    public GetProceduresInstancesCommand(String workspaceId, InvitationState invitationState) {
-//        this(workspaceId, invitationState, false);
-//    }
-    
+    private String uid;    
+    /** Date */
+    private Date referenceDate;
     
 
     /**
@@ -72,36 +41,25 @@ public class GetProceduresInstancesCommand implements INuxeoCommand {
      */
     public GetProceduresInstancesCommand(String step, String modelId, String uid) {
 
-//        this.workspaceId = workspaceId;
-//        if (request) {
-//            this.modelId = MemberManagementRepository.REQUEST_MODEL_ID;
-//        } else {
-//            this.modelId = MemberManagementRepository.INVITATION_MODEL_ID;
-//        }
         this.step = step;
         this.modelId = modelId;
         this.uid = uid;
-//        this.identifiers = null;
     }
-//
-//
-//    /**
-//     * Constructor.
-//     *
-//     * @param workspaceId workspace identifier
-//     * @param invitationState invitation state
-//     * @param identifiers user identifiers
-//     */
-//    public GetProceduresInstancesCommand(String workspaceId, InvitationState invitationState, Set<String> identifiers) {
-//        super();
-//        this.workspaceId = workspaceId;
-//        this.modelId = null;
-//        this.invitationState = invitationState;
-//        this.identifiers = identifiers;
-//    }
 
 
     /**
+	 * @param step2
+	 * @param modelId2
+	 * @param referenceDate
+	 */
+	public GetProceduresInstancesCommand(String step, String modelId, Date referenceDate) {
+        this.step = step;
+        this.modelId = modelId;
+        this.referenceDate = referenceDate;
+	}
+
+
+	/**
      * {@inheritDoc}
      */
     @Override
@@ -114,20 +72,26 @@ public class GetProceduresInstancesCommand implements INuxeoCommand {
 //                    .append(this.workspaceId).append("' ");
 //        }
         if (modelId != null) {
-            clause.append("AND pi:procedureModelWebId = 'procedure_"+modelId+"' ");
+            clause.append(" AND pi:procedureModelWebId = 'procedure_"+modelId+"' ");
         }
         if (this.step != null) {
-            clause.append("AND pi:currentStep = '")
+            clause.append(" AND pi:currentStep = '")
                     .append(this.step).append("' ");
         }
         if (this.uid != null) {
-            clause.append("AND pi:globalVariablesValues.").append(MemberManagementRepository.PERSON_UID_PROPERTY).append(" IN (");
+            clause.append(" AND pi:globalVariablesValues.").append(MemberManagementRepository.PERSON_UID_PROPERTY).append(" IN (");
+            clause.append("'").append(uid).append("')");
+        }
+        if (this.referenceDate != null) {
+        	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+            clause.append("AND dc:modified <= DATE '"+sdf.format(referenceDate)+"' ");
 
-            clause.append("'").append(uid).append("'");
-            clause.append(") ORDER BY dc:created DESC");
         }
 
 
+        clause.append(" ORDER BY dc:created");
+        
+        
         // Filtered clause
         String filteredClause = NuxeoQueryFilter.addPublicationFilter(NuxeoQueryFilterContext.CONTEXT_LIVE, clause.toString());
 

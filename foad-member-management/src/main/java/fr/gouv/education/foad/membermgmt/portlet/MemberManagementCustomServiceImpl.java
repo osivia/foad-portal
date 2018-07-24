@@ -53,6 +53,11 @@ public class MemberManagementCustomServiceImpl extends MemberManagementServiceIm
 		if(!localAccountsOwner) {
 			super.updateMembers(portalControllerContext, options, form);
 		}
+		else {
+			// Update model
+	        this.invalidateLoadedForms();
+	        this.getMembersForm(portalControllerContext);
+		}
 	}
 	
 	/**
@@ -71,6 +76,10 @@ public class MemberManagementCustomServiceImpl extends MemberManagementServiceIm
 		
 		if(!localAccountsOwner) {
 			super.updateInvitation(portalControllerContext, form);
+		}
+		else {
+			// Update model
+	        this.invalidateLoadedForms();
 		}
 	}
 	
@@ -93,6 +102,8 @@ public class MemberManagementCustomServiceImpl extends MemberManagementServiceIm
 		if(!localAccountsOwner) {
 			super.createInvitations(portalControllerContext, options, invitationsForm, creationForm);
 		}
+
+		
 	}
 	
 	/**
@@ -113,6 +124,10 @@ public class MemberManagementCustomServiceImpl extends MemberManagementServiceIm
 
 		if(!localAccountsOwner) {
 			super.updateInvitationRequests(portalControllerContext, options, form);
+		}
+		else {
+	        this.invalidateLoadedForms();
+	        this.getInvitationRequestsForm(portalControllerContext);
 		}
 	}
 	

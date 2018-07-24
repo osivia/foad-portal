@@ -26,6 +26,10 @@ import org.osivia.portal.api.cache.services.CacheInfo;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.directory.v2.model.Person;
 import org.osivia.portal.api.directory.v2.service.PersonService;
+import org.osivia.portal.api.internationalization.Bundle;
+import org.osivia.portal.api.internationalization.IBundleFactory;
+import org.osivia.portal.api.notifications.INotificationsService;
+import org.osivia.portal.api.notifications.NotificationsType;
 import org.osivia.services.workspace.portlet.model.Invitation;
 import org.osivia.services.workspace.portlet.repository.MemberManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +57,12 @@ public class IntegrityServiceImpl implements IntegrityService {
 	
 	@Autowired
 	private MemberManagementRepository memberRepo;
+	
+	@Autowired
+	private IBundleFactory bundleFactory;
+	
+	@Autowired
+	private INotificationsService notificationService;
 	
 	/* (non-Javadoc)
 	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#checkIntegrity(org.osivia.portal.api.context.PortalControllerContext)
@@ -150,79 +160,79 @@ public class IntegrityServiceImpl implements IntegrityService {
 	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#purgeUsers(org.osivia.portal.api.context.PortalControllerContext, boolean)
 	 */
 	@Override
-	public void purgeUsers(PortalControllerContext portalControllerContext, boolean purge) {
-		
-		Person search = personService.getEmptyPerson();
-		search.setExternal(true);
+	public void purgeUsers(PortalControllerContext portalControllerContext, List<String> logins, Boolean test) throws PortletException {
 
-		List<Person> persons = personService.findByNoConnectionDate(search);
+		int count = 0;
+		int errCount = 0;
 		NuxeoController controller = new NuxeoController(portalControllerContext);
-		
 		Date referenceDate = new Date();
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(referenceDate); 
 		c.add(Calendar.MONTH, -2);
 		referenceDate = c.getTime();
 		
-		int count = 0;		
-		
-		for(Person p : persons) {
-			log.info("No connection date avaliable for "+p.getUid());
+		for(String login : logins) {
+			Person p = personService.getEmptyPerson();
+			Name dn = p.buildDn(login);
+			p = personService.getPersonNoCache(dn);
 			
-			boolean recentlyInvited = false;
-			
-			Documents invitations = (Documents) controller.executeNuxeoCommand(
-					new GetProceduresInstancesCommand("invitation", "invitation", p.getUid()));
-			
-			if(invitations.size() > 0) {
-				
-				List<Invitation> form = new ArrayList<Invitation>();
-				for(Document invitation : invitations) {
-					
-					Date modified = invitation.getDate("dc:modified");
-					PropertyMap variables = invitation.getProperties().getMap("pi:globalVariablesValues");
-					String workspaceId = variables.get("workspaceId").toString();
-					
-					if(modified.before(referenceDate)) {
-						Invitation invit = new Invitation(p);
-						invit.setDocument(invitation);
-						invit.setDeleted(true);
-						
-						form.add(invit);
-						
-						log.info("Remove invitation for "+p.getUid()+" on "+workspaceId);
-
-					}
-					else {
-						log.info("Cannot remove invitation for "+p.getUid()+" on "+workspaceId+ " (recently modified)");
-						recentlyInvited = true;
-					}
-					
-				}
-				
-				try {
-					if(purge) {
-						memberRepo.updateInvitations(portalControllerContext, form);
-					}
-					
-					count++;
-				}
-				catch(PortletException e) {
-					log.error(e);
-				}
-
+			if(p == null) {
+				log.warn("User "+login+ " not found");
+				errCount++;
+			}
+			else if(p.getLastConnection() != null) {
+				log.warn("User "+p.getUid()+ " has a connection date "+p.getLastConnection());
+				errCount++;
 			}
 			else {
-				log.info("No current invitation for "+p.getUid());
+				boolean recentlyInvited = false;
+				
+				Documents invitations = (Documents) controller.executeNuxeoCommand(
+						new GetProceduresInstancesCommand("invitation", "invitation", p.getUid()));
+				
+				if(invitations.size() > 0) {
+					
+					List<Invitation> form = new ArrayList<Invitation>();
+					for(Document invitation : invitations) {
+						
+						Date modified = invitation.getDate("dc:modified");
+						PropertyMap variables = invitation.getProperties().getMap("pi:globalVariablesValues");
+						String workspaceId = variables.get("workspaceId").toString();
+						
+						if(modified.before(referenceDate)) {
+							Invitation invit = new Invitation(p);
+							invit.setDocument(invitation);
+							invit.setDeleted(true);
+							
+							form.add(invit);
+							
+							log.info("Remove invitation for "+p.getUid()+" on "+workspaceId);
 
-			}
-			
-			if(!recentlyInvited && purge) {
-				personService.delete(p);
+						}
+						else {
+							log.warn("Cannot remove invitation for "+p.getUid()+" on "+workspaceId+ " (recently modified)");
+							recentlyInvited = true;
+							errCount++;
+						}
+						
+					}
+					if(!recentlyInvited && !test) {
+						memberRepo.updateInvitations(portalControllerContext, form);
+					}
+				}
+				if(!recentlyInvited && !test) {
+					personService.delete(p);
+					count++;
+				}
+				
 			}
 		}
 		
-		log.info(count+" account(s) deleted. Change done.");
+
+		log.info(count+" account(s) deleted. "+errCount+" account(s) skipped. Change done.");
+		
+		Bundle bundle = bundleFactory.getBundle(null);
+		notificationService.addSimpleNotification(portalControllerContext, bundle.getString("PURGE_LOGINS_STATUS", count, errCount), NotificationsType.ERROR);
 
 		
 	}
@@ -231,9 +241,10 @@ public class IntegrityServiceImpl implements IntegrityService {
 	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#chgValidDate(java.util.Date, java.lang.Boolean)
 	 */
 	@Override
-	public Integer chgValidDate(Date validity, Date current, Boolean validityTest) {
+	public void chgValidDate(PortalControllerContext portalControllerContext, Date validity, Date current, Boolean validityTest) {
 
 		int count = 0;
+		int errCount = 0;	
 		
 		Person search = personService.getEmptyPerson();
 		search.setValidity(current);;
@@ -253,13 +264,16 @@ public class IntegrityServiceImpl implements IntegrityService {
 				count++;
 			}
 			else {
-				log.info(person.getUid() +" is not valid. Validity date not set");
+				log.warn(person.getUid() +" is not valid. Validity date not set");
 
 			}
 			
 		}
 		log.info(count+" account(s) modified. Change done.");
-		return count;
+		
+		Bundle bundle = bundleFactory.getBundle(null);
+		notificationService.addSimpleNotification(portalControllerContext, bundle.getString("VALIDITY_MODIF_OK", count, errCount), NotificationsType.SUCCESS);
+		
 		
 	}
 
@@ -267,9 +281,10 @@ public class IntegrityServiceImpl implements IntegrityService {
 	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#chgValidDate(java.util.Date, java.util.List, java.lang.Boolean)
 	 */
 	@Override
-	public Integer chgValidDate(Date validity, List<String> logins, Boolean validityTest) {
+	public void chgValidDate(PortalControllerContext portalControllerContext, Date validity, List<String> logins, Boolean validityTest) {
 		
 		int count = 0;
+		int errCount = 0;			
 		
 		for(String login : logins) {
 			Person person = personService.getEmptyPerson();
@@ -289,12 +304,65 @@ public class IntegrityServiceImpl implements IntegrityService {
 				count++;
 			}
 			else {
-				log.info(login +" is not valid. Validity date not set");
+				log.warn(login +" is not valid. Validity date not set");
+				errCount++;
 
 			}
 		}
 		log.info(count+" account(s) modified. Change done.");
-		return count;
+
+		Bundle bundle = bundleFactory.getBundle(null);
+		notificationService.addSimpleNotification(portalControllerContext, bundle.getString("VALIDITY_MODIF_OK", count, errCount), NotificationsType.SUCCESS);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#purgeInvit(org.osivia.portal.api.context.PortalControllerContext, boolean)
+	 */
+	@Override
+	public void purgeInvit(PortalControllerContext portalControllerContext, boolean test) throws PortletException {
+
+		int count = 0;
+		NuxeoController controller = new NuxeoController(portalControllerContext);
+		Date referenceDate = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(referenceDate); 
+		c.add(Calendar.MONTH, -2);
+		referenceDate = c.getTime();
+		
+		Documents invitations = (Documents) controller.executeNuxeoCommand(
+				new GetProceduresInstancesCommand("invitation", "invitation", referenceDate));
+		
+		if(invitations.size() > 0) {
+			
+			List<Invitation> form = new ArrayList<Invitation>();
+			for(Document invitation : invitations) {
+				
+				Date modified = invitation.getDate("dc:modified");
+				PropertyMap variables = invitation.getProperties().getMap("pi:globalVariablesValues");
+				String workspaceId = variables.get("workspaceId").toString();
+				String uid = variables.get("uid").toString();
+				
+				Invitation invit = new Invitation(uid);
+				invit.setDocument(invitation);
+				invit.setDeleted(true);
+				
+				form.add(invit);
+				count++;
+				log.info("Remove invitation for "+uid+" on "+workspaceId+ " created on "+modified);
+				
+			}
+			if(!test) {
+				memberRepo.updateInvitations(portalControllerContext, form);
+			}
+		}
+		
+		log.info(count+" invitations removed. Change done.");
+		
+		Bundle bundle = bundleFactory.getBundle(null);
+		notificationService.addSimpleNotification(portalControllerContext, bundle.getString("PURGE_INVITS_STATUS", count), NotificationsType.ERROR);
+
+		
 	}
 
 
