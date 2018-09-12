@@ -152,9 +152,15 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
-    	String test = request.getParameter("test");
+    	String testStr = request.getParameter("test");
     	
-    	this.service.purgeInvit(portalControllerContext, BooleanUtils.toBoolean(test));
+    	boolean test = BooleanUtils.toBoolean(testStr);
+    	if(test) { 
+    		this.service.purgeInvit(portalControllerContext, test);
+    	}
+    	else {
+    		this.service.purgeAllInvit(portalControllerContext);
+    	}
     	
     }
     

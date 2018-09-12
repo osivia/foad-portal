@@ -25,7 +25,10 @@ import fr.toutatice.portail.cms.nuxeo.api.NuxeoQueryFilterContext;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class GetProceduresInstancesCommand implements INuxeoCommand {
 
-    private final String modelId;
+	/** Number of procs returned */
+    public static final String PAGE_SIZE = "200";
+    
+	private final String modelId;
     /** Invitation state. */
     private final String step;
     /** Invitation uid. */
@@ -99,6 +102,8 @@ public class GetProceduresInstancesCommand implements INuxeoCommand {
         OperationRequest request = nuxeoSession.newRequest("Document.QueryES");
         request.set(Constants.HEADER_NX_SCHEMAS, "dublincore, procedureInstance");
         request.set("query", "SELECT * FROM Document WHERE " + filteredClause);
+        request.set("pageSize", PAGE_SIZE);
+        request.set("currentPageIndex", 0);
 
         return request.execute();
     }

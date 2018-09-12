@@ -320,9 +320,9 @@ public class IntegrityServiceImpl implements IntegrityService {
 	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#purgeInvit(org.osivia.portal.api.context.PortalControllerContext, boolean)
 	 */
 	@Override
-	public void purgeInvit(PortalControllerContext portalControllerContext, boolean test) throws PortletException {
+	public Integer purgeInvit(PortalControllerContext portalControllerContext, boolean test) throws PortletException {
 
-		int count = 0;
+		Integer count = 0;
 		NuxeoController controller = new NuxeoController(portalControllerContext);
 		Date referenceDate = new Date();
 		Calendar c = Calendar.getInstance(); 
@@ -357,14 +357,34 @@ public class IntegrityServiceImpl implements IntegrityService {
 			}
 		}
 		
-		log.info(count+" invitations removed. Change done.");
-		
-		Bundle bundle = bundleFactory.getBundle(null);
-		notificationService.addSimpleNotification(portalControllerContext, bundle.getString("PURGE_INVITS_STATUS", count), NotificationsType.ERROR);
+		log.info(count+" invitations removed.");
 
+		return count;
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#purgeAllInvit(org.osivia.portal.api.context.PortalControllerContext)
+	 */
+	@Override
+	public void purgeAllInvit(PortalControllerContext portalControllerContext) throws PortletException {
+		
+		Integer totalPurgeCount = 0;
+		Integer purgeCount = purgeInvit(portalControllerContext, Boolean.FALSE);
+		totalPurgeCount = totalPurgeCount + purgeCount;
+		
+		while(purgeCount == Integer.parseInt(GetProceduresInstancesCommand.PAGE_SIZE)) {
+			purgeCount = purgeInvit(portalControllerContext, Boolean.FALSE);
+			totalPurgeCount = totalPurgeCount + purgeCount;
+		}
+		
+		log.info(totalPurgeCount+" invitations removed. Change done.");
+
+		
+		Bundle bundle = bundleFactory.getBundle(null);
+		notificationService.addSimpleNotification(portalControllerContext, bundle.getString("PURGE_INVITS_STATUS", totalPurgeCount), NotificationsType.SUCCESS);
+
+	}
 
 
 

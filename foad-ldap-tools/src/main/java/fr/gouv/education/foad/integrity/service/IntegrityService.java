@@ -23,13 +23,23 @@ public interface IntegrityService {
 	void checkIntegrity(PortalControllerContext portalControllerContext, boolean repare) throws PortletException;
 
 	/**
-	 * Remove invitations
+	 * Remove a set of invitations
 	 * 
 	 * @param portalControllerContext
 	 * @param boolean1
 	 * @throws PortletException 
 	 */
-	void purgeInvit(PortalControllerContext portalControllerContext, boolean test) throws PortletException;
+	Integer purgeInvit(PortalControllerContext portalControllerContext, boolean test) throws PortletException;
+	
+	
+	/**
+	 * Remove all expired invitations
+	 * @param portalControllerContext
+	 * @throws PortletException
+	 */
+	void purgeAllInvit(PortalControllerContext portalControllerContext) throws PortletException;
+
+	
 	
 	/**
 	 * Remove users with no connexion date
