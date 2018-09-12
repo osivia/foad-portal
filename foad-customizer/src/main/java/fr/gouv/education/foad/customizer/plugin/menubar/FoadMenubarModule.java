@@ -33,12 +33,16 @@ public class FoadMenubarModule implements MenubarModule {
 
 
     /**
+     * Suppression fonctionnalités socle : synchro Drive & Publication distante
+     * Suppression types de fichiers : audio, video (redondant avec fichier), pad (obsolète avec Onlyoffice).
+     * 
      * {@inheritDoc}
      */
     @Override
     public void customizeDocument(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
             DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
-        Set<String> removedIdentifiers = new HashSet<>(Arrays.asList(new String[]{"SYNCHRONIZE_ACTION", "REMOTE_PUBLISHING_URL"}));
+        Set<String> removedIdentifiers = new HashSet<>(Arrays.asList(new String[]{"SYNCHRONIZE_ACTION", "REMOTE_PUBLISHING_URL", 
+        		"ADD_AUDIO", "ADD_VIDEO", "ADD_TOUTATICEPAD"}));
 
         BasicPublicationInfos publicationInfos = documentContext.getPublicationInfos(BasicPublicationInfos.class);
         if (publicationInfos.isDraft()) {
