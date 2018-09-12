@@ -5,6 +5,7 @@ package fr.gouv.education.foad.customizer.feeder;
 
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -150,10 +151,9 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
                 Name userDn = service.getEmptyPerson().buildDn(userId);
                 Person person = service.getPersonNoCache(userDn);
                 
-                // User inconnu dans le LDAP
+                // User inconnu dans le LDAP arrivant de la FIM
                 if (person == null) {
                     person = service.getEmptyPerson();
-                    person.setCn(userId);
                     person.setUid(userId);
                     person.setSn(personAttributes.get("sn"));
                     person.setCn(personAttributes.get("cn"));
@@ -161,35 +161,26 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
                     person.setMail(personAttributes.get("mail"));
                     person.setGivenName(personAttributes.get("givenName"));
                     person.setExternal("fim".equals(personAttributes.get("source")));
-                    person.setLastConnection(new Date());
 
                     service.create(person);
-                } else {
-
-                    if (personAttributes.size() > 0) {
-                        if (personAttributes.get("sn") != null) {
-                            person.setSn(personAttributes.get("sn"));
-                        }
-                        if (personAttributes.get("cn") != null) {
-                            person.setCn(personAttributes.get("cn"));
-                        }
-                        if (personAttributes.get("displayName") != null) {
-                            person.setDisplayName(personAttributes.get("displayName"));
-                        }
-                        if (personAttributes.get("mail") != null) {
-                            person.setMail(personAttributes.get("mail"));
-                        }
-                        if (personAttributes.get("givenName") != null) {
-                            person.setGivenName(personAttributes.get("givenName"));
-                        }
-
-                        
-                    }
+                } else { // Si user connu (FIM, ou interne)
+                	
                     // Màj de statut externe si non renseigné
                     if (person.getExternal() == null) {
                     	person.setExternal("fim".equals(personAttributes.get("source")));
                     }
-                    person.setLastConnection(new Date());
+                    
+                    // Màj de la date de dernière connexion
+                    if(person.getLastConnection() != null) {
+                    	person.setLastConnection(new Date());
+                    	
+                    	// Reprise des anciens comptes, définition arbirtraire de la date de création du compte.
+                    	if(person.getCreationDate() == null) {
+	                    	Calendar instance = Calendar.getInstance();
+	                    	instance.set(2017, Calendar.SEPTEMBER, 1, 0,0);
+	                    	person.setCreationDate(instance.getTime());
+                    	}
+                    }
 
                     service.update(person);
                 }

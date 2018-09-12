@@ -183,7 +183,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
         // Person
         Person person = this.personService.getPerson(principal.getName());
 
-        if ((person != null) && StringUtils.isBlank(person.getDisplayName())) {
+        if (person.getLastConnection() == null) {
             // Page
             Page page = configuration.getPage();
             // Window
