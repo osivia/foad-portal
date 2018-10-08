@@ -180,11 +180,15 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
         String button = request.getParameter("btnName");
     	boolean test = true;
-    	if(StringUtils.isNotBlank(button) && "run".equals(button)) {
+    	if(StringUtils.isNotBlank(button) && ("run".equals(button))) {
     		test = false;
     	}
     	
-    	if(StringUtils.isNotBlank(form.getLogins())) {
+    	if(form.getPurgeAll()) {
+	        this.service.purgeAllUsers(pcc, test);
+
+    	}
+    	else if(StringUtils.isNotBlank(form.getLogins())) {
 			
 			String[] split = form.getLogins().split(";");
 			List<String> logins = new ArrayList<String>();
