@@ -1,5 +1,7 @@
-<%@ page contentType="text/html" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@ page contentType="text/html" isELIgnored="false"%>
+
 
 <c:set var="serverUrl" value="${requestScope['stats.server.url']}" />
 <c:set var="serverSiteId" value="${requestScope['stats.server.siteid']}" />
@@ -12,9 +14,8 @@
 
 
 <c:if test="${not empty serverUrl}">
-
-	<!-- Piwik -->
-	<script type="text/javascript">
+    <!-- Piwik -->
+    <script type="text/javascript">
 		var u = "${serverUrl}";
 		var ui = ${serverSiteId};
 		var _paq = _paq || [];
@@ -48,15 +49,11 @@
 		addLoadEvent(function() {
 			window.setTimeout("piwikIntegrated();", 1000)
 		});
-
 	</script>
-	<noscript>
-	    <p>
-	        <img src="${serverUrl}/p.php?idsite=${serverSiteId}" style="border: 0;" alt="" />
-	    </p>
-	</noscript>
-	
-
-
+    <noscript>
+        <p>
+            <img src="${serverUrl}/p.php?idsite=${serverSiteId}" style="border: 0;" alt="" />
+        </p>
+    </noscript>
 </c:if>
 

@@ -1,29 +1,45 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
 <!-- Header -->
-<header class="banner hidden-xs">
-    <div class="container-fluid">
+<header class="hidden-xs">
+    <div class="container">
         <div class="row">
-            <div class="col-sm-8">
-                <!-- Logo -->
-                <p:region regionName="logo" />
+            <div class="col">
+                <c:choose>
+                    <c:when test="${home}">
+                        <!-- Logo EN -->
+                        <div class="logo-en">
+                            <img src="/foad-charte/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation Nationale">
+                        </div>
+                    </c:when>
+                    
+                    <c:otherwise>
+                        <!-- Workspace title -->
+                        <p:region regionName="workspace-title" />
+                    </c:otherwise>
+                </c:choose>
             </div>
             
-            <div class="col-sm-4">
-                <!-- Search -->
-                <p:region regionName="search" />
+            <div class="col">
+                <!-- Toolbar -->
+                <p:region regionName="toolbar" />
             </div>
         </div>
-    </div>
     
-    <div class="background-fading"></div>
+        <c:choose>
+            <c:when test="${home}">
+                <!-- Logo Tribu large -->
+                <div class="logo-tribu-large">
+                    <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
+                </div>
+            </c:when>
+        
+            <c:when test="${workspace}">
+                <!-- Workspace tabs -->
+                <p:region regionName="workspace-tabs" />
+            </c:when>
+        </c:choose>
+    </div> 
 </header>
-
-
-<!-- Tabs -->
-<div class="tabs-container hidden-xs">
-    <div class="container-fluid">
-        <p:region regionName="tabs" />
-    </div>
-</div>

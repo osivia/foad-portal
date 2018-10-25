@@ -96,19 +96,8 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
         if (CHARTE_CONTEXT_PATH.equals(contextPath)) {
             // Replace default toolbar region
             renderedRegion.customizeRenderedRegion("toolbar", "/regions/toolbar.jsp");
-            // Replace default drawer toolbar region
-            renderedRegion.customizeRenderedRegion("drawer-toolbar", "/regions/drawer-toolbar.jsp");
-            // Add condensed toolbar region
-            renderedRegion.customizeRenderedRegion("condensed-toolbar", "/regions/condensed-toolbar.jsp");
-            // Add logo region
-            renderedRegion.customizeRenderedRegion("logo", "/regions/logo.jsp");
             // Add statistics region
             renderedRegion.customizeRenderedRegion("stats", "/regions/stats.jsp");
-
-            // Decorate regions
-            renderedRegion.decoratePortletsRegion("search-toolbar", "/regions/decorators/search-toolbar-header.jsp", null);
-            renderedRegion.decoratePortletsRegion("search-filters", "/regions/decorators/search-filters-header.jsp",
-                    "/regions/decorators/search-filters-footer.jsp");
         }
     }
 

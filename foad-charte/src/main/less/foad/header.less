@@ -3,18 +3,72 @@
 // -----------------------------------------------------
 
 
-@header-background-height: 169px;
-@inner-height: @header-background-height - 3 * @line-height-computed;
+@header-height: 104px;
+@header-height-home: 144px;
+@row-height: 56px;
 
 
 header {
-    position: relative;
-    height: @header-background-height;
-    
     background-image: url("../img/header-background.png");
-    background-repeat: repeat-x;
+    background-position-x: center;
+    background-size: cover;
     
-    .container-fluid {
+    .container {
+        position: relative;
+        height: @header-height;
+        
+        body.home & {
+            height: @header-height-home;
+        }
+    }
+    
+    .row {
+        display: flex;
+        height: @row-height;
+        
+        body.home & {
+            height: 100%;
+        }
+    }
+    
+    .col {
+        padding-left: floor(@grid-gutter-width / 2);
+        padding-right: floor(@grid-gutter-width / 2);
+        
+        &:first-child {
+            display: flex;
+            align-items: center;
+        }
+        
+        &:last-child {
+            flex-grow: 1;
+        }
+    }
+    
+    .logo-en, .toolbar {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .toolbar {
+        margin-top: floor(@line-height-computed / 2);
+        padding-bottom: 0;
+        
+        .list-inline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: end;
+        }
+        
+        .form-inline {
+            .form-group {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    .logo-tribu-large {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -22,37 +76,13 @@ header {
         right: 0;
         z-index: 1;
         
-        padding-top: @line-height-computed;
-        padding-bottom: 2 * @line-height-computed;
-    }
-
-    .logo {
-        img {
-            max-height: @inner-height;
-        }
-        
-        a {
-            text-decoration: none;
-        }
-        
-        > :not(:first-child) {
-            margin-left: @padding-large-horizontal;
-        }
-    }
-    
-    h1 {
-        margin: floor(@line-height-computed / 2) 0;
+        padding: @line-height-computed;
         
         text-align: center;
-    }
-    
-    .background-fading {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 250px;
         
-        #gradient.horizontal(@start-color: fade(#fff, 95%); @end-color: fade(#fff, 0%); @start-percent: 0%; @end-percent: 100%);
+        img {
+            max-height: 100%;
+            max-width: 100%;
+        }
     }
 }
