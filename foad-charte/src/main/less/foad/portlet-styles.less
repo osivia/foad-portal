@@ -4,57 +4,46 @@
 
 
 .portlet-container {
+    .portlet-header {
+        .portlet-titlebar-title {
+            position: relative;
+            
+            margin-top: 0;
+            margin-bottom: floor(@line-height-computed / 2);
+            padding-bottom: floor(@line-height-computed / 2) + 2;
+            
+            font-family: @font-family-sans-serif;
+            font-size: @font-size-base;
+            font-weight: 500;
+            line-height: @line-height-base;
+            text-transform: uppercase;
+            
+            &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 2px;
+                width: 20px;
+                
+                background-color: @brand-primary;
+            }
+        }
+    }
+    
     
     &.no-margin {
         margin: 0;   
     }
     
-    
-    &.box-shadow {
-        padding: @padding-base-vertical @padding-base-horizontal;
-                
-        background-color: fade(@body-bg, 70%);
-    }
-    
-    
-    &.workspace-header-background {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: -1;
-        
-        overflow: hidden;
-        
-        margin-bottom: 0;
-        
-        background-color: @body-bg;
-        
-        img {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+    &.welcome-note {
+        h1 {
+            margin-top: 0;
+            margin-bottom: 24px;
             
-            min-height: 100%;
-            min-width: 100%;
-            max-width: none;
-            
-            margin: auto;
-        }
-    }
-    
-    &.workspace-title {
-        font-size: @font-size-h3;
-    }
-    
-    &.thumbnail {
-        img {
-            &, &.img-responsive {
-                max-width: none;
-            }
+            font-weight: 300;
+            line-height: 1;
         }
     }
     

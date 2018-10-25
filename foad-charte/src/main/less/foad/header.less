@@ -9,6 +9,8 @@
 
 
 header {
+    margin-bottom: 24px;
+    
     background-image: url("../img/header-background.png");
     background-position-x: center;
     background-size: cover;
@@ -47,25 +49,7 @@ header {
     
     .logo-en, .toolbar {
         position: relative;
-        z-index: 2;
-    }
-    
-    .toolbar {
-        margin-top: floor(@line-height-computed / 2);
-        padding-bottom: 0;
-        
-        .list-inline {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: end;
-        }
-        
-        .form-inline {
-            .form-group {
-                margin-bottom: 0;
-            }
-        }
+        z-index: @zindex-navbar;
     }
     
     .logo-tribu-large {
@@ -76,8 +60,10 @@ header {
         right: 0;
         z-index: 1;
         
+        margin: 0;
         padding: @line-height-computed;
         
+        color: @white;
         text-align: center;
         
         img {

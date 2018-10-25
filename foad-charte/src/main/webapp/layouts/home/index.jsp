@@ -20,7 +20,27 @@
     <!-- Main -->
     <main>
         <div class="container">
-        
+            <p:region regionName="top" />
+            
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <p:region regionName="col-1" />
+                </div>
+                
+                <div class="col-sm-6 col-lg-3">
+                    <p:region regionName="col-2" />
+                </div>
+                
+                <div class="clearfix hidden-lg"></div>
+                
+                <div class="col-sm-6 col-lg-3">
+                    <p:region regionName="col-3" />
+                </div>
+                
+                <div class="col-sm-6 col-lg-3">
+                    <p:region regionName="col-4" />
+                </div>
+            </div>
         </div>
     </main>
     

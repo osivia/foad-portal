@@ -4,42 +4,58 @@
 
 
 .toolbar {
-    &.condensed-toolbar {
-        @media (min-width: @screen-sm-min) {
-            padding-top: 50px;
+    margin-top: floor(@line-height-computed / 2);
+    padding-bottom: 0;
+    
+    .list-inline {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: end;
+    }
+    
+    .form-inline {
+        .form-group {
+            margin-bottom: 0;
+        }
+    }
+    
+    .btn-link {
+        &, &:hover, &:focus {
+            color: @white;    
+        }
+    }
+    
+    .form-control {
+        color: @white;
+        border-color: @white;
+        
+        .placeholder(@color: @gray-lighter);
+        
+        &:focus {
+            .box-shadow(@shadow: none);
+        }
+    }
+    
+    .navbar-nav {
+        > li {
+            > a {
+                &:extend(.btn all);
+                &:extend(.btn-link all);
+                .btn-link;
+            }
             
-            background-image: url("../img/toolbar-background.png");
-            background-repeat: repeat-x;
-            
-            .navbar {
-                &.navbar-default {
-                    background-color: fade(@navbar-default-bg, 70%);
-                }
+            > .dropdown-menu {
+                margin-top: 2px;
                 
-                .navbar-nav {
-                    > .open {
-                        > a {
-                            &, &:hover, &:focus {
-                                background-color: fade(@navbar-default-link-active-bg, 70%);
-                            }
-                        }
-                    }
-                }
+                .border-top-radius(@radius: @border-radius-base);
             }
         }
     }
     
-    .navbar-brand {
-        img {
-            height: @line-height-computed + 10;
-            
-            margin: -5px 0;
-        }
+    button[name="open-tasks"] {
+        .counter {
+            top: -6px;
+        }    
     }
-}
-
-
-.drawer-toolbar-header {
-    background-image: url("../img/drawer-background.png");
-    background-repeat: repeat-x;
 }

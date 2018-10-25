@@ -31,9 +31,9 @@
         <c:choose>
             <c:when test="${home}">
                 <!-- Logo Tribu large -->
-                <div class="logo-tribu-large">
+                <h1 class="logo-tribu-large">
                     <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
-                </div>
+                </h1>
             </c:when>
         
             <c:when test="${workspace}">
