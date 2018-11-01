@@ -1048,7 +1048,7 @@ nuxeoRequest.append("AND ecm:path STARTSWITH '/default-domain/workspaces' ");&#1
 &#13;
 // Keywords search&#13;
 if (params.get("workspace-keywords") != null) {&#13;
-nuxeoRequest.append("AND ").append(NXQLFormater.formatTextSearch("dc:title", params.get("workspace-keywords"))).append(" ");&#13;
+nuxeoRequest.append("AND ").append(NXQLFormater.formatAdvancedSearch(params.get("workspace-keywords"))).append(" ");&#13;
 }&#13;
 &#13;
 nuxeoRequest.append("ORDER BY dc:title");&#13;
