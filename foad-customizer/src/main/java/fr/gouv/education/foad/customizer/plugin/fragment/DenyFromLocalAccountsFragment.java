@@ -1,4 +1,4 @@
-package fr.gouv.education.foad.customizer.plugin;
+package fr.gouv.education.foad.customizer.plugin.fragment;
 
 import javax.portlet.PortletContext;
 import javax.portlet.PortletException;

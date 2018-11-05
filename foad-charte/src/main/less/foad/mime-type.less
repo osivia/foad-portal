@@ -1,0 +1,84 @@
+//
+// Charte FOAD - MIME type
+// -----------------------------------------------------
+
+
+@mime-type-size: 40px;
+
+
+.mime-type {
+    display: block;
+    
+    height: @mime-type-size;
+    width: @mime-type-size;
+    
+    color: @white;
+    background-color: @gray-light;
+    border-radius: @border-radius-base;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: @mime-type-size;
+    text-align: center;
+    text-transform: uppercase;
+    
+    &::before {
+        content: attr(data-extension);
+    }
+    
+    
+    &.mime-type-unknown {
+        &::before {
+            content: "?";
+        }
+    }
+    
+    
+    &[data-primary-type=text] {
+        background-color: #4f4466;
+    }
+    
+    &[data-primary-type=image] {
+        background-color: #446660;
+    }
+    
+    &[data-primary-type=audio] {
+        background-color: #5b6644;
+    }
+    
+    &[data-primary-type=video] {
+        background-color: #66444a;
+    }
+    
+    &.mime-type-pdf {
+        background-color: #c70909;
+    }
+    
+    &.mime-type-doc, &.mime-type-docx {
+        background-color: #2a5699;
+    }
+    
+    &.mime-type-xls, &.mime-type-xlsx {
+        background-color: #207245;
+    }
+    
+    &.mime-type-ppt, &.mime-type-pptx {
+        background-color: #d24625;
+    }
+    
+    &.mime-type-odt {
+        background-color: #01649d;
+    }
+    
+    &.mime-type-ods {
+        background-color: #189d04;
+    }
+    
+    &.mime-type-odp {
+        background-color: #c49803;
+    }
+    
+    &.mime-type-bz, &.mime-type-bz2, &.mime-type-gzip, &.mime-type-rar, &.mime-type-tar, &.mime-type-zip {
+        background-color: #a98b61;
+    }
+}

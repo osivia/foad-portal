@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+
+    <description>FOAD taglib.</description>
+    <display-name>FOAD</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>foad</short-name>
+    <uri>https://tribu.phm.education.gouv.fr/jsp/taglib/foad</uri>
+    
+
+    <tag>
+        <description>Get MIME type icon.</description>
+        <display-name>Get MIME type icon</display-name>
+        <name>mimeTypeIcon</name>
+        <tag-class>fr.gouv.education.foad.taglib.GetMimeTypeIconTag</tag-class>
+        <body-content>empty</body-content>
+        
+        <attribute>
+            <description>Mime type string representation.</description>
+            <name>mimeType</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    
+</taglib>

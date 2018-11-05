@@ -40,6 +40,11 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-taglib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
         <!-- Toutatice CMS -->
         <dependency>
@@ -114,6 +119,12 @@
             <groupId>org.osivia.services</groupId>
             <artifactId>osivia-services-java-melody-integration</artifactId>
             <version>${java-melody.version}</version>
+        </dependency>
+        
+        <!-- Commons CSV -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
         </dependency>
        
     </dependencies>
@@ -192,6 +203,19 @@
                                             <outputDirectory>${project.build.directory}/toutatice-distribution</outputDirectory>
                                         </artifactItem>
                                     </artifactItems>
+                                </configuration>
+                            </execution>
+                            
+                            <execution>
+                                <id>import-dependencies</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <includeArtifactIds>
+                                        commons-csv
+                                    </includeArtifactIds>
                                 </configuration>
                             </execution>
                         </executions>

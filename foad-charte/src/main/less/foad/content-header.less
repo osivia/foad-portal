@@ -1,0 +1,85 @@
+//
+// Charte FOAD - Content header
+// -----------------------------------------------------
+
+
+.content-header-container {
+    margin-bottom: 2 * @line-height-computed;
+    
+    .breadcrumb {
+        margin-bottom: floor(@line-height-computed / 2);
+        padding: 0;
+        
+        li {
+            &::before {
+                color: @text-color;
+            }
+        }
+        
+        a {
+            color: @text-color;
+            
+            &:hover, &:focus {
+                color: darken(@text-color, 15%);
+            }
+        }
+        
+        .active {
+            color: @text-color;
+        }
+    }
+    
+    
+    .content-header-navbar {
+        display: flex;
+        align-items: center;
+        
+        margin-bottom: @line-height-computed;
+        
+        > :first-child {
+            flex-grow: 1;
+        }
+    }
+    
+    
+    .content-title {
+        margin: 0;
+        
+        font-weight: 300;
+        line-height: 1;
+    }
+    
+    
+    .menubar {
+        @menubar-item-size: @font-size-h1;
+        
+        &, > li > ul {
+            display: flex;
+            align-items: center;
+            
+            margin-bottom: 0;
+            padding-left: 0;
+            
+            list-style: none;
+        }
+        
+        > li > ul > li > a {
+            display: block;
+            height: @menubar-item-size;
+            min-width: @menubar-item-size;
+            
+            margin-left: @line-height-computed;
+            
+            color: @white;
+            background-color: @text-color;
+            border-radius: floor(@menubar-item-size / 2);
+            line-height: @menubar-item-size;
+            text-align: center;
+            text-decoration: none;
+            
+            &:hover, &:focus {
+                background-color: darken(@text-color, 15%);
+            }
+        }
+    }
+}

@@ -1,0 +1,108 @@
+//
+// Charte FOAD - Tiles
+// -----------------------------------------------------
+
+
+.tiles {
+    margin-bottom: @line-height-computed;
+    
+    .panel {
+        margin-bottom: floor(@line-height-computed / 2);
+    }
+    
+    .panel-body {
+        > :last-child {
+            &, > :last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    h3 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        margin: 0;
+        padding-bottom: floor(@line-height-computed / 2);
+        
+        font-size: @font-size-h4;
+    }
+    
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        
+        > :not(:last-child) {
+            margin-right: 5px;
+        }
+    }
+    
+    .label, .btn {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+        margin-top: floor(@line-height-computed / 2);
+        padding: 8px;
+        
+        font-size: 13px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+    
+    .label {
+        display: inline-block;
+        
+        border-style: solid;
+        border-width: 1px;
+        border-color: transparent;
+        border-radius: @border-radius-base;
+        line-height: @line-height-base;
+        
+        &.label-success {
+            background-color: @green;
+        }
+        
+        &.label-warning {
+            background-color: @pink;
+        }
+    }
+    
+    .btn {
+        .button-variant(@color: @white; @background: @text-color; @border: darken(@text-color, 5%));
+    }
+    
+    .date {
+        font-weight: 500;
+    }
+    
+    .mime-type-container, .flat-color-event {
+        float: left;
+    
+        margin-right: @padding-base-horizontal;
+        
+        ~ * {
+            overflow: hidden;
+        }
+    }
+    
+    .flat-color-event {
+        width: 40px;
+
+        padding-top: floor(@line-height-computed / 2);
+        padding-bottom: floor(@line-height-computed / 2);
+
+        border-radius: @border-radius-base;
+        font-weight: 900;
+        text-align: center;
+        text-transform: uppercase;
+        
+        > :last-child {
+            font-size: 12px;
+        }
+    }
+}
+
+
+.pagination {
+    margin-top: floor(@line-height-computed / -2);
+}

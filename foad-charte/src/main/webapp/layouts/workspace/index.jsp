@@ -1,81 +1,56 @@
-<!DOCTYPE html>
 <%@ taglib uri="portal-layout" prefix="p" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <jsp:include page="../includes/head.jsp" />
 </head>
 
 
-<body class="fixed-layout condensed-layout">
-    <!-- Condensed toolbar -->
-    <p:region regionName="condensed-toolbar" />
-
-    <!-- Tabs -->
-    <div class="tabs-container hidden-xs">
-        <div class="container-fluid">
-            <p:region regionName="tabs" />
-        </div>
-    </div>
-
+<body>
+    <!-- Header -->
+    <jsp:include page="../includes/header.jsp" />
+    
+    <!-- Main -->
     <main>
-        <div class="container-fluid flexbox">
-            <!-- Content navbar -->
-            <jsp:include page="../includes/content-navbar.jsp" />
-                
-            <div class="row flexbox">
-                <!-- Drawer -->
-                <div id="drawer" class="col-auto flexbox">
-                    <div class="row">
-                        <p:region regionName="drawer-toolbar" />
-                    </div>
-                        
-                    <div class="scrollbox">
-                        <p:region regionName="col-1" />
-                    </div>
-                        
-                    <div
-                        <c:choose>
-                            <c:when test="${requestScope['osivia.panels.navigation-panel.closed']}">class="hidden"</c:when>
-                            <c:otherwise>class="col-auto flexbox hidden-sm"</c:otherwise>
-                        </c:choose>
-                    >
-                        <div class="scrollbox">
-                            <p:region regionName="navigation-panel" />
-                        </div>
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3">
+                    <p:region regionName="col-1" />
                 </div>
                 
-                <div class="col-offset-auto col-auto flexbox">
-                    <div class="scrollbox">
-                        <!-- Workspace header -->
-                        <div class="workspace-header">
-                            <p:region regionName="workspace-header-1" />
-                            <p:region regionName="workspace-header-2" />
+                <div class="col-sm-8 col-lg-9">
+                    <!-- Content header -->
+                    <jsp:include page="../includes/content-header.jsp" />
+                    
+                    <p:region regionName="top" />
+                    
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-4">
+                            <p:region regionName="col-2" />
                         </div>
                         
-                        <p:region regionName="cols-top" />
-                        
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <p:region regionName="col-2" />
-                            </div>
-                            
-                            <div class="col-sm-6">
-                                <p:region regionName="col-3" />
+                        <div class="col-sm-6 col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p:region regionName="col-3" />
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <p:region regionName="col-4" />
+                                </div>
                             </div>
                         </div>
-                        
-                        <p:region regionName="cols-bottom" />
                     </div>
                 </div>
             </div>
         </div>
     </main>
     
+    <!-- Footer -->
     <jsp:include page="../includes/footer.jsp" />
 </body>
 

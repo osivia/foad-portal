@@ -23,7 +23,6 @@
     <main>
         <div class="container-fluid">
             <!-- Content navbar -->
-            <jsp:include page="../includes/content-navbar.jsp" />
 
             <div class="row">
                 <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">

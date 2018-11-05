@@ -2,6 +2,15 @@
 <layouts>
 
     <layout>
+        <name>foad-1-col</name>
+        <uri>/layouts/1-col/index.jsp</uri>
+        <uri state="maximized">/layouts/1-col/maximized.jsp</uri>
+        <regions>
+            <region name="col-1" />
+        </regions>
+    </layout>
+
+    <layout>
         <name>foad-home</name>
         <uri>/layouts/home/index.jsp</uri>
         <uri state="maximized">/layouts/home/maximized.jsp</uri>
@@ -19,13 +28,12 @@
         <uri>/layouts/workspace/index.jsp</uri>
         <uri state="maximized">/layouts/workspace/maximized.jsp</uri>
         <regions>
+            <region name="content-header" />
+            <region name="top" />
             <region name="col-1" />
-            <region name="workspace-header-1" />
-            <region name="workspace-header-2" />
-            <region name="cols-top" />
             <region name="col-2" />
             <region name="col-3" />
-            <region name="cols-bottom" />
+            <region name="col-4" />
         </regions>
     </layout>
     

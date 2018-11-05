@@ -16,10 +16,10 @@
         <toutatice.version>4.4-SNAPSHOT</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.15</directory.version>
+        <directory.version>4.4-SNAPSHOT</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.15.1</collaboration.version>
+        <collaboration.version>4.4-SNAPSHOT</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4</tasks.version>
@@ -34,10 +34,14 @@
         <!-- Java Melody -->
         <java-melody.version>1.2</java-melody.version>
         
+        <!-- Commons CSV -->
+        <commons-csv.version>1.5</commons-csv.version>
+        
     </properties>
     
     
     <modules>
+        <module>foad-taglib</module>
         <module>foad-charte</module>
         <module>foad-customizer</module>
         <!-- <module>foad-generator</module>  -->
@@ -47,6 +51,21 @@
         <module>foad-collaboration-ear</module>
         <module>foad-distribution</module>
     </modules>
+    
+    
+    <dependencyManagement>
+        <dependencies>
+        
+            <!-- Commons CSV -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-csv</artifactId>
+                <version>${commons-csv.version}</version>
+                <scope>provided</scope>
+            </dependency>
+        
+        </dependencies>
+    </dependencyManagement>
     
     
     <dependencies>

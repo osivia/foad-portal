@@ -2,9 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<!-- Header -->
 <header class="hidden-xs">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col">
                 <c:choose>
@@ -16,8 +15,8 @@
                     </c:when>
                     
                     <c:otherwise>
-                        <!-- Workspace title -->
-                        <p:region regionName="workspace-title" />
+                        <!-- Header title -->
+                        <p:region regionName="header-title" />
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -36,10 +35,10 @@
                 </h1>
             </c:when>
         
-            <c:when test="${workspace}">
+            <c:otherwise>
                 <!-- Workspace tabs -->
                 <p:region regionName="workspace-tabs" />
-            </c:when>
+            </c:otherwise>
         </c:choose>
     </div> 
 </header>

@@ -51,8 +51,16 @@
             <artifactId>toutatice-portail-cms-nuxeo-web</artifactId>
             <version>${toutatice.version}</version>
             <classifier>classes</classifier>
-            <!-- <scope>provided</scope> -->
-        </dependency>        
+        </dependency>
+        
+        <!-- Taglib -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-taglib</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+                
     </dependencies>
 
 </project>

@@ -19,7 +19,7 @@
     
     <!-- Main -->
     <main>
-        <div class="container">
+        <div class="container-fluid">
             <p:region regionName="top" />
             
             <div class="row">

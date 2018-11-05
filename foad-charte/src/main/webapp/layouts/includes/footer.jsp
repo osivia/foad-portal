@@ -1,6 +1,13 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
 
 
+<footer>
+    <div class="container-fluid">
+    
+    </div>
+</footer>
+
+
 <!-- Notifications -->
 <p:region regionName="notifications" />
 <!-- Page settings -->

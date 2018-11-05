@@ -15,7 +15,7 @@ header {
     background-position-x: center;
     background-size: cover;
     
-    .container {
+    .container, .container-fluid {
         position: relative;
         height: @header-height;
         
@@ -69,6 +69,20 @@ header {
         img {
             max-height: 100%;
             max-width: 100%;
+        }
+    }
+    
+    .header-title {
+        display: flex;
+        align-items: end;
+        
+        color: @white;
+        font-size: @font-size-h4;
+        line-height: 1;
+        text-transform: uppercase;
+        
+        > :not(:last-child) {
+            margin-right: @padding-xs-horizontal;
         }
     }
 }

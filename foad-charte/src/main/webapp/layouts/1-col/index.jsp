@@ -17,18 +17,7 @@
     <!-- Main -->
     <main>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4 col-lg-3">
-                    <p:region regionName="col-1" />
-                </div>
-                
-                <div class="col-sm-8 col-lg-9">
-                    <!-- Content header -->
-                    <jsp:include page="../includes/content-header.jsp" />
-                    
-                    <p:region regionName="maximized" />
-                </div>
-            </div>
+            <p:region regionName="col-1" />
         </div>
     </main>
     

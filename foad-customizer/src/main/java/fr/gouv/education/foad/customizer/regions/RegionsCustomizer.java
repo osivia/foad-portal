@@ -94,8 +94,14 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
         String contextPath = (String) attributes.get(IRenderedRegions.CUSTOMIZER_ATTRIBUTE_THEME_CONTEXT_PATH);
         
         if (CHARTE_CONTEXT_PATH.equals(contextPath)) {
+            // Replace default breadcrumb region
+            renderedRegion.customizeRenderedRegion("breadcrumb", "/regions/breadcrumb.jsp");
             // Replace default toolbar region
             renderedRegion.customizeRenderedRegion("toolbar", "/regions/toolbar.jsp");
+            // Add content title region
+            renderedRegion.customizeRenderedRegion("content-title", "/regions/content-title.jsp");
+            // Add header title region
+            renderedRegion.customizeRenderedRegion("header-title", "/regions/header-title.jsp");
             // Add statistics region
             renderedRegion.customizeRenderedRegion("stats", "/regions/stats.jsp");
         }

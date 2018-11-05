@@ -29,17 +29,7 @@
             </form>
         </li>
         
-        <!-- Help -->
-        <c:if test="${not empty helpUrl}">
-            <li>
-                <a href="${helpUrl}" class="btn btn-link">
-                    <i class="glyphicons glyphicons-question-sign"></i>
-                    <span class="visible-lg-inline"><op:translate key="HELP" /></span>
-                </a>
-            </li>
-        </c:if>
-        
-         <!-- Tasks -->
+        <!-- Tasks -->
         <c:if test="${not empty requestScope['osivia.toolbar.tasks.url']}">
             <c:set var="title"><op:translate key="NOTIFICATION_TASKS" /></c:set>
             <li>
@@ -62,8 +52,10 @@
             </li>
         </c:if>
         
+        <c:set var="principal" value="${requestScope['osivia.toolbar.principal']}" />
+        <c:set var="person" value="${requestScope['osivia.toolbar.person']}" />
         <c:choose>
-            <c:when test="${empty requestScope['osivia.toolbar.principal']}">
+            <c:when test="${empty principal}">
                 <!-- Login -->
                 <li>
                     <a href="${requestScope['osivia.toolbar.loginURL']}" class="btn btn-link">
@@ -79,19 +71,29 @@
                     <div class="dropdown">
                         <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
                             <c:choose>
-                                <c:when test="${empty requestScope['osivia.toolbar.person']}">
-                                    <span>${requestScope['osivia.toolbar.principal']}</span>
+                                <c:when test="${empty person}">
+                                    <i class="halflings halflings-user"></i>
+                                    <span class="visible-lg-inline">${principal}</span>
                                 </c:when>
                                 
                                 <c:otherwise>
-                                    <span>${requestScope['osivia.toolbar.person'].displayName}</span>
+                                    <img class="avatar" src="${person.avatar.url}" alt="">
+                                    <span class="visible-lg-inline">${person.displayName}</span>
                                 </c:otherwise>
                             </c:choose>
                             <span class="caret"></span>
                         </button>
                         
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li class="dropdown-header hidden-lg" role="presentation">
+                                <c:choose>
+                                    <c:when test="${empty person}">${principal}</c:when>
+                                    <c:otherwise>${person.displayName}</c:otherwise>
+                                </c:choose>
+                            </li>
+                        
                             <!-- User profile -->
+                            <c:set var="userProfileUrl" value="${requestScope['osivia.toolbar.myprofile']}" />
                             <c:if test="${not empty userProfileUrl}">
                                 <li role="presentation">
                                     <a href="${userProfileUrl}" role="menuitem">
@@ -102,6 +104,7 @@
                             </c:if>
                             
                             <!-- User settings -->
+                            <c:set var="userSettingsUrl" value="${requestScope['osivia.toolbar.userSettings.url']}" />
                             <c:if test="${not empty userSettingsUrl}">
                                 <li role="presentation">
                                     <a href="${userSettingsUrl}" role="menuitem">
