@@ -1,0 +1,41 @@
+//
+// Charte FOAD - Footer
+// -----------------------------------------------------
+
+
+footer {
+    padding-top: @padding-xs-vertical;
+    padding-bottom: @padding-xs-vertical;
+    
+    color: @gray-lighter;
+    background-color: @gray;
+    font-size: @font-size-small;
+    
+    ul {
+        padding-left: 0;
+        margin-bottom: 0;
+        
+        list-style: none;
+        text-align: center;
+        
+        > li {
+            display: inline-block;
+            
+            padding-left: @padding-small-horizontal;
+            padding-right: @padding-small-horizontal;
+        }
+    }
+    
+    a {
+        color: @gray-lighter;
+        
+        &:hover, &:focus {
+            color: @white;
+        }
+    }
+    
+    
+    @media (max-width: @screen-xs-max) {
+        display: none;   
+    }
+}

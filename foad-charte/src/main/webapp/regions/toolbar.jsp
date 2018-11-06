@@ -5,7 +5,7 @@
 <div class="toolbar">
     <ul class="list-inline">
         <!-- Administration -->
-        <li>
+        <li class="hidden-xs">
             <c:out value="${requestScope['osivia.toolbar.administrationContent']}" escapeXml="false" />
         </li>
         

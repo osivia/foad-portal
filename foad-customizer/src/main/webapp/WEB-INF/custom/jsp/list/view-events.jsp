@@ -61,4 +61,13 @@
             </div>
         </li>
     </c:forEach>
+    
+    
+    <c:if test="${empty documents}">
+        <li>
+            <p>
+                <span class="text-muted"><op:translate key="LIST_TEMPLATE_EVENTS_EMPTY" /></span>
+            </p>
+        </li>
+    </c:if>
 </ul>

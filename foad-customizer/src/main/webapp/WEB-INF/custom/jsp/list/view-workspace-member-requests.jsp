@@ -36,6 +36,7 @@
                             </c:if>
                         
                             <c:if test="${workspaceType.allowedInvitationRequests}">
+                                <c:set var="memberStatus" value="${document.properties['memberStatus']}" />
                                 <c:choose>
                                     <c:when test="${empty memberStatus}">
                                         <portlet:actionURL name="createRequest" var="createRequestUrl">
@@ -48,8 +49,7 @@
                                     </c:when>
                                     
                                     <c:otherwise>
-                                        <span class="text-${memberStatus.color}">
-                                            <i class="${memberStatus.icon}"></i>
+                                        <span class="label label-${memberStatus.color}">
                                             <span><op:translate key="${memberStatus.key}" /></span>
                                         </span>
                                     </c:otherwise>

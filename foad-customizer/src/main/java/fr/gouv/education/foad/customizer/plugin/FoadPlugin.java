@@ -13,11 +13,13 @@ import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.menubar.MenubarModule;
 
 import fr.gouv.education.foad.customizer.plugin.fragment.DenyFromLocalAccountsFragment;
+import fr.gouv.education.foad.customizer.plugin.fragment.TileFragmentModule;
 import fr.gouv.education.foad.customizer.plugin.list.WorkspacesListTemplateModule;
 import fr.gouv.education.foad.customizer.plugin.menubar.FoadMenubarModule;
 import fr.toutatice.portail.cms.nuxeo.api.domain.AbstractPluginPortlet;
 import fr.toutatice.portail.cms.nuxeo.api.domain.FragmentType;
 import fr.toutatice.portail.cms.nuxeo.api.domain.ListTemplate;
+import fr.toutatice.portail.cms.nuxeo.api.fragment.FragmentModule;
 
 /**
  * FOAD plugin.
@@ -101,11 +103,22 @@ public class FoadPlugin extends AbstractPluginPortlet {
      * @param context customization context
      */
     private void customizeFragments(CustomizationContext context) {
+     // Portlet context
+        PortletContext portletContext = this.getPortletContext();
+     // Internationalization bundle
+        Bundle bundle = this.bundleFactory.getBundle(context.getLocale());
+        
         // Fragments types
     	List<FragmentType> fragmentTypes = this.getFragmentTypes(context);
     	
+    	// Deny from local accounts
     	FragmentType denyFromLocalAccounts = new FragmentType("denyFromLocalAccounts", "Fragment interdit aux utilisateurs locaux", new DenyFromLocalAccountsFragment(null, true));
     	fragmentTypes.add(denyFromLocalAccounts);
+    	
+    	// Tile
+    	FragmentModule tileModule = new TileFragmentModule(portletContext);
+        FragmentType tile = new FragmentType(TileFragmentModule.ID, bundle.getString("FRAGMENT_TILE"), tileModule);
+        fragmentTypes.add(tile);
     }
 
 

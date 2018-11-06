@@ -2,9 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<c:set var="home" scope="request" value="true" />
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,32 +10,25 @@
 </head>
 
 
-<body class="home">
+<body>
     <!-- Header -->
     <jsp:include page="../includes/header.jsp" />
     
     <!-- Main -->
     <main>
         <div class="container-fluid">
+            <!-- Content header -->
+            <jsp:include page="../includes/content-header.jsp" />
+        
             <p:region regionName="top" />
             
             <div class="row">
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-lg-4">
                     <p:region regionName="col-1" />
                 </div>
                 
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-md-7 col-lg-8">
                     <p:region regionName="col-2" />
-                </div>
-                
-                <div class="clearfix hidden-lg"></div>
-                
-                <div class="col-sm-6 col-lg-3">
-                    <p:region regionName="col-3" />
-                </div>
-                
-                <div class="col-sm-6 col-lg-3">
-                    <p:region regionName="col-4" />
                 </div>
             </div>
         </div>

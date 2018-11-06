@@ -6,4 +6,25 @@
 .container, .container-fluid {
     padding-left: 24px;
     padding-right: 24px;
+    
+    @media (max-width: @screen-xs-max) {
+        padding-left: @grid-gutter-width;
+        padding-right: @grid-gutter-width;
+    }
+}
+
+
+@media (min-width: @screen-sm-min) {
+    body {
+        display: flex;
+        height: 100%;
+    }
+    
+    
+    main {
+        flex-grow: 1;
+        
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 }

@@ -3,7 +3,7 @@
 
 <footer>
     <div class="container-fluid">
-    
+        <p:region regionName="footer" />
     </div>
 </footer>
 

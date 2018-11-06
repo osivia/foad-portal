@@ -6,11 +6,29 @@
 .avatar {
     height: @line-height-computed;
     width: @line-height-computed;
-    object-fit: cover;
    
     padding: 0; 
     
     background-color: transparent;
     border-style: none;
     border-radius: 50%;
+    object-fit: cover;
+    
+    &.avatar-big {
+        height: @font-size-h1 * @headings-line-height + floor(1.5 * @line-height-computed);
+        max-height: unset;
+        width: @font-size-h1 * @headings-line-height + floor(1.5 * @line-height-computed);
+        max-width: unset;
+    }
+}
+
+
+.person .person-avatar {
+    img {
+        height: 100%;
+        width: 100%;
+        
+        border-radius: 50%;
+        object-fit: cover;
+    }    
 }

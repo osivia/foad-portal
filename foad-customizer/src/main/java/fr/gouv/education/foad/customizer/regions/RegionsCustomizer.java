@@ -94,16 +94,32 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
         String contextPath = (String) attributes.get(IRenderedRegions.CUSTOMIZER_ATTRIBUTE_THEME_CONTEXT_PATH);
         
         if (CHARTE_CONTEXT_PATH.equals(contextPath)) {
+            // Remove default tabs region
+            renderedRegion.removeRenderedRegion("tabs");
+
             // Replace default breadcrumb region
             renderedRegion.customizeRenderedRegion("breadcrumb", "/regions/breadcrumb.jsp");
+            // Replace default drawer toolbar region
+            renderedRegion.customizeRenderedRegion("drawer-toolbar", "/regions/drawer-toolbar.jsp");
+            // Replace default footer region
+            renderedRegion.customizeRenderedRegion("footer", "/regions/footer.jsp");
             // Replace default toolbar region
             renderedRegion.customizeRenderedRegion("toolbar", "/regions/toolbar.jsp");
+
             // Add content title region
             renderedRegion.customizeRenderedRegion("content-title", "/regions/content-title.jsp");
             // Add header title region
             renderedRegion.customizeRenderedRegion("header-title", "/regions/header-title.jsp");
             // Add statistics region
             renderedRegion.customizeRenderedRegion("stats", "/regions/stats.jsp");
+            // Add workspace tabs region
+            renderedRegion.customizeRenderedRegion("workspace-tabs", "/regions/workspace-tabs.jsp");
+
+
+            // Decorate regions
+            renderedRegion.decoratePortletsRegion("search-toolbar", "/regions/decorators/search-toolbar-header.jsp", null);
+            renderedRegion.decoratePortletsRegion("search-filters", "/regions/decorators/search-filters-header.jsp",
+                    "/regions/decorators/search-filters-footer.jsp");
         }
     }
 

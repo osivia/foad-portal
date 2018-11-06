@@ -1,3 +1,4 @@
-<h1 class="content-title">
-    <span>Bienvenue dans votre espace</span>
-</h1>
+<%@ page contentType="text/html" isELIgnored="false"%>
+
+
+<h1 class="content-title">${requestScope['page.content.title']}</h1>

@@ -2,6 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
+<c:set var="workspace" scope="request" value="true" />
+<c:set var="drawer" scope="request" value="true" />
+<c:set var="maximized" scope="request" value="true" />
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -10,7 +15,7 @@
 </head>
 
 
-<body>
+<body class="workspace">
     <!-- Header -->
     <jsp:include page="../includes/header.jsp" />
     
@@ -18,10 +23,15 @@
     <main>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-4 col-lg-3">
-                    <p:region regionName="col-1" />
+                <!-- Drawer -->
+                <div id="drawer">
+                    <p:region regionName="drawer-toolbar" />
+                    
+                    <div class="col-sm-4 col-lg-3">
+                        <p:region regionName="col-1" />
+                    </div>
                 </div>
-                
+            
                 <div class="col-sm-8 col-lg-9">
                     <!-- Content header -->
                     <jsp:include page="../includes/content-header.jsp" />

@@ -6,20 +6,43 @@
         <uri>/layouts/1-col/index.jsp</uri>
         <uri state="maximized">/layouts/1-col/maximized.jsp</uri>
         <regions>
+            <region name="content-header" />
             <region name="col-1" />
+        </regions>
+    </layout>
+    
+    <layout>
+        <name>foad-2-cols</name>
+        <uri>/layouts/2-cols/index.jsp</uri>
+        <uri state="maximized">/layouts/1-col/maximized.jsp</uri>
+        <regions>
+            <region name="content-header" />
+            <region name="top" />
+            <region name="col-1" />
+            <region name="col-2" />
+        </regions>
+    </layout>
+    
+    <layout>
+        <name>foad-home-anonymous</name>
+        <uri>/layouts/home/index-anonymous.jsp</uri>
+        <uri state="maximized">/layouts/home/maximized.jsp</uri>
+        <regions>
+            <region name="content-header" />
+            <region name="col-1" />
+            <region name="col-2" />
         </regions>
     </layout>
 
     <layout>
-        <name>foad-home</name>
-        <uri>/layouts/home/index.jsp</uri>
+        <name>foad-home-member</name>
+        <uri>/layouts/home/index-member.jsp</uri>
         <uri state="maximized">/layouts/home/maximized.jsp</uri>
         <regions>
-            <region name="top" />
+            <region name="content-header" />
             <region name="col-1" />
             <region name="col-2" />
             <region name="col-3" />
-            <region name="col-4" />
         </regions>
     </layout>
     
@@ -42,6 +65,7 @@
         <uri>/layouts/search/index.jsp</uri>
         <uri state="maximized">/layouts/search/maximized.jsp</uri>
         <regions>
+            <region name="content-header" />
             <region name="search-toolbar" />
             <region name="search-filters" />
             <region name="search-results" />
@@ -49,4 +73,3 @@
     </layout>
 
 </layouts>
-

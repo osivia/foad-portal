@@ -1,0 +1,53 @@
+//
+// Charte FOAD - Search
+// -----------------------------------------------------
+
+
+#search-toolbar {
+    .nav-pills {
+        margin-bottom: floor(@line-height-computed / 2);
+    }
+    
+    .form-control {
+        &:extend(.input-lg all);
+    }
+}
+
+
+#search-filters-panel {
+    > .panel {
+        margin-bottom: floor(@line-height-computed / 2);
+    }
+    
+    .portlet-container {
+        padding-left: ceil((@grid-gutter-width / 2));
+        padding-right: floor((@grid-gutter-width / 2));
+        margin-bottom: 0;
+        
+        @media screen and (min-width: @screen-sm-min) {
+            float: left;
+            position: relative;
+            min-height: 1px;
+            width: 50%;
+        }
+    }
+    
+    label {
+        &:extend(.small all);
+    }
+    
+    .form-control {
+        &:extend(.input-sm all);
+    }
+    
+    .btn {
+        &:extend(.btn-sm all);
+    }
+}
+
+
+@media (max-width: @screen-xs-max) {
+    #search-filters-panel {
+        display: block;
+    }
+}

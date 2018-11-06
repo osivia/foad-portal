@@ -3,6 +3,7 @@
 
 
 <c:set var="home" scope="request" value="true" />
+<c:set var="maximized" scope="request" value="true" />
 
 
 <!DOCTYPE html>
@@ -20,6 +21,9 @@
     <!-- Main -->
     <main>
         <div class="container-fluid">
+            <!-- Content header -->
+            <jsp:include page="../includes/content-header.jsp" />
+        
             <p:region regionName="maximized" />
         </div>
     </main>

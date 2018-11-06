@@ -44,20 +44,6 @@
     }
     
     
-    &.welcome-note {
-        h1 {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            
-            margin-top: 0;
-            margin-bottom: 24px;
-            
-            font-weight: 300;
-            line-height: 1;
-        }
-    }
-    
-    
     .make-portlet-color(@name, @color) when (iscolor(@color)) {
         &.@{name} {
             .portlet-header {

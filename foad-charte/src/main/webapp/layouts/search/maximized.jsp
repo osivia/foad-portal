@@ -1,32 +1,32 @@
-<!DOCTYPE html>
 <%@ taglib uri="portal-layout" prefix="p" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<html>
+<c:set var="drawer" scope="request" value="true" />
+<c:set var="maximized" scope="request" value="true" />
+
+
+<!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <jsp:include page="../includes/head.jsp" />
 </head>
 
 
-<body>
-    <!-- Condensed toolbar -->
-    <p:region regionName="condensed-toolbar" />
-
-    <!-- Tabs -->
-    <div class="tabs-container hidden-xs">
-        <div class="container-fluid">
-            <p:region regionName="tabs" />
-        </div>
-    </div>
+<body class="search">
+    <!-- Header -->
+    <jsp:include page="../includes/header.jsp" />
     
+    <!-- Main -->
     <main>
         <div class="container-fluid">
-            <!-- Content navbar -->
-            
             <div class="row">
                 <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-                    <region name="search-toolbar" />
+                    <!-- Content header -->
+                    <jsp:include page="../includes/content-header.jsp" />
+                
+                    <p:region regionName="search-toolbar" />
                     
                     <div class="row">
                         <!-- Drawer -->
@@ -45,6 +45,7 @@
         </div>
     </main>
     
+    <!-- Footer -->
     <jsp:include page="../includes/footer.jsp" />
 </body>
 

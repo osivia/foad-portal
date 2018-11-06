@@ -17,6 +17,9 @@
     <!-- Main -->
     <main>
         <div class="container-fluid">
+            <!-- Content header -->
+            <jsp:include page="../includes/content-header.jsp" />
+        
             <p:region regionName="col-1" />
         </div>
     </main>

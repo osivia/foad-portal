@@ -2,15 +2,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<header class="hidden-xs">
+<header>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
+                <c:if test="${drawer}">
+                    <button type="button" onclick="toggleDrawer()" class="btn btn-link" data-toggle="drawer">
+                        <i class="glyphicons glyphicons-menu-hamburger"></i>
+                    </button>
+                </c:if>
+            
                 <c:choose>
                     <c:when test="${home}">
                         <!-- Logo EN -->
-                        <div class="logo-en">
-                            <img src="/foad-charte/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation Nationale">
+                        <div class="logo-en hidden-xs">
+                            <img src="/foad-charte/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation nationale">
                         </div>
                     </c:when>
                     

@@ -1,0 +1,88 @@
+//
+// Charte FOAD - Workspace tabs
+// -----------------------------------------------------
+
+
+@height: 48px;
+
+
+.workspace-tabs {
+    display: flex;
+    height: @height;
+    
+    margin-bottom: 0;
+    padding-left: 0;
+    
+    list-style: none;
+    
+    li {
+        display: flex;
+        flex-shrink: 1;
+        overflow: hidden;
+        
+        &:not(:last-child) {
+            margin-right: floor(@line-height-computed / 2);
+        }
+        
+        &.active {
+            flex-shrink: 0;
+            
+            a {
+                color: @text-color;
+                background-color: @gray-lighter;
+                
+                &:hover, &:focus {
+                    color: darken(@text-color, 15%);    
+                }
+            }
+        }
+        
+        &.home {
+            flex-shrink: 0;
+        }
+    }
+    
+    a {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        
+        padding-left: @line-height-computed;
+        padding-right: @line-height-computed;
+        
+        color: @white;
+        background-color: fade(@gray-lighter, 20%);
+        font-size: 16px;
+        font-weight: 500;
+        white-space: nowrap;
+        
+        .border-top-radius(@radius: @border-radius-large);
+        
+        &:hover, &:focus {
+            background-color: fade(@gray-lighter, 30%);
+        }
+        
+        > * {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        
+        @media (min-width: @screen-sm-min) {
+            max-width: 200px;
+        }
+        
+        @media (min-width: @screen-md-min) {
+            max-width: 300px;
+        }
+        
+        @media (min-width: @screen-lg-min) {
+            max-width: 400px;
+        }
+    }
+    
+    
+    @media (max-width: @screen-xs-max) {
+        display: none;
+    }
+}

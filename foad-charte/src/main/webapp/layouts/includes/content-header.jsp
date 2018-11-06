@@ -1,9 +1,12 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
 <div class="content-header-container">
     <!-- Breadcrumb -->
-    <p:region regionName="breadcrumb" />
+    <c:if test="${not home}">
+        <p:region regionName="breadcrumb" />
+    </c:if>
     
     <div class="content-header-navbar">
         <!-- Content title -->
@@ -13,5 +16,8 @@
         <p:region regionName="menubar" />    
     </div>
     
-    <p:region regionName="content-header" />
+    <!-- Content header -->
+    <c:if test="${not maximized}">
+        <p:region regionName="content-header" />
+    </c:if>
 </div>

@@ -1,0 +1,24 @@
+//
+// Charte FOAD - Drawer
+// -----------------------------------------------------
+
+
+#drawer {
+    @media (max-width: @screen-xs-max) {
+        top: 0;
+        left: -80%;
+        width: 80%;
+        z-index: 2010;
+        
+        padding-top: @line-height-computed;
+        padding-left: floor(@grid-gutter-width / 2);
+        padding-right: floor(@grid-gutter-width / 2);
+        
+        background-color: @gray-lighter;
+    }
+}
+
+
+#drawer-shadowbox {
+    z-index: 2000;
+}
