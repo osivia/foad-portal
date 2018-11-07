@@ -1,5 +1,6 @@
 package fr.gouv.education.foad.customizer.plugin;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,9 @@ import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.menubar.MenubarModule;
+import org.osivia.portal.api.taskbar.TaskbarFactory;
+import org.osivia.portal.api.taskbar.TaskbarItem;
+import org.osivia.portal.api.taskbar.TaskbarItems;
 
 import fr.gouv.education.foad.customizer.plugin.fragment.DenyFromLocalAccountsFragment;
 import fr.gouv.education.foad.customizer.plugin.fragment.TileFragmentModule;
@@ -79,6 +83,8 @@ public class FoadPlugin extends AbstractPluginPortlet {
         this.customizeFragments(context);
         // Customize list templates
         this.customizeListTemplates(context);
+        // Customize taskbar items
+        this.customizeTaskbarItems(context);
     }
 
 
@@ -145,6 +151,31 @@ public class FoadPlugin extends AbstractPluginPortlet {
         ListTemplate workspaces = new ListTemplate("workspaces", bundle.getString("LIST_TEMPLATE_WORKSPACES"), "dublincore, toutatice, toutatice_space");
         workspaces.setModule(new WorkspacesListTemplateModule(portletContext));
         templates.put(workspaces.getKey(), workspaces);
+    }
+
+
+    /**
+     * Customize taskbar items.
+     *
+     * @param context customization context
+     */
+    private void customizeTaskbarItems(CustomizationContext context) {
+        // Taskbar items
+        TaskbarItems items = this.getTaskbarItems(context);
+        // Factory
+        TaskbarFactory factory = this.getTaskbarService().getFactory();
+
+        // Last modifications
+        TaskbarItem lastModifications = factory.createHiddenCmsTaskbarItem("LAST_MODIFICATIONS",
+                "WORKSPACE_LAST_MODIFICATIONS_TASK", null);
+        lastModifications.setToDefault(1);
+        items.add(lastModifications);
+
+
+        // Remove items
+        for (String id : Arrays.asList("GALLERY")) {
+            items.remove(id);
+        }
     }
 
 }
