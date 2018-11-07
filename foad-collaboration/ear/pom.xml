@@ -4,7 +4,7 @@
 
 	<parent>
 		<groupId>fr.gouv.education.foad</groupId>
-		<artifactId>foad-parent</artifactId>
+		<artifactId>foad-collaboration-parent</artifactId>
 		<version>4.4-SNAPSHOT</version>
 	</parent>
 	
@@ -66,9 +66,9 @@
 
         <!-- Taskbar -->
         <dependency>
-            <groupId>org.osivia.services</groupId>
-            <artifactId>osivia-services-taskbar</artifactId>
-            <version>${collaboration.version}</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-taskbar</artifactId>
+            <version>${project.version}</version>
             <type>war</type>
         </dependency>
         
@@ -195,9 +195,9 @@
                         
                         <!-- Taskbar -->
                         <webModule>
-                            <groupId>org.osivia.services</groupId>
-                            <artifactId>osivia-services-taskbar</artifactId>
-                            <contextRoot>/osivia-services-taskbar</contextRoot>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>foad-taskbar</artifactId>
+                            <contextRoot>/foad-taskbar</contextRoot>
                         </webModule>
                         
                         <!-- Widgets -->

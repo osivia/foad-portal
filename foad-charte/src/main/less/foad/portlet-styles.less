@@ -33,16 +33,17 @@
     }
     
     
-    .make-portlet-color(@name: ~"blue", @color: @blue);
-    .make-portlet-color(@name: ~"green", @color: @green);
-    .make-portlet-color(@name: ~"pink", @color: @pink);
-    .make-portlet-color(@name: ~"orange", @color: @orange);
-
-    
     &.no-margin {
         margin: 0;   
     }
     
+    
+    .make-portlet-color(@name: ~"blue", @color: @blue);
+    .make-portlet-color(@name: ~"green", @color: @green);
+    .make-portlet-color(@name: ~"pink", @color: @pink);
+    .make-portlet-color(@name: ~"orange", @color: @orange);
+    .make-portlet-color(@name: ~"violet", @color: @violet);
+    .make-portlet-color(@name: ~"turquoise", @color: @turquoise);
     
     .make-portlet-color(@name, @color) when (iscolor(@color)) {
         &.@{name} {

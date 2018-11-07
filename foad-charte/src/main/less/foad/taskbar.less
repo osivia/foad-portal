@@ -1,0 +1,127 @@
+//
+// Charte FOAD - Taskbar
+// -----------------------------------------------------
+
+
+.taskbar {
+    @padding-left: 16px;
+    
+    > ul {
+        list-style: none;
+        
+        > li {
+            > a {
+                font-weight: 700;
+                text-decoration: none;
+            }
+            
+            &.active {
+                > a {
+                    font-weight: 900;
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    .folders {
+        @height: 48px;
+        @line-height: 20px;
+        
+        margin-bottom: 24px;
+        padding-left: 0;
+        
+        > li {
+            > a {
+                display: block;
+                
+                margin-bottom: floor(@line-height-computed / 2);
+                padding: floor((@height - @line-height) / 2) (@padding-left - 1);
+                
+                color: @white;
+                background-color: @gray;
+                border-radius: @border-radius-base;
+                font-size: 18px;
+                font-family: @font-family-serif;
+                line-height: @line-height;
+                
+                .box-shadow(@shadow: 0 1px 4px fade(@gray, 50%));
+                
+                &:hover, &:focus {
+                    background-color: darken(@gray, 10%);
+                }
+            }
+        }
+    }
+    
+    
+    .services {
+        @icon-size: 32px;
+        
+        padding-left: @padding-left;
+        
+        li {
+            display: flex;
+            
+            margin-bottom: 12px;
+        }
+        
+        a {
+            display: flex;
+            align-items: center;
+            
+            color: @gray;
+            
+            i {
+                display: block;
+                height: @icon-size;
+                width: @icon-size;
+                
+                margin-right: 8px;
+                
+                color: @white;
+                background-color: @gray;
+                border-radius: 50%;
+                line-height: @icon-size;
+                text-align: center;
+            }
+            
+            &:hover, &:focus {
+                color: darken(@gray, 15%);
+                
+                i {
+                    background-color: darken(@gray, 10%);
+                }
+                
+                span {
+                    text-decoration: underline;
+                }
+            }
+            
+            
+        }
+        
+        
+        .type-color(@type: ~"news", @color: @green);
+        .type-color(@type: ~"calendar", @color: @orange);
+        .type-color(@type: ~"faq", @color: @pink);
+        .type-color(@type: ~"forum", @color: @violet);
+        .type-color(@type: ~"workspace_participants", @color: @turquoise);
+        
+        .type-color(@type, @color) when (iscolor(@color)) {
+            a[data-type="@{type}"] {
+                i {
+                    background-color: @color;
+                }
+                
+                &:hover, &:focus {
+                    i {
+                        background-color: darken(@color, 10%);
+                    }
+                }
+            }
+        }
+    }
+}
