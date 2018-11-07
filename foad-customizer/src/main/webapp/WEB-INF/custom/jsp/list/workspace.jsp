@@ -22,7 +22,7 @@
         <c:set var="workspaceType" value="${document.properties['workspaceType']}" />
         <c:if test="${not empty workspaceType}">
             <p>
-                <span class="label label-${workspaceType.color}">
+                <span class="label label-${workspaceType.color} workspace-type">
                     <span><op:translate key="LIST_TEMPLATE_${workspaceType.key}" /></span>
                 </span>
             </p>

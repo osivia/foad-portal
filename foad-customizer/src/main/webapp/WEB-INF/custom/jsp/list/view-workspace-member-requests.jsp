@@ -30,7 +30,7 @@
                     <c:if test="${not empty workspaceType or workspaceType.allowedInvitationRequests}">
                         <div class="actions">
                             <c:if test="${not empty workspaceType}">
-                                <span class="label label-${workspaceType.color}">
+                                <span class="label label-${workspaceType.color} workspace-type">
                                     <span><op:translate key="LIST_TEMPLATE_${workspaceType.key}" /></span>
                                 </span>
                             </c:if>
