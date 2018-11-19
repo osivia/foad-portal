@@ -9,6 +9,7 @@ import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.taskbar.TaskbarTask;
 
 import fr.gouv.education.foad.portlet.model.FolderTask;
+import fr.gouv.education.foad.portlet.model.ServiceTask;
 
 /**
  * Taskbar portlet repository interface.
@@ -25,6 +26,9 @@ public interface TaskbarRepository {
      * @throws PortletException
      */
     List<TaskbarTask> getNavigationTasks(PortalControllerContext portalControllerContext) throws PortletException;
+
+
+    List<ServiceTask> getAdministration(PortalControllerContext portalControllerContext) throws PortletException;
 
 
     /**

@@ -131,7 +131,8 @@ public class TaskbarServiceImpl implements TaskbarService {
         taskbar.setServices(this.createTasks(portalControllerContext, bundle, activeId, services, ServiceTask.class));
 
         // Administration
-        // TODO
+        List<ServiceTask> administration = this.repository.getAdministration(portalControllerContext);
+        taskbar.setAdministration(administration);
 
         return taskbar;
     }

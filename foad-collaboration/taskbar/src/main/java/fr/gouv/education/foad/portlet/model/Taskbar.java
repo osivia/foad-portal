@@ -20,7 +20,7 @@ public class Taskbar {
     /** Services. */
     private List<ServiceTask> services;
     /** Administration. */
-    private List<Task> administration;
+    private List<ServiceTask> administration;
 
 
     /**
@@ -72,7 +72,7 @@ public class Taskbar {
      * 
      * @return the administration
      */
-    public List<Task> getAdministration() {
+    public List<ServiceTask> getAdministration() {
         return administration;
     }
 
@@ -81,7 +81,7 @@ public class Taskbar {
      * 
      * @param administration the administration to set
      */
-    public void setAdministration(List<Task> administration) {
+    public void setAdministration(List<ServiceTask> administration) {
         this.administration = administration;
     }
 

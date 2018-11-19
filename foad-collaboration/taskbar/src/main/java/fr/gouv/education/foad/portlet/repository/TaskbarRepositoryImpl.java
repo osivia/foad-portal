@@ -2,18 +2,27 @@ package fr.gouv.education.foad.portlet.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.portlet.PortletException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.DocumentType;
+import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.api.menubar.IMenubarService;
+import org.osivia.portal.api.menubar.MenubarContainer;
+import org.osivia.portal.api.menubar.MenubarDropdown;
+import org.osivia.portal.api.menubar.MenubarGroup;
+import org.osivia.portal.api.menubar.MenubarItem;
 import org.osivia.portal.api.taskbar.ITaskbarService;
 import org.osivia.portal.api.taskbar.TaskbarTask;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
@@ -27,10 +36,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import fr.gouv.education.foad.portlet.model.FolderTask;
+import fr.gouv.education.foad.portlet.model.ServiceTask;
 import fr.gouv.education.foad.portlet.model.comparator.FolderTaskComparator;
 import fr.gouv.education.foad.portlet.repository.command.MoveDocumentsCommand;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
 
 /**
  * Taskbar portlet repository implementation.
@@ -52,6 +63,10 @@ public class TaskbarRepositoryImpl implements TaskbarRepository {
     /** Taskbar service. */
     @Autowired
     private ITaskbarService taskbarService;
+
+    /** Menubar service. */
+    @Autowired
+    private IMenubarService menubarService;
 
     /** CMS service locator. */
     @Autowired
@@ -93,6 +108,62 @@ public class TaskbarRepositoryImpl implements TaskbarRepository {
         }
 
         return navigationTasks;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ServiceTask> getAdministration(PortalControllerContext portalControllerContext) throws PortletException {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+
+        // Workspace document context
+        NuxeoDocumentContext workspaceDocumentContext = nuxeoController.getDocumentContext(nuxeoController.getBasePath());
+
+        // Check permissions
+        BasicPermissions permissions = workspaceDocumentContext.getPermissions(BasicPermissions.class);
+
+        List<ServiceTask> administration;
+        if (permissions.isManageableByUser()) {
+            // Navbar
+            Map<MenubarGroup, Set<MenubarItem>> navbar = this.menubarService.getNavbarSortedItems(portalControllerContext);
+            // Dropdown
+            MenubarContainer dropdown = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.CONFIGURATION_DROPDOWN_MENU_ID);
+
+            // Menubar items
+            Set<MenubarItem> menubarItems;
+            if (MapUtils.isEmpty(navbar) || (dropdown == null)) {
+                menubarItems = null;
+            } else {
+                menubarItems = navbar.get(dropdown.getGroup());
+            }
+
+            if (CollectionUtils.isEmpty(menubarItems)) {
+                administration = null;
+            } else {
+                administration = new ArrayList<>(menubarItems.size());
+
+                for (MenubarItem menubarItem : menubarItems) {
+                    // Service
+                    ServiceTask service = this.applicationContext.getBean(ServiceTask.class);
+
+                    // Display name
+                    service.setDisplayName(menubarItem.getTitle());
+                    // URL
+                    service.setUrl(menubarItem.getUrl());
+                    // Icon
+                    service.setIcon(menubarItem.getGlyphicon());
+
+                    administration.add(service);
+                }
+            }
+        } else {
+            administration = null;
+        }
+
+        return administration;
     }
 
 

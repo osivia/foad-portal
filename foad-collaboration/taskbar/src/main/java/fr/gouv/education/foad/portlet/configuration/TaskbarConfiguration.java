@@ -6,6 +6,7 @@ import javax.portlet.PortletException;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
+import org.osivia.portal.api.menubar.IMenubarService;
 import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.taskbar.ITaskbarService;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
@@ -92,6 +93,17 @@ public class TaskbarConfiguration extends CMSPortlet implements PortletConfigAwa
     @Bean
     public ITaskbarService getTaskbarService() {
         return Locator.findMBean(ITaskbarService.class, ITaskbarService.MBEAN_NAME);
+    }
+
+
+    /**
+     * Get menubar service.
+     * 
+     * @return menubar service
+     */
+    @Bean
+    public IMenubarService getMenubarService() {
+        return Locator.findMBean(IMenubarService.class, IMenubarService.MBEAN_NAME);
     }
 
 
