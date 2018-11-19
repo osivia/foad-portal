@@ -24,8 +24,6 @@
     }
     
     
-    
-    
     .folders {
         @height: 48px;
         @line-height: 20px;
@@ -122,6 +120,46 @@
                     }
                 }
             }
+        }
+    }
+    
+    
+    .fancytree {
+        margin-bottom: @line-height-computed;
+        
+        color: @gray-light;
+        font-weight: 500;
+        
+        > ul {
+            > li {
+                margin-top: 11px;
+                padding-bottom: 11px;
+                
+                &:not(:last-child) {
+                    border-bottom-style: solid;
+                    border-width: 1px;
+                    border-color: @gray;             
+                }
+            }
+        }
+        
+        li {
+            > a {
+                &::before {
+                    display: none;
+                }
+            }
+        }
+        
+        .taskbar-active {
+            > a, > span {
+                color: @gray;
+                font-weight: 900;
+            }
+        }
+        
+        .fancytree-icon {
+            display: none;
         }
     }
 }
