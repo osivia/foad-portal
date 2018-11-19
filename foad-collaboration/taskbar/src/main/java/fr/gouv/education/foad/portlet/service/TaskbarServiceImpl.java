@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
+import org.osivia.portal.api.notifications.INotificationsService;
+import org.osivia.portal.api.notifications.NotificationsType;
 import org.osivia.portal.api.panels.PanelPlayer;
 import org.osivia.portal.api.taskbar.ITaskbarService;
 import org.osivia.portal.api.taskbar.TaskbarItemType;
@@ -23,9 +28,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import fr.gouv.education.foad.portlet.model.FolderTask;
+import fr.gouv.education.foad.portlet.model.ServiceTask;
 import fr.gouv.education.foad.portlet.model.Task;
 import fr.gouv.education.foad.portlet.model.Taskbar;
 import fr.gouv.education.foad.portlet.repository.TaskbarRepository;
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * Taskbar portlet service implementation.
@@ -55,6 +65,10 @@ public class TaskbarServiceImpl implements TaskbarService {
     /** Internationalization bundle factory. */
     @Autowired
     private IBundleFactory bundleFactory;
+
+    /** Notifications service. */
+    @Autowired
+    private INotificationsService notificationsService;
 
 
     /**
@@ -101,6 +115,8 @@ public class TaskbarServiceImpl implements TaskbarService {
                 if (!navigationTask.isDisabled() && !navigationTask.isHidden()) {
                     if (TaskbarItemType.CMS.equals(navigationTask.getType()) && "Folder".equals(navigationTask.getDocumentType())) {
                         folders.add(navigationTask);
+                    } else if (TaskbarItemType.CMS.equals(navigationTask.getType()) && "Room".equals(navigationTask.getDocumentType())) {
+                        // Ignore rooms
                     } else {
                         services.add(navigationTask);
                     }
@@ -111,8 +127,8 @@ public class TaskbarServiceImpl implements TaskbarService {
 
         // Taskbar
         Taskbar taskbar = this.applicationContext.getBean(Taskbar.class);
-        taskbar.setFolders(this.createTasks(portalControllerContext, bundle, activeId, folders));
-        taskbar.setServices(this.createTasks(portalControllerContext, bundle, activeId, services));
+        taskbar.setFolders(this.createTasks(portalControllerContext, bundle, activeId, folders, FolderTask.class));
+        taskbar.setServices(this.createTasks(portalControllerContext, bundle, activeId, services, ServiceTask.class));
 
         // Administration
         // TODO
@@ -128,12 +144,13 @@ public class TaskbarServiceImpl implements TaskbarService {
      * @param bundle internationalization bundle
      * @param activeId active navigation task identifier
      * @param navigationTasks navigation tasks
+     * @param clazz tasks class
      * @return tasks
      * @throws PortletException
      */
-    private List<Task> createTasks(PortalControllerContext portalControllerContext, Bundle bundle, String activeId, List<TaskbarTask> navigationTasks)
-            throws PortletException {
-        List<Task> tasks;
+    private <T extends Task> List<T> createTasks(PortalControllerContext portalControllerContext, Bundle bundle, String activeId,
+            List<TaskbarTask> navigationTasks, Class<T> clazz) throws PortletException {
+        List<T> tasks;
 
         if (CollectionUtils.isEmpty(navigationTasks)) {
             tasks = null;
@@ -141,7 +158,7 @@ public class TaskbarServiceImpl implements TaskbarService {
             tasks = new ArrayList<>(navigationTasks.size());
 
             for (TaskbarTask navigationTask : navigationTasks) {
-                Task task = this.createTask(portalControllerContext, bundle, activeId, navigationTask);
+                T task = this.createTask(portalControllerContext, bundle, activeId, navigationTask, clazz);
                 tasks.add(task);
             }
         }
@@ -157,12 +174,13 @@ public class TaskbarServiceImpl implements TaskbarService {
      * @param bundle internationalization bundle
      * @param activeId active navigation task identifier
      * @param navigationTask navigation task
+     * @param clazz task class
      * @return task
      * @throws PortletException
      */
-    private Task createTask(PortalControllerContext portalControllerContext, Bundle bundle, String activeId, TaskbarTask navigationTask)
-            throws PortletException {
-        Task task = this.applicationContext.getBean(Task.class);
+    private <T extends Task> T createTask(PortalControllerContext portalControllerContext, Bundle bundle, String activeId, TaskbarTask navigationTask,
+            Class<T> clazz) throws PortletException {
+        T task = this.applicationContext.getBean(clazz);
 
         // Display name
         String displayName;
@@ -211,15 +229,111 @@ public class TaskbarServiceImpl implements TaskbarService {
         boolean active = StringUtils.equals(activeId, navigationTask.getId());
         task.setActive(active);
 
-        // Icon
-        String icon = navigationTask.getIcon();
-        task.setIcon(icon);
 
-        // Type, useful for coloration
-        String type = StringUtils.lowerCase(navigationTask.getId());
-        task.setType(type);
+        if (active && (task instanceof FolderTask)) {
+            // Folder
+            FolderTask folder = (FolderTask) task;
+
+            // Folder path
+            folder.setPath(navigationTask.getPath());
+
+            // Folder navigation tree
+            this.repository.generateFolderNavigationTree(portalControllerContext, folder);
+        }
+
+
+        if (task instanceof ServiceTask) {
+            // Service
+            ServiceTask service = (ServiceTask) task;
+
+            // Icon
+            String icon = navigationTask.getIcon();
+            service.setIcon(icon);
+
+            // Type, useful for coloration
+            String type = StringUtils.lowerCase(navigationTask.getId());
+            service.setType(type);
+        }
 
         return task;
+    }
+    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drop(PortalControllerContext portalControllerContext, List<String> sourceIds, String targetId) throws PortletException {
+        // Portlet request
+        PortletRequest request = portalControllerContext.getRequest();
+        // Action response
+        ActionResponse response = (ActionResponse) portalControllerContext.getResponse();
+
+        // Internationalization bundle
+        Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
+
+        try {
+            this.repository.moveDocuments(portalControllerContext, sourceIds, targetId);
+
+            // Refresh navigation
+            request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+
+            // Update public render parameter for associated portlets refresh
+            response.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
+
+            // Notification
+            String message;
+            if (sourceIds.size() == 1) {
+                message = bundle.getString("DOCUMENT_MOVE_SUCCESS_MESSAGE");
+            } else {
+                message = bundle.getString("DOCUMENTS_MOVE_SUCCESS_MESSAGE", sourceIds.size());
+            }
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+        } catch (NuxeoException e) {
+            // Notification
+            String message;
+            if (sourceIds.size() == 1) {
+                message = bundle.getString("DOCUMENT_MOVE_WARNING_MESSAGE");
+            } else {
+                message = bundle.getString("DOCUMENTS_MOVE_WARNING_MESSAGE", sourceIds.size());
+            }
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.WARNING);
+        }
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JSONArray getFolderChildren(PortalControllerContext portalControllerContext, String path) throws PortletException {
+        // Children
+        SortedSet<FolderTask> children = this.repository.getFolderChildren(portalControllerContext, path);
+
+        // JSON array
+        JSONArray array = new JSONArray();
+        if (CollectionUtils.isNotEmpty(children)) {
+            for (FolderTask child : children) {
+                // JSON object
+                JSONObject object = new JSONObject();
+
+                // Display name
+                object.put("title", child.getDisplayName());
+                // URL
+                object.put("href", child.getUrl());
+                // Folder indicator
+                object.put("folder", child.isFolder());
+                // Lazy indicator
+                object.put("lazy", child.isLazy());
+                // Path
+                object.put("path", child.getPath());
+
+                array.add(object);
+            }
+
+        }
+
+        return array;
     }
 
 }

@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 public class Taskbar {
 
     /** Folders. */
-    private List<Task> folders;
+    private List<FolderTask> folders;
     /** Services. */
-    private List<Task> services;
+    private List<ServiceTask> services;
     /** Administration. */
     private List<Task> administration;
 
@@ -36,7 +36,7 @@ public class Taskbar {
      * 
      * @return the folders
      */
-    public List<Task> getFolders() {
+    public List<FolderTask> getFolders() {
         return folders;
     }
 
@@ -45,7 +45,7 @@ public class Taskbar {
      * 
      * @param folders the folders to set
      */
-    public void setFolders(List<Task> folders) {
+    public void setFolders(List<FolderTask> folders) {
         this.folders = folders;
     }
 
@@ -54,7 +54,7 @@ public class Taskbar {
      * 
      * @return the services
      */
-    public List<Task> getServices() {
+    public List<ServiceTask> getServices() {
         return services;
     }
 
@@ -63,7 +63,7 @@ public class Taskbar {
      * 
      * @param services the services to set
      */
-    public void setServices(List<Task> services) {
+    public void setServices(List<ServiceTask> services) {
         this.services = services;
     }
 

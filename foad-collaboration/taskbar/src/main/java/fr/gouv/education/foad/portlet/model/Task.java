@@ -1,17 +1,11 @@
 package fr.gouv.education.foad.portlet.model;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 /**
- * Task java-bean.
+ * Task java-bean abstract super-class.
  * 
  * @author Cédric Krommenhoek
  */
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Task {
+public abstract class Task {
 
     /** Display name. */
     private String displayName;
@@ -19,10 +13,6 @@ public class Task {
     private String url;
     /** Active indicator. */
     private boolean active;
-    /** Icon. */
-    private String icon;
-    /** Type, useful for coloration. */
-    private String type;
 
 
     /**
@@ -85,42 +75,6 @@ public class Task {
      */
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * Getter for icon.
-     * 
-     * @return the icon
-     */
-    public String getIcon() {
-        return icon;
-    }
-
-    /**
-     * Setter for icon.
-     * 
-     * @param icon the icon to set
-     */
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    /**
-     * Getter for type.
-     * 
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Setter for type.
-     * 
-     * @param type the type to set
-     */
-    public void setType(String type) {
-        this.type = type;
     }
 
 }

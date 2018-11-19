@@ -6,8 +6,10 @@ import javax.portlet.PortletException;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
+import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.taskbar.ITaskbarService;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
+import org.osivia.portal.core.cms.ICMSServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -70,7 +72,7 @@ public class TaskbarConfiguration extends CMSPortlet implements PortletConfigAwa
         return viewResolver;
     }
 
-    
+
     /**
      * Get portal URL factory.
      * 
@@ -80,7 +82,7 @@ public class TaskbarConfiguration extends CMSPortlet implements PortletConfigAwa
     public IPortalUrlFactory getPortalUrlFactory() {
         return Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
     }
-    
+
 
     /**
      * Get taskbar service.
@@ -103,6 +105,28 @@ public class TaskbarConfiguration extends CMSPortlet implements PortletConfigAwa
         IInternationalizationService internationalizationService = Locator.findMBean(IInternationalizationService.class,
                 IInternationalizationService.MBEAN_NAME);
         return internationalizationService.getBundleFactory(this.getClass().getClassLoader(), this.applicationContext);
+    }
+
+
+    /**
+     * Get notifications service.
+     * 
+     * @return notifications service
+     */
+    @Bean
+    public INotificationsService getNotificationsService() {
+        return Locator.findMBean(INotificationsService.class, INotificationsService.MBEAN_NAME);
+    }
+
+
+    /**
+     * Get CMS service locator.
+     * 
+     * @return CMS service locator
+     */
+    @Bean
+    public ICMSServiceLocator getCmsServiceLocator() {
+        return Locator.findMBean(ICMSServiceLocator.class, ICMSServiceLocator.MBEAN_NAME);
     }
 
 }

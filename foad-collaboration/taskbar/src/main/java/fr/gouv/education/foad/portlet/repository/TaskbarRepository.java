@@ -1,11 +1,14 @@
 package fr.gouv.education.foad.portlet.repository;
 
 import java.util.List;
+import java.util.SortedSet;
 
 import javax.portlet.PortletException;
 
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.taskbar.TaskbarTask;
+
+import fr.gouv.education.foad.portlet.model.FolderTask;
 
 /**
  * Taskbar portlet repository interface.
@@ -22,5 +25,37 @@ public interface TaskbarRepository {
      * @throws PortletException
      */
     List<TaskbarTask> getNavigationTasks(PortalControllerContext portalControllerContext) throws PortletException;
+
+
+    /**
+     * Generate folder tree.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param folder folder
+     * @throws PortletException
+     */
+    void generateFolderNavigationTree(PortalControllerContext portalControllerContext, FolderTask folder) throws PortletException;
+
+
+    /**
+     * Get folder children.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param path folder path
+     * @return folder children
+     * @throws PortletException
+     */
+    SortedSet<FolderTask> getFolderChildren(PortalControllerContext portalControllerContext, String path) throws PortletException;
+
+
+    /**
+     * Move documents.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param sourceIds source identifiers
+     * @param targetId target identifier
+     * @throws PortletException
+     */
+    void moveDocuments(PortalControllerContext portalControllerContext, List<String> sourceIds, String targetId) throws PortletException;
 
 }
