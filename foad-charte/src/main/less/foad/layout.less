@@ -3,6 +3,22 @@
 // -----------------------------------------------------
 
 
+header {
+    margin-bottom: floor(@line-height-computed / 2);
+}
+
+
+main {
+    padding-top: @line-height-computed;
+    
+    #maximized {
+        > .page-header {
+            display: none;
+        }
+    }
+}
+
+
 .container, .container-fluid {
     padding-left: 24px;
     padding-right: 24px;
@@ -18,13 +34,32 @@
     body {
         display: flex;
         height: 100%;
+        
+        &.fixed-layout {
+            .portlet-filler {
+                &.hidden-scrollbar {
+                    background-image: linear-gradient(@body-bg 10%, fade(@body-bg, 0%)),
+                        linear-gradient(fade(@body-bg, 0%), @body-bg 90%),
+                        linear-gradient(fade(@black, 10%), fade(@black, 0%)),
+                        linear-gradient(fade(@black, 0), fade(@black, 10%));
+                }
+            }
+        }
     }
     
     
     main {
+        display: flex;
+        flex-direction: column;
         flex-grow: 1;
         
         overflow-x: hidden;
         overflow-y: auto;
+    }
+
+    
+    .scrollbox {
+        padding: 0 4px;
+        margin: 0 -4px;
     }
 }

@@ -37,6 +37,10 @@
         
         margin-bottom: 24px;
         
+        &:last-child {
+            margin-bottom: 0;
+        }
+        
         > :first-child {
             flex-grow: 1;
         }
@@ -55,7 +59,7 @@
     .menubar {
         @menubar-item-size: @font-size-h1;
         
-        &, > li > ul {
+        &, > li, > li > ul {
             display: flex;
             align-items: center;
             justify-content: end;
@@ -66,22 +70,35 @@
             list-style: none;
         }
         
-        > li > ul > li > a {
-            display: block;
-            height: @menubar-item-size;
-            min-width: @menubar-item-size;
+        
+        > li > ul > li {
+            > a, > .label {
+                display: block;
+                height: @menubar-item-size;
+                min-width: @menubar-item-size;
+                
+                margin-left: @line-height-computed;
+                
+                border-radius: floor(@menubar-item-size / 2);
+                line-height: @menubar-item-size;
+            }
             
-            margin-left: @line-height-computed;
+            > a {
+                color: @white;
+                background-color: @text-color;
+                text-decoration: none;
+                text-align: center;
+                
+                &:hover, &:focus {
+                    background-color: darken(@text-color, 15%);
+                }
+            }
             
-            color: @white;
-            background-color: @text-color;
-            border-radius: floor(@menubar-item-size / 2);
-            line-height: @menubar-item-size;
-            text-align: center;
-            text-decoration: none;
-            
-            &:hover, &:focus {
-                background-color: darken(@text-color, 15%);
+            > .label {
+                padding-top: 0;
+                padding-bottom: 0; 
+                
+                font-size: 100%;
             }
         }
     }

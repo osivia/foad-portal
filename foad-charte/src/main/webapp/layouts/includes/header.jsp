@@ -33,18 +33,31 @@
             </div>
         </div>
     
-        <c:choose>
-            <c:when test="${home}">
-                <!-- Logo Tribu large -->
-                <h1 class="logo-tribu-large">
-                    <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
-                </h1>
-            </c:when>
+        <div class="row hidden-xs">
+            <div class="col">
+                <c:if test="${workspace}">
+                    <!-- Workspace tabs -->
+                    <p:region regionName="workspace-tabs" />
+                </c:if>
+            </div>
         
-            <c:otherwise>
-                <!-- Workspace tabs -->
-                <p:region regionName="workspace-tabs" />
-            </c:otherwise>
-        </c:choose>
+            <div class="col">
+                <div class="dots">
+                    <span class="dot-blue"></span>
+                    <span class="dot-green"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-orange"></span>
+                    <span class="dot-pink"></span>
+                    <span class="dot-violet"></span>
+                </div>
+            </div>
+        </div>
+    
+        <c:if test="${home}">
+            <!-- Logo Tribu large -->
+            <h1 class="logo-tribu-large">
+                <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
+            </h1>
+        </c:if>
     </div> 
 </header>
