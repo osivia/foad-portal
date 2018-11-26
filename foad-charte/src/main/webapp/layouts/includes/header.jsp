@@ -56,7 +56,9 @@
         <c:if test="${not workspace}">
             <!-- Logo Tribu large -->
             <h1 class="logo-tribu-large">
-                <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
+                <a href="${requestScope['osivia.home.url']}">
+                    <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
+                </a>
             </h1>
         </c:if>
     </div> 

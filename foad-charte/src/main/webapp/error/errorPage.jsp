@@ -59,7 +59,9 @@
 
             <!-- Logo Tribu large -->
             <h1 class="logo-tribu-large">
-                <img src="/foad-charte/img/logo-tribu-large.png" alt="${brand}">
+                <a href="/">
+                    <img src="/foad-charte/img/logo-tribu-large.png" alt="${brand}">
+                </a>
             </h1>
         </div>
     </header>
@@ -76,7 +78,7 @@
                             <ol class="breadcrumb">
                                 <!-- Tribu home -->
                                 <li>
-                                    <a href="/portal">
+                                    <a href="/">
                                         <span>${brand}</span>
                                     </a>
                                 </li>
