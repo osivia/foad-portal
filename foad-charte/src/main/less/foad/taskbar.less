@@ -74,6 +74,7 @@
             
             i {
                 display: block;
+                top: 0;
                 height: @icon-size;
                 width: @icon-size;
                 
@@ -97,16 +98,20 @@
                     text-decoration: underline;
                 }
             }
-            
-            
         }
         
         
-        .type-color(@type: ~"news", @color: @green);
+        .type-color(@type: ~"bookmarks", @color: @yellow);
         .type-color(@type: ~"calendar", @color: @orange);
-        .type-color(@type: ~"faq", @color: @pink);
+        .type-color(@type: ~"faq", @color: @yellow);
         .type-color(@type: ~"forum", @color: @violet);
+        .type-color(@type: ~"news", @color: @green);
+        .type-color(@type: ~"statistics", @color: @turquoise);
+        .type-color(@type: ~"trash", @color: @pink);
+        .type-color(@type: ~"workspace_map", @color: @turquoise);
         .type-color(@type: ~"workspace_participants", @color: @turquoise);
+        
+        .type-color(@type: ~"administration", @color: @gray-light);
         
         .type-color(@type, @color) when (iscolor(@color)) {
             a[data-type="@{type}"] {

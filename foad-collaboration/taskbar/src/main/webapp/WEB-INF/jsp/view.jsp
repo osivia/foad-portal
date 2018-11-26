@@ -14,7 +14,7 @@
 <c:set var="namespace"><portlet:namespace /></c:set>
 
 
-<div class="taskbar" data-drop-url="${dropUrl}" data-lazy-loading-url="${lazyLoadingUrl}">
+<div class="taskbar portlet-filler hidden-scrollbar" data-drop-url="${dropUrl}" data-lazy-loading-url="${lazyLoadingUrl}">
     <!-- Folders -->
     <ul class="folders">
         <c:forEach var="folder" items="${taskbar.folders}">
@@ -24,7 +24,7 @@
                 </a>
                 
                 <!-- Children -->
-                <c:if test="${folder.active}">
+                <c:if test="${folder.active and not empty folder.children}">
                     <div class="fancytree">
                         <c:set var="parent" value="${folder}" scope="request" />
                         <ttc:include page="folder-children.jsp" />
@@ -63,7 +63,7 @@
         <ul id="${namespace}-administration" class="administration collapse">
             <c:forEach var="service" items="${taskbar.administration}">
                 <li>
-                    <a href="${service.url}" class="no-ajax-link">
+                    <a href="${service.url}" class="no-ajax-link" data-type="administration">
                         <i class="${service.icon}"></i>
                         <span>${service.displayName}</span>
                     </a>

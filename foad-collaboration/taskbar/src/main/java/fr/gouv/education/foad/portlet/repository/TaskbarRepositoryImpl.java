@@ -119,48 +119,56 @@ public class TaskbarRepositoryImpl implements TaskbarRepository {
         // Nuxeo controller
         NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
 
-        // Workspace document context
-        NuxeoDocumentContext workspaceDocumentContext = nuxeoController.getDocumentContext(nuxeoController.getBasePath());
+        // Base path
+        String basePath = nuxeoController.getBasePath();
 
-        // Check permissions
-        BasicPermissions permissions = workspaceDocumentContext.getPermissions(BasicPermissions.class);
-
+        // Administration
         List<ServiceTask> administration;
-        if (permissions.isManageableByUser()) {
-            // Navbar
-            Map<MenubarGroup, Set<MenubarItem>> navbar = this.menubarService.getNavbarSortedItems(portalControllerContext);
-            // Dropdown
-            MenubarContainer dropdown = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.CONFIGURATION_DROPDOWN_MENU_ID);
-
-            // Menubar items
-            Set<MenubarItem> menubarItems;
-            if (MapUtils.isEmpty(navbar) || (dropdown == null)) {
-                menubarItems = null;
-            } else {
-                menubarItems = navbar.get(dropdown.getGroup());
-            }
-
-            if (CollectionUtils.isEmpty(menubarItems)) {
-                administration = null;
-            } else {
-                administration = new ArrayList<>(menubarItems.size());
-
-                for (MenubarItem menubarItem : menubarItems) {
-                    // Service
-                    ServiceTask service = this.applicationContext.getBean(ServiceTask.class);
-
-                    // Display name
-                    service.setDisplayName(menubarItem.getTitle());
-                    // URL
-                    service.setUrl(menubarItem.getUrl());
-                    // Icon
-                    service.setIcon(menubarItem.getGlyphicon());
-
-                    administration.add(service);
-                }
-            }
-        } else {
+        if (StringUtils.isEmpty(basePath)) {
             administration = null;
+        } else {
+            // Workspace document context
+            NuxeoDocumentContext workspaceDocumentContext = nuxeoController.getDocumentContext(nuxeoController.getBasePath());
+
+            // Check permissions
+            BasicPermissions permissions = workspaceDocumentContext.getPermissions(BasicPermissions.class);
+
+            if (permissions.isManageableByUser()) {
+                // Navbar
+                Map<MenubarGroup, Set<MenubarItem>> navbar = this.menubarService.getNavbarSortedItems(portalControllerContext);
+                // Dropdown
+                MenubarContainer dropdown = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.CONFIGURATION_DROPDOWN_MENU_ID);
+
+                // Menubar items
+                Set<MenubarItem> menubarItems;
+                if (MapUtils.isEmpty(navbar) || (dropdown == null)) {
+                    menubarItems = null;
+                } else {
+                    menubarItems = navbar.get(dropdown.getGroup());
+                }
+
+                if (CollectionUtils.isEmpty(menubarItems)) {
+                    administration = null;
+                } else {
+                    administration = new ArrayList<>(menubarItems.size());
+
+                    for (MenubarItem menubarItem : menubarItems) {
+                        // Service
+                        ServiceTask service = this.applicationContext.getBean(ServiceTask.class);
+
+                        // Display name
+                        service.setDisplayName(menubarItem.getTitle());
+                        // URL
+                        service.setUrl(menubarItem.getUrl());
+                        // Icon
+                        service.setIcon(menubarItem.getGlyphicon());
+
+                        administration.add(service);
+                    }
+                }
+            } else {
+                administration = null;
+            }
         }
 
         return administration;

@@ -103,9 +103,9 @@ $JQry(function() {
 				checkboxSelected: "halflings halflings-check",
 				checkboxUnknown: "halflings halflings-share",
 				error: "halflings halflings-exclamation-sign",
-				expanderClosed: "glyphicons glyphicons-collapse text-primary-hover",
-				expanderLazy: "glyphicons glyphicons-collapse text-primary-hover",
-				expanderOpen: "glyphicons glyphicons-expand text-primary-hover",
+				expanderClosed: "halflings halflings-triangle-right text-primary-hover",
+				expanderLazy: "halflings halflings-triangle-right text-primary-hover",
+				expanderOpen: "halflings halflings-triangle-bottom text-primary-hover",
 				folder: "glyphicons glyphicons-folder-closed",
 				folderOpen: "glyphicons glyphicons-folder-open",
 				loading: "halflings halflings-hourglass text-info"
