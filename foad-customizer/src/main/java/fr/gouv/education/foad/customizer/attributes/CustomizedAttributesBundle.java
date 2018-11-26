@@ -17,6 +17,7 @@ import org.jboss.portal.common.i18n.LocalizedString;
 import org.jboss.portal.core.controller.ControllerContext;
 import org.jboss.portal.core.controller.ControllerException;
 import org.jboss.portal.core.model.portal.Page;
+import org.jboss.portal.core.model.portal.Window;
 import org.jboss.portal.core.model.portal.command.render.RenderPageCommand;
 import org.jboss.portal.core.theme.PageRendition;
 import org.nuxeo.ecm.automation.client.model.Document;
@@ -35,6 +36,8 @@ import org.osivia.portal.core.cms.CMSObjectPath;
 import org.osivia.portal.core.cms.CMSServiceCtx;
 import org.osivia.portal.core.cms.ICMSService;
 import org.osivia.portal.core.cms.ICMSServiceLocator;
+import org.osivia.portal.core.context.ControllerContextAdapter;
+import org.osivia.portal.core.portalobjects.PortalObjectUtils;
 
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoConnectionProperties;
@@ -446,6 +449,8 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
      * @param attributes attributes map
      */
     private void computePageContentTitle(PortalControllerContext portalControllerContext, Page page, Document rootDocument, Map<String, Object> attributes) {
+        // Controller context
+        ControllerContext controllerContext = ControllerContextAdapter.getControllerContext(portalControllerContext);
         // HTTP servlet request
         HttpServletRequest httpServletRequest = portalControllerContext.getHttpServletRequest();
         // Locale
@@ -453,9 +458,15 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(locale);
         
+        // Maximized window
+        Window maximizedWindow = PortalObjectUtils.getMaximizedWindow(controllerContext, page);
+        
+        
         String contentTitle;
 
-        if ((rootDocument != null) && "Workspace".equals(rootDocument.getType())) {
+        if (maximizedWindow != null) {
+            contentTitle = null;
+        } else if ((rootDocument != null) && "Workspace".equals(rootDocument.getType())) {
             contentTitle = rootDocument.getString("ttcs:welcomeTitle");
 
             if (StringUtils.isBlank(contentTitle)) {
