@@ -29,166 +29,113 @@
 
 
 <body>
-    <!-- Toolbar -->
-    <div class="toolbar">
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <div class="visible-xs">
-                        <button type="button" onclick="toggleDrawer()" data-toggle="drawer" class="btn btn-link navbar-btn pull-left">
-                            <span>
-                                <i class="halflings halflings-menu-hamburger"></i>
-                                <i class="halflings halflings-arrow-right"></i>
-                            </span>
-                        </button>
-                    
-                        <!-- Title -->
-                        <div class="clearfix">
-                            <p class="navbar-text text-overflow"><op:translate key="ERROR" /></p>
-                        </div>
-                    </div>
-                
-                    <!-- Brand -->
-                    <a href="/" class="navbar-brand hidden-xs">${brand}</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Header -->
-    <header class="hidden-xs">
+    <header>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-8">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="logo">
-                                <!-- FOAD -->
-                                <img src="/foad-charte/img/logo-foad.png" alt="FOAD, Formation Ouverte À Distance">
-                                
-                                <!-- Ministère -->
-                                <img src="/foad-charte/img/logo-ministere.png" alt="Ministère de l'Éducation Nationale, de l'Enseignement supérieur et de la Recherche">
-                            </div>
-                        </div>
-                        
-                        <div class="col-sm-6">
-                            <h1 class="logo">
-                                <a href="/">
-                                    <img src="/foad-charte/img/logo-tribu.png" alt="${brand}">
-                                </a>
-                            </h1>
-                        </div>
+                <div class="col">
+                    <!-- Logo EN -->
+                    <div class="logo-en hidden-xs">
+                        <img src="/foad-charte/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation nationale">
+                    </div>
+                </div>
+
+                <div class="col"></div>
+            </div>
+
+            <div class="row hidden-xs">
+                <div class="col"></div>
+
+                <div class="col">
+                    <div class="dots">
+                        <span class="dot-blue"></span>
+                        <span class="dot-green"></span>
+                        <span class="dot-yellow"></span>
+                        <span class="dot-orange"></span>
+                        <span class="dot-pink"></span>
+                        <span class="dot-violet"></span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="background-fading"></div>
+            <!-- Logo Tribu large -->
+            <h1 class="logo-tribu-large">
+                <img src="/foad-charte/img/logo-tribu-large.png" alt="${brand}">
+            </h1>
+        </div>
     </header>
 
 
-    <!-- Tabs -->
-    <div class="tabs-container hidden-xs">
+    <main>
         <div class="container-fluid">
-            <nav class="tabs" role="navigation">
-                <!-- Title -->
-                <h2 class="sr-only"><op:translate key="TABS_TITLE" /></h2>
-
-                <div class="primary-tabs">
-                    <div class="pull-left">
-                        <ul class="home">
-                            <li role="presentation">
-                                <c:set var="title"><op:translate key="HOME" /></c:set>
-                                <a href="/" title="${title}" data-toggle="tooltip" data-placement="bottom">
-                                    <i class="halflings halflings-home"></i>
-                                    <span class="sr-only">${title}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                
-                    <div class="fixed-tabs-container">
-                        <ul>
-                            <li class="active">
-                                <a href="#">
-                                    <span><op:translate key="ERROR" /></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-
-
-    <!-- Page content -->
-    <div class="wrapper-outer">
-        <div class="wrapper-inner">
-            <main id="page-content" class="container-fluid">
-                <div class="content-navbar">
-                    <!-- Breadcrumb -->
-                    <div class="content-navbar-breadcrumb">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+                    <div class="content-header-container">
+                        <!-- Breadcrumb -->
                         <nav>
                             <h2 class="sr-only"><op:translate key="BREADCRUMB_TITLE" /></h2>
-                            <ol class="breadcrumb hidden-xs">
+                            <ol class="breadcrumb">
+                                <!-- Tribu home -->
+                                <li>
+                                    <a href="/portal">
+                                        <span>${brand}</span>
+                                    </a>
+                                </li>
+        
                                 <li class="active">
                                     <span><op:translate key="ERROR" /></span>
                                 </li>
                             </ol>
                         </nav>
                     </div>
-                </div>
-        
-        
-                <div class="row">
-                    <div class="col-lg-offset-3 col-lg-6">
-                        <div class="panel panel-danger">
-                            <div class="panel-body">
-                                <div class="page-header">
-                                    <h1 class="text-center text-danger">
-                                        <span><op:translate key="ERROR" /></span>
-                                        
-                                        <c:choose>
-                                            <c:when test="${(param['httpCode'] eq 401) || (param['httpCode'] eq 403) || (param['httpCode'] eq 404) || (param['httpCode'] eq 500)}">
-                                                <span>${param['httpCode']}</span>
-                                                <small><op:translate key="ERROR_${param['httpCode']}" /></small>
-                                            </c:when>
-                                            
-                                            <c:otherwise>
-                                                <small><op:translate key="ERROR_GENERIC_MESSAGE" /></small>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </h1>
-                                </div>
-                                
-                                <c:if test="${(param['httpCode'] eq 401) || (param['httpCode'] eq 403) || (param['httpCode'] eq 404) || (param['httpCode'] eq 500)}">
-                                    <p class="lead text-center">
-                                        <span><op:translate key="ERROR_${param['httpCode']}_MESSAGE" /></span>
-                                    </p>
-                                </c:if>
-                                
-                                <div class="text-center">
-                                    <a href="/" class="btn btn-link">
-                                        <span><op:translate key="BACK_TO_HOME" /></span>
-                                    </a>
-                                </div>
+                    
+                    
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <div class="page-header">
+                                <h1 class="text-center text-danger">
+                                    <span><op:translate key="ERROR" /></span>
+    
+                                    <c:choose>
+                                        <c:when
+                                            test="${(param['httpCode'] eq 401) || (param['httpCode'] eq 403) || (param['httpCode'] eq 404) || (param['httpCode'] eq 500)}">
+                                            <span>${param['httpCode']}</span>
+                                            <small><op:translate key="ERROR_${param['httpCode']}" /></small>
+                                        </c:when>
+    
+                                        <c:otherwise>
+                                            <small><op:translate key="ERROR_GENERIC_MESSAGE" /></small>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h1>
+                            </div>
+    
+                            <c:if test="${(param['httpCode'] eq 401) || (param['httpCode'] eq 403) || (param['httpCode'] eq 404) || (param['httpCode'] eq 500)}">
+                                <p class="lead text-center">
+                                    <span><op:translate key="ERROR_${param['httpCode']}_MESSAGE" /></span>
+                                </p>
+                            </c:if>
+    
+                            <div class="text-center">
+                                <a href="/" class="btn btn-link"> <span><op:translate key="BACK_TO_HOME" /></span>
+                                </a>
                             </div>
                         </div>
-                    </div>    
+                    </div>
                 </div>
-            </main>
-        </div>
-    </div>
-
-
-    <!-- Footer -->
-    <footer class="hidden-xs">
-        <div class="container-fluid">
-            <div class="logo">
-                <img src="/foad-charte/img/logo-foad-footer.png" alt="FOAD">
             </div>
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="container-fluid">
+            <ul>
+                <li>
+                    <i class="glyphicons glyphicons-copyright-mark"></i>
+                    <span>${brand}</span>
+                    <span>2018</span>
+                </li>
+            </ul>
         </div>
     </footer>
 </body>
