@@ -13,16 +13,16 @@
                 </c:if>
             
                 <c:choose>
-                    <c:when test="${home}">
+                    <c:when test="${workspace}">
+                        <!-- Header title -->
+                        <p:region regionName="header-title" />
+                    </c:when>
+                    
+                    <c:otherwise>
                         <!-- Logo EN -->
                         <div class="logo-en hidden-xs">
                             <img src="/foad-charte/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation nationale">
                         </div>
-                    </c:when>
-                    
-                    <c:otherwise>
-                        <!-- Header title -->
-                        <p:region regionName="header-title" />
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -53,7 +53,7 @@
             </div>
         </div>
     
-        <c:if test="${home}">
+        <c:if test="${not workspace}">
             <!-- Logo Tribu large -->
             <h1 class="logo-tribu-large">
                 <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">

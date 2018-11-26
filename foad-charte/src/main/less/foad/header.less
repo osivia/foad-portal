@@ -3,9 +3,9 @@
 // -----------------------------------------------------
 
 
-@header-height: 104px;
-@header-height-home: 144px;
-@row-height: 56px;
+@header-height: 144px;
+@header-height-workspace: 104px;
+@workspace-first-row-height: 56px;
 
 
 header {
@@ -17,8 +17,8 @@ header {
         position: relative;
         height: @header-height;
         
-        body.home & {
-            height: @header-height-home;
+        body.workspace & {
+            height: @header-height-workspace;
         }
     }
     
@@ -26,15 +26,15 @@ header {
         display: flex;
         
         &:first-child {
-            height: @row-height;
-        
-            body.home & {
-                height: 100%;
-                
-                .col {
-                    &:last-child {
-                        align-self: start;
-                    }
+            height: 100%;
+            
+            body.workspace & {
+                height: @workspace-first-row-height;
+            }
+            
+            .col {
+                &:last-child {
+                    align-self: start;
                 }
             }
         }
@@ -47,10 +47,6 @@ header {
         
         padding-left: floor(@grid-gutter-width / 2);
         padding-right: floor(@grid-gutter-width / 2);
-        
-        &:first-child {
-            
-        }
         
         &:last-child {
             flex-grow: 1;
@@ -90,7 +86,7 @@ header {
     .header-title {
         display: flex;
         align-items: end;
-        max-height: @row-height;
+        max-height: @workspace-first-row-height;
         overflow: hidden;
         
         padding-top: @padding-base-vertical;
@@ -110,12 +106,14 @@ header {
     .dots {
         @dot-size: 10px;
         
+        position: absolute;
         display: flex;
+        bottom: @line-height-computed;
+        right: floor(@grid-gutter-width / 2);
         
-        body.home & {
-            position: absolute;
-            bottom: @line-height-computed;
-            right: floor(@grid-gutter-width / 2);
+        body.workspace & {
+            position: static;
+            
         }
         
         > * {
@@ -153,7 +151,7 @@ header {
         
         .container, .container-fluid, .row {
             &:first-child {
-                &, body.home & {
+                &, body.workspace & {
                     height: unset;
                 }
             }
