@@ -54,7 +54,15 @@
             <artifactId>osivia-services-pad</artifactId>
             <version>${collaboration.version}</version>
             <type>war</type>
-        </dependency> 
+        </dependency>
+        
+        <!-- Search -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-search</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
         
         <!-- Statistics -->
         <dependency>
@@ -185,7 +193,14 @@
                             <groupId>org.osivia.services</groupId>
                             <artifactId>osivia-services-pad</artifactId>
                             <contextRoot>/osivia-services-pad</contextRoot>
-                        </webModule>                        
+                        </webModule>
+                        
+                        <!-- Search -->
+                        <webModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>foad-search</artifactId>
+                            <contextRoot>/foad-search</contextRoot>
+                        </webModule>
                         
                         <!-- Statistics -->
                         <webModule>

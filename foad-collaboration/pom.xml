@@ -15,8 +15,9 @@
 
 
     <modules>
-        <module>taskbar</module>
         <module>member-management</module>
+        <module>search</module>
+        <module>taskbar</module>
 
         <module>ear</module>
     </modules>

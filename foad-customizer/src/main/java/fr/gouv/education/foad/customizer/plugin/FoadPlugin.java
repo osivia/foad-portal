@@ -12,6 +12,7 @@ import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.menubar.MenubarModule;
+import org.osivia.portal.api.taskbar.ITaskbarService;
 import org.osivia.portal.api.taskbar.TaskbarFactory;
 import org.osivia.portal.api.taskbar.TaskbarItem;
 import org.osivia.portal.api.taskbar.TaskbarItems;
@@ -165,10 +166,17 @@ public class FoadPlugin extends AbstractPluginPortlet {
         // Factory
         TaskbarFactory factory = this.getTaskbarService().getFactory();
 
+
+        // Search
+        TaskbarItem search = factory.createStapledTaskbarItem(ITaskbarService.SEARCH_TASK_ID, "SEARCH_TASK", null, "/default/templates/workspace/search");
+        factory.hide(search, true);
+        items.add(search);
+
+
         // Last modifications
-        TaskbarItem lastModifications = factory.createHiddenCmsTaskbarItem("LAST_MODIFICATIONS",
-                "WORKSPACE_LAST_MODIFICATIONS_TASK", null);
+        TaskbarItem lastModifications = factory.createCmsTaskbarItem("LAST_MODIFICATIONS", "WORKSPACE_LAST_MODIFICATIONS_TASK", null, null);
         lastModifications.setToDefault(1);
+        factory.hide(lastModifications, true);
         items.add(lastModifications);
 
 
