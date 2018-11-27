@@ -1,5 +1,7 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
 
+<%@ page contentType="text/html" isELIgnored="false"%>
+
 
 <footer>
     <div class="container-fluid">

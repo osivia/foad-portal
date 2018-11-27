@@ -111,6 +111,7 @@
         
         .content-header-navbar {
             flex-direction: column-reverse;
+            align-items: unset;
             
             body.home & {
                 flex-direction: row;
@@ -126,7 +127,25 @@
         }
         
         .menubar {
+            justify-content: unset;
+            
             margin-bottom: floor(@line-height-computed / 2);
+            
+            > li:first-child {
+                flex-grow: 1;
+                
+                &.visible-xs-inline {
+                    > ul {
+                        justify-content: start;
+                        
+                        > li:first-child {
+                            > a {
+                                margin-left: 0;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

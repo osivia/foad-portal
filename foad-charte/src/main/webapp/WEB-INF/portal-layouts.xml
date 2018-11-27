@@ -6,6 +6,7 @@
         <uri>/layouts/1-col/index.jsp</uri>
         <uri state="maximized">/layouts/1-col/maximized.jsp</uri>
         <regions>
+            <region name="toolbar-search" />
             <region name="content-header" />
             <region name="col-1" />
         </regions>
@@ -16,6 +17,7 @@
         <uri>/layouts/2-cols/index.jsp</uri>
         <uri state="maximized">/layouts/1-col/maximized.jsp</uri>
         <regions>
+            <region name="toolbar-search" />
             <region name="content-header" />
             <region name="top" />
             <region name="col-1" />
@@ -28,6 +30,7 @@
         <uri>/layouts/home/index-anonymous.jsp</uri>
         <uri state="maximized">/layouts/home/maximized.jsp</uri>
         <regions>
+            <region name="toolbar-search" />
             <region name="content-header" />
             <region name="col-1" />
             <region name="col-2" />
@@ -39,6 +42,7 @@
         <uri>/layouts/home/index-member.jsp</uri>
         <uri state="maximized">/layouts/home/maximized.jsp</uri>
         <regions>
+            <region name="toolbar-search" />
             <region name="content-header" />
             <region name="col-1" />
             <region name="col-2" />
@@ -51,6 +55,7 @@
         <uri>/layouts/workspace/index.jsp</uri>
         <uri state="maximized">/layouts/workspace/maximized.jsp</uri>
         <regions>
+            <region name="toolbar-search" />
             <region name="content-header" />
             <region name="top" />
             <region name="col-1" />
@@ -65,6 +70,7 @@
         <uri>/layouts/search/index.jsp</uri>
         <uri state="maximized">/layouts/search/maximized.jsp</uri>
         <regions>
+            <region name="toolbar-search" />
             <region name="content-header" />
             <region name="search-toolbar" />
             <region name="search-filters" />

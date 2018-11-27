@@ -5,6 +5,11 @@
 <%@ page contentType="text/html" isELIgnored="false"%>
 
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+
+<img src="${contextPath}/img/logo-foad-footer.png" alt="FOAD">
+
 <ul>
     <li>
         <i class="glyphicons glyphicons-copyright-mark"></i>
@@ -32,3 +37,4 @@
         </li>
     </c:if>
 </ul>
+

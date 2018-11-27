@@ -11,6 +11,17 @@ footer {
     background-color: @gray;
     font-size: @font-size-small;
     
+    img {
+        float: left;
+        height: @line-height-computed;
+        
+        margin-right: @padding-small-horizontal;
+        
+        ~ * {
+            overflow: hidden;
+        }
+    }
+    
     ul {
         padding-left: 0;
         margin-bottom: 0;

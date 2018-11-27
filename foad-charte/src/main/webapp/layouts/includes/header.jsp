@@ -1,6 +1,11 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%@ page contentType="text/html" isELIgnored="false"%>
+
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 
 <header>
     <div class="container-fluid">
@@ -21,7 +26,7 @@
                     <c:otherwise>
                         <!-- Logo EN -->
                         <div class="logo-en hidden-xs">
-                            <img src="/foad-charte/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation nationale">
+                            <img src="${contextPath}/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation nationale">
                         </div>
                     </c:otherwise>
                 </c:choose>
@@ -29,7 +34,23 @@
             
             <div class="col">
                 <!-- Toolbar -->
-                <p:region regionName="toolbar" />
+                <div class="toolbar">
+                    <ul class="list-inline">
+                        <!-- Administration -->
+                        <p:region regionName="toolbar-administration" />
+                        
+                        <!-- Search -->
+                        <li>
+                            <p:region regionName="toolbar-search" />
+                        </li>
+                        
+                        <!-- Tasks -->
+                        <p:region regionName="toolbar-tasks" />
+                        
+                        <!-- User menu -->
+                        <p:region regionName="toolbar-user-menu" />
+                    </ul>
+                </div>
             </div>
         </div>
     
@@ -55,11 +76,7 @@
     
         <c:if test="${not workspace}">
             <!-- Logo Tribu large -->
-            <h1 class="logo-tribu-large">
-                <a href="${requestScope['osivia.home.url']}">
-                    <img src="/foad-charte/img/logo-tribu-large.png" alt="Tribu">
-                </a>
-            </h1>
+            <p:region regionName="header-logo-large" />
         </c:if>
     </div> 
 </header>

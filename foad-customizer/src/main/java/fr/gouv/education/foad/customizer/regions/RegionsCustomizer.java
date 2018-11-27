@@ -94,6 +94,10 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
         String contextPath = (String) attributes.get(IRenderedRegions.CUSTOMIZER_ATTRIBUTE_THEME_CONTEXT_PATH);
         
         if (CHARTE_CONTEXT_PATH.equals(contextPath)) {
+            // Remove default toolbar region
+            renderedRegion.removeRenderedRegion("toolbar");
+            // Remove default search region
+            renderedRegion.removeRenderedRegion("search");
             // Remove default tabs region
             renderedRegion.removeRenderedRegion("tabs");
 
@@ -103,13 +107,19 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
             renderedRegion.customizeRenderedRegion("drawer-toolbar", "/regions/drawer-toolbar.jsp");
             // Replace default footer region
             renderedRegion.customizeRenderedRegion("footer", "/regions/footer.jsp");
-            // Replace default toolbar region
-            renderedRegion.customizeRenderedRegion("toolbar", "/regions/toolbar.jsp");
 
+            // Add toolbar administration region
+            renderedRegion.customizeRenderedRegion("toolbar-administration", "/regions/toolbar-administration.jsp");
+            // Add toolbar tasks region
+            renderedRegion.customizeRenderedRegion("toolbar-tasks", "/regions/toolbar-tasks.jsp");
+            // Add toolbar user menu region
+            renderedRegion.customizeRenderedRegion("toolbar-user-menu", "/regions/toolbar-user-menu.jsp");
             // Add content title region
             renderedRegion.customizeRenderedRegion("content-title", "/regions/content-title.jsp");
             // Add header title region
             renderedRegion.customizeRenderedRegion("header-title", "/regions/header-title.jsp");
+            // Add header logo large region
+            renderedRegion.customizeRenderedRegion("header-logo-large", "/regions/header-logo-large.jsp");
             // Add statistics region
             renderedRegion.customizeRenderedRegion("stats", "/regions/stats.jsp");
             // Add workspace tabs region
