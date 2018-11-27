@@ -17,6 +17,7 @@ import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.menubar.IMenubarService;
 import org.osivia.portal.api.menubar.MenubarContainer;
 import org.osivia.portal.api.menubar.MenubarDropdown;
+import org.osivia.portal.api.menubar.MenubarGroup;
 import org.osivia.portal.api.menubar.MenubarItem;
 import org.osivia.portal.api.menubar.MenubarModule;
 
@@ -27,6 +28,10 @@ import org.osivia.portal.api.menubar.MenubarModule;
  * @see MenubarModule
  */
 public class FoadMenubarModule implements MenubarModule {
+
+    /** Merged dropdown menu identifier. */
+    private static final String MERGED_DROPDOWN_MENU_ID = "MERGED";
+
 
     /** Menubar service. */
     private final IMenubarService menubarService;
@@ -49,15 +54,8 @@ public class FoadMenubarModule implements MenubarModule {
     @Override
     public void customizeSpace(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
             DocumentContext<? extends EcmDocument> spaceDocumentContext) throws PortalException {
-        // Configuration dropdown
-        MenubarContainer dropdown = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.CONFIGURATION_DROPDOWN_MENU_ID);
-
-        for (MenubarItem item : menubar) {
-            MenubarContainer parent = item.getParent();
-            if ((parent != null) && parent.equals(dropdown)) {
-                item.setVisible(false);
-            }
-        }
+        this.hideConfigurationItems(portalControllerContext, menubar);
+        this.mergeDropdownMenus(portalControllerContext, menubar);
     }
 
 
@@ -69,6 +67,27 @@ public class FoadMenubarModule implements MenubarModule {
             DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
         this.removeItems(menubar, documentContext);
         this.mergeDropdownMenus(portalControllerContext, menubar);
+    }
+
+
+    /**
+     * Hide configuration menubar items.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param menubar menubar
+     */
+    private void hideConfigurationItems(PortalControllerContext portalControllerContext, List<MenubarItem> menubar) {
+        // Configuration dropdown
+        MenubarContainer dropdown = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.CONFIGURATION_DROPDOWN_MENU_ID);
+
+        if (dropdown != null) {
+            for (MenubarItem item : menubar) {
+                MenubarContainer parent = item.getParent();
+                if ((parent != null) && parent.equals(dropdown)) {
+                    item.setVisible(false);
+                }
+            }
+        }
     }
 
 
@@ -108,10 +127,15 @@ public class FoadMenubarModule implements MenubarModule {
         // Dropdowns
         Map<MenubarDropdown, List<MenubarItem>> dropdowns = new HashMap<>();
 
+        // Refresh item
+        MenubarItem refresh = null;
+
         for (MenubarItem item : menubar) {
             MenubarContainer parent = item.getParent();
 
-            if (parent instanceof MenubarDropdown) {
+            if ("REFRESH".equals(item.getId())) {
+                refresh = item;
+            } else if (parent instanceof MenubarDropdown) {
                 MenubarDropdown dropdown = (MenubarDropdown) parent;
 
                 List<MenubarItem> dropdownItems = dropdowns.get(dropdown);
@@ -128,18 +152,27 @@ public class FoadMenubarModule implements MenubarModule {
         Map<MenubarDropdown, Integer> increments = new HashMap<>();
         // CMS edition dropdown
         MenubarDropdown edition = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.CMS_EDITION_DROPDOWN_MENU_ID);
-        increments.put(edition, 1000);
+        if (edition != null) {
+            increments.put(edition, 1000);
+        }
         // Share dropdown
         MenubarDropdown share = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.SHARE_DROPDOWN_MENU_ID);
-        increments.put(share, 2000);
+        if (share != null) {
+            increments.put(share, 2000);
+        }
         // Other options dropdown
         MenubarDropdown otherOptions = this.menubarService.getDropdown(portalControllerContext, MenubarDropdown.OTHER_OPTIONS_DROPDOWN_MENU_ID);
-        increments.put(otherOptions, 3000);
+        if (otherOptions != null) {
+            increments.put(otherOptions, 3000);
+        }
 
         // Merged dropdown
-        MenubarDropdown merged = new MenubarDropdown("MERGED", null, otherOptions.getGlyphicon(), otherOptions.getGroup(),
-                otherOptions.getOrder());
-        this.menubarService.addDropdown(portalControllerContext, merged);
+        MenubarDropdown merged = this.menubarService.getDropdown(portalControllerContext, MERGED_DROPDOWN_MENU_ID);
+        if (merged == null) {
+            merged = new MenubarDropdown(MERGED_DROPDOWN_MENU_ID, null, "glyphicons glyphicons-option-vertical", MenubarGroup.GENERIC, 40);
+            merged.setReducible(false);
+            this.menubarService.addDropdown(portalControllerContext, merged);
+        }
 
         for (Entry<MenubarDropdown, Integer> entry : increments.entrySet()) {
             MenubarDropdown dropdown = entry.getKey();
@@ -151,13 +184,20 @@ public class FoadMenubarModule implements MenubarModule {
                 header.setState(true);
                 header.setDivider(true);
                 menubar.add(header);
-                
+
                 for (MenubarItem item : items) {
                     item.setParent(merged);
                     item.setOrder(item.getOrder() + increment);
                     item.setDivider(false);
                 }
             }
+        }
+
+        // Update refresh item
+        if (refresh != null) {
+            refresh.setParent(merged);
+            refresh.setOrder(4000);
+            refresh.setDivider(true);
         }
     }
 
