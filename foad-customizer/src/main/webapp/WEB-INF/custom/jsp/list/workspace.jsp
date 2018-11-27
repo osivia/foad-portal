@@ -5,11 +5,12 @@
 <%@ page isELIgnored="false" %>
 
 
+
 <div class="panel panel-default">
     <div class="panel-body">
         <!-- Title -->
         <h3>
-            <span><ttc:title document="${document}" /></span>
+            <span><ttc:title document="${document}" openInSpaceTabs="true"/></span>
         </h3>
         
         <!-- Description -->
