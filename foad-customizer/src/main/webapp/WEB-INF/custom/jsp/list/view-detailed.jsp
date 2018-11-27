@@ -15,14 +15,14 @@
                     <!-- File Mime type -->
                     <c:choose>
                         <c:when test="${document.type.file}">
-                            <div class="mime-type-container">
+                            <div class="document-type-container">
                                 <foad:mimeTypeIcon mimeType="${document.properties['file:content']['mime-type']}" />
                             </div>
                         </c:when>
                         
                         <c:when test="${document.type.name eq 'Note'}">
-                            <div class="mime-type-container">
-                                <i class="mime-type mime-type-note" data-extension="note"></i>
+                            <div class="document-type-container">
+                                <span class="document-type document-type-note" data-display="note"></span>
                             </div>
                         </c:when>
                     </c:choose>

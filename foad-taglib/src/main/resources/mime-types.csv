@@ -1,56 +1,57 @@
-mime-type,extension,description
-audio/3gpp2,3g2,Fichier audio 3GPP2
-video/3gpp2,3g2,Vidéo 3GPP2
-audio/3gpp,3gp,Fichier audio 3GPP
-video/3gpp,3gp,Vidéo 3GPP
-audio/aac,aac,Fichier audio AAC
-video/x-msvideo,avi,Vidéo AVI
-application/x-bzip,bz,Archive BZip
-application/x-bzip2,bz2,Archive BZip2
-text/css,css,Fichier CSS
-text/csv,csv,Fichier CSV
-application/msword,doc,Document Word
-application/vnd.openxmlformats-officedocument.wordprocessingml.document,docx,Document Word
-application/vnd.ms-fontobject,eot,Police Embedded OpenType
-application/epub+zip,epub,Fichier EPUB
-image/gif,gif,Image GIF
-text/html,html,Fichier HTML
-image/x-icon,ico,Fichier icône
-application/java-archive,jar,Archive Java
-image/jpeg,jpeg,Image JPEG
-application/javascript,js,Fichier JavaScript
-application/json,json,Fichier JSON
-application/gzip,gzip,Archive GZip
-audio/midi,midi,Fichier audio MIDI
-video/mpeg,mpeg,Vidéo MPEG
-application/vnd.oasis.opendocument.presentation,odp,Présentation OpenDocument
-application/vnd.oasis.opendocument.spreadsheet,ods,Feuille de calcul OpenDocument
-application/vnd.oasis.opendocument.text,odt,Document texte OpenDocument
-audio/ogg,oga,Fichier audio OGG
-video/ogg,ogv,Vidéo OGG
-application/ogg,ogx,Fichier OGG
-font/otf,otf,Police OpenType
-application/pdf,pdf,Fichier PDF
-image/png,png,Image PNG
-application/vnd.ms-powerpoint,ppt,Présentation PowerPoint
-application/vnd.openxmlformats-officedocument.presentationml.presentation,pptx,Présentation PowerPoint
-application/x-rar-compressed,rar,Archive RAR
-application/rtf,rtf,Fichier RTF
-application/x-sh,sh,Script Shell
-image/svg+xml,svg,Image SVG
-application/x-shockwave-flash,swf,Fichier Flash
-application/x-tar,tar,Archive TAR
-image/tiff,tiff,Image TIFF
-font/ttf,ttf,Police TrueType
-audio/x-wav,wav,Fichier audio WAV
-audio/webm,weba,Fichier audio WEBM
-video/webm,webm,Vidéo WEBM
-image/webp,webp,Image WEBP
-font/woff,woff,Police WOFF
-font/woff2,woff2,Police WOFF
-application/xhtml+xml,xhtml,Fichier XHTML
-application/vnd.ms-excel,xls,Feuille de calcul Excel
-application/vnd.ms-excel.sheet.macroenabled.12,xls,Feuille de calcul Excel
-application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,xlsx,Feuille de calcul Excel
-application/xml,xml,Fichier XML
-application/zip,zip,Archive ZIP
+mime-type,extension,description,display,icon
+application/epub+zip,epub,Fichier EPUB,,glyphicons glyphicons-pen
+application/gzip,gzip,Archive GZip,,glyphicons glyphicons-compressed
+application/java-archive,jar,Archive Java,,
+application/javascript,js,Fichier JavaScript,,glyphicons glyphicons-note
+application/json,json,Fichier JSON,,glyphicons glyphicons-note
+application/msword,doc,Document Word,W,
+application/ogg,ogx,Fichier OGG,,glyphicons glyphicons-film
+application/pdf,pdf,Fichier PDF,PDF,
+application/rtf,rtf,Fichier RTF,,glyphicons glyphicons-note
+application/vnd.ms-excel,xls,Feuille de calcul Excel,X,
+application/vnd.ms-excel.sheet.macroenabled.12,xls,Feuille de calcul Excel,X,
+application/vnd.ms-fontobject,eot,Police Embedded OpenType,,glyphicons glyphicons-font
+application/vnd.ms-powerpoint,ppt,Présentation PowerPoint,P,
+application/vnd.oasis.opendocument.presentation,odp,Présentation OpenDocument,P,
+application/vnd.oasis.opendocument.spreadsheet,ods,Feuille de calcul OpenDocument,X,
+application/vnd.oasis.opendocument.text,odt,Document texte OpenDocument,W,
+application/vnd.openxmlformats-officedocument.presentationml.presentation,pptx,Présentation PowerPoint,P,
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,xlsx,Feuille de calcul Excel,X,
+application/vnd.openxmlformats-officedocument.wordprocessingml.document,docx,Document Word,W,
+application/x-bzip,bz,Archive BZip,,glyphicons glyphicons-compressed
+application/x-bzip2,bz2,Archive BZip2,,glyphicons glyphicons-compressed
+application/x-rar-compressed,rar,Archive RAR,,glyphicons glyphicons-compressed
+application/x-sh,sh,Script Shell,,glyphicons glyphicons-note
+application/x-shockwave-flash,swf,Fichier Flash,,
+application/x-tar,tar,Archive TAR,,glyphicons glyphicons-compressed
+application/xhtml+xml,xhtml,Fichier XHTML,,glyphicons glyphicons-note
+application/xml,xml,Fichier XML,,glyphicons glyphicons-note
+application/zip,zip,Archive ZIP,,glyphicons glyphicons-compressed
+audio/3gpp,3gp,Fichier audio 3GPP,,glyphicons glyphicons-music
+audio/3gpp2,3g2,Fichier audio 3GPP2,,glyphicons glyphicons-music
+audio/aac,aac,Fichier audio AAC,,glyphicons glyphicons-music
+audio/midi,midi,Fichier audio MIDI,,glyphicons glyphicons-music
+audio/ogg,oga,Fichier audio OGG,,glyphicons glyphicons-music
+audio/webm,weba,Fichier audio WEBM,,glyphicons glyphicons-music
+audio/x-wav,wav,Fichier audio WAV,,glyphicons glyphicons-music
+font/otf,otf,Police OpenType,,glyphicons glyphicons-font
+font/ttf,ttf,Police TrueType,,glyphicons glyphicons-font
+font/woff,woff,Police WOFF,,glyphicons glyphicons-font
+font/woff2,woff2,Police WOFF,,glyphicons glyphicons-font
+image/gif,gif,Image GIF,,glyphicons glyphicons-picture
+image/jpeg,jpeg,Image JPEG,,glyphicons glyphicons-picture
+image/png,png,Image PNG,,glyphicons glyphicons-picture
+image/svg+xml,svg,Image SVG,,glyphicons glyphicons-picture
+image/tiff,tiff,Image TIFF,,glyphicons glyphicons-picture
+image/webp,webp,Image WEBP,,glyphicons glyphicons-picture
+image/x-icon,ico,Fichier icône,,glyphicons glyphicons-picture
+text/css,css,Fichier CSS,,glyphicons glyphicons-note
+text/csv,csv,Fichier CSV,,glyphicons glyphicons-note
+text/html,html,Fichier HTML,,glyphicons glyphicons-note
+text/plain,txt,Fichier texte,,glyphicons glyphicons-note
+video/3gpp,3gp,Vidéo 3GPP,,glyphicons glyphicons-film
+video/3gpp2,3g2,Vidéo 3GPP2,,glyphicons glyphicons-film
+video/mpeg,mpeg,Vidéo MPEG,,glyphicons glyphicons-film
+video/ogg,ogv,Vidéo OGG,,glyphicons glyphicons-film
+video/webm,webm,Vidéo WEBM,,glyphicons glyphicons-film
+video/x-msvideo,avi,Vidéo AVI,,glyphicons glyphicons-film

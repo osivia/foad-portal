@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.activation.MimeType;
+import javax.activation.MimeTypeParseException;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.csv.CSVFormat;
@@ -25,10 +26,6 @@ import org.osivia.portal.taglib.common.PortalSimpleTag;
  * @see PortalSimpleTag
  */
 public class GetMimeTypeIconTag extends PortalSimpleTag {
-
-    /** HTML class prefix. */
-    private static final String HTML_CLASS_PREFIX = "mime-type mime-type-";
-
 
     /** MIME types. */
     private static Map<String, MimeTypeValue> mimeTypes;
@@ -57,43 +54,84 @@ public class GetMimeTypeIconTag extends PortalSimpleTag {
 
         // MIME type value
         MimeTypeValue value = mimeTypes.get(this.mimeType);
-        MimeType mimeType;
-        String extension;
-        String description;
+
+        
+        // Document type DOM element
+        Element element = DOM4JUtils.generateElement("span", "document-type", StringUtils.EMPTY);
+        
+        // MIME type object
+        MimeType mimeTypeObject;
         if (value == null) {
-            mimeType = null;
-            extension = null;
-            description = null;
+            try {
+                mimeTypeObject = new MimeType(this.mimeType);
+            } catch (MimeTypeParseException e) {
+                mimeTypeObject = null;
+            }
         } else {
-            mimeType = value.getMimeType();
-            extension = value.getExtension();
-            description = value.getDescription();
+            mimeTypeObject = value.getMimeType();
         }
-
-
-        // Icon
-        Element icon = DOM4JUtils.generateElement("i", HTML_CLASS_PREFIX + StringUtils.defaultIfEmpty(extension, "unknown"), StringUtils.EMPTY);
-        if (mimeType != null) {
-            String primaryType = mimeType.getPrimaryType();
-            String subType = mimeType.getSubType();
-            if (StringUtils.isNotEmpty(primaryType)) {
-                DOM4JUtils.addDataAttribute(icon, "primary-type", primaryType);
-            }
-            if (StringUtils.isNotEmpty(subType)) {
-                DOM4JUtils.addDataAttribute(icon, "sub-type", subType);
-            }
+        if (mimeTypeObject != null) {
+            DOM4JUtils.addDataAttribute(element, "primary-type", mimeTypeObject.getPrimaryType());
+            DOM4JUtils.addDataAttribute(element, "sub-type", mimeTypeObject.getSubType());
+        }
+        
+        // MIME type extension
+        String extension;
+        if (value == null) {
+            extension = null;
+        } else {
+            extension = value.getExtension();
         }
         if (StringUtils.isNotEmpty(extension)) {
-            DOM4JUtils.addDataAttribute(icon, "extension", extension);
+            DOM4JUtils.addDataAttribute(element, "extension", extension);
+        }
+        
+        // MIME type description
+        String description;
+        if (value == null) {
+            description = null;
+        } else {
+            description = value.getDescription();
         }
         if (StringUtils.isNotEmpty(description)) {
-            DOM4JUtils.addDataAttribute(icon, "description", description);
+            DOM4JUtils.addAttribute(element, "title", description);
         }
+        
+        // MIME type display
+        String display;
+        if (value == null) {
+            display = null;
+        } else {
+            display = value.getDisplay();
+        }
+        if (StringUtils.isNotEmpty(display)) {
+            DOM4JUtils.addDataAttribute(element, "display", display);
+            DOM4JUtils.addDataAttribute(element, "length", String.valueOf(display.length()));
+        }
+        
+        // MIME type icon
+        String icon;
+        if (StringUtils.isNotEmpty(display) || (value == null)) {
+            icon = null;
+        } else {
+            icon = value.getIcon();
+        }
+        if (StringUtils.isNotEmpty(icon)) {
+            Element iconElement = DOM4JUtils.generateElement("i", icon, StringUtils.EMPTY);
+            element.add(iconElement);
+            DOM4JUtils.addDataAttribute(element, "length", String.valueOf(1));
+        }
+        
+        // Unknown MIME type indicator
+        if (value == null) {
+            DOM4JUtils.addDataAttribute(element, "unknown", StringUtils.EMPTY);
+        }
+
 
         // HTML writer
         HTMLWriter htmlWriter = new HTMLWriter(this.getJspContext().getOut());
         htmlWriter.setEscapeText(false);
-        htmlWriter.write(icon);
+        htmlWriter.write(element);
     }
 
 
@@ -112,8 +150,10 @@ public class GetMimeTypeIconTag extends PortalSimpleTag {
                 String mimeType = record.get("mime-type");
                 String extension = record.get("extension");
                 String description = record.get("description");
+                String display = record.get("display");
+                String icon = record.get("icon");
 
-                MimeTypeValue value = new MimeTypeValue(mimeType, extension, description);
+                MimeTypeValue value = new MimeTypeValue(mimeType, extension, description, display, icon);
                 map.put(mimeType, value);
             }
 

@@ -16,18 +16,27 @@ public class MimeTypeValue {
     private final String extension;
     /** MIME type description. */
     private final String description;
+    /** MIME type display. */
+    private final String display;
+    /** MIME type icon. */
+    private final String icon;
 
 
     /**
      * Constructor.
      * 
+     * @param mimeType MIME type
      * @param extension MIME type extension
      * @param description MIME type description
+     * @param display MIME type display
+     * @param icon MIME type icon
      */
-    public MimeTypeValue(String mimeType, String extension, String description) {
+    public MimeTypeValue(String mimeType, String extension, String description, String display, String icon) {
         super();
         this.extension = extension;
         this.description = description;
+        this.display = display;
+        this.icon = icon;
 
         // Mime type object
         MimeType mimeTypeObject;
@@ -65,6 +74,24 @@ public class MimeTypeValue {
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Getter for display.
+     * 
+     * @return the display
+     */
+    public String getDisplay() {
+        return display;
+    }
+
+    /**
+     * Getter for icon.
+     * 
+     * @return the icon
+     */
+    public String getIcon() {
+        return icon;
     }
 
 }

@@ -15,9 +15,9 @@
     }
     
     .panel-body {
-        > :last-child {
-            &, > :last-child {
-                margin-bottom: 0;
+        &, > div {
+            > :last-child {
+                margin-bottom: 0; 
             }
         }
     }
@@ -30,6 +30,10 @@
         padding-bottom: floor(@line-height-computed / 2);
         
         font-size: @font-size-h4;
+        
+        &:last-child {
+            padding-bottom: 0;
+        }
     }
     
     .actions {
@@ -81,7 +85,7 @@
         font-weight: 500;
     }
     
-    .mime-type-container, .flat-color-event {
+    .document-type-container, .flat-color-event {
         float: left;
     
         margin-right: @padding-base-horizontal;
