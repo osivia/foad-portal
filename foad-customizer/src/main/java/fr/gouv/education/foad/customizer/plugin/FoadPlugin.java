@@ -148,7 +148,7 @@ public class FoadPlugin extends AbstractPluginPortlet {
         templates.put(events.getKey(), events);
 
         // Workspaces
-        ListTemplate workspaces = new ListTemplate("workspaces", bundle.getString("LIST_TEMPLATE_WORKSPACES"), "dublincore, toutatice, toutatice_space");
+        ListTemplate workspaces = new ListTemplate("workspaces", bundle.getString("LIST_TEMPLATE_WORKSPACES"), null);
         workspaces.setModule(new WorkspacesListTemplateModule(portletContext));
         templates.put(workspaces.getKey(), workspaces);
     }
