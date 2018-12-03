@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
+import fr.gouv.education.foad.common.repository.CommonRepositoryImpl;
 import fr.gouv.education.foad.search.portlet.model.TaskPath;
 import fr.gouv.education.foad.search.portlet.repository.command.CreateSearchTaskCommand;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
@@ -31,10 +32,11 @@ import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoCommandContext;
  * Search portlet repository implementation.
  * 
  * @author Cédric Krommenhoek
+ * @see CommonRepositoryImpl
  * @see SearchRepository
  */
 @Repository
-public class SearchRepositoryImpl implements SearchRepository {
+public class SearchRepositoryImpl extends CommonRepositoryImpl implements SearchRepository {
 
     /** Application context. */
     @Autowired

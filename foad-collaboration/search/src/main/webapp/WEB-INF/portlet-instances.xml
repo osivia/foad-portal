@@ -19,4 +19,25 @@
         </instance>
     </deployment>
     
+    
+    <deployment>
+        <if-exists>overwrite</if-exists>
+        <instance>
+            <display-name xml:lang="en">FOAD - Search scope selector</display-name>
+            <display-name xml:lang="fr">FOAD - Sélecteur de portée de la recherche</display-name>
+            <instance-id>foad-scope-selector-instance</instance-id>
+            <portlet-ref>foad-scope-selector</portlet-ref>
+            <security-constraint>
+                <policy-permission>
+                    <action-name>admin</action-name>
+                    <role-name>Administrators</role-name>
+                </policy-permission>
+                <policy-permission>
+                    <action-name>view</action-name>
+                    <unchecked />
+                </policy-permission>
+            </security-constraint>
+        </instance>
+    </deployment>
+    
 </deployments>

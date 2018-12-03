@@ -4,14 +4,16 @@ import javax.portlet.PortletException;
 
 import org.osivia.portal.api.context.PortalControllerContext;
 
+import fr.gouv.education.foad.common.repository.CommonRepository;
 import fr.gouv.education.foad.search.portlet.model.TaskPath;
 
 /**
  * Search portlet repository interface.
  * 
  * @author Cédric Krommenhoek
+ * @see CommonRepository
  */
-public interface SearchRepository {
+public interface SearchRepository extends CommonRepository {
 
     /**
      * Get base path.

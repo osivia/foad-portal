@@ -66,7 +66,7 @@ public class SearchConfiguration extends CMSPortlet implements PortletConfigAwar
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setCache(true);
         viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/jsp/");
+        viewResolver.setPrefix("/WEB-INF/jsp/search/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }

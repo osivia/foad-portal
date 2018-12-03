@@ -10,5 +10,14 @@
             <trans-attribute>Required</trans-attribute>
         </transaction>
     </portlet>
+    
+    
+    <portlet>
+        <portlet-name>foad-scope-selector</portlet-name>
+
+        <transaction>
+            <trans-attribute>Required</trans-attribute>
+        </transaction>
+    </portlet>
 
 </portlet-app>

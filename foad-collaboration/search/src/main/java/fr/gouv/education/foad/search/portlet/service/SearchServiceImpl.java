@@ -91,7 +91,9 @@ public class SearchServiceImpl implements SearchService {
             if (StringUtils.isNotEmpty(query)) {
                 selectors.put("search", Arrays.asList(query));
             }
-            // TODO : local search indicator
+            // Scope
+
+            // Update selectors
             parameters.put("selectors", PageParametersEncoder.encodeProperties(selectors));
 
             // Display context
