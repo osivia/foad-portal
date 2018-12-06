@@ -9,11 +9,19 @@
 
 
 <form:form action="${url}" method="post" modelAttribute="settings" cssClass="form-horizontal">
+    <!-- Label -->
+    <div class="form-group">
+        <form:label path="label" cssClass="col-sm-3 control-label"><op:translate key="SELECTOR_LABEL_LABEL" /></form:label>
+        <div class="col-sm-9">
+            <form:input path="label" cssClass="form-control" />
+        </div>
+    </div>
+
     <!-- Selector identifier -->
     <div class="form-group">
-        <form:label path="selectorId" cssClass="col-sm-3 control-label"><op:translate key="SELECTOR_ID_LABEL" /></form:label>
+        <label class="col-sm-3 control-label"><op:translate key="SELECTOR_ID_LABEL" /></label>
         <div class="col-sm-9">
-            <form:input path="selectorId" cssClass="form-control" />
+            <p class="form-control-static">${settings.selectorId}</p>
         </div>
     </div>
     

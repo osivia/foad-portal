@@ -13,6 +13,10 @@ import fr.gouv.education.foad.search.portlet.model.SearchForm;
  */
 public interface SearchService {
 
+    /** Search scope selector identifier. */
+    String SCOPE_SELECTOR_ID = "scope";
+
+
     /**
      * Get form.
      * 

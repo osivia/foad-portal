@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import fr.gouv.education.foad.search.portlet.service.SearchService;
 import fr.gouv.education.foad.selector.scope.portlet.model.ScopeSelectorForm;
 import fr.gouv.education.foad.selector.scope.portlet.model.ScopeSelectorSettings;
 import fr.gouv.education.foad.selector.scope.portlet.model.SearchScope;
@@ -33,8 +34,8 @@ import fr.toutatice.portail.cms.nuxeo.api.PageSelectors;
 @Service
 public class ScopeSelectorServiceImpl implements ScopeSelectorService {
 
-    /** Selector identifier window property. */
-    private static final String SELECTOR_ID_WINDOW_PROPERTY = "foad.scope-selector.id";
+    /** Label window property. */
+    private static final String LABEL_WINDOW_PROPERTY = "foad.scope-selector.label";
 
 
     /** Application context. */
@@ -65,10 +66,13 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
         // Portlet settings
         ScopeSelectorSettings settings = this.applicationContext.getBean(ScopeSelectorSettings.class);
         
+        // Label
+        String label = window.getProperty(LABEL_WINDOW_PROPERTY);
+        settings.setLabel(label);
+
         // Selector identifier
-        String selectorId = window.getProperty(SELECTOR_ID_WINDOW_PROPERTY);
-        settings.setSelectorId(selectorId);
-        
+        settings.setSelectorId(SearchService.SCOPE_SELECTOR_ID);
+
         return settings;
     }
 
@@ -81,9 +85,9 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
         // Window
         PortalWindow window = WindowFactory.getWindow(portalControllerContext.getRequest());
 
-        // Selector identifier
-        String selectorId = StringUtils.trimToNull(settings.getSelectorId());
-        window.setProperty(SELECTOR_ID_WINDOW_PROPERTY, selectorId);
+        // Label
+        String label = StringUtils.trimToNull(settings.getLabel());
+        window.setProperty(LABEL_WINDOW_PROPERTY, label);
     }
 
 
@@ -95,16 +99,14 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
 
-        // Selectors
-        Map<String, List<String>> selectors = PageSelectors.decodeProperties(request.getParameter("selectors"));
-
         // Portlet settings
         ScopeSelectorSettings settings = this.getSettings(portalControllerContext);
-        // Selector identifier
-        String selectorId = settings.getSelectorId();
-        // Selector values
-        List<String> selectorValues = selectors.get(selectorId);
-        
+
+        // Selectors
+        Map<String, List<String>> selectors = PageSelectors.decodeProperties(request.getParameter("selectors"));
+        // Scope search selector
+        List<String> selectorValues = selectors.get(SearchService.SCOPE_SELECTOR_ID);
+
         // Empty selector indicator.
         boolean empty;
         if (CollectionUtils.isEmpty(selectorValues)) {
@@ -120,6 +122,10 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
         // Form
         ScopeSelectorForm form = this.applicationContext.getBean(ScopeSelectorForm.class);
 
+        // Label
+        String label = settings.getLabel();
+        form.setLabel(label);
+        
         // Search scope
         SearchScope scope;
         if (empty) {

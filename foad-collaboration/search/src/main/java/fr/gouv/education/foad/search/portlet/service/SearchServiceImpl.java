@@ -92,6 +92,7 @@ public class SearchServiceImpl implements SearchService {
                 selectors.put("search", Arrays.asList(query));
             }
             // Scope
+            selectors.put(SCOPE_SELECTOR_ID, Arrays.asList(basePath));
 
             // Update selectors
             parameters.put("selectors", PageParametersEncoder.encodeProperties(selectors));

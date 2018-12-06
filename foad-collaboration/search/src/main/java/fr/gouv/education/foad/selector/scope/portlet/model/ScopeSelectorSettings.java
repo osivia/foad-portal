@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ScopeSelectorSettings {
 
+    /** Label. */
+    private String label;
     /** Selector identifier. */
     private String selectorId;
 
@@ -24,6 +26,24 @@ public class ScopeSelectorSettings {
         super();
     }
 
+
+    /**
+     * Getter for label.
+     * 
+     * @return the label
+     */
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     * Setter for label.
+     * 
+     * @param label the label to set
+     */
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
     /**
      * Getter for selectorId.
