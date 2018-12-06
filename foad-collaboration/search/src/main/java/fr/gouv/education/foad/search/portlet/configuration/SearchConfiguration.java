@@ -8,6 +8,7 @@ import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.taskbar.ITaskbarService;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
+import org.osivia.portal.core.cms.ICMSServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -69,6 +70,17 @@ public class SearchConfiguration extends CMSPortlet implements PortletConfigAwar
         viewResolver.setPrefix("/WEB-INF/jsp/search/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+    }
+
+
+    /**
+     * Get CMS service locator.
+     * 
+     * @return CMS service locator
+     */
+    @Bean
+    public ICMSServiceLocator getCmsServiceLocator() {
+        return Locator.findMBean(ICMSServiceLocator.class, ICMSServiceLocator.MBEAN_NAME);
     }
 
 
