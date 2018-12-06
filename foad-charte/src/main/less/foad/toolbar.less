@@ -66,10 +66,27 @@
         }
     }
     
+    
     button[name="open-tasks"] {
-        .counter {
-            top: -6px;
-        }    
+        &[data-tasks-count]:not([data-tasks-count="0"]) {
+            color: @brand-warning;
+            
+            i {
+                border-radius: 50%;
+                
+                .animation-name(@name: pulse);
+                .animation-duration(@duration: 2s);
+                .animation-iteration-count(@iteration-count: infinite);
+            }
+            
+            &:hover, &:focus {
+                color: darken(@brand-warning, 15%);
+                
+                i {
+                    .animation(@animation: none);                    
+                }
+            }
+        }
     }
     
     
@@ -83,5 +100,20 @@
         .navbar-nav {
             display: none;
         }
+    }
+}
+
+
+@keyframes pulse {
+    0% {
+        .box-shadow(@shadow: 0 0 0 fade(@brand-warning, 100%));
+    }   
+    
+    70% {
+        .box-shadow(@shadow: 0 0 20px fade(@brand-warning, 0%));
+    } 
+    
+    100% {
+        .box-shadow(@shadow: 0 0 0 fade(@brand-warning, 0%));
     }
 }
