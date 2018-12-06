@@ -39,6 +39,14 @@
             <version>${collaboration.version}</version>
             <type>war</type>
         </dependency>
+        
+        <!-- File browser -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-file-browser</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
 
         <!-- Forum -->
         <dependency>
@@ -179,6 +187,13 @@
                             <groupId>org.osivia.services</groupId>
                             <artifactId>osivia-services-faq</artifactId>
                             <contextRoot>/osivia-services-faq</contextRoot>
+                        </webModule>
+                        
+                        <!-- File browser -->
+                        <webModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>foad-file-browser</artifactId>
+                            <contextRoot>/foad-file-browser</contextRoot>
                         </webModule>
                         
                         <!-- Forum -->

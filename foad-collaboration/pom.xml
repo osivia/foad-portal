@@ -15,11 +15,25 @@
 
 
     <modules>
+        <module>file-browser</module>
         <module>member-management</module>
         <module>search</module>
         <module>taskbar</module>
 
         <module>ear</module>
     </modules>
+    
+    
+    <dependencies>
+    
+        <!-- Taglib -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-taglib</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+    </dependencies>
 
 </project>
