@@ -102,6 +102,17 @@ public interface FileBrowserRepository {
 
 
     /**
+     * Move documents.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param sourceIdentifiers source document identifiers
+     * @param targetIdentifier target document identifier
+     * @throws PortletException
+     */
+    void move(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException;
+
+
+    /**
      * Update menubar.
      * 
      * @param portalControllerContext portal controller context

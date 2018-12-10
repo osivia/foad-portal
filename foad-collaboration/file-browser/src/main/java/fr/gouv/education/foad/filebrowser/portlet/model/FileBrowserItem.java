@@ -33,6 +33,8 @@ public class FileBrowserItem {
 
     /** Folderish indicator. */
     private boolean folderish;
+    /** Folderish accepted types. */
+    private String acceptedTypes;
 
     /** Publication infos. */
     private BasicPublicationInfos publicationInfos;
@@ -154,6 +156,24 @@ public class FileBrowserItem {
      */
     public void setFolderish(boolean folderish) {
         this.folderish = folderish;
+    }
+
+    /**
+     * Getter for acceptedTypes.
+     * 
+     * @return the acceptedTypes
+     */
+    public String getAcceptedTypes() {
+        return acceptedTypes;
+    }
+
+    /**
+     * Setter for acceptedTypes.
+     * 
+     * @param acceptedTypes the acceptedTypes to set
+     */
+    public void setAcceptedTypes(String acceptedTypes) {
+        this.acceptedTypes = acceptedTypes;
     }
 
     /**

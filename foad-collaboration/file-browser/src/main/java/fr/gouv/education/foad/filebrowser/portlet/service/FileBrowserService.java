@@ -86,6 +86,17 @@ public interface FileBrowserService {
 
 
     /**
+     * Drop.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param sourceIdentifiers source identifiers
+     * @param targetIdentifier target identifier
+     * @throws PortletException
+     */
+    void drop(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException;
+
+
+    /**
      * Update menubar.
      * 
      * @param portalControllerContext portal controller context

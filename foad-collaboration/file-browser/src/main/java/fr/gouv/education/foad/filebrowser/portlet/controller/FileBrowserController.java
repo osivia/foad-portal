@@ -140,6 +140,25 @@ public class FileBrowserController {
 
 
     /**
+     * Drop action mapping.
+     * 
+     * @param request action request
+     * @param response action response
+     * @param sourceIds source identifiers
+     * @param targetId target identifier
+     * @throws PortletException
+     */
+    @ActionMapping("drop")
+    public void drop(ActionRequest request, ActionResponse response, @RequestParam("sourceIds") String sourceIds, @RequestParam("targetId") String targetId)
+            throws PortletException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+
+        this.service.drop(portalControllerContext, Arrays.asList(StringUtils.split(sourceIds, ",")), targetId);
+    }
+
+
+    /**
      * Get toolbar resource mapping.
      * 
      * @param request resource request

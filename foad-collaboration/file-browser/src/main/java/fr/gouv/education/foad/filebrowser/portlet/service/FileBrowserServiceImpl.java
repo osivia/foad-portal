@@ -161,6 +161,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // Document DTO
         DocumentDTO documentDto = this.documentDao.toDTO(nuxeoDocument);
         item.setDocument(documentDto);
+        // Document type
+        DocumentType type = documentDto.getType();
 
         // Title
         String title = documentDto.getTitle();
@@ -179,8 +181,14 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         item.setSize(size);
 
         // Folderish indicator
-        boolean folderish = ((documentDto.getType() != null) && documentDto.getType().isFolderish());
+        boolean folderish = ((type != null) && type.isFolderish());
         item.setFolderish(folderish);
+
+        // Folderish accepted types
+        if (folderish) {
+            List<String> acceptedTypes = type.getPortalFormSubTypes();
+            item.setAcceptedTypes(StringUtils.join(acceptedTypes, ","));
+        }
 
         return item;
     }
@@ -912,6 +920,28 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         content.setFile(file);
 
         return content;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drop(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException {
+        // Portlet request
+        PortletRequest request = portalControllerContext.getRequest();
+        // Internationalization bundle
+        Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
+
+        // Move
+        this.repository.move(portalControllerContext, sourceIdentifiers, targetIdentifier);
+
+        // Notification
+        String message = bundle.getString("FILE_BROWSER_MOVE_SUCCESS_MESSAGE");
+        this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+
+        // Refresh navigation
+        request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
     }
 
 

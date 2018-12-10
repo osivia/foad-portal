@@ -1,4 +1,7 @@
-.file-browser-draggable {
+@import "variables.less";
+
+
+.file-browser-draggable-shadowbox {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -10,4 +13,40 @@
     .ui-selected & {
         visibility: visible;
     }
+}
+
+
+.file-browser-table-row {
+    .transition-property(@transition-property: opacity);
+    .transition-duration(@transition-duration: 200ms);
+    
+    &.file-browser-dragged {
+        opacity: 0.3;
+    }
+}
+
+
+.file-browser-helper {
+    > * {
+        position: relative;
+        z-index: 3;
+        
+        display: flex;
+        align-items: center;
+        
+        height: @cell-height;
+        
+        padding: @cell-padding;
+    }
+}
+
+
+.transition-property(@transition-property) {
+  -webkit-transition-property: @transition-property;
+          transition-property: @transition-property;
+}
+
+.transition-duration(@transition-duration) {
+  -webkit-transition-duration: @transition-duration;
+          transition-duration: @transition-duration;
 }

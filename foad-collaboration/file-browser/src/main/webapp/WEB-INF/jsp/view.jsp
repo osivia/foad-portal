@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 <%@ taglib uri="http://www.toutatice.fr/jsp/taglib/toutatice" prefix="ttc" %>
 <%@ taglib uri="https://tribu.phm.education.gouv.fr/jsp/taglib/foad" prefix="foad" %>
@@ -10,10 +11,12 @@
 
 <portlet:defineObjects />
 
+<portlet:actionURL name="drop" var="dropUrl" />
+
 <portlet:resourceURL id="toolbar" var="toolbarUrl" />
 
 
-<div class="file-browser" data-toolbar-url="${toolbarUrl}">
+<div class="file-browser" data-drop-url="${dropUrl}" data-toolbar-url="${toolbarUrl}">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="clearfix">
@@ -120,11 +123,11 @@
                                 <!-- Row group -->
                                 <div class="file-browser-table-row-group">
                                     <c:forEach var="item" items="${form.items}">
-                                        <div class="file-browser-table-row">
+                                        <div class="file-browser-table-row ${item.folderish ? 'file-browser-droppable' : ''}" data-id="${item.document.id}" data-type="${item.document.type.name}" data-text="${item.title}" data-accepted-types="${item.acceptedTypes}">
                                             <!-- Title -->
                                             <div class="file-browser-table-cell" data-column="title">
                                                 <div class="file-browser-cell">
-                                                    <div class="file-browser-text">
+                                                    <div class="file-browser-text file-browser-draggable">
                                                         <span><ttc:title document="${item.document}" /></span>
                                                     </div>
                                                 </div>
@@ -193,7 +196,9 @@
                                             </div>
                                             
                                             <!-- Draggable -->
-                                            <div class="file-browser-draggable border-primary"></div>
+                                            <c:if test="${item.document.type.supportsPortalForms}">
+                                                <div class="file-browser-draggable file-browser-draggable-shadowbox border-primary"></div>
+                                            </c:if>
                                         </div>
                                     </c:forEach>
                                 </div>

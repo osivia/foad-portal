@@ -42,6 +42,7 @@ import org.springframework.stereotype.Repository;
 
 import fr.gouv.education.foad.filebrowser.portlet.repository.command.CopyDocumentCommand;
 import fr.gouv.education.foad.filebrowser.portlet.repository.command.GetFileBrowserDocumentsCommand;
+import fr.gouv.education.foad.filebrowser.portlet.repository.command.MoveDocumentsCommand;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
@@ -353,6 +354,20 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
         zipBinaryContent.setFileSize(countingOutputStream.getByteCount());
 
         return zipBinaryContent;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void move(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+
+        // Nuxeo command
+        INuxeoCommand command = this.applicationContext.getBean(MoveDocumentsCommand.class, sourceIdentifiers, targetIdentifier);
+        nuxeoController.executeNuxeoCommand(command);
     }
 
 
