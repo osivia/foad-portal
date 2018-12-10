@@ -14,6 +14,31 @@
     <name>FOAD - File browser</name>
 
 
+    <properties>
+        <!-- JBoss -->
+        <jboss-portal.version>2.7.2</jboss-portal.version>
+    </properties>
+
+
+    <dependencies>
+
+        <!-- JBoss -->
+        <dependency>
+            <groupId>org.jboss.portal</groupId>
+            <artifactId>portal-core-lib</artifactId>
+            <version>${jboss-portal.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.portal</groupId>
+            <artifactId>portal-common-lib</artifactId>
+            <version>${jboss-portal.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+    </dependencies>
+
+
     <build>
         <plugins>
         

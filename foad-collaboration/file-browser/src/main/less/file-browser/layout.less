@@ -1,0 +1,92 @@
+@import "variables.less";
+
+
+.file-browser {
+    .user-select(@select: none);
+}
+
+
+.panel {
+    .file-browser > & {
+        margin-bottom: 0;
+    
+        > .panel-body {
+            padding: 28px;
+        }
+    }
+}
+
+
+.file-browser-filler {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+.file-browser-table-container {
+    position: relative;
+    
+    padding-top: @cell-height - @cell-padding + 2;
+    
+    > * {
+        border-bottom-style: solid;
+        border-width: 2px;
+        border-color: @gray;
+    }
+}
+
+
+.file-browser-checkbox {
+    @checkbox-size: 20px;
+    
+    flex-grow: 1;
+    
+    text-align: right;
+    
+    a {
+        font-size: @checkbox-size;
+        outline: 0;
+    }
+    
+    .ui-selecting &, .ui-selected & {
+        .glyphicons-unchecked {
+            &::before {
+                content: "\E153"; // check
+            }
+        }
+    }
+}
+
+
+.file-browser-empty {
+    .file-browser-cell {
+        height: @cell-height;
+        
+        > * {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+
+.file-browser-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;   
+}
+
+
+.user-select(@select) {
+  -webkit-user-select: @select;
+     -moz-user-select: @select;
+      -ms-user-select: @select; // IE10+
+          user-select: @select;
+}

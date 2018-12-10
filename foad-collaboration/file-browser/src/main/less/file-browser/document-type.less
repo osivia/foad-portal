@@ -1,0 +1,40 @@
+@import "variables.less";
+
+
+@document-type-size: @cell-height - (2 * @cell-padding);
+
+
+.document-type {
+    .file-browser & {
+        height: @document-type-size;
+        width: @document-type-size;
+        
+        font-size: 10px;
+        line-height: @document-type-size;
+        
+        i {
+            line-height: @document-type-size;
+        }
+        
+        // Length
+        &[data-length="1"] {
+            font-size: 16px;
+        }
+        &[data-length="2"] {
+            font-size: 14px;
+        }
+        &[data-length="3"] {
+            font-size: 12px;
+        }
+        
+        
+        &[data-folderish=true] {
+            color: @gray;
+            background-color: @white;
+        }
+        &[data-folderish=false] {
+            color: @white;
+            background-color: @gray;
+        }
+    }
+}

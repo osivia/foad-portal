@@ -1,20 +1,37 @@
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
+<%@ taglib uri="http://www.toutatice.fr/jsp/taglib/toutatice" prefix="ttc" %>
+<%@ taglib uri="https://tribu.phm.education.gouv.fr/jsp/taglib/foad" prefix="foad" %>
 
 <%@ page contentType="text/html" isELIgnored="false" %>
 
 
-<div class="file-browser">
+<portlet:defineObjects />
+
+<portlet:resourceURL id="toolbar" var="toolbarUrl" />
+
+
+<div class="file-browser" data-toolbar-url="${toolbarUrl}">
     <div class="panel panel-default">
         <div class="panel-body">
-            <!-- Toolbar -->
-            <div class="file-browser-toolbar">
-                <span>Contenu de la toolbar...</span>
-            </div>
+            <div class="clearfix">
+                <!-- View -->
+                <div class="pull-left">
+                    <a href="#" class="btn btn-default btn-sm">
+                        <i class="glyphicons glyphicons-show-big-thumbnails"></i>
+                    </a>
+                </div>
             
+                <!-- Toolbar -->
+                <div class="file-browser-toolbar pull-right">
+                    <div></div>
+                </div>
+            </div>
         
             <div class="file-browser-table-container">
-                <div class="portlet-filler">
+                <div class="file-browser-filler">
                     <!-- Table -->
                     <div class="file-browser-table">
                         <!-- Column group -->
@@ -31,21 +48,47 @@
                             <!-- Title -->
                             <div class="file-browser-table-cell" data-column="title">
                                 <div class="file-browser-cell" data-column="title">
-                                    <span><op:translate key="FILE_BROWSER_HEADER_TITLE" /></span>
+                                    <div class="file-browser-text">
+                                        <portlet:actionURL name="sort" var="url">
+                                            <portlet:param name="sort" value="title" />
+                                            <portlet:param name="alt" value="${form.criteria.sort.id eq 'title' and not form.criteria.alt}" />
+                                        </portlet:actionURL>
+                                    
+                                        <a href="${url}">
+                                            <span><op:translate key="FILE_BROWSER_HEADER_TITLE" /></span>
+                                            <c:if test="${form.criteria.sort.id eq 'title'}">
+                                                <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                            </c:if>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             
                             <!-- Last modification -->
                             <div class="file-browser-table-cell" data-column="last-modification">
                                 <div class="file-browser-cell" data-column="last-modification">
-                                    <span><op:translate key="FILE_BROWSER_HEADER_LAST_MODIFICATION" /></span>
+                                    <div class="file-browser-text">
+                                        <portlet:actionURL name="sort" var="url">
+                                            <portlet:param name="sort" value="last-modification" />
+                                            <portlet:param name="alt" value="${form.criteria.sort.id eq 'last-modification' and not form.criteria.alt}" />
+                                        </portlet:actionURL>
+                                    
+                                        <a href="${url}">
+                                            <span><op:translate key="FILE_BROWSER_HEADER_LAST_MODIFICATION" /></span>
+                                            <c:if test="${form.criteria.sort.id eq 'last-modification'}">
+                                                <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                            </c:if>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             
                             <!-- File size -->
                             <div class="file-browser-table-cell" data-column="file-size">
                                 <div class="file-browser-cell" data-column="file-size">
-                                    <span><op:translate key="FILE_BROWSER_HEADER_FILE_SIZE" /></span>
+                                    <div class="file-browser-text">
+                                        <span><op:translate key="FILE_BROWSER_HEADER_FILE_SIZE" /></span>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -62,49 +105,100 @@
                             </div>
                         </div>
                         
-                        <!-- Row group -->
-                        <div class="file-browser-table-row-group">
-                            <c:forEach var="item" items="${form.items}">
-                                <div class="file-browser-table-row">
-                                    <!-- Title -->
+                        <c:choose>
+                            <c:when test="${empty form.items}">
+                                <div class="file-browser-table-row file-browser-empty">
                                     <div class="file-browser-table-cell">
                                         <div class="file-browser-cell">
-                                            <span>${item.title}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Last modification -->
-                                    <div class="file-browser-table-cell">
-                                        <div class="file-browser-cell">
-                                            <span>14 juin 2018 - Nicolas SCHWEYER</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- File size -->
-                                    <div class="file-browser-table-cell">
-                                        <div class="file-browser-cell">
-                                            <span>000 ko</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Document type -->
-                                    <div class="file-browser-table-cell">
-                                        <div class="file-browser-cell">
-                                            <span>DOC</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Checkbox -->
-                                    <div class="file-browser-table-cell">
-                                        <div class="file-browser-cell">
-                                            <a href="javascript:;" class="no-ajax-link">
-                                                <i class="glyphicons glyphicons-unchecked"></i>
-                                            </a>
+                                            <span class="text-muted"><op:translate key="FILE_BROWSER_EMPTY" /></span>
                                         </div>
                                     </div>
                                 </div>
-                            </c:forEach>
-                        </div>
+                            </c:when>
+                            
+                            <c:otherwise>
+                                <!-- Row group -->
+                                <div class="file-browser-table-row-group">
+                                    <c:forEach var="item" items="${form.items}">
+                                        <div class="file-browser-table-row">
+                                            <!-- Title -->
+                                            <div class="file-browser-table-cell" data-column="title">
+                                                <div class="file-browser-cell">
+                                                    <div class="file-browser-text">
+                                                        <span><ttc:title document="${item.document}" /></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Last modification -->
+                                            <div class="file-browser-table-cell" data-column="last-modification">
+                                                <div class="file-browser-cell">
+                                                    <div class="file-browser-text">
+                                                        <span><fmt:formatDate value="${item.lastModification}" type="date" dateStyle="long" /></span>
+                                                        <span class="visible-lg-inline">
+                                                            <span>-</span>
+                                                            <span><ttc:user name="${item.lastContributor}" linkable="false" /></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- File size -->
+                                            <div class="file-browser-table-cell" data-column="file-size">
+                                                <div class="file-browser-cell">
+                                                    <div class="file-browser-text">
+                                                        <c:choose>
+                                                            <c:when test="${item.size gt 0}">
+                                                                <span><ttc:fileSize size="${item.size}" /></span>
+                                                            </c:when>
+                                                            
+                                                            <c:otherwise>
+                                                                <span>&ndash;</span>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Document type -->
+                                            <div class="file-browser-table-cell" data-column="document-type">
+                                                <div class="file-browser-cell">
+                                                    <c:choose>
+                                                        <c:when test="${item.document.type.file}">
+                                                            <foad:mimeTypeIcon mimeType="${item.document.properties['file:content']['mime-type']}" />
+                                                        </c:when>
+                                                        
+                                                        <c:when test="${item.document.type.name eq 'Note'}">
+                                                            <span class="document-type document-type-note" data-display="note" data-length="4"></span>
+                                                        </c:when>
+                                                        
+                                                        <c:when test="${not empty item.document.type.glyph}">
+                                                            <span class="document-type" data-length="1" data-folderish="${item.folderish}">
+                                                                <i class="${item.document.type.glyph}"></i>
+                                                            </span>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Checkbox -->
+                                            <div class="file-browser-table-cell" data-column="checkbox">
+                                                <div class="file-browser-cell">
+                                                    <div class="file-browser-checkbox">
+                                                        <a href="javascript:;" class="no-ajax-link">
+                                                            <i class="glyphicons glyphicons-unchecked"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Draggable -->
+                                            <div class="file-browser-draggable border-primary"></div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
