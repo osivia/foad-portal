@@ -10,7 +10,7 @@
     .list-inline {
         display: flex;
         align-items: center;
-        justify-content: end;
+        justify-content: flex-end;
         
         margin-right: -5px;
     }
@@ -81,10 +81,6 @@
             
             &:hover, &:focus {
                 color: darken(@brand-warning, 15%);
-                
-                i {
-                    .animation(@animation: none);                    
-                }
             }
         }
     }

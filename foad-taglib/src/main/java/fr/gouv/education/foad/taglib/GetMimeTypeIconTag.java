@@ -125,6 +125,7 @@ public class GetMimeTypeIconTag extends PortalSimpleTag {
         // Unknown MIME type indicator
         if (value == null) {
             DOM4JUtils.addDataAttribute(element, "unknown", StringUtils.EMPTY);
+            DOM4JUtils.addDataAttribute(element, "length", String.valueOf(1));
         }
 
 
