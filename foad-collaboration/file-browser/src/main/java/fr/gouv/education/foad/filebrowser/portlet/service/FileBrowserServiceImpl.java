@@ -1,5 +1,6 @@
 package fr.gouv.education.foad.filebrowser.portlet.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
+import javax.portlet.ResourceURL;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +29,7 @@ import org.jboss.portal.core.controller.ControllerContext;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
+import org.osivia.portal.api.cms.DocumentType;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.html.AccessibilityRoles;
@@ -37,6 +40,7 @@ import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.notifications.NotificationsType;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.api.urls.PortalUrlType;
+import org.osivia.portal.core.cms.CMSBinaryContent;
 import org.osivia.portal.core.constants.InternalConstants;
 import org.osivia.portal.core.context.ControllerContextAdapter;
 import org.osivia.portal.core.customization.ICustomizationService;
@@ -44,6 +48,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserItem;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
@@ -56,7 +61,7 @@ import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
 
 /**
  * File browser portlet service implementation.
- * 
+ *
  * @author Cédric Krommenhoek
  * @see FileBrowserService
  */
@@ -143,7 +148,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Create file browser item.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param nuxeoDocument Nuxeo document
      * @return item
@@ -185,8 +190,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * {@inheritDoc}
      */
     @Override
-    public void sortItems(PortalControllerContext portalControllerContext, FileBrowserForm form, FileBrowserSort sort, boolean alt)
-            throws PortletException {
+    public void sortItems(PortalControllerContext portalControllerContext, FileBrowserForm form, FileBrowserSort sort, boolean alt) throws PortletException {
         // Controller context
         ControllerContext controllerContext = ControllerContextAdapter.getControllerContext(portalControllerContext);
 
@@ -258,10 +262,45 @@ public class FileBrowserServiceImpl implements FileBrowserService {
             }
 
             if (indexes.size() == selectedItems.size()) {
+                // All editable indicator
+                boolean allEditable = true;
+                // All file indicator
+                boolean allFile = true;
+
+                // Selected documents
+                List<DocumentDTO> selection = new ArrayList<>(selectedItems.size());
+
+                Iterator<FileBrowserItem> iterator = selectedItems.iterator();
+                while (iterator.hasNext() && (allEditable || allFile)) {
+                    // Selected file browser item
+                    FileBrowserItem item = iterator.next();
+                    // Document DTO
+                    DocumentDTO documentDto = item.getDocument();
+                    selection.add(documentDto);
+                    // Document type
+                    DocumentType type = documentDto.getType();
+
+                    if ((type != null) && type.isSupportsPortalForms()) {
+                        // Permissions
+                        BasicPermissions permissions = item.getPermissions();
+                        if (permissions == null) {
+                            permissions = this.repository.getPermissions(portalControllerContext, documentDto.getDocument());
+                            item.setPermissions(permissions);
+                        }
+
+                        allEditable = allEditable && permissions.isEditableByUser();
+                    } else {
+                        allEditable = false;
+                    }
+
+                    allFile = allFile && (type != null) && type.isFile();
+                }
+
+
                 if (indexes.size() == 1) {
                     // Selected file browser item
                     FileBrowserItem item = selectedItems.get(0);
-                    
+
                     // Document DTO
                     DocumentDTO documentDto = item.getDocument();
                     // Nuxeo document
@@ -284,39 +323,25 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                     }
 
                     // Single selection
-                    Element singleSelectionGroup = getToolbarSingleSelectionGroup(portalControllerContext, documentDto, permissions, bundle);
+                    Element singleSelectionGroup = this.getToolbarSingleSelectionGroup(portalControllerContext, documentDto, permissions, bundle);
                     toolbar.add(singleSelectionGroup);
-                }
-
-
-                // All editable indicator
-                boolean allEditable = true;
-
-                // Selected documents
-                List<DocumentDTO> selection = new ArrayList<>(selectedItems.size());
-
-                Iterator<FileBrowserItem> iterator = selectedItems.iterator();
-                while (iterator.hasNext() && allEditable) {
-                    // Selected file browser item
-                    FileBrowserItem item = iterator.next();
-                    // Document DTO
-                    DocumentDTO documentDto = item.getDocument();
-                    selection.add(documentDto);
-
-                    if ((documentDto.getType() != null) && documentDto.getType().isSupportsPortalForms()) {
-                        // Permissions
-                        BasicPermissions permissions = item.getPermissions();
-                        if (permissions == null) {
-                            permissions = this.repository.getPermissions(portalControllerContext, documentDto.getDocument());
-                            item.setPermissions(permissions);
-                        }
-
-                        allEditable = permissions.isEditableByUser();
+                } else {
+                    // Bulk download
+                    Element bulkDownload;
+                    if (allFile) {
+                        String title = bundle.getString("FILE_BROWSER_TOOLBAR_DOWNLOAD");
+                        String url = this.getBulkDownloadUrl(portalControllerContext, selection);
+                        bulkDownload = DOM4JUtils.generateLinkElement(url, null, null, "btn btn-default btn-sm no-ajax-link", null,
+                                "glyphicons glyphicons-download-alt");
+                        // bulkDownload = DOM4JUtils.generateLinkElement(url, "_blank", null, "btn btn-default btn-sm no-ajax-link", null, "glyphicons
+                        // glyphicons-download-alt");
+                        DOM4JUtils.addAttribute(bulkDownload, "title", title);
                     } else {
-                        allEditable = false;
+                        bulkDownload = DOM4JUtils.generateLinkElement("#", null, null, "btn btn-default btn-sm disabled", null,
+                                "glyphicons glyphicons-download-alt");
                     }
+                    toolbar.add(bulkDownload);
                 }
-
 
                 // Multiple selection
                 Element multipleSelectionGroup = this.getToolbarMultipleSelectionGroup(portalControllerContext, selection, allEditable, container, bundle);
@@ -330,7 +355,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get toolbar live edition group DOM element.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param documentDto document DTO
      * @param bundle internationalization bundle
@@ -396,7 +421,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get single selection group DOM element.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param documentDto document DTO
      * @param permissions permissions
@@ -460,7 +485,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get toolbar multiple selection group DOM element.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param selection selected documents
      * @param allEditable all editable indicator
@@ -537,7 +562,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         }
         group.add(move);
 
-        
+
         // Delete
         Element delete;
         if (allEditable) {
@@ -558,12 +583,9 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     }
 
 
-
-
-
     /**
      * Get OnlyOffice URL.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param path document path
      * @param title title
@@ -593,7 +615,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get rename URL.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param path document path
      * @return URL
@@ -620,7 +642,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get duplicate URL.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param path document path
      * @return URL
@@ -650,8 +672,46 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
 
     /**
-     * Get move URL.
+     * Get bulk download URL.
      * 
+     * @param portalControllerContext portal controller context
+     * @param selection selected documents
+     * @return URL
+     */
+    private String getBulkDownloadUrl(PortalControllerContext portalControllerContext, List<DocumentDTO> selection) {
+        // Portlet response
+        PortletResponse portletResponse = portalControllerContext.getResponse();
+
+        // URL
+        String url;
+        if (portletResponse instanceof MimeResponse) {
+            MimeResponse mimeResponse = (MimeResponse) portletResponse;
+
+            // Paths
+            String[] paths = new String[selection.size()];
+            int i = 0;
+            for (DocumentDTO documentDto : selection) {
+                paths[i] = documentDto.getPath();
+                i++;
+            }
+
+            // Resource URL
+            ResourceURL resourceUrl = mimeResponse.createResourceURL();
+            resourceUrl.setResourceID("bulk-download");
+            resourceUrl.setParameter("paths", paths);
+
+            url = resourceUrl.toString();
+        } else {
+            url = "#";
+        }
+
+        return url;
+    }
+
+
+    /**
+     * Get move URL.
+     *
      * @param portalControllerContext portal controller context
      * @param identifiers selected document identifiers
      * @param paths selected document paths
@@ -684,7 +744,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get delete URL.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param identifiers selected document identifiers
      * @return URL
@@ -715,7 +775,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
     /**
      * Get toolbar delete modal confirmation DOM element.
-     * 
+     *
      * @param portalControllerContext portal controller context
      * @param identifiers selected document identifiers
      * @param id modal identifier
@@ -820,6 +880,38 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
         // Refresh navigation
         request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FileBrowserBulkDownloadContent getBulkDownload(PortalControllerContext portalControllerContext, List<String> paths)
+            throws PortletException, IOException {
+        // Binary content
+        CMSBinaryContent binaryContent = this.repository.getBinaryContent(portalControllerContext, paths);
+
+        // Bulk download content
+        FileBrowserBulkDownloadContent content = this.applicationContext.getBean(FileBrowserBulkDownloadContent.class);
+
+        // Content type
+        String mimeType = binaryContent.getMimeType();
+        content.setType(mimeType);
+
+        // Content disposition
+        StringBuilder disposition = new StringBuilder();
+        disposition.append("inline; ");
+        disposition.append("filename=\"");
+        disposition.append(StringUtils.trimToEmpty(binaryContent.getName()));
+        disposition.append("\"");
+        content.setDisposition(disposition.toString());
+
+        // File
+        File file = binaryContent.getFile();
+        content.setFile(file);
+
+        return content;
     }
 
 

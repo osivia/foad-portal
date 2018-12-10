@@ -1,6 +1,9 @@
 package fr.gouv.education.foad.filebrowser.portlet.controller;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 
 import javax.portlet.ActionRequest;
@@ -14,7 +17,9 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
 import org.dom4j.io.HTMLWriter;
@@ -28,6 +33,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
 import fr.gouv.education.foad.filebrowser.portlet.service.FileBrowserService;
@@ -158,6 +164,44 @@ public class FileBrowserController {
         HTMLWriter htmlWriter = new HTMLWriter(response.getPortletOutputStream());
         htmlWriter.write(toolbar);
         htmlWriter.close();
+    }
+
+
+    /**
+     * Get bulk download content resouce mapping.
+     * 
+     * @param request resource request
+     * @param response resource response
+     * @param paths document paths
+     * @throws PortletException
+     * @throws IOException
+     */
+    @ResourceMapping("bulk-download")
+    public void getBulkDownload(ResourceRequest request, ResourceResponse response, @RequestParam("paths") String paths) throws PortletException, IOException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+
+        // Bulk download content
+        FileBrowserBulkDownloadContent content = this.service.getBulkDownload(portalControllerContext, Arrays.asList(StringUtils.split(paths, ",")));
+
+        // Content type
+        response.setContentType(content.getType());
+        // Content disposition
+        response.setProperty("Content-disposition", content.getDisposition());
+        // Character encoding
+        response.setCharacterEncoding(CharEncoding.UTF_8);
+        // No cache
+        response.getCacheControl().setExpirationTime(0);
+        // Buffer size
+        response.setBufferSize(4096);
+
+        // Input steam
+        InputStream inputSteam = new FileInputStream(content.getFile());
+        // Output stream
+        OutputStream outputStream = response.getPortletOutputStream();
+        // Copy
+        IOUtils.copy(inputSteam, outputStream);
+        outputStream.close();
     }
 
 

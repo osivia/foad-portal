@@ -1,5 +1,6 @@
 package fr.gouv.education.foad.filebrowser.portlet.repository;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.portlet.PortletException;
@@ -7,6 +8,7 @@ import javax.portlet.PortletException;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.core.cms.CMSBinaryContent;
 
 /**
  * File browser portlet repository interface.
@@ -85,6 +87,18 @@ public interface FileBrowserRepository {
      * @throws PortletException
      */
     void delete(PortalControllerContext portalControllerContext, List<String> identifiers) throws PortletException;
+
+
+    /**
+     * Get binary content.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param paths document paths
+     * @return binary content
+     * @throws PortletException
+     * @throws IOException
+     */
+    CMSBinaryContent getBinaryContent(PortalControllerContext portalControllerContext, List<String> paths) throws PortletException, IOException;
 
 
     /**

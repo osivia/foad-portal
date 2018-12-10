@@ -8,6 +8,7 @@ import javax.portlet.PortletException;
 import org.dom4j.Element;
 import org.osivia.portal.api.context.PortalControllerContext;
 
+import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
 
@@ -70,6 +71,18 @@ public interface FileBrowserService {
      * @throws IOException
      */
     void delete(PortalControllerContext portalControllerContext, List<String> identifiers) throws PortletException, IOException;
+
+
+    /**
+     * Get bulk download content.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param paths document paths
+     * @return content
+     * @throws PortletException
+     * @throws IOException
+     */
+    FileBrowserBulkDownloadContent getBulkDownload(PortalControllerContext portalControllerContext, List<String> paths) throws PortletException, IOException;
 
 
     /**

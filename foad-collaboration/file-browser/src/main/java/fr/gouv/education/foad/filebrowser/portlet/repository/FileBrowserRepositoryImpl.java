@@ -1,9 +1,28 @@
 package fr.gouv.education.foad.filebrowser.portlet.repository;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedInputStream;
+import java.util.zip.Deflater;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.portlet.PortletException;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.io.output.CountingOutputStream;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.nuxeo.ecm.automation.client.model.Documents;
 import org.osivia.portal.api.Constants;
@@ -12,6 +31,7 @@ import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.urls.Link;
 import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
+import org.osivia.portal.core.cms.CMSBinaryContent;
 import org.osivia.portal.core.cms.CMSException;
 import org.osivia.portal.core.cms.CMSServiceCtx;
 import org.osivia.portal.core.cms.ICMSService;
@@ -35,6 +55,10 @@ import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
 @Repository
 public class FileBrowserRepositoryImpl implements FileBrowserRepository {
 
+    /** Zip file name RegEx. */
+    private static final String ZIP_FILE_NAME_REGEX = "(.+) \\(([0-9]+)\\)";
+
+
     /** Application context. */
     @Autowired
     private ApplicationContext applicationContext;
@@ -44,11 +68,18 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
     private ICMSServiceLocator cmsServiceLocator;
 
 
+    /** Zip file name pattern. */
+    private final Pattern zipFileNamePattern;
+
+
     /**
      * Constructor.
      */
     public FileBrowserRepositoryImpl() {
         super();
+
+        // Zip file name pattern
+        this.zipFileNamePattern = Pattern.compile(ZIP_FILE_NAME_REGEX);
     }
 
 
@@ -181,6 +212,147 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
                 throw new PortletException(e);
             }
         }
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CMSBinaryContent getBinaryContent(PortalControllerContext portalControllerContext, List<String> paths) throws PortletException, IOException {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+        nuxeoController.setStreamingSupport(true);
+
+        // Binary contents
+        List<CMSBinaryContent> contents = new ArrayList<>(paths.size());
+        for (String path : paths) {
+            CMSBinaryContent content = nuxeoController.fetchFileContent(path, "file:content");
+            contents.add(content);
+        }
+
+        // Zip file
+        File zipFile = File.createTempFile("file-browser-bulk-download-", ".tmp");
+        zipFile.deleteOnExit();
+
+        // Zip output stream
+        ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile));
+        zipOutputStream.setMethod(ZipOutputStream.STORED);
+        zipOutputStream.setLevel(Deflater.NO_COMPRESSION);
+
+        // Counting output stream
+        CountingOutputStream countingOutputStream = new CountingOutputStream(zipOutputStream);
+
+        // Zip file names
+        Set<String> zipFileNames = new HashSet<>();
+
+        try {
+            for (CMSBinaryContent content : contents) {
+                // File name ; must be unique
+                String fileName = content.getName();
+                while (zipFileNames.contains(fileName)) {
+                    String name = StringUtils.substringBeforeLast(fileName, ".");
+                    int counter;
+                    String extension = StringUtils.substringAfterLast(fileName, ".");
+
+                    // Matcher
+                    Matcher matcher = this.zipFileNamePattern.matcher(name);
+                    if (matcher.matches()) {
+                        name = matcher.group(1);
+                        counter = NumberUtils.toInt(matcher.group(2), 0);
+                    } else {
+                        counter = 0;
+                    }
+
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(name);
+                    builder.append(" (");
+                    builder.append(counter + 1);
+                    builder.append(").");
+                    builder.append(extension);
+
+                    fileName = builder.toString();
+                }
+                zipFileNames.add(fileName);
+
+                // Zip entry
+                ZipEntry zipEntry = new ZipEntry(fileName);
+                zipEntry.setSize(content.getFileSize());
+                zipEntry.setCompressedSize(-1);
+
+                // Buffer
+                byte[] buffer = new byte[1000000];
+
+                if (content.getFile() != null) {
+                    File file = content.getFile();
+                    zipEntry.setTime(file.lastModified());
+
+                    FileInputStream fileInputStream = new FileInputStream(file);
+
+                    // CRC
+                    CheckedInputStream checkedInputStream = new CheckedInputStream(fileInputStream, new CRC32());
+                    try {
+                        while (checkedInputStream.read(buffer) >= 0) {
+                        }
+                        zipEntry.setCrc(checkedInputStream.getChecksum().getValue());
+
+                        zipOutputStream.putNextEntry(zipEntry);
+                    } finally {
+                        IOUtils.closeQuietly(checkedInputStream);
+                    }
+
+                    // Write
+                    fileInputStream = new FileInputStream(file);
+                    try {
+                        int i = -1;
+                        while ((i = fileInputStream.read(buffer)) != -1) {
+                            countingOutputStream.write(buffer, 0, i);
+                        }
+                        countingOutputStream.flush();
+                    } finally {
+                        IOUtils.closeQuietly(fileInputStream);
+                    }
+                } else if (content.getStream() != null) {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+                    // CRC
+                    CheckedInputStream checkedInputStream = new CheckedInputStream(content.getStream(), new CRC32());
+                    try {
+                        int i = -1;
+                        while ((i = checkedInputStream.read(buffer)) != -1) {
+                            byteArrayOutputStream.write(buffer, 0, i);
+                        }
+                        zipEntry.setCrc(checkedInputStream.getChecksum().getValue());
+
+                        zipOutputStream.putNextEntry(zipEntry);
+                    } finally {
+                        IOUtils.closeQuietly(checkedInputStream);
+                    }
+
+                    // Write
+                    try {
+                        byteArrayOutputStream.writeTo(countingOutputStream);
+                        countingOutputStream.flush();
+                    } finally {
+                        IOUtils.closeQuietly(byteArrayOutputStream);
+                    }
+                } else {
+                    continue;
+                }
+            }
+        } finally {
+            IOUtils.closeQuietly(countingOutputStream);
+        }
+
+
+        // Zip binary content
+        CMSBinaryContent zipBinaryContent = new CMSBinaryContent();
+        zipBinaryContent.setName("export.zip");
+        zipBinaryContent.setFile(zipFile);
+        zipBinaryContent.setMimeType("application/zip");
+        zipBinaryContent.setFileSize(countingOutputStream.getByteCount());
+
+        return zipBinaryContent;
     }
 
 
