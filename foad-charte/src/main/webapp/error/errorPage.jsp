@@ -131,6 +131,8 @@
 
     <footer>
         <div class="container-fluid">
+            <img src="/foad-charte/img/logo-foad-footer.png" alt="FOAD">
+        
             <ul>
                 <li>
                     <i class="glyphicons glyphicons-copyright-mark"></i>
