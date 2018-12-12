@@ -276,30 +276,20 @@ public class TaskbarServiceImpl implements TaskbarService {
         try {
             this.repository.moveDocuments(portalControllerContext, sourceIds, targetId);
 
-            // Refresh navigation
-            request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
-
-            // Update public render parameter for associated portlets refresh
-            response.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
-
             // Notification
-            String message;
-            if (sourceIds.size() == 1) {
-                message = bundle.getString("DOCUMENT_MOVE_SUCCESS_MESSAGE");
-            } else {
-                message = bundle.getString("DOCUMENTS_MOVE_SUCCESS_MESSAGE", sourceIds.size());
-            }
+            String message = bundle.getString("TASKBAR_MOVE_SUCCESS_MESSAGE");
             this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
         } catch (NuxeoException e) {
             // Notification
-            String message;
-            if (sourceIds.size() == 1) {
-                message = bundle.getString("DOCUMENT_MOVE_WARNING_MESSAGE");
-            } else {
-                message = bundle.getString("DOCUMENTS_MOVE_WARNING_MESSAGE", sourceIds.size());
-            }
+            String message = bundle.getString("TASKBAR_MOVE_WARNING_MESSAGE");
             this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.WARNING);
         }
+
+        // Refresh navigation
+        request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+
+        // Update public render parameter for associated portlets refresh
+        response.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
     }
 
 
