@@ -60,6 +60,7 @@ import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSortCriteria;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserView;
 import fr.gouv.education.foad.filebrowser.portlet.model.comparator.FileBrowserItemComparator;
 import fr.gouv.education.foad.filebrowser.portlet.repository.FileBrowserRepository;
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
 import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
 import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
 import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
@@ -165,18 +166,36 @@ public class FileBrowserServiceImpl implements FileBrowserService {
             // Current document context
             NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
 
-            this.updateFormItems(portalControllerContext, form);
+            // Documents
+            List<Document> documents = this.repository.getDocuments(portalControllerContext);
+
+            // User subscriptions
+            Set<String> userSubscriptions = this.repository.getUserSubscriptions(portalControllerContext);
+
+            // Items
+            List<FileBrowserItem> items;
+            if (CollectionUtils.isEmpty(documents)) {
+                items = null;
+            } else {
+                items = new ArrayList<>(documents.size());
+
+                for (Document document : documents) {
+                    FileBrowserItem item = this.createItem(portalControllerContext, document);
+
+                    // Subscription
+                    boolean subscription = userSubscriptions.contains(document.getId());
+                    item.setSubscription(subscription);
+
+                    items.add(item);
+                }
+            }
+            form.setItems(items);
+
+            // Sort
+            this.sortItems(portalControllerContext, form, FileBrowserSort.TITLE, false);
 
             // Uploadable indicator
-            boolean uploadable;
-            if ((documentContext.getType() != null) && CollectionUtils.isNotEmpty(documentContext.getType().getPortalFormSubTypes())) {
-                // Permissions
-                BasicPermissions permissions = documentContext.getPermissions(BasicPermissions.class);
-
-                uploadable = permissions.isEditableByUser();
-            } else {
-                uploadable = false;
-            }
+            boolean uploadable = (documentContext.getType() != null) && CollectionUtils.isNotEmpty(documentContext.getType().getPortalFormSubTypes());
             form.setUploadable(uploadable);
 
             // Max file size
@@ -187,44 +206,6 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         }
 
         return form;
-    }
-
-
-    /**
-     * Update form items.
-     * 
-     * @param portalControllerContext portal controller context
-     * @param form form
-     * @throws PortletException
-     */
-    private void updateFormItems(PortalControllerContext portalControllerContext, FileBrowserForm form) throws PortletException {
-        // Documents
-        List<Document> documents = this.repository.getDocuments(portalControllerContext);
-
-        // User subscriptions
-        Set<String> userSubscriptions = this.repository.getUserSubscriptions(portalControllerContext);
-
-        // Items
-        List<FileBrowserItem> items;
-        if (CollectionUtils.isEmpty(documents)) {
-            items = null;
-        } else {
-            items = new ArrayList<>(documents.size());
-
-            for (Document document : documents) {
-                FileBrowserItem item = this.createItem(portalControllerContext, document);
-
-                // Subscription
-                boolean subscription = userSubscriptions.contains(document.getId());
-                item.setSubscription(subscription);
-
-                items.add(item);
-            }
-        }
-        form.setItems(items);
-
-        // Sort
-        this.sortItems(portalControllerContext, form, FileBrowserSort.TITLE, false);
     }
 
 
@@ -421,9 +402,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
 
                     // Live edition
-                    if (permissions.isEditableByUser() && documentDto.isLiveEditable()
-                            && this.customizationService.isPluginRegistered(OnlyofficeLiveEditHelper.ONLYOFFICE_PLUGIN_NAME)) {
-                        Element liveEditionGroup = this.getToolbarLiveEditionGroup(portalControllerContext, documentDto, bundle);
+                    if (documentDto.isLiveEditable() && this.customizationService.isPluginRegistered(OnlyofficeLiveEditHelper.ONLYOFFICE_PLUGIN_NAME)) {
+                        Element liveEditionGroup = this.getToolbarLiveEditionGroup(portalControllerContext, documentDto, permissions, bundle);
                         toolbar.add(liveEditionGroup);
                     }
 
@@ -464,12 +444,13 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      *
      * @param portalControllerContext portal controller context
      * @param documentDto document DTO
+     * @param permissions permissions
      * @param bundle internationalization bundle
      * @return DOM element
      * @throws PortletException
      */
-    private Element getToolbarLiveEditionGroup(PortalControllerContext portalControllerContext, DocumentDTO documentDto, Bundle bundle)
-            throws PortletException {
+    private Element getToolbarLiveEditionGroup(PortalControllerContext portalControllerContext, DocumentDTO documentDto, BasicPermissions permissions,
+            Bundle bundle) throws PortletException {
         // Document path
         String path = documentDto.getPath();
 
@@ -477,49 +458,55 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         String onlyOfficeText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE");
         String onlyOfficeWithLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITH_LOCK");
         String onlyOfficeWithoutLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITHOUT_LOCK");
+        String onlyOfficeReadOnlyText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_READ_ONLY");
 
         // URL
         String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeText, true);
         String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeText, false);
 
-
         // Live edition group
-        Element liveEditionGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm");
+        Element liveEditionGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm hidden-xs");
 
-        // OnlyOffice (with lock)
-        Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeText,
-                "glyphicons glyphicons-pencil");
-        liveEditionGroup.add(onlyOffice);
+        if (permissions.isEditableByUser()) {
+            // OnlyOffice (with lock)
+            Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeText,
+                    "glyphicons glyphicons-pencil");
+            liveEditionGroup.add(onlyOffice);
 
-        // OnlyOffice dropdown group
-        Element onlyOfficeDropdownGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm");
-        liveEditionGroup.add(onlyOfficeDropdownGroup);
+            // OnlyOffice dropdown group
+            Element onlyOfficeDropdownGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm");
+            liveEditionGroup.add(onlyOfficeDropdownGroup);
 
-        // OnlyOffice dropdown button
-        Element onlyOfficeDropdownButton = DOM4JUtils.generateElement("button", "btn btn-default dropdown-toggle", null);
-        DOM4JUtils.addAttribute(onlyOfficeDropdownButton, "type", "button");
-        DOM4JUtils.addDataAttribute(onlyOfficeDropdownButton, "toggle", "dropdown");
-        onlyOfficeDropdownGroup.add(onlyOfficeDropdownButton);
+            // OnlyOffice dropdown button
+            Element onlyOfficeDropdownButton = DOM4JUtils.generateElement("button", "btn btn-default dropdown-toggle", null);
+            DOM4JUtils.addAttribute(onlyOfficeDropdownButton, "type", "button");
+            DOM4JUtils.addDataAttribute(onlyOfficeDropdownButton, "toggle", "dropdown");
+            onlyOfficeDropdownGroup.add(onlyOfficeDropdownButton);
 
-        // OnlyOffice dropdown button caret
-        Element onlyOfficeDropdownButtonCaret = DOM4JUtils.generateElement("span", "caret", StringUtils.EMPTY);
-        onlyOfficeDropdownButton.add(onlyOfficeDropdownButtonCaret);
+            // OnlyOffice dropdown button caret
+            Element onlyOfficeDropdownButtonCaret = DOM4JUtils.generateElement("span", "caret", StringUtils.EMPTY);
+            onlyOfficeDropdownButton.add(onlyOfficeDropdownButtonCaret);
 
-        // OnlyOffice dropdown menu
-        Element onlyOfficeDropdownMenu = DOM4JUtils.generateElement("ul", "dropdown-menu dropdown-menu-right", null);
-        onlyOfficeDropdownGroup.add(onlyOfficeDropdownMenu);
+            // OnlyOffice dropdown menu
+            Element onlyOfficeDropdownMenu = DOM4JUtils.generateElement("ul", "dropdown-menu dropdown-menu-right", null);
+            onlyOfficeDropdownGroup.add(onlyOfficeDropdownMenu);
 
-        // OnlyOffice (with lock)
-        Element onlyOfficeWithLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
-        onlyOfficeDropdownMenu.add(onlyOfficeWithLockDropdownItem);
-        Element onlyOfficeWithLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "no-ajax-link", onlyOfficeWithLockText);
-        onlyOfficeWithLockDropdownItem.add(onlyOfficeWithLockLink);
+            // OnlyOffice (with lock)
+            Element onlyOfficeWithLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
+            onlyOfficeDropdownMenu.add(onlyOfficeWithLockDropdownItem);
+            Element onlyOfficeWithLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "no-ajax-link", onlyOfficeWithLockText);
+            onlyOfficeWithLockDropdownItem.add(onlyOfficeWithLockLink);
 
-        // OnlyOffice (without lock)
-        Element onlyOfficeWithoutLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
-        onlyOfficeDropdownMenu.add(onlyOfficeWithoutLockDropdownItem);
-        Element onlyOfficeWithoutLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "no-ajax-link", onlyOfficeWithoutLockText);
-        onlyOfficeWithoutLockDropdownItem.add(onlyOfficeWithoutLockLink);
+            // OnlyOffice (without lock)
+            Element onlyOfficeWithoutLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
+            onlyOfficeDropdownMenu.add(onlyOfficeWithoutLockDropdownItem);
+            Element onlyOfficeWithoutLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "no-ajax-link", onlyOfficeWithoutLockText);
+            onlyOfficeWithoutLockDropdownItem.add(onlyOfficeWithoutLockLink);
+        } else {
+            // OnlyOffice (read only)
+            Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeReadOnlyText);
+            liveEditionGroup.add(onlyOffice);
+        }
 
         return liveEditionGroup;
     }
@@ -961,12 +948,18 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
 
-        // Duplicate
-        this.repository.duplicate(portalControllerContext, path);
+        try {
+            // Duplicate
+            this.repository.duplicate(portalControllerContext, path);
 
-        // Notification
-        String message = bundle.getString("FILE_BROWSER_DUPLICATE_SUCCESS_MESSAGE");
-        this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_DUPLICATE_SUCCESS_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+        } catch (NuxeoException e) {
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_DUPLICATE_ERROR_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.ERROR);
+        }
 
         // Refresh navigation
         request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
@@ -983,12 +976,18 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
 
-        // Delete
-        this.repository.delete(portalControllerContext, identifiers);
+        try {
+            // Delete
+            this.repository.delete(portalControllerContext, identifiers);
 
-        // Notification
-        String message = bundle.getString("FILE_BROWSER_DELETE_SUCCESS_MESSAGE");
-        this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_DELETE_SUCCESS_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+        } catch (NuxeoException e) {
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_DELETE_ERROR_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.ERROR);
+        }
 
         // Refresh navigation
         request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
@@ -1039,12 +1038,18 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
 
-        // Move
-        this.repository.move(portalControllerContext, sourceIdentifiers, targetIdentifier);
+        try {
+            // Move
+            this.repository.move(portalControllerContext, sourceIdentifiers, targetIdentifier);
 
-        // Notification
-        String message = bundle.getString("FILE_BROWSER_MOVE_SUCCESS_MESSAGE");
-        this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_MOVE_SUCCESS_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+        } catch (NuxeoException e) {
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_MOVE_WARNING_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.WARNING);
+        }
 
         // Refresh navigation
         request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
@@ -1071,15 +1076,18 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         List<MultipartFile> upload = form.getUpload();
 
         if (CollectionUtils.isNotEmpty(upload)) {
-            // Import
-            this.repository.importFiles(portalControllerContext, upload);
+            try {
+                // Import
+                this.repository.importFiles(portalControllerContext, upload);
 
-            // Notification
-            String message = bundle.getString("FILE_BROWSER_UPLOAD_SUCCESS_MESSAGE");
-            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
-
-            // Update model
-            // this.updateFormItems(portalControllerContext, form);
+                // Notification
+                String message = bundle.getString("FILE_BROWSER_UPLOAD_SUCCESS_MESSAGE");
+                this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+            } catch (NuxeoException e) {
+                // Notification
+                String message = bundle.getString("FILE_BROWSER_UPLOAD_ERROR_MESSAGE");
+                this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.ERROR);
+            }
 
             // Refresh navigation
             request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);

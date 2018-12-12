@@ -3,25 +3,23 @@
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 
 
-<div class="clearfix">
+<div class="file-browser-toolbar-container">
     <!-- View -->
-    <div class="pull-left">
-        <div class="btn-group btn-group-sm">
-            <c:forEach var="item" items="${views}">
-                <portlet:actionURL name="change-view" var="url">
-                    <portlet:param name="view" value="${item.id}"/>
-                </portlet:actionURL>
-                <c:set var="title"><op:translate key="${item.key}" /></c:set>
-            
-                <a href="${url}" class="btn btn-default ${item.id eq view ? 'active' : ''}" title="${title}">
-                    <i class="${item.icon}"></i>
-                </a>
-            </c:forEach>
-        </div>
+    <div class="btn-group btn-group-sm">
+        <c:forEach var="item" items="${views}">
+            <portlet:actionURL name="change-view" var="url">
+                <portlet:param name="view" value="${item.id}"/>
+            </portlet:actionURL>
+            <c:set var="title"><op:translate key="${item.key}" /></c:set>
+        
+            <a href="${url}" class="btn btn-default ${item.id eq view ? 'active' : ''}" title="${title}">
+                <i class="${item.icon}"></i>
+            </a>
+        </c:forEach>
     </div>
 
     <!-- Toolbar -->
-    <div class="file-browser-toolbar pull-right">
+    <div class="file-browser-toolbar">
         <div></div>
     </div>
 </div>
