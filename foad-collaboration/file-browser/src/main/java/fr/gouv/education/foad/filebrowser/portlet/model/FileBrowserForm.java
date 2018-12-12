@@ -6,6 +6,7 @@ import org.osivia.portal.api.portlet.Refreshable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * File browser form java-bean.
@@ -21,6 +22,13 @@ public class FileBrowserForm {
     private List<FileBrowserItem> items;
     /** File browser sort criteria. */
     private FileBrowserSortCriteria criteria;
+    /** Uploadable indicator. */
+    private boolean uploadable;
+    /** Upload multipart files. */
+    private List<MultipartFile> upload;
+    /** Upload max file size. */
+    private Long maxFileSize;
+
     /** Initialized indicator. */
     private boolean initialized;
 
@@ -67,6 +75,60 @@ public class FileBrowserForm {
      */
     public void setCriteria(FileBrowserSortCriteria criteria) {
         this.criteria = criteria;
+    }
+
+    /**
+     * Getter for uploadable.
+     * 
+     * @return the uploadable
+     */
+    public boolean isUploadable() {
+        return uploadable;
+    }
+
+    /**
+     * Setter for uploadable.
+     * 
+     * @param uploadable the uploadable to set
+     */
+    public void setUploadable(boolean uploadable) {
+        this.uploadable = uploadable;
+    }
+
+    /**
+     * Getter for upload.
+     * 
+     * @return the upload
+     */
+    public List<MultipartFile> getUpload() {
+        return upload;
+    }
+
+    /**
+     * Setter for upload.
+     * 
+     * @param upload the upload to set
+     */
+    public void setUpload(List<MultipartFile> upload) {
+        this.upload = upload;
+    }
+
+    /**
+     * Getter for maxFileSize.
+     * 
+     * @return the maxFileSize
+     */
+    public Long getMaxFileSize() {
+        return maxFileSize;
+    }
+
+    /**
+     * Setter for maxFileSize.
+     * 
+     * @param maxFileSize the maxFileSize to set
+     */
+    public void setMaxFileSize(Long maxFileSize) {
+        this.maxFileSize = maxFileSize;
     }
 
     /**

@@ -2,13 +2,18 @@ package fr.gouv.education.foad.filebrowser.portlet.repository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import javax.portlet.PortletException;
 
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.api.user.UserPreferences;
 import org.osivia.portal.core.cms.CMSBinaryContent;
+import org.springframework.web.multipart.MultipartFile;
+
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
 
 /**
  * File browser portlet repository interface.
@@ -38,6 +43,16 @@ public interface FileBrowserRepository {
 
 
     /**
+     * Get current document context.
+     * 
+     * @param portalControllerContext portal controller context
+     * @return document context
+     * @throws PortletException
+     */
+    NuxeoDocumentContext getCurrentDocumentContext(PortalControllerContext portalControllerContext) throws PortletException;
+
+
+    /**
      * Get documents.
      * 
      * @param portalControllerContext portal controller context
@@ -56,6 +71,26 @@ public interface FileBrowserRepository {
      * @throws PortletException
      */
     BasicPermissions getPermissions(PortalControllerContext portalControllerContext, Document document) throws PortletException;
+
+
+    /**
+     * Get user subscriptions.
+     * 
+     * @param portalControllerContext portal controller context
+     * @return document identifiers
+     * @throws PortletException
+     */
+    Set<String> getUserSubscriptions(PortalControllerContext portalControllerContext) throws PortletException;
+
+
+    /**
+     * Get user preferences.
+     * 
+     * @param portalControllerContext portal controller context
+     * @return user preferences
+     * @throws PortletException
+     */
+    UserPreferences getUserPreferences(PortalControllerContext portalControllerContext) throws PortletException;
 
 
     /**
@@ -110,6 +145,17 @@ public interface FileBrowserRepository {
      * @throws PortletException
      */
     void move(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException;
+
+
+    /**
+     * Import files.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param upload upload multipart files
+     * @throws PortletException
+     * @throws IOException
+     */
+    void importFiles(PortalControllerContext portalControllerContext, List<MultipartFile> upload) throws PortletException, IOException;
 
 
     /**

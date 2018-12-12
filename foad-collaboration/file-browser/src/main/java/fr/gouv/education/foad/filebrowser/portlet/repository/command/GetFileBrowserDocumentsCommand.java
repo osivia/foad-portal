@@ -46,7 +46,6 @@ public class GetFileBrowserDocumentsCommand implements INuxeoCommand {
         StringBuilder nuxeoRequest = new StringBuilder();
         nuxeoRequest.append("ecm:parentId = '").append(this.parentId).append("' ");
         nuxeoRequest.append("AND NOT ecm:primaryType IN ('Workspace', 'WorkspaceRoot', 'PortalSite', 'Favorites') ");
-        nuxeoRequest.append("ORDER BY ecm:pos ASC");
 
         // Query filter
         NuxeoQueryFilterContext queryFilterContext = new NuxeoQueryFilterContext(NuxeoQueryFilterContext.STATE_LIVE,

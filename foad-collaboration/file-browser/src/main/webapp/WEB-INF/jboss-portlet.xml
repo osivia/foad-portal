@@ -13,6 +13,13 @@
         <header-content>
             <link rel="stylesheet" type="text/css" href="/css/file-browser.min.css" />
             <script type="text/javascript" src="/js/file-browser.js"></script>
+            
+            <!-- jQuery File Upload -->
+            <link rel="stylesheet" type="text/css" href="/components/jquery-file-upload-9.28.0/css/jquery.fileupload.css" />
+            <script type="text/javascript" src="/components/jquery-file-upload-9.28.0/js/jquery.fileupload.js" />
+            <script type="text/javascript" src="/components/jquery-file-upload-9.28.0/js/jquery.fileupload-process.js" />
+            <script type="text/javascript" src="/components/jquery-file-upload-9.28.0/js/jquery.fileupload-validate.js" />
+            <script type="text/javascript" src="/components/jquery-file-upload-9.28.0/js/jquery.fileupload-ui.js" />
         </header-content>
     </portlet>
     

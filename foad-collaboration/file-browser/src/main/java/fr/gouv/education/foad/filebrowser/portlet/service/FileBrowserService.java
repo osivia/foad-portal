@@ -11,6 +11,7 @@ import org.osivia.portal.api.context.PortalControllerContext;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
+import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserView;
 
 /**
  * File browser portlet service interface.
@@ -18,6 +19,26 @@ import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
  * @author Cédric Krommenhoek
  */
 public interface FileBrowserService {
+
+    /**
+     * Get view.
+     * 
+     * @param portalControllerContext portal controller context
+     * @return view
+     * @throws PortletException
+     */
+    FileBrowserView getView(PortalControllerContext portalControllerContext) throws PortletException;
+
+
+    /**
+     * Save view.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param view view
+     * @throws PortletException
+     */
+    void saveView(PortalControllerContext portalControllerContext, FileBrowserView view) throws PortletException;
+
 
     /**
      * Get form.
@@ -46,10 +67,11 @@ public interface FileBrowserService {
      * 
      * @param portalControllerContext portal controller context
      * @param indexes selected items indexes
+     * @param view view
      * @return DOM element
      * @throws PortletException
      */
-    Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes) throws PortletException;
+    Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes, FileBrowserView view) throws PortletException;
 
 
     /**
@@ -94,6 +116,17 @@ public interface FileBrowserService {
      * @throws PortletException
      */
     void drop(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException;
+
+
+    /**
+     * Upload.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param form form
+     * @throws PortletException
+     * @throws IOException
+     */
+    void upload(PortalControllerContext portalControllerContext, FileBrowserForm form) throws PortletException, IOException;
 
 
     /**

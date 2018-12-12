@@ -24,6 +24,10 @@ public class FileBrowserItem {
 
     /** Title. */
     private String title;
+    /** Lock icon. */
+    private String lock;
+    /** Subscription indicator. */
+    private boolean subscription;
     /** Last modification. */
     private Date lastModification;
     /** Last contributor. */
@@ -84,6 +88,42 @@ public class FileBrowserItem {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    /**
+     * Getter for lock.
+     * 
+     * @return the lock
+     */
+    public String getLock() {
+        return lock;
+    }
+
+    /**
+     * Setter for lock.
+     * 
+     * @param lock the lock to set
+     */
+    public void setLock(String lock) {
+        this.lock = lock;
+    }
+
+    /**
+     * Getter for subscription.
+     * 
+     * @return the subscription
+     */
+    public boolean isSubscription() {
+        return subscription;
+    }
+
+    /**
+     * Setter for subscription.
+     * 
+     * @param subscription the subscription to set
+     */
+    public void setSubscription(boolean subscription) {
+        this.subscription = subscription;
     }
 
     /**

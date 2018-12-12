@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -36,6 +37,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
+import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserView;
 import fr.gouv.education.foad.filebrowser.portlet.service.FileBrowserService;
 
 /**
@@ -73,9 +75,18 @@ public class FileBrowserController {
      * @throws PortletException
      */
     @RenderMapping
-    public String view(RenderRequest request, RenderResponse response) throws PortletException {
+    public String view(RenderRequest request, RenderResponse response, @RequestParam(name = "view", required = false) String viewId) throws PortletException {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+
+        // View
+        FileBrowserView view;
+        if (StringUtils.isEmpty(viewId)) {
+            view = this.service.getView(portalControllerContext);
+        } else {
+            view = FileBrowserView.fromId(viewId);
+        }
+        request.setAttribute("view", view.getId());
 
         // Update menubar
         this.service.updateMenubar(portalControllerContext);
@@ -85,22 +96,49 @@ public class FileBrowserController {
 
 
     /**
+     * Change view action mapping.
+     * 
+     * @param request action request
+     * @param response action response
+     * @param viewId view identifier
+     * @throws PortletException
+     */
+    @ActionMapping("change-view")
+    public void changeView(ActionRequest request, ActionResponse response, @RequestParam("view") String viewId) throws PortletException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+
+        // View
+        FileBrowserView view = FileBrowserView.fromId(viewId);
+
+        this.service.saveView(portalControllerContext, view);
+
+        // Copy view render parameter
+        response.setRenderParameter("view", view.getId());
+    }
+
+
+    /**
      * Sort action mapping.
      * 
      * @param request action request
      * @param response action response
      * @param sort sort request parameter
+     * @param viewId view identifier render parameter
      * @param alt alternative sort indicator request parameter
      * @param form form model attribute
      * @throws PortletException
      */
     @ActionMapping("sort")
     public void sort(ActionRequest request, ActionResponse response, @RequestParam("sort") String sort, @RequestParam("alt") String alt,
-            @ModelAttribute("form") FileBrowserForm form) throws PortletException {
+            @RequestParam(name = "view", required = false) String viewId, @ModelAttribute("form") FileBrowserForm form) throws PortletException {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         this.service.sortItems(portalControllerContext, form, FileBrowserSort.fromId(sort), BooleanUtils.toBoolean(alt));
+
+        // Copy view render parameter
+        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
     }
 
 
@@ -110,14 +148,19 @@ public class FileBrowserController {
      * @param request action request
      * @param response action response
      * @param path document path request parameter
+     * @param viewId view identifier request parameter
      * @throws PortletException
      */
     @ActionMapping("duplicate")
-    public void duplicate(ActionRequest request, ActionResponse response, @RequestParam("path") String path) throws PortletException {
+    public void duplicate(ActionRequest request, ActionResponse response, @RequestParam("path") String path,
+            @RequestParam(name = "view", required = false) String viewId) throws PortletException {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         this.service.duplicate(portalControllerContext, path);
+
+        // Copy view render parameter
+        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
     }
 
 
@@ -126,16 +169,20 @@ public class FileBrowserController {
      * 
      * @param request action request
      * @param response action response
-     * @param identifiers document identifiers
+     * @param identifiers document identifiers request parameter
      * @throws PortletException
      * @throws IOException
      */
     @ActionMapping("delete")
-    public void delete(ActionRequest request, ActionResponse response, @RequestParam("identifiers") String identifiers) throws PortletException, IOException {
+    public void delete(ActionRequest request, ActionResponse response, @RequestParam("identifiers") String identifiers,
+            @RequestParam(name = "view", required = false) String viewId) throws PortletException, IOException {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         this.service.delete(portalControllerContext, Arrays.asList(StringUtils.split(identifiers, ",")));
+
+        // Copy view render parameter
+        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
     }
 
 
@@ -144,17 +191,44 @@ public class FileBrowserController {
      * 
      * @param request action request
      * @param response action response
-     * @param sourceIds source identifiers
-     * @param targetId target identifier
+     * @param sourceIds source identifiers request parameter
+     * @param targetId target identifier request parameter
+     * @param viewId view identifier request parameter
      * @throws PortletException
      */
     @ActionMapping("drop")
-    public void drop(ActionRequest request, ActionResponse response, @RequestParam("sourceIds") String sourceIds, @RequestParam("targetId") String targetId)
-            throws PortletException {
+    public void drop(ActionRequest request, ActionResponse response, @RequestParam("sourceIds") String sourceIds, @RequestParam("targetId") String targetId,
+            @RequestParam(name = "view", required = false) String viewId) throws PortletException {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         this.service.drop(portalControllerContext, Arrays.asList(StringUtils.split(sourceIds, ",")), targetId);
+
+        // Copy view render parameter
+        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
+    }
+
+
+    /**
+     * Upload action mapping.
+     * 
+     * @param request action request
+     * @param response action response
+     * @param viewId view identifier request parameter
+     * @param form form model attribute
+     * @throws PortletException
+     * @throws IOException
+     */
+    @ActionMapping("upload")
+    public void upload(ActionRequest request, ActionResponse response, @RequestParam(name = "view", required = false) String viewId,
+            @ModelAttribute("form") FileBrowserForm form) throws PortletException, IOException {
+        // Portal controller context
+        PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
+
+        this.service.upload(portalControllerContext, form);
+
+        // Copy view render parameter
+        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
     }
 
 
@@ -164,17 +238,19 @@ public class FileBrowserController {
      * @param request resource request
      * @param response resource response
      * @param indexes selected items indexes
+     * @param viewId view identifier request parameter
      * @throws PortletException
      * @throws IOException
      */
     @ResourceMapping("toolbar")
-    public void getToolbar(ResourceRequest request, ResourceResponse response, @RequestParam(name = "indexes", required = false) String indexes)
-            throws PortletException, IOException {
+    public void getToolbar(ResourceRequest request, ResourceResponse response, @RequestParam(name = "indexes", required = false) String indexes,
+            @RequestParam(name = "view", required = false) String viewId) throws PortletException, IOException {
         // Portal controller context
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         // Toolbar
-        Element toolbar = this.service.getToolbar(portalControllerContext, Arrays.asList(StringUtils.split(StringUtils.trimToEmpty(indexes), ",")));
+        Element toolbar = this.service.getToolbar(portalControllerContext, Arrays.asList(StringUtils.split(StringUtils.trimToEmpty(indexes), ",")),
+                FileBrowserView.fromId(viewId));
 
         // Content type
         response.setContentType("text/html");
@@ -238,6 +314,20 @@ public class FileBrowserController {
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         return this.service.getForm(portalControllerContext);
+    }
+
+
+    /**
+     * Get views model attribute.
+     * 
+     * @param request portlet request
+     * @param response portlet response
+     * @return views
+     * @throws PortletException
+     */
+    @ModelAttribute("views")
+    public List<FileBrowserView> getViews(PortletRequest request, PortletResponse response) throws PortletException {
+        return Arrays.asList(FileBrowserView.values());
     }
 
 }

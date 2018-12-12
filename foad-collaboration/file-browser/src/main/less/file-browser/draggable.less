@@ -1,4 +1,10 @@
+@import "mixins.less";
 @import "variables.less";
+
+
+.file-browser-selectee {
+    position: relative;
+}
 
 
 .file-browser-draggable-shadowbox {
@@ -38,15 +44,4 @@
         
         padding: @cell-padding;
     }
-}
-
-
-.transition-property(@transition-property) {
-  -webkit-transition-property: @transition-property;
-          transition-property: @transition-property;
-}
-
-.transition-duration(@transition-duration) {
-  -webkit-transition-duration: @transition-duration;
-          transition-duration: @transition-duration;
 }

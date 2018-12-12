@@ -1,7 +1,10 @@
+@import "mixins.less";
 @import "variables.less";
 
 
 .file-browser {
+    position: relative;
+    
     .user-select(@select: none);
 }
 
@@ -80,13 +83,15 @@
 .file-browser-text {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;   
-}
-
-
-.user-select(@select) {
-  -webkit-user-select: @select;
-     -moz-user-select: @select;
-      -ms-user-select: @select; // IE10+
-          user-select: @select;
+    white-space: nowrap;
+    
+    ~ * {
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
+        
+        > * {
+            margin-left: @cell-padding;
+        }
+    }
 }

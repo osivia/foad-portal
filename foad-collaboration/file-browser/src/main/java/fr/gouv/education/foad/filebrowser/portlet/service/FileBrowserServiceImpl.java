@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.MimeResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -40,6 +41,7 @@ import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.notifications.NotificationsType;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.api.urls.PortalUrlType;
+import org.osivia.portal.api.user.UserPreferences;
 import org.osivia.portal.core.cms.CMSBinaryContent;
 import org.osivia.portal.core.constants.InternalConstants;
 import org.osivia.portal.core.context.ControllerContextAdapter;
@@ -47,14 +49,18 @@ import org.osivia.portal.core.customization.ICustomizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import fr.gouv.education.foad.filebrowser.portlet.configuration.FileBrowserConfiguration;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserItem;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
 import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSortCriteria;
+import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserView;
 import fr.gouv.education.foad.filebrowser.portlet.model.comparator.FileBrowserItemComparator;
 import fr.gouv.education.foad.filebrowser.portlet.repository.FileBrowserRepository;
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
 import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
 import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
 import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
@@ -113,36 +119,112 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * {@inheritDoc}
      */
     @Override
+    public FileBrowserView getView(PortalControllerContext portalControllerContext) throws PortletException {
+        // Current document
+        NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
+        Document document = documentContext.getDoc();
+        // WebId
+        String webId = document.getString("ttc:webid");
+
+        // User preferences
+        UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
+        // Saved view
+        String savedView = userPreferences.getFolderDisplayMode(webId);
+
+        return FileBrowserView.fromId(savedView);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void saveView(PortalControllerContext portalControllerContext, FileBrowserView view) throws PortletException {
+        // Current document
+        NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
+        Document document = documentContext.getDoc();
+        // WebId
+        String webId = document.getString("ttc:webid");
+
+        // User preferences
+        UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
+
+        userPreferences.updateFolderDisplayMode(webId, view.getId());
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public FileBrowserForm getForm(PortalControllerContext portalControllerContext) throws PortletException {
         // Form
         FileBrowserForm form = this.applicationContext.getBean(FileBrowserForm.class);
 
         if (!form.isInitialized()) {
-            // Documents
-            List<Document> documents = this.repository.getDocuments(portalControllerContext);
+            // Current document context
+            NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
 
-            // Items
-            List<FileBrowserItem> items;
-            if (CollectionUtils.isEmpty(documents)) {
-                items = null;
+            this.updateFormItems(portalControllerContext, form);
+
+            // Uploadable indicator
+            boolean uploadable;
+            if ((documentContext.getType() != null) && CollectionUtils.isNotEmpty(documentContext.getType().getPortalFormSubTypes())) {
+                // Permissions
+                BasicPermissions permissions = documentContext.getPermissions(BasicPermissions.class);
+
+                uploadable = permissions.isEditableByUser();
             } else {
-                items = new ArrayList<>(documents.size());
-
-                for (Document document : documents) {
-                    FileBrowserItem item = this.createItem(portalControllerContext, document);
-                    items.add(item);
-                }
+                uploadable = false;
             }
-            form.setItems(items);
+            form.setUploadable(uploadable);
 
-            // Sort
-            this.sortItems(portalControllerContext, form, FileBrowserSort.TITLE, false);
+            // Max file size
+            form.setMaxFileSize(FileBrowserConfiguration.MAX_UPLOAD_SIZE_PER_FILE);
 
             // Initialized indicator
             form.setInitialized(true);
         }
 
         return form;
+    }
+
+
+    /**
+     * Update form items.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param form form
+     * @throws PortletException
+     */
+    private void updateFormItems(PortalControllerContext portalControllerContext, FileBrowserForm form) throws PortletException {
+        // Documents
+        List<Document> documents = this.repository.getDocuments(portalControllerContext);
+
+        // User subscriptions
+        Set<String> userSubscriptions = this.repository.getUserSubscriptions(portalControllerContext);
+
+        // Items
+        List<FileBrowserItem> items;
+        if (CollectionUtils.isEmpty(documents)) {
+            items = null;
+        } else {
+            items = new ArrayList<>(documents.size());
+
+            for (Document document : documents) {
+                FileBrowserItem item = this.createItem(portalControllerContext, document);
+
+                // Subscription
+                boolean subscription = userSubscriptions.contains(document.getId());
+                item.setSubscription(subscription);
+
+                items.add(item);
+            }
+        }
+        form.setItems(items);
+
+        // Sort
+        this.sortItems(portalControllerContext, form, FileBrowserSort.TITLE, false);
     }
 
 
@@ -155,6 +237,9 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * @throws PortletException
      */
     private FileBrowserItem createItem(PortalControllerContext portalControllerContext, Document nuxeoDocument) throws PortletException {
+        // Portlet request
+        PortletRequest request = portalControllerContext.getRequest();
+
         // Item
         FileBrowserItem item = this.applicationContext.getBean(FileBrowserItem.class);
 
@@ -167,6 +252,18 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // Title
         String title = documentDto.getTitle();
         item.setTitle(title);
+
+        // Lock icon
+        String lockOwner = nuxeoDocument.getString("ttc:lockOwner");
+        String lockIcon;
+        if (StringUtils.isEmpty(lockOwner)) {
+            lockIcon = null;
+        } else if (StringUtils.equals(request.getRemoteUser(), lockOwner)) {
+            lockIcon = "glyphicons glyphicons-user-lock";
+        } else {
+            lockIcon = "glyphicons glyphicons-lock";
+        }
+        item.setLock(lockIcon);
 
         // Last modification
         Date lastModification = nuxeoDocument.getDate("dc:modified");
@@ -241,7 +338,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * {@inheritDoc}
      */
     @Override
-    public Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes) throws PortletException {
+    public Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes, FileBrowserView view) throws PortletException {
         // Toolbar container
         Element container = DOM4JUtils.generateDivElement(null);
 
@@ -331,7 +428,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                     }
 
                     // Single selection
-                    Element singleSelectionGroup = this.getToolbarSingleSelectionGroup(portalControllerContext, documentDto, permissions, bundle);
+                    Element singleSelectionGroup = this.getToolbarSingleSelectionGroup(portalControllerContext, view, documentDto, permissions, bundle);
                     toolbar.add(singleSelectionGroup);
                 } else {
                     // Bulk download
@@ -352,7 +449,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 }
 
                 // Multiple selection
-                Element multipleSelectionGroup = this.getToolbarMultipleSelectionGroup(portalControllerContext, selection, allEditable, container, bundle);
+                Element multipleSelectionGroup = this.getToolbarMultipleSelectionGroup(portalControllerContext, view, selection, allEditable, container,
+                        bundle);
                 toolbar.add(multipleSelectionGroup);
             }
         }
@@ -431,15 +529,15 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * Get single selection group DOM element.
      *
      * @param portalControllerContext portal controller context
+     * @param view view
      * @param documentDto document DTO
      * @param permissions permissions
      * @param bundle internationalization bundle
      * @return DOM element
      * @throws PortletException
      */
-    private Element getToolbarSingleSelectionGroup(PortalControllerContext portalControllerContext, DocumentDTO documentDto, BasicPermissions permissions,
-            Bundle bundle) throws PortletException {
-
+    private Element getToolbarSingleSelectionGroup(PortalControllerContext portalControllerContext, FileBrowserView view, DocumentDTO documentDto,
+            BasicPermissions permissions, Bundle bundle) throws PortletException {
         // Nuxeo document
         Document nuxeoDocument = documentDto.getDocument();
         // Document path
@@ -479,7 +577,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         Element duplicate;
         if (permissions.isCopiable()) {
             String title = bundle.getString("FILE_BROWSER_TOOLBAR_DUPLICATE");
-            String url = this.getDuplicateUrl(portalControllerContext, path);
+            String url = this.getDuplicateUrl(portalControllerContext, path, view);
             duplicate = DOM4JUtils.generateLinkElement(url, null, null, "btn btn-default", null, "glyphicons glyphicons-duplicate");
             DOM4JUtils.addAttribute(duplicate, "title", title);
         } else {
@@ -495,6 +593,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * Get toolbar multiple selection group DOM element.
      *
      * @param portalControllerContext portal controller context
+     * @param view view
      * @param selection selected documents
      * @param allEditable all editable indicator
      * @param container toolbar container DOM element
@@ -502,8 +601,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * @return DOM element
      * @throws PortletException
      */
-    private Element getToolbarMultipleSelectionGroup(PortalControllerContext portalControllerContext, List<DocumentDTO> selection, boolean allEditable,
-            Element container, Bundle bundle) throws PortletException {
+    private Element getToolbarMultipleSelectionGroup(PortalControllerContext portalControllerContext, FileBrowserView view, List<DocumentDTO> selection,
+            boolean allEditable, Element container, Bundle bundle) throws PortletException {
         // Namespace
         String namespace = portalControllerContext.getResponse().getNamespace();
 
@@ -580,7 +679,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
             DOM4JUtils.addDataAttribute(delete, "toggle", "modal");
 
             // Delete confirmation modal
-            Element modal = this.getToolbarDeleteModal(portalControllerContext, identifiers, deleteId, bundle);
+            Element modal = this.getToolbarDeleteModal(portalControllerContext, identifiers, view, deleteId, bundle);
             container.add(modal);
         } else {
             delete = DOM4JUtils.generateLinkElement("#", null, null, "btn btn-default disabled", null, "glyphicons glyphicons-bin");
@@ -653,10 +752,11 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      *
      * @param portalControllerContext portal controller context
      * @param path document path
+     * @param view view
      * @return URL
      * @throws PortletException
      */
-    private String getDuplicateUrl(PortalControllerContext portalControllerContext, String path) throws PortletException {
+    private String getDuplicateUrl(PortalControllerContext portalControllerContext, String path, FileBrowserView view) throws PortletException {
         // Portlet response
         PortletResponse portletResponse = portalControllerContext.getResponse();
 
@@ -669,6 +769,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
             PortletURL actionUrl = mimeResponse.createActionURL();
             actionUrl.setParameter(ActionRequest.ACTION_NAME, "duplicate");
             actionUrl.setParameter("path", path);
+            actionUrl.setParameter("view", view.getId());
 
             url = actionUrl.toString();
         } else {
@@ -755,10 +856,11 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      *
      * @param portalControllerContext portal controller context
      * @param identifiers selected document identifiers
+     * @param view view
      * @return URL
      * @throws PortletException
      */
-    private String getDeleteUrl(PortalControllerContext portalControllerContext, List<String> identifiers) throws PortletException {
+    private String getDeleteUrl(PortalControllerContext portalControllerContext, List<String> identifiers, FileBrowserView view) throws PortletException {
         // Portlet response
         PortletResponse portletResponse = portalControllerContext.getResponse();
 
@@ -771,6 +873,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
             PortletURL actionUrl = mimeResponse.createActionURL();
             actionUrl.setParameter(ActionRequest.ACTION_NAME, "delete");
             actionUrl.setParameter("identifiers", StringUtils.join(identifiers, ","));
+            actionUrl.setParameter("view", view.getId());
 
             url = actionUrl.toString();
         } else {
@@ -786,13 +889,14 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      *
      * @param portalControllerContext portal controller context
      * @param identifiers selected document identifiers
+     * @param view view
      * @param id modal identifier
      * @param bundle internationalization bundle
      * @return DOM element
      * @throws PortletException
      */
-    private Element getToolbarDeleteModal(PortalControllerContext portalControllerContext, List<String> identifiers, String id, Bundle bundle)
-            throws PortletException {
+    private Element getToolbarDeleteModal(PortalControllerContext portalControllerContext, List<String> identifiers, FileBrowserView view, String id,
+            Bundle bundle) throws PortletException {
         // Modal
         Element modal = DOM4JUtils.generateDivElement("modal fade");
         DOM4JUtils.addAttribute(modal, "id", id);
@@ -832,7 +936,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         modalContent.add(modalFooter);
 
         // Confirmation button
-        String url = this.getDeleteUrl(portalControllerContext, identifiers);
+        String url = this.getDeleteUrl(portalControllerContext, identifiers, view);
         Element confirm = DOM4JUtils.generateLinkElement(url, null, null, "btn btn-warning no-ajax-link", bundle.getString("FILE_BROWSER_TOOLBAR_DELETE"),
                 "glyphicons glyphicons-bin");
         modalFooter.add(confirm);
@@ -930,6 +1034,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     public void drop(PortalControllerContext portalControllerContext, List<String> sourceIdentifiers, String targetIdentifier) throws PortletException {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
+        // Portlet response
+        PortletResponse response = portalControllerContext.getResponse();
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
 
@@ -942,6 +1048,42 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
         // Refresh navigation
         request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+
+        // Update public render parameter for associated portlets refresh
+        if (response instanceof ActionResponse) {
+            ActionResponse actionResponse = (ActionResponse) response;
+            actionResponse.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
+        }
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void upload(PortalControllerContext portalControllerContext, FileBrowserForm form) throws PortletException, IOException {
+        // Portlet request
+        PortletRequest request = portalControllerContext.getRequest();
+        // Internationalization bundle
+        Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
+
+        // Upload multipart files
+        List<MultipartFile> upload = form.getUpload();
+
+        if (CollectionUtils.isNotEmpty(upload)) {
+            // Import
+            this.repository.importFiles(portalControllerContext, upload);
+
+            // Notification
+            String message = bundle.getString("FILE_BROWSER_UPLOAD_SUCCESS_MESSAGE");
+            this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
+
+            // Update model
+            // this.updateFormItems(portalControllerContext, form);
+
+            // Refresh navigation
+            request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+        }
     }
 
 

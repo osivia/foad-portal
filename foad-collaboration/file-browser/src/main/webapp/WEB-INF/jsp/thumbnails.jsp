@@ -1,0 +1,112 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
+<%@ taglib uri="http://www.toutatice.fr/jsp/taglib/toutatice" prefix="ttc" %>
+<%@ taglib uri="https://tribu.phm.education.gouv.fr/jsp/taglib/foad" prefix="foad" %>
+
+
+<div class="file-browser-thumbnails-container file-browser-selectable">
+    <div class="file-browser-filler">
+        <div class="file-browser-folders">
+            <h3 class="h4"><op:translate key="FILE_BROWSER_FOLDERS" /></h3>
+            
+            <c:set var="count" value="0" />
+            
+            <div class="row">
+                <c:forEach var="item" items="${form.items}">
+                    <c:if test="${item.folderish}">
+                        <c:set var="count" value="${count + 1}" />
+                        
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="file-browser-thumbnail file-browser-selectee file-browser-droppable" data-id="${item.document.id}" data-type="${item.document.type.name}" data-text="${item.title}" data-accepted-types="${item.acceptedTypes}">
+                                <!-- Title -->
+                                <div class="file-browser-thumbnail-title">
+                                    <div class="file-browser-text file-browser-draggable">
+                                        <span><ttc:title document="${item.document}" /></span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Draggable -->
+                                <c:if test="${item.document.type.supportsPortalForms}">
+                                    <div class="file-browser-draggable file-browser-draggable-shadowbox border-primary"></div>
+                                </c:if>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
+            
+            <c:if test="${count eq 0}">
+                <div class="file-browser-cell">
+                    <span class="text-muted"><op:translate key="FILE_BROWSER_EMPTY" /></span>
+                </div>
+            </c:if>
+        </div>
+        
+        <div class="file-browser-files">
+            <h3 class="h4"><op:translate key="FILE_BROWSER_FILES" /></h3>
+    
+            <c:set var="count" value="0" />
+            
+            <div class="row">
+                <c:forEach var="item" items="${form.items}">
+                    <c:if test="${not item.folderish}">
+                        <c:set var="count" value="${count + 1}" />
+                        
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="file-browser-thumbnail file-browser-selectee" data-id="${item.document.id}" data-type="${item.document.type.name}" data-text="${item.title}">
+                                <!-- Preview -->
+                                <div class="file-browser-thumbnail-preview-container">
+                                    <div class="file-browser-thumbnail-preview">
+                                        <c:set var="vignetteUrl"><ttc:pictureLink document="${document}" property="ttc:vignette" /></c:set>
+                                        <c:choose>
+                                            <c:when test="${not empty vignetteUrl}">
+                                                <img src="${vignetteUrl}" alt="" class="vignette">
+                                            </c:when>
+                                        
+                                            <c:when test="${item.document.type.name eq 'Picture'}">
+                                                <c:set var="url"><ttc:documentLink document="${item.document}" picture="true" displayContext="Small" /></c:set>
+                                                <img src="${url}" alt="" class="picture">
+                                            </c:when>
+                                        
+                                            <c:when test="${item.document.type.file}">
+                                                <foad:mimeTypeIcon mimeType="${item.document.properties['file:content']['mime-type']}" />
+                                            </c:when>
+                                            
+                                            <c:when test="${item.document.type.name eq 'Note'}">
+                                                <span class="document-type document-type-note" data-display="note" data-length="4"></span>
+                                            </c:when>
+                                            
+                                            <c:when test="${not empty item.document.type.glyph}">
+                                                <span class="document-type" data-length="1" data-folderish="${item.folderish}">
+                                                    <i class="${item.document.type.glyph}"></i>
+                                                </span>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
+                                </div>
+                                
+                                <!-- Title -->
+                                <div class="file-browser-thumbnail-title">
+                                    <div class="file-browser-text file-browser-draggable">
+                                        <span><ttc:title document="${item.document}" /></span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Draggable -->
+                                <c:if test="${item.document.type.supportsPortalForms}">
+                                    <div class="file-browser-draggable file-browser-draggable-shadowbox border-primary"></div>
+                                </c:if>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
+            
+            <c:if test="${count eq 0}">
+                <div class="file-browser-cell">
+                    <span class="text-muted"><op:translate key="FILE_BROWSER_EMPTY" /></span>
+                </div>
+            </c:if>
+        </div>
+    </div>
+</div>

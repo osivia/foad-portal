@@ -18,6 +18,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.portlet.PortletException;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.io.output.CountingOutputStream;
@@ -26,9 +27,12 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.nuxeo.ecm.automation.client.model.Documents;
 import org.osivia.portal.api.Constants;
+import org.osivia.portal.api.PortalException;
+import org.osivia.portal.api.cms.EcmDocument;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.urls.Link;
+import org.osivia.portal.api.user.UserPreferences;
 import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
 import org.osivia.portal.core.cms.CMSBinaryContent;
@@ -39,9 +43,11 @@ import org.osivia.portal.core.cms.ICMSServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.gouv.education.foad.filebrowser.portlet.repository.command.CopyDocumentCommand;
 import fr.gouv.education.foad.filebrowser.portlet.repository.command.GetFileBrowserDocumentsCommand;
+import fr.gouv.education.foad.filebrowser.portlet.repository.command.ImportFilesCommand;
 import fr.gouv.education.foad.filebrowser.portlet.repository.command.MoveDocumentsCommand;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
@@ -112,6 +118,21 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
      * {@inheritDoc}
      */
     @Override
+    public NuxeoDocumentContext getCurrentDocumentContext(PortalControllerContext portalControllerContext) throws PortletException {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+
+        // Current path
+        String path = this.getCurrentPath(portalControllerContext);
+        
+        return nuxeoController.getDocumentContext(path);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Document> getDocuments(PortalControllerContext portalControllerContext) throws PortletException {
         // Nuxeo controller
         NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
@@ -159,12 +180,80 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
      * {@inheritDoc}
      */
     @Override
+    public Set<String> getUserSubscriptions(PortalControllerContext portalControllerContext) throws PortletException {
+        // CMS service
+        ICMSService cmsService = this.cmsServiceLocator.getCMSService();
+        // CMS context
+        CMSServiceCtx cmsContext = new CMSServiceCtx();
+        cmsContext.setPortalControllerContext(portalControllerContext);
+        
+        // User subscription documents
+        List<EcmDocument> ecmDocuments;
+        try {
+            ecmDocuments = cmsService.getUserSubscriptions(cmsContext);
+        } catch (CMSException e) {
+            ecmDocuments = null;
+        }
+        
+        // User subscription document identifiers
+        Set<String> identifiers;
+        if (CollectionUtils.isEmpty(ecmDocuments)) {
+            identifiers = new HashSet<>(0);
+        } else {
+            identifiers = new HashSet<>(ecmDocuments.size());
+            
+            for (EcmDocument ecmDocument : ecmDocuments) {
+                if (ecmDocument instanceof Document) {
+                    Document nuxeoDocument = (Document) ecmDocument;
+
+                    identifiers.add(nuxeoDocument.getId());
+                }
+            }
+        }
+
+        return identifiers;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserPreferences getUserPreferences(PortalControllerContext portalControllerContext) throws PortletException {
+        // CMS service
+        ICMSService cmsService = this.cmsServiceLocator.getCMSService();
+        // CMS context
+        CMSServiceCtx cmsContext = new CMSServiceCtx();
+        cmsContext.setPortalControllerContext(portalControllerContext);
+
+        // User preferences
+        UserPreferences userPreferences;
+        try {
+            userPreferences = cmsService.getUserPreferences(portalControllerContext);
+        } catch (PortalException e) {
+            throw new PortletException(e);
+        }
+
+        return userPreferences;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getDownloadUrl(PortalControllerContext portalControllerContext, Document document) throws PortletException {
         // Nuxeo controller
         NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
 
         // Link
-        Link link = nuxeoController.getLink(document, "download");
+        Link link;
+        if ("Picture".equals(document.getType())) {
+            String url = nuxeoController.createPictureLink(document.getPath(), "Original");
+            link = new Link(url, false);
+        } else {
+            link = nuxeoController.getLink(document, "download");
+        }
 
         // URL
         String url;
@@ -367,6 +456,23 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
 
         // Nuxeo command
         INuxeoCommand command = this.applicationContext.getBean(MoveDocumentsCommand.class, sourceIdentifiers, targetIdentifier);
+        nuxeoController.executeNuxeoCommand(command);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void importFiles(PortalControllerContext portalControllerContext, List<MultipartFile> upload) throws PortletException, IOException {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+
+        // Current path
+        String path = this.getCurrentPath(portalControllerContext);
+
+        // Nuxeo command
+        INuxeoCommand command = this.applicationContext.getBean(ImportFilesCommand.class, path, upload);
         nuxeoController.executeNuxeoCommand(command);
     }
 

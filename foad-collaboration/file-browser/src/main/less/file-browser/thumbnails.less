@@ -1,0 +1,84 @@
+@import "mixins.less";
+@import "variables.less";
+
+
+.file-browser-thumbnails-container {
+    margin-top: 16px;
+}
+
+
+.file-browser-thumbnail {
+    margin-bottom: 16px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    
+    &:not(.border-primary):not(.border-info) {
+        border-color: @gray-lighter;
+    }
+    
+    a {
+        color: @gray;
+        
+        &:hover, &:focus {
+            color: darken(@gray, 15%);
+        }
+    }
+    
+    &.bg-primary {
+        a {
+            &, &:hover, &:focus {
+                color: @white;
+            }
+        }
+    }
+}
+
+
+.file-browser-thumbnail-title {
+    display: flex;
+    align-items: center;
+    
+    height: @cell-height;
+    
+    padding-left: @cell-padding;
+    padding-right: @cell-padding;
+}
+
+
+.file-browser-thumbnail-preview-container {
+    position: relative;
+    
+    height: 0;
+    overflow: hidden;
+    
+    padding-bottom: 100%;
+    
+    .border-top-radius(@radius: 4px);
+}
+
+.file-browser-thumbnail-preview {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    background-color: fade(@white, 80%);
+    
+    img {
+        height: 100%;
+        width: 100%;
+        
+        object-fit: cover;
+        
+        &.vignette {
+            object-fit: contain;
+        }
+    }
+}
