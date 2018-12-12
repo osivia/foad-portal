@@ -43,7 +43,7 @@
                                             <portlet:param name="id" value="${document.properties['webc:url']}" />
                                         </portlet:actionURL>
                                     
-                                        <button type="button" onclick="$JQry('#${namespace}-confirmation-form').attr('action', '${createRequestUrl}');" class="btn" data-toggle="modal" data-target="#${namespace}-confirmation">
+                                        <button type="button" onclick="$JQry('#${namespace}-confirmation-form').attr('action', '${createRequestUrl}');" class="btn btn-tile" data-toggle="modal" data-target="#${namespace}-confirmation">
                                             <span><op:translate key="LIST_TEMPLATE_WORKSPACE_MEMBER_REQUESTS_CREATION" /></span>
                                         </button>
                                     </c:when>
