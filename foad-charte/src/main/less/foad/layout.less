@@ -28,8 +28,8 @@ main {
     padding-right: 24px;
     
     @media (max-width: @screen-xs-max) {
-        padding-left: @grid-gutter-width;
-        padding-right: @grid-gutter-width;
+        padding-left: floor(@grid-gutter-width / 2);
+        padding-right: floor(@grid-gutter-width / 2);
     }
 }
 
