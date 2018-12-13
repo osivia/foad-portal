@@ -8,17 +8,22 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.portal.common.i18n.LocalizedString;
+import org.jboss.portal.core.controller.ControllerCommand;
 import org.jboss.portal.core.controller.ControllerContext;
 import org.jboss.portal.core.controller.ControllerException;
 import org.jboss.portal.core.model.portal.Page;
 import org.jboss.portal.core.model.portal.Window;
 import org.jboss.portal.core.model.portal.command.render.RenderPageCommand;
+import org.jboss.portal.core.model.portal.navstate.PageNavigationalState;
+import org.jboss.portal.core.navstate.NavigationalStateContext;
 import org.jboss.portal.core.theme.PageRendition;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.Constants;
@@ -219,6 +224,31 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 
         // Page content title
         this.computePageContentTitle(portalControllerContext, page, rootDocument, attributes);
+    }
+
+
+    /**
+     * Get content path.
+     * 
+     * @param controllerContext controller context
+     * @param page page
+     * @return path
+     */
+    private String getContentPath(ControllerContext controllerContext, Page page) {
+        NavigationalStateContext nsContext = (NavigationalStateContext) controllerContext.getAttributeResolver(ControllerCommand.NAVIGATIONAL_STATE_SCOPE);
+        PageNavigationalState pageState = nsContext.getPageNavigationalState(page.getId().toString());
+
+        String[] sPath = null;
+        if (pageState != null) {
+            sPath = pageState.getParameter(new QName(XMLConstants.DEFAULT_NS_PREFIX, "osivia.cms.contentPath"));
+        }
+
+        String pathPublication = null;
+        if ((sPath != null) && (sPath.length > 0)) {
+            pathPublication = sPath[0];
+        }
+
+        return pathPublication;
     }
 
 
@@ -458,13 +488,20 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(locale);
         
+        // Base path
+        String basePath = page.getProperty("osivia.cms.basePath");
+        // Content path
+        String contentPath = this.getContentPath(controllerContext, page);
         // Maximized window
         Window maximizedWindow = PortalObjectUtils.getMaximizedWindow(controllerContext, page);
         
         
+
         String contentTitle;
 
         if (maximizedWindow != null) {
+            contentTitle = null;
+        } else if (StringUtils.isNotEmpty(contentPath) && !StringUtils.equals(basePath, contentPath)) {
             contentTitle = null;
         } else if ((rootDocument != null) && "Workspace".equals(rootDocument.getType())) {
             contentTitle = rootDocument.getString("ttcs:welcomeTitle");
