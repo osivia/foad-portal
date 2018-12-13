@@ -94,7 +94,7 @@
                                 <!-- Preview -->
                                 <div class="file-browser-thumbnail-preview-container">
                                     <div class="file-browser-thumbnail-preview">
-                                        <c:set var="vignetteUrl"><ttc:pictureLink document="${document}" property="ttc:vignette" /></c:set>
+                                        <c:set var="vignetteUrl"><ttc:pictureLink document="${item.document}" property="ttc:vignette" /></c:set>
                                         <c:choose>
                                             <c:when test="${not empty vignetteUrl}">
                                                 <img src="${vignetteUrl}" alt="" class="vignette">
@@ -105,42 +105,34 @@
                                                 <img src="${url}" alt="" class="picture">
                                             </c:when>
                                         
-                                            <c:when test="${item.document.type.file}">
-                                                <foad:mimeTypeIcon mimeType="${item.document.properties['file:content']['mime-type']}" />
-                                            </c:when>
-                                            
-                                            <c:when test="${item.document.type.name eq 'Note'}">
-                                                <span class="document-type document-type-note" data-display="note" data-length="4"></span>
-                                            </c:when>
-                                            
-                                            <c:when test="${not empty item.document.type.glyph}">
-                                                <span class="document-type" data-length="1" data-folderish="${item.folderish}">
-                                                    <i class="${item.document.type.glyph}"></i>
+                                            <c:otherwise>
+                                                <span class="file-browser-thumbnail-empty-preview">
+                                                    <i class="glyphicons glyphicons-file"></i>
                                                 </span>
-                                            </c:when>
+                                            </c:otherwise>
                                         </c:choose>
                                     </div>
                                 </div>
                                 
                                 <!-- Title -->
                                 <div class="file-browser-thumbnail-title">
-                                    <c:choose>
-                                        <c:when test="${item.document.type.file}">
-                                            <foad:mimeTypeIcon mimeType="${item.mimeType}" />
-                                        </c:when>
-                                        
-                                        <c:when test="${item.document.type.name eq 'Note'}">
-                                            <span class="document-type document-type-note" data-display="note" data-length="4"></span>
-                                        </c:when>
-                                        
-                                        <c:when test="${not empty item.document.type.glyph}">
-                                            <span class="document-type" data-length="1" data-folderish="${item.folderish}">
-                                                <i class="${item.document.type.glyph}"></i>
-                                            </span>
-                                        </c:when>
-                                    </c:choose>
-                                    
                                     <div class="file-browser-text file-browser-draggable">
+                                        <c:choose>
+                                            <c:when test="${item.document.type.file}">
+                                                <foad:mimeTypeIcon mimeType="${item.mimeType}" />
+                                            </c:when>
+                                            
+                                            <%-- <c:when test="${item.document.type.name eq 'Note'}">
+                                                <span class="document-type document-type-note" data-display="note" data-length="4"></span>
+                                            </c:when> --%>
+                                            
+                                            <c:when test="${not empty item.document.type.glyph}">
+                                                <span class="document-type" data-length="1" data-glyphicons>
+                                                    <i class="${item.document.type.glyph}"></i>
+                                                </span>
+                                            </c:when>
+                                        </c:choose>
+                                    
                                         <span><ttc:title document="${item.document}" /></span>
                                     </div>
                                 </div>

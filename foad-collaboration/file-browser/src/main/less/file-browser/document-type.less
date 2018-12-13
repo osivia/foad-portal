@@ -1,19 +1,20 @@
 @import "variables.less";
 
 
-@document-type-size: @cell-height - (2 * @cell-padding);
+@table-document-type-size: @cell-height - (2 * @cell-padding);
+@thumbnail-title-document-type-size: 20px;
 
 
 .document-type {
     .file-browser-table-container & {
-        height: @document-type-size;
-        width: @document-type-size;
+        height: @table-document-type-size;
+        width: @table-document-type-size;
         
         font-size: 10px;
-        line-height: @document-type-size;
+        line-height: @table-document-type-size;
         
         i {
-            line-height: @document-type-size;
+            line-height: @table-document-type-size;
         }
         
         // Length
@@ -33,6 +34,38 @@
             background-color: @white;
         }
         &[data-folderish=false] {
+            color: @white;
+            background-color: @gray;
+        }
+    }
+    
+    .file-browser-thumbnail-title & {
+        display: inline-block;
+        vertical-align: middle;
+        
+        height: @thumbnail-title-document-type-size;
+        width: @thumbnail-title-document-type-size;
+        
+        font-size: 7px;
+        line-height: @thumbnail-title-document-type-size;
+        
+        i {
+            line-height: @thumbnail-title-document-type-size;
+        }
+        
+        // Length
+        &[data-length="1"] {
+            font-size: 12px;
+        }
+        &[data-length="2"] {
+            font-size: 10px;
+        }
+        &[data-length="3"] {
+            font-size: 9px;
+        }
+        
+        
+        &[data-glyphicons] {
             color: @white;
             background-color: @gray;
         }

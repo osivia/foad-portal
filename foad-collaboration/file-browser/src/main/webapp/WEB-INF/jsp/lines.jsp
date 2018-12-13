@@ -182,9 +182,9 @@
                                                 <foad:mimeTypeIcon mimeType="${item.mimeType}" />
                                             </c:when>
                                             
-                                            <c:when test="${item.document.type.name eq 'Note'}">
+                                            <%-- <c:when test="${item.document.type.name eq 'Note'}">
                                                 <span class="document-type document-type-note" data-display="note" data-length="4"></span>
-                                            </c:when>
+                                            </c:when> --%>
                                             
                                             <c:when test="${not empty item.document.type.glyph}">
                                                 <span class="document-type" data-length="1" data-folderish="${item.folderish}">
