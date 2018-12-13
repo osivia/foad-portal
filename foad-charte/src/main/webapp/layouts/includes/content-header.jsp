@@ -15,7 +15,9 @@
         <p:region regionName="content-title" />
         
         <!-- Menubar -->
-        <p:region regionName="menubar" />    
+        <c:if test="${not search}">
+            <p:region regionName="menubar" />
+        </c:if>    
     </div>
     
     <!-- Content header -->

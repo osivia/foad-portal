@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
+<c:set var="search" scope="request" value="true" />
 <c:set var="drawer" scope="request" value="true" />
 
 
