@@ -21,24 +21,28 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+                <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
                     <!-- Content header -->
                     <jsp:include page="../includes/content-header.jsp" />
                 
                     <p:region regionName="search-toolbar" />
                     
                     <div class="row">
+                        <div class="col-sm-7 col-lg-8">
+                            <p:region regionName="search-results" />
+                        </div>
+                        
                         <!-- Drawer -->
-                        <div id="drawer">
-                            <p:region regionName="drawer-toolbar" />
-                            
-                            <div class="col-xs-12">
-                                <p:region regionName="search-filters" />
+                        <div id="drawer" class="col-sm-5 col-lg-4">
+                            <div class="row">
+                                <p:region regionName="drawer-toolbar" />
                             </div>
+                            
+                            <div class="flexbox scrollbox">
+                                <p:region regionName="search-filters" />
+                            </div>                
                         </div>
                     </div>
-                    
-                    <p:region regionName="search-results" />
                 </div>
             </div>
         </div>

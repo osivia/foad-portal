@@ -47,6 +47,8 @@
                             </div>
                             
                             <div class="col-sm-6 col-lg-8">
+                                <p:region regionName="col-3-4" />
+                            
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <p:region regionName="col-3" />
@@ -56,6 +58,16 @@
                                         <p:region regionName="col-4" />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <p:region regionName="col-5" />
+                            </div>
+                            
+                            <div class="col-sm-4">
+                                <p:region regionName="col-6" />
                             </div>
                         </div>
                     </div>

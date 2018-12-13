@@ -124,12 +124,6 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
             renderedRegion.customizeRenderedRegion("stats", "/regions/stats.jsp");
             // Add workspace tabs region
             renderedRegion.customizeRenderedRegion("workspace-tabs", "/regions/workspace-tabs.jsp");
-
-
-            // Decorate regions
-            renderedRegion.decoratePortletsRegion("search-toolbar", "/regions/decorators/search-toolbar-header.jsp", null);
-            renderedRegion.decoratePortletsRegion("search-filters", "/regions/decorators/search-filters-header.jsp",
-                    "/regions/decorators/search-filters-footer.jsp");
         }
     }
 

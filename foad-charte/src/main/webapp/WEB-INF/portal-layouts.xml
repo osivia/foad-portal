@@ -51,21 +51,6 @@
     </layout>
     
     <layout>
-        <name>foad-workspace</name>
-        <uri>/layouts/workspace/index.jsp</uri>
-        <uri state="maximized">/layouts/workspace/maximized.jsp</uri>
-        <regions>
-            <region name="toolbar-search" />
-            <region name="content-header" />
-            <region name="top" />
-            <region name="col-1" />
-            <region name="col-2" />
-            <region name="col-3" />
-            <region name="col-4" />
-        </regions>
-    </layout>
-    
-    <layout>
         <name>foad-search</name>
         <uri>/layouts/search/index.jsp</uri>
         <uri state="maximized">/layouts/search/maximized.jsp</uri>
@@ -75,6 +60,24 @@
             <region name="search-toolbar" />
             <region name="search-filters" />
             <region name="search-results" />
+        </regions>
+    </layout>
+    
+    <layout>
+        <name>foad-workspace</name>
+        <uri>/layouts/workspace/index.jsp</uri>
+        <uri state="maximized">/layouts/workspace/maximized.jsp</uri>
+        <regions>
+            <region name="toolbar-search" />
+            <region name="content-header" />
+            <region name="top" />
+            <region name="col-1" />
+            <region name="col-2" />
+            <region name="col-3-4" />
+            <region name="col-3" />
+            <region name="col-4" />
+            <region name="col-5" />
+            <region name="col-6" />
         </regions>
     </layout>
 

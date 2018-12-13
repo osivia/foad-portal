@@ -38,6 +38,16 @@ header {
                 }
             }
         }
+        
+        &:last-child {
+            .col {
+                &:first-child {
+                    &, > * {
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
     }
     
     .col {

@@ -24,9 +24,11 @@
             margin-right: floor(@line-height-computed / 2);
         }
         
-        &.active {
+        &.active, &.home {
             flex-shrink: 0;
-            
+        }
+        
+        &.active {
             a {
                 color: @text-color;
                 background-color: @gray-lighter;
