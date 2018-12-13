@@ -83,7 +83,7 @@ public class FoadMenubarModule implements MenubarModule {
         if (dropdown != null) {
             for (MenubarItem item : menubar) {
                 MenubarContainer parent = item.getParent();
-                if ((parent != null) && parent.equals(dropdown)) {
+                if (((parent != null) && parent.equals(dropdown)) || "PRINT".equals(item.getId())) {
                     item.setVisible(false);
                 }
             }
