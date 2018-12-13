@@ -37,6 +37,8 @@ public class FileBrowserItem {
 
     /** Folderish indicator. */
     private boolean folderish;
+    /** File MIME type. */
+    private String mimeType;
     /** Folderish accepted types. */
     private String acceptedTypes;
 
@@ -196,6 +198,24 @@ public class FileBrowserItem {
      */
     public void setFolderish(boolean folderish) {
         this.folderish = folderish;
+    }
+
+    /**
+     * Getter for mimeType.
+     * 
+     * @return the mimeType
+     */
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    /**
+     * Setter for mimeType.
+     * 
+     * @param mimeType the mimeType to set
+     */
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 
     /**

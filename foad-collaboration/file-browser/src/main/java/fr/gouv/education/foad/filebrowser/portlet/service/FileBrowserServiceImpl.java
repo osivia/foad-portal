@@ -28,6 +28,7 @@ import org.dom4j.Element;
 import org.jboss.portal.common.invocation.Scope;
 import org.jboss.portal.core.controller.ControllerContext;
 import org.nuxeo.ecm.automation.client.model.Document;
+import org.nuxeo.ecm.automation.client.model.PropertyMap;
 import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.DocumentType;
@@ -120,19 +121,28 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * {@inheritDoc}
      */
     @Override
-    public FileBrowserView getView(PortalControllerContext portalControllerContext) throws PortletException {
-        // Current document
-        NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
-        Document document = documentContext.getDoc();
-        // WebId
-        String webId = document.getString("ttc:webid");
+    public FileBrowserView getView(PortalControllerContext portalControllerContext, String viewId) throws PortletException {
+        // View
+        FileBrowserView view;
+        
+        if (StringUtils.isEmpty(viewId)) {
+            // Current document
+            NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
+            Document document = documentContext.getDoc();
+            // WebId
+            String webId = document.getString("ttc:webid");
 
-        // User preferences
-        UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
-        // Saved view
-        String savedView = userPreferences.getFolderDisplayMode(webId);
-
-        return FileBrowserView.fromId(savedView);
+            // User preferences
+            UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
+            // Saved view
+            String savedView = userPreferences.getFolderDisplayMode(webId);
+            
+            view = FileBrowserView.fromId(savedView);
+        } else {
+            view = FileBrowserView.fromId(viewId);
+        }
+        
+        return view;
     }
 
 
@@ -262,6 +272,15 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         boolean folderish = ((type != null) && type.isFolderish());
         item.setFolderish(folderish);
 
+        // File MIME type
+        if ((type != null) && type.isFile()) {
+            PropertyMap fileContent = nuxeoDocument.getProperties().getMap("file:content");
+            if (fileContent != null) {
+                String mimeType = fileContent.getString("mime-type");
+                item.setMimeType(mimeType);
+            }
+        }
+
         // Folderish accepted types
         if (folderish) {
             List<String> acceptedTypes = type.getPortalFormSubTypes();
@@ -319,7 +338,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * {@inheritDoc}
      */
     @Override
-    public Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes, FileBrowserView view) throws PortletException {
+    public Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes, String viewId) throws PortletException {
         // Toolbar container
         Element container = DOM4JUtils.generateDivElement(null);
 
@@ -352,6 +371,9 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 boolean allEditable = true;
                 // All file indicator
                 boolean allFile = true;
+
+                // View
+                FileBrowserView view = this.getView(portalControllerContext, viewId);
 
                 // Selected documents
                 List<DocumentDTO> selection = new ArrayList<>(selectedItems.size());

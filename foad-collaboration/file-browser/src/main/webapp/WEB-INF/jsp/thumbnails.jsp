@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 <%@ taglib uri="http://www.toutatice.fr/jsp/taglib/toutatice" prefix="ttc" %>
@@ -7,7 +8,42 @@
 <div class="file-browser-thumbnails-container file-browser-selectable">
     <div class="file-browser-filler">
         <div class="file-browser-folders">
-            <h3 class="h4"><op:translate key="FILE_BROWSER_FOLDERS" /></h3>
+            <div class="clearfix">
+                <div class="btn-group btn-group-sm pull-right">
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span><op:translate key="${form.criteria.sort.key}" /></span>
+                            <span class="caret"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <c:forEach var="sort" items="${sorts}">
+                                <portlet:actionURL name="sort" copyCurrentRenderParameters="true" var="url">
+                                    <portlet:param name="sort" value="${sort.id}" />
+                                    <portlet:param name="alt" value="${form.criteria.sort.id eq sort.id and not form.criteria.alt}" />
+                                </portlet:actionURL>
+                            
+                                <li ${form.criteria.sort eq sort ? 'class="active"' : ''}>
+                                    <a href="${url}">
+                                        <span><op:translate key="${sort.key}" /></span>
+                                    </a>
+                                </li>                            
+                            </c:forEach>
+                        </ul>
+                    </div>
+
+                    <portlet:actionURL name="sort" copyCurrentRenderParameters="true" var="url">
+                        <portlet:param name="sort" value="${form.criteria.sort.id}" />
+                        <portlet:param name="alt" value="${not form.criteria.alt}" />
+                    </portlet:actionURL>
+                                
+                    <a href="${url}" class="btn btn-default">
+                        <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                    </a>
+                </div>
+            
+                <h3 class="h4"><op:translate key="FILE_BROWSER_FOLDERS" /></h3>
+            </div>
             
             <c:set var="count" value="0" />
             
@@ -21,6 +57,7 @@
                                 <!-- Title -->
                                 <div class="file-browser-thumbnail-title">
                                     <div class="file-browser-text file-browser-draggable">
+                                        <i class="${item.document.type.glyph}"></i>
                                         <span><ttc:title document="${item.document}" /></span>
                                     </div>
                                 </div>
@@ -87,6 +124,22 @@
                                 
                                 <!-- Title -->
                                 <div class="file-browser-thumbnail-title">
+                                    <c:choose>
+                                        <c:when test="${item.document.type.file}">
+                                            <foad:mimeTypeIcon mimeType="${item.mimeType}" />
+                                        </c:when>
+                                        
+                                        <c:when test="${item.document.type.name eq 'Note'}">
+                                            <span class="document-type document-type-note" data-display="note" data-length="4"></span>
+                                        </c:when>
+                                        
+                                        <c:when test="${not empty item.document.type.glyph}">
+                                            <span class="document-type" data-length="1" data-folderish="${item.folderish}">
+                                                <i class="${item.document.type.glyph}"></i>
+                                            </span>
+                                        </c:when>
+                                    </c:choose>
+                                    
                                     <div class="file-browser-text file-browser-draggable">
                                         <span><ttc:title document="${item.document}" /></span>
                                     </div>

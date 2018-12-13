@@ -80,12 +80,7 @@ public class FileBrowserController {
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         // View
-        FileBrowserView view;
-        if (StringUtils.isEmpty(viewId)) {
-            view = this.service.getView(portalControllerContext);
-        } else {
-            view = FileBrowserView.fromId(viewId);
-        }
+        FileBrowserView view = this.service.getView(portalControllerContext, viewId);
         request.setAttribute("view", view.getId());
 
         // Update menubar
@@ -138,7 +133,8 @@ public class FileBrowserController {
         this.service.sortItems(portalControllerContext, form, FileBrowserSort.fromId(sort), BooleanUtils.toBoolean(alt));
 
         // Copy view render parameter
-        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
+        FileBrowserView view = this.service.getView(portalControllerContext, viewId);
+        response.setRenderParameter("view", view.getId());
     }
 
 
@@ -160,7 +156,8 @@ public class FileBrowserController {
         this.service.duplicate(portalControllerContext, path);
 
         // Copy view render parameter
-        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
+        FileBrowserView view = this.service.getView(portalControllerContext, viewId);
+        response.setRenderParameter("view", view.getId());
     }
 
 
@@ -182,7 +179,8 @@ public class FileBrowserController {
         this.service.delete(portalControllerContext, Arrays.asList(StringUtils.split(identifiers, ",")));
 
         // Copy view render parameter
-        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
+        FileBrowserView view = this.service.getView(portalControllerContext, viewId);
+        response.setRenderParameter("view", view.getId());
     }
 
 
@@ -205,7 +203,8 @@ public class FileBrowserController {
         this.service.drop(portalControllerContext, Arrays.asList(StringUtils.split(sourceIds, ",")), targetId);
 
         // Copy view render parameter
-        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
+        FileBrowserView view = this.service.getView(portalControllerContext, viewId);
+        response.setRenderParameter("view", view.getId());
     }
 
 
@@ -228,7 +227,8 @@ public class FileBrowserController {
         this.service.upload(portalControllerContext, form);
 
         // Copy view render parameter
-        response.setRenderParameter("view", StringUtils.defaultIfEmpty(viewId, FileBrowserView.DEFAULT.getId()));
+        FileBrowserView view = this.service.getView(portalControllerContext, viewId);
+        response.setRenderParameter("view", view.getId());
     }
 
 
@@ -249,8 +249,7 @@ public class FileBrowserController {
         PortalControllerContext portalControllerContext = new PortalControllerContext(this.portletContext, request, response);
 
         // Toolbar
-        Element toolbar = this.service.getToolbar(portalControllerContext, Arrays.asList(StringUtils.split(StringUtils.trimToEmpty(indexes), ",")),
-                FileBrowserView.fromId(viewId));
+        Element toolbar = this.service.getToolbar(portalControllerContext, Arrays.asList(StringUtils.split(StringUtils.trimToEmpty(indexes), ",")), viewId);
 
         // Content type
         response.setContentType("text/html");
@@ -328,6 +327,20 @@ public class FileBrowserController {
     @ModelAttribute("views")
     public List<FileBrowserView> getViews(PortletRequest request, PortletResponse response) throws PortletException {
         return Arrays.asList(FileBrowserView.values());
+    }
+
+
+    /**
+     * Get sorts model attribute.
+     * 
+     * @param request portlet request
+     * @param response portlet response
+     * @return sorts
+     * @throws PortletException
+     */
+    @ModelAttribute("sorts")
+    public List<FileBrowserSort> getSorts(PortletRequest request, PortletResponse response) throws PortletException {
+        return Arrays.asList(FileBrowserSort.values());
     }
 
 }

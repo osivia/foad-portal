@@ -7,6 +7,11 @@
 }
 
 
+.file-browser-folders {
+    margin-bottom: 16px; 
+}
+
+
 .file-browser-thumbnail {
     margin-bottom: 16px;
 
@@ -72,14 +77,7 @@
     background-color: fade(@white, 80%);
     
     img {
-        height: 100%;
-        width: 100%;
-        
-        object-fit: cover;
-        
-        &.vignette {
-            object-fit: contain;
-        }
+        max-width: 100%;
     }
 }
 

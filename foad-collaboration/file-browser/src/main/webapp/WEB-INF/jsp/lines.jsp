@@ -31,7 +31,7 @@
                             </portlet:actionURL>
                         
                             <a href="${url}">
-                                <span><op:translate key="FILE_BROWSER_HEADER_TITLE" /></span>
+                                <span><op:translate key="FILE_BROWSER_SORT_TITLE" /></span>
                                 <c:if test="${form.criteria.sort.id eq 'title'}">
                                     <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
                                 </c:if>
@@ -50,7 +50,7 @@
                             </portlet:actionURL>
                         
                             <a href="${url}">
-                                <span><op:translate key="FILE_BROWSER_HEADER_LAST_MODIFICATION" /></span>
+                                <span><op:translate key="FILE_BROWSER_SORT_LAST_MODIFICATION" /></span>
                                 <c:if test="${form.criteria.sort.id eq 'last-modification'}">
                                     <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
                                 </c:if>
@@ -63,7 +63,17 @@
                 <div class="file-browser-table-cell" data-column="file-size">
                     <div class="file-browser-cell" data-column="file-size">
                         <div class="file-browser-text">
-                            <span><op:translate key="FILE_BROWSER_HEADER_FILE_SIZE" /></span>
+                            <portlet:actionURL name="sort" copyCurrentRenderParameters="true" var="url">
+                                <portlet:param name="sort" value="file-size" />
+                                <portlet:param name="alt" value="${form.criteria.sort.id eq 'file-size' and not form.criteria.alt}" />
+                            </portlet:actionURL>
+                        
+                            <a href="${url}">
+                                <span><op:translate key="FILE_BROWSER_SORT_FILE_SIZE" /></span>
+                                <c:if test="${form.criteria.sort.id eq 'file-size'}">
+                                    <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                </c:if>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +81,19 @@
                 <!-- Document type -->
                 <div class="file-browser-table-cell" data-column="document-type">
                     <div class="file-browser-cell" data-column="document-type">
-                        <span><op:translate key="FILE_BROWSER_HEADER_DOCUMENT_TYPE" /></span>
+                        <div class="file-browser-text">
+                            <portlet:actionURL name="sort" copyCurrentRenderParameters="true" var="url">
+                                <portlet:param name="sort" value="document-type" />
+                                <portlet:param name="alt" value="${form.criteria.sort.id eq 'document-type' and not form.criteria.alt}" />
+                            </portlet:actionURL>
+                        
+                            <a href="${url}">
+                                <span><op:translate key="FILE_BROWSER_SORT_DOCUMENT_TYPE" /></span>
+                                <c:if test="${form.criteria.sort.id eq 'document-type'}">
+                                    <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                </c:if>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 
@@ -157,7 +179,7 @@
                                     <div class="file-browser-cell">
                                         <c:choose>
                                             <c:when test="${item.document.type.file}">
-                                                <foad:mimeTypeIcon mimeType="${item.document.properties['file:content']['mime-type']}" />
+                                                <foad:mimeTypeIcon mimeType="${item.mimeType}" />
                                             </c:when>
                                             
                                             <c:when test="${item.document.type.name eq 'Note'}">

@@ -109,7 +109,8 @@
         
         height: @cell-height - @cell-padding;
         
-        padding: 0 @cell-padding @cell-padding;
+        padding-bottom: @cell-padding;
+        padding-left: @cell-padding;
     }
     
     .file-browser-table-row-group & {
@@ -152,9 +153,6 @@
     [data-column="file-size"] {
         display: none;
     }
-    [data-column="document-type"] {
-        width: 50px;
-    }
     [data-column="checkbox"] {
         display: none;
     }
@@ -166,9 +164,6 @@
     }
     [data-column="file-size"] {
         width: 80px;
-    }
-    [data-column="document-type"] {
-        width: 50px;
     }
 }
 

@@ -12,11 +12,17 @@ public enum FileBrowserSort {
     /** Title sort. */
     TITLE("title"),
     /** Last modification sort. */
-    LAST_MODIFICATION("last-modification");
+    LAST_MODIFICATION("last-modification"),
+    /** File size sort. */
+    FILE_SIZE("file-size"),
+    /** Document type sort. */
+    DOCUMENT_TYPE("document-type");
 
 
     /** Identifier. */
     private final String id;
+    /** Internationalization key. */
+    private final String key;
 
 
     /**
@@ -26,6 +32,7 @@ public enum FileBrowserSort {
      */
     private FileBrowserSort(String id) {
         this.id = id;
+        this.key = "FILE_BROWSER_SORT_" + StringUtils.upperCase(this.name());
     }
 
 
@@ -56,6 +63,15 @@ public enum FileBrowserSort {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * Getter for key.
+     * 
+     * @return the key
+     */
+    public String getKey() {
+        return key;
     }
 
 }

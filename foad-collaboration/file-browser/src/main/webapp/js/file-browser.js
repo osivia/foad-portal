@@ -9,7 +9,7 @@ $JQry(function() {
 	if (!isChromeAndroid && !$browser.data("loaded")) {
 		// Selectable
 		$JQry(".file-browser-selectable").selectable({
-			cancel: "a, .file-browser-draggable",
+			cancel: "a, button, .file-browser-draggable",
 			filter: ".file-browser-selectee",
 			
 			selected: function(event, ui) {

@@ -24,10 +24,11 @@ public interface FileBrowserService {
      * Get view.
      * 
      * @param portalControllerContext portal controller context
+     * @param viewId provided view identifier, may be null
      * @return view
      * @throws PortletException
      */
-    FileBrowserView getView(PortalControllerContext portalControllerContext) throws PortletException;
+    FileBrowserView getView(PortalControllerContext portalControllerContext, String viewId) throws PortletException;
 
 
     /**
@@ -67,11 +68,11 @@ public interface FileBrowserService {
      * 
      * @param portalControllerContext portal controller context
      * @param indexes selected items indexes
-     * @param view view
+     * @param viewId provided view identifier, may be null
      * @return DOM element
      * @throws PortletException
      */
-    Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes, FileBrowserView view) throws PortletException;
+    Element getToolbar(PortalControllerContext portalControllerContext, List<String> indexes, String viewId) throws PortletException;
 
 
     /**
