@@ -63,18 +63,6 @@ public class SearchRepositoryImpl extends CommonRepositoryImpl implements Search
      * {@inheritDoc}
      */
     @Override
-    public String getBasePath(PortalControllerContext portalControllerContext) throws PortletException {
-        // Nuxeo controller
-        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
-
-        return nuxeoController.getBasePath();
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public TaskPath getSearchTaskPath(PortalControllerContext portalControllerContext, String basePath) throws PortletException {
         // Search task path
         TaskPath path = this.applicationContext.getBean(TaskPath.class);

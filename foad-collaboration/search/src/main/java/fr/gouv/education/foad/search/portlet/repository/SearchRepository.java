@@ -16,16 +16,6 @@ import fr.gouv.education.foad.search.portlet.model.TaskPath;
 public interface SearchRepository extends CommonRepository {
 
     /**
-     * Get base path.
-     * 
-     * @param portalControllerContext portal controller context
-     * @return base path
-     * @throws PortletException
-     */
-    String getBasePath(PortalControllerContext portalControllerContext) throws PortletException;
-
-
-    /**
      * Get search task path.
      * 
      * @param portalControllerContext portal controller context

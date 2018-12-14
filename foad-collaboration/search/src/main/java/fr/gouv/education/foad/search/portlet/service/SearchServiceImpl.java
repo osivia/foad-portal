@@ -64,13 +64,13 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     public String search(PortalControllerContext portalControllerContext, SearchForm form) throws PortletException {
-        // Base path
-        String basePath = this.repository.getBasePath(portalControllerContext);
+        // Root path
+        String rootPath = this.repository.getRootPath(portalControllerContext);
 
         // Redirection URL
         String redirectionUrl;
 
-        if (StringUtils.isEmpty(basePath)) {
+        if (StringUtils.isEmpty(rootPath)) {
             try {
                 // Advanced search command
                 redirectionUrl = this.portalUrlFactory.getAdvancedSearchUrl(portalControllerContext, form.getQuery(), false);
@@ -79,7 +79,7 @@ public class SearchServiceImpl implements SearchService {
             }
         } else {
             // Search task path
-            TaskPath path = this.repository.getSearchTaskPath(portalControllerContext, basePath);
+            TaskPath path = this.repository.getSearchTaskPath(portalControllerContext, rootPath);
 
             // Page parameters
             Map<String, String> parameters = new HashMap<>();
@@ -92,7 +92,7 @@ public class SearchServiceImpl implements SearchService {
                 selectors.put("search", Arrays.asList(query));
             }
             // Scope
-            selectors.put(SCOPE_SELECTOR_ID, Arrays.asList(basePath));
+            selectors.put(SCOPE_SELECTOR_ID, Arrays.asList(rootPath));
 
             // Update selectors
             parameters.put("selectors", PageParametersEncoder.encodeProperties(selectors));
