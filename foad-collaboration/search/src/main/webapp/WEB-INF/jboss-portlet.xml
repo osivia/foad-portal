@@ -24,4 +24,16 @@
         </header-content>
     </portlet>
 
+    
+    <portlet>
+        <portlet-name>foad-type-selector</portlet-name>
+
+        <transaction>
+            <trans-attribute>Required</trans-attribute>
+        </transaction>
+        
+        <header-content>
+            <script type="text/javascript" src="/js/type-selector.js"></script>
+        </header-content>
+    </portlet>
 </portlet-app>

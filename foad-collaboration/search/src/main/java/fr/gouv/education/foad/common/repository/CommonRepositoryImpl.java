@@ -41,7 +41,7 @@ public abstract class CommonRepositoryImpl implements CommonRepository {
      * {@inheritDoc}
      */
     @Override
-    public String getRootPath(PortalControllerContext portalControllerContext) throws PortletException {
+    public Document getRoot(PortalControllerContext portalControllerContext) throws PortletException {
         // Nuxeo controller
         NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
         nuxeoController.setForcePublicationInfosScope("superuser_context");
@@ -76,16 +76,7 @@ public abstract class CommonRepositoryImpl implements CommonRepository {
             throw new PortletException(e);
         }
 
-
-        // Root path
-        String rootPath;
-        if (workspace == null) {
-            rootPath = null;
-        } else {
-            rootPath = workspace.getPath();
-        }
-
-        return rootPath;
+        return workspace;
     }
 
 }
