@@ -134,10 +134,16 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
             // User preferences
             UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
-            // Saved view
-            String savedView = userPreferences.getFolderDisplayMode(webId);
             
-            view = FileBrowserView.fromId(savedView);
+            if(userPreferences != null) {
+            // 	Saved view
+            	String savedView = userPreferences.getFolderDisplayMode(webId);
+                view = FileBrowserView.fromId(savedView);
+            }
+            else {
+            	view = FileBrowserView.DEFAULT;
+            }
+            
         } else {
             view = FileBrowserView.fromId(viewId);
         }
@@ -160,7 +166,9 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // User preferences
         UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
 
-        userPreferences.updateFolderDisplayMode(webId, view.getId());
+        if(userPreferences != null) {
+        	userPreferences.updateFolderDisplayMode(webId, view.getId());
+        }
     }
 
 
