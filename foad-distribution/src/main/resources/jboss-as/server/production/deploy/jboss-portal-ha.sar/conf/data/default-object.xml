@@ -965,6 +965,10 @@ return nuxeoRequest.toString();</value>
 				            <name>osivia.hideTitle</name>
 				            <value>1</value>
 				          </property>
+				          <property>
+				            <name>osivia.ajaxLink</name>
+				            <value>1</value>
+				          </property>				          
 				        </properties>
 				        <height>0</height>
 				      </window>
@@ -1092,10 +1096,6 @@ return nuxeoRequest.toString();</value>
 				          <property>
 				            <name>osivia.cms.displayLiveVersion</name>
 				            <value>2</value>
-				          </property>
-				          <property>
-				            <name>osivia.bootstrapPanelStyle</name>
-				            <value>true</value>
 				          </property>
 				          <property>
 				            <name>portal.windowContentType</name>
@@ -1789,6 +1789,10 @@ return nuxeoRequest.toString();</value>
 				            <name>theme.order</name>
 				            <value>0</value>
 				          </property>
+				          <property>
+				            <name>osivia.ajaxLink</name>
+				            <value>1</value>
+				          </property>				          
 				          <property>
 				            <name>portal.windowContentType</name>
 				            <value>portlet</value>
