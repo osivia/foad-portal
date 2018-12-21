@@ -1,6 +1,5 @@
-package fr.gouv.education.foad.selector.scope.portlet.service;
+package fr.gouv.education.foad.selector.type.portlet.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import javax.portlet.PortletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
@@ -19,60 +17,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import fr.gouv.education.foad.search.portlet.service.SearchService;
-import fr.gouv.education.foad.selector.scope.portlet.model.ScopeSelectorForm;
-import fr.gouv.education.foad.selector.scope.portlet.model.ScopeSelectorSettings;
-import fr.gouv.education.foad.selector.scope.portlet.model.SearchScope;
-import fr.gouv.education.foad.selector.scope.portlet.repository.ScopeSelectorRepository;
+import fr.gouv.education.foad.selector.type.portlet.model.SearchType;
+import fr.gouv.education.foad.selector.type.portlet.model.TypeSelectorForm;
+import fr.gouv.education.foad.selector.type.portlet.model.TypeSelectorSettings;
 import fr.toutatice.portail.cms.nuxeo.api.PageSelectors;
 
 /**
- * Scope selector portlet service implementation.
+ * Type selector portlet service implementation.
  * 
- * @author Cédric Krommenhoek
- * @see ScopeSelectorService
+ * @author Loïc Billon
+ * @see TypeSelectorService
  */
 @Service
-public class ScopeSelectorServiceImpl implements ScopeSelectorService {
+public class TypeSelectorServiceImpl implements TypeSelectorService {
 
-    /** Label window property. */
-    private static final String LABEL_WINDOW_PROPERTY = "foad.scope-selector.label";
 
 
     /** Application context. */
     @Autowired
     private ApplicationContext applicationContext;
 
-    /** Portlet repository. */
-    @Autowired
-    private ScopeSelectorRepository repository;
-
-
-    /**
-     * Constructor.
-     */
-    public ScopeSelectorServiceImpl() {
-        super();
-    }
-
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public ScopeSelectorSettings getSettings(PortalControllerContext portalControllerContext) throws PortletException {
+    public TypeSelectorSettings getSettings(PortalControllerContext portalControllerContext) throws PortletException {
         // Window
         PortalWindow window = WindowFactory.getWindow(portalControllerContext.getRequest());
         
         // Portlet settings
-        ScopeSelectorSettings settings = this.applicationContext.getBean(ScopeSelectorSettings.class);
+        TypeSelectorSettings settings = this.applicationContext.getBean(TypeSelectorSettings.class);
         
         // Label
         String label = window.getProperty(LABEL_WINDOW_PROPERTY);
         settings.setLabel(label);
 
         // Selector identifier
-        settings.setSelectorId(SearchService.SCOPE_SELECTOR_ID);
+        settings.setSelectorId(TYPE_SELECTOR_ID);
 
         return settings;
     }
@@ -82,13 +63,13 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
      * {@inheritDoc}
      */
     @Override
-    public void save(PortalControllerContext portalControllerContext, ScopeSelectorSettings settings) throws PortletException {
+    public void save(PortalControllerContext portalControllerContext, TypeSelectorSettings settings) throws PortletException {
         // Window
         PortalWindow window = WindowFactory.getWindow(portalControllerContext.getRequest());
 
         // Label
         String label = StringUtils.trimToNull(settings.getLabel());
-        window.setProperty(LABEL_WINDOW_PROPERTY, label);
+        window.setProperty(TypeSelectorService.LABEL_WINDOW_PROPERTY, label);
     }
 
 
@@ -96,17 +77,17 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
      * {@inheritDoc}
      */
     @Override
-    public ScopeSelectorForm getForm(PortalControllerContext portalControllerContext) throws PortletException {
+    public TypeSelectorForm getForm(PortalControllerContext portalControllerContext) throws PortletException {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
 
         // Portlet settings
-        ScopeSelectorSettings settings = this.getSettings(portalControllerContext);
+        TypeSelectorSettings settings = this.getSettings(portalControllerContext);
 
         // Selectors
         Map<String, List<String>> selectors = PageSelectors.decodeProperties(request.getParameter("selectors"));
         // Scope search selector
-        List<String> selectorValues = selectors.get(SearchService.SCOPE_SELECTOR_ID);
+        List<String> selectorValues = selectors.get(TYPE_SELECTOR_ID);
 
         // Empty selector indicator.
         boolean empty;
@@ -121,24 +102,24 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
 
 
         // Form
-        ScopeSelectorForm form = this.applicationContext.getBean(ScopeSelectorForm.class);
+        TypeSelectorForm form = this.applicationContext.getBean(TypeSelectorForm.class);
 
         // Label
         String label = settings.getLabel();
         form.setLabel(label);
         
         // Search scope
-        SearchScope scope;
+        SearchType type;
         if (empty) {
-            scope = SearchScope.GLOBAL;
+            type = SearchType.ALL;
         } else {
-            scope = SearchScope.LOCAL;
+            type = SearchType.WORKSPACE;
         }
-        form.setScope(scope);
+        form.setType(type);
         
         // Scopes
-        List<SearchScope> scopes = Arrays.asList(SearchScope.values());
-        form.setScopes(scopes);
+        List<SearchType> types = Arrays.asList(SearchType.values());
+        form.setTypes(types);
 
         return form;
     }
@@ -148,14 +129,14 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
      * {@inheritDoc}
      */
     @Override
-    public void select(PortalControllerContext portalControllerContext, ScopeSelectorForm form) throws PortletException {
+    public void select(PortalControllerContext portalControllerContext, TypeSelectorForm form) throws PortletException {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
         // Action response
         ActionResponse response = (ActionResponse) portalControllerContext.getResponse();
 
         // Portlet settings
-        ScopeSelectorSettings settings = this.getSettings(portalControllerContext);
+        TypeSelectorSettings settings = this.getSettings(portalControllerContext);
         // Selector identifier
         String selectorId = settings.getSelectorId();
 
@@ -164,23 +145,13 @@ public class ScopeSelectorServiceImpl implements ScopeSelectorService {
             Map<String, List<String>> selectors = PageSelectors.decodeProperties(request.getParameter("selectors"));
 
             // Search scope
-            SearchScope scope = form.getScope();
+            SearchType type = form.getType();
 
             // Selector values
-            if (SearchScope.LOCAL.equals(scope)) {
-                // Root path
-                Document root = this.repository.getRoot(portalControllerContext);
-                String rootPath = root.getPath();
-
-                if (StringUtils.isEmpty(rootPath)) {
-                    selectors.remove(selectorId);
-                } else {
-                    List<String> selectorValues = new ArrayList<>(1);
-                    selectorValues.add(rootPath);
-                    selectors.put(selectorId, selectorValues);
-                }
-            } else {
+            if (SearchType.ALL.equals(type)) {
                 selectors.remove(selectorId);
+            } else {
+                selectors.put(selectorId, Arrays.asList(type.getDocType()));
             }
 
             response.setRenderParameter("selectors", PageSelectors.encodeProperties(selectors));

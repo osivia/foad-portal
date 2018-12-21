@@ -51,7 +51,7 @@
                 <!-- Space -->
                 <p class="small text-success">
                 	<i class="${document.spaceIcon}"></i>
-                	${document.properties['ottc:spaceTitle']}
+                	${document.properties['ttc:spaceTitle']}
                 </p>
                 
                 <!-- Description -->

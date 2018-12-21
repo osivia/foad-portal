@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.portlet.PortletException;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.page.PageParametersEncoder;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import fr.gouv.education.foad.search.portlet.model.SearchForm;
 import fr.gouv.education.foad.search.portlet.model.TaskPath;
 import fr.gouv.education.foad.search.portlet.repository.SearchRepository;
+import fr.gouv.education.foad.selector.type.portlet.model.SearchType;
 
 /**
  * Search portlet service implementation.
@@ -65,21 +67,25 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public String search(PortalControllerContext portalControllerContext, SearchForm form) throws PortletException {
         // Root path
-        String rootPath = this.repository.getRootPath(portalControllerContext);
+        Document root = this.repository.getRoot(portalControllerContext);
 
         // Redirection URL
         String redirectionUrl;
 
-        if (StringUtils.isEmpty(rootPath)) {
+        if (root == null) {
             try {
                 // Advanced search command
-                redirectionUrl = this.portalUrlFactory.getAdvancedSearchUrl(portalControllerContext, form.getQuery(), false);
+            	// Selectors
+                Map<String, List<String>> selectors = PageParametersEncoder.decodeProperties(null);
+                selectors.put("type", Arrays.asList(SearchType.WORKSPACE.getDocType()));
+                
+                redirectionUrl = this.portalUrlFactory.getAdvancedSearchUrl(portalControllerContext, form.getQuery(), false, selectors);
             } catch (PortalException e) {
                 throw new PortletException(e);
             }
         } else {
             // Search task path
-            TaskPath path = this.repository.getSearchTaskPath(portalControllerContext, rootPath);
+            TaskPath path = this.repository.getSearchTaskPath(portalControllerContext, root.getPath());
 
             // Page parameters
             Map<String, String> parameters = new HashMap<>();
@@ -92,7 +98,13 @@ public class SearchServiceImpl implements SearchService {
                 selectors.put("search", Arrays.asList(query));
             }
             // Scope
-            selectors.put(SCOPE_SELECTOR_ID, Arrays.asList(rootPath));
+            selectors.put(SCOPE_SELECTOR_ID, Arrays.asList(root.getPath()));
+            
+            // Ldap id for search users in space
+            String workspaceId = root.getProperties().getString("webc:url");
+            if (StringUtils.isNotEmpty(query)) {
+                selectors.put("workspaceId", Arrays.asList(workspaceId));
+            }
 
             // Update selectors
             parameters.put("selectors", PageParametersEncoder.encodeProperties(selectors));

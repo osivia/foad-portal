@@ -2,6 +2,7 @@ package fr.gouv.education.foad.common.repository;
 
 import javax.portlet.PortletException;
 
+import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.context.PortalControllerContext;
 
 /**
@@ -12,12 +13,12 @@ import org.osivia.portal.api.context.PortalControllerContext;
 public interface CommonRepository {
 
     /**
-     * Get root path.
+     * Get root.
      * 
      * @param portalControllerContext portal controller context
-     * @return path
+     * @return root document
      * @throws PortletException
      */
-    String getRootPath(PortalControllerContext portalControllerContext) throws PortletException;
+	Document getRoot(PortalControllerContext portalControllerContext) throws PortletException;
 
 }
