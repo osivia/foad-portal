@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.osivia.portal.api.cms.DocumentType;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -82,28 +81,6 @@ public class FileBrowserItemComparator implements Comparator<FileBrowserItem> {
                 result = 1;
             } else {
                 result = size1.compareTo(size2);
-            }
-        } else if (FileBrowserSort.DOCUMENT_TYPE.equals(this.criteria.getSort())) {
-            // Document type comparison
-            DocumentType type1 = item1.getDocument().getType();
-            DocumentType type2 = item2.getDocument().getType();
-
-            if (type1 == null) {
-                result = -1;
-            } else if (type2 == null) {
-                result = 1;
-            } else if (type1.isFile() && type2.isFile()) {
-                // MIME type comparison
-                String mimeType1 = StringUtils.trimToEmpty(item1.getMimeType());
-                String mimeType2 = StringUtils.trimToEmpty(item2.getMimeType());
-
-                result = mimeType1.compareToIgnoreCase(mimeType2);
-            } else if (type1.isFile()) {
-                result = -1;
-            } else if (type2.isFile()) {
-                result = 1;
-            } else {
-                result = type1.getName().compareTo(type2.getName());
             }
         } else {
             // Title comparison

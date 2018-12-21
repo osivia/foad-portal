@@ -14,9 +14,7 @@ public enum FileBrowserSort {
     /** Last modification sort. */
     LAST_MODIFICATION("last-modification"),
     /** File size sort. */
-    FILE_SIZE("file-size"),
-    /** Document type sort. */
-    DOCUMENT_TYPE("document-type");
+    FILE_SIZE("file-size");
 
 
     /** Identifier. */

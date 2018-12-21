@@ -7,8 +7,12 @@
 
 .document-type {
     .file-browser-table-container & {
+        flex-shrink: 0;
+        
         height: @table-document-type-size;
         width: @table-document-type-size;
+        
+        margin-right: @cell-padding;
         
         font-size: 10px;
         line-height: @table-document-type-size;
@@ -32,6 +36,8 @@
         &[data-folderish=true] {
             color: @gray;
             background-color: @white;
+            
+            font-size: 18px;
         }
         &[data-folderish=false] {
             color: @white;

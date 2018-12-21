@@ -15,7 +15,6 @@
                 <div class="file-browser-table-column" data-column="title"></div>
                 <div class="file-browser-table-column" data-column="last-modification"></div>
                 <div class="file-browser-table-column" data-column="file-size"></div>
-                <div class="file-browser-table-column" data-column="document-type"></div>
                 <div class="file-browser-table-column" data-column="checkbox"></div>
             </div>
             
@@ -78,25 +77,6 @@
                     </div>
                 </div>
                 
-                <!-- Document type -->
-                <div class="file-browser-table-cell" data-column="document-type">
-                    <div class="file-browser-cell" data-column="document-type">
-                        <div class="file-browser-text">
-                            <portlet:actionURL name="sort" copyCurrentRenderParameters="true" var="url">
-                                <portlet:param name="sort" value="document-type" />
-                                <portlet:param name="alt" value="${form.criteria.sort.id eq 'document-type' and not form.criteria.alt}" />
-                            </portlet:actionURL>
-                        
-                            <a href="${url}">
-                                <span><op:translate key="FILE_BROWSER_SORT_DOCUMENT_TYPE" /></span>
-                                <c:if test="${form.criteria.sort.id eq 'document-type'}">
-                                    <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
-                                </c:if>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Checkbox -->
                 <div class="file-browser-table-cell" data-column="checkbox">
                     <div class="file-browser-cell" data-column="checkbox"></div>
@@ -122,6 +102,18 @@
                                 <!-- Title -->
                                 <div class="file-browser-table-cell" data-column="title">
                                     <div class="file-browser-cell">
+                                        <c:choose>
+                                            <c:when test="${item.document.type.file}">
+                                                <foad:mimeTypeIcon mimeType="${item.mimeType}" />
+                                            </c:when>
+                                            
+                                            <c:when test="${not empty item.document.type.glyph}">
+                                                <span class="document-type" data-length="1" data-folderish="${item.folderish}">
+                                                    <i class="${item.document.type.glyph}"></i>
+                                                </span>
+                                            </c:when>
+                                        </c:choose>
+                                    
                                         <div class="file-browser-text file-browser-draggable">
                                             <span><ttc:title document="${item.document}" /></span>
                                         </div>
@@ -171,27 +163,6 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Document type -->
-                                <div class="file-browser-table-cell" data-column="document-type">
-                                    <div class="file-browser-cell">
-                                        <c:choose>
-                                            <c:when test="${item.document.type.file}">
-                                                <foad:mimeTypeIcon mimeType="${item.mimeType}" />
-                                            </c:when>
-                                            
-                                            <%-- <c:when test="${item.document.type.name eq 'Note'}">
-                                                <span class="document-type document-type-note" data-display="note" data-length="4"></span>
-                                            </c:when> --%>
-                                            
-                                            <c:when test="${not empty item.document.type.glyph}">
-                                                <span class="document-type" data-length="1" data-folderish="${item.folderish}">
-                                                    <i class="${item.document.type.glyph}"></i>
-                                                </span>
-                                            </c:when>
-                                        </c:choose>
                                     </div>
                                 </div>
                                 
