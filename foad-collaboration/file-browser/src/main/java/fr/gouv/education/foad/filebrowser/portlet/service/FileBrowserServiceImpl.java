@@ -33,6 +33,7 @@ import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.DocumentType;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
+import org.osivia.portal.api.cms.impl.BasicPublicationInfos;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.html.AccessibilityRoles;
 import org.osivia.portal.api.html.DOM4JUtils;
@@ -46,7 +47,6 @@ import org.osivia.portal.api.user.UserPreferences;
 import org.osivia.portal.core.cms.CMSBinaryContent;
 import org.osivia.portal.core.constants.InternalConstants;
 import org.osivia.portal.core.context.ControllerContextAdapter;
-import org.osivia.portal.core.customization.ICustomizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -99,10 +99,6 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     /** Notifications service. */
     @Autowired
     private INotificationsService notificationsService;
-
-    /** Customization service. */
-    @Autowired
-    private ICustomizationService customizationService;
 
     /** Document DAO. */
     @Autowired
@@ -419,23 +415,19 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
                     // Document DTO
                     DocumentDTO documentDto = item.getDocument();
-                    // Nuxeo document
-                    Document nuxeoDocument = documentDto.getDocument();
-
 
                     // Permissions
                     BasicPermissions permissions = item.getPermissions();
                     if (permissions == null) {
-                        permissions = this.repository.getPermissions(portalControllerContext, nuxeoDocument);
+                        permissions = this.repository.getPermissions(portalControllerContext, documentDto.getDocument());
                         item.setPermissions(permissions);
                     }
 
 
                     // Live edition
-                    if (documentDto.isLiveEditable() && this.customizationService.isPluginRegistered(OnlyofficeLiveEditHelper.ONLYOFFICE_PLUGIN_NAME)) {
-                        Element liveEditionGroup = this.getToolbarLiveEditionGroup(portalControllerContext, documentDto, permissions, bundle);
-                        toolbar.add(liveEditionGroup);
-                    }
+                    Element liveEditionGroup = this.getToolbarLiveEditionGroup(portalControllerContext, documentDto, permissions, bundle);
+                    toolbar.add(liveEditionGroup);
+
 
                     // Single selection
                     Element singleSelectionGroup = this.getToolbarSingleSelectionGroup(portalControllerContext, view, documentDto, permissions, bundle);
@@ -448,8 +440,6 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                         String url = this.getBulkDownloadUrl(portalControllerContext, selection);
                         bulkDownload = DOM4JUtils.generateLinkElement(url, null, null, "btn btn-default btn-sm no-ajax-link", null,
                                 "glyphicons glyphicons-download-alt");
-                        // bulkDownload = DOM4JUtils.generateLinkElement(url, "_blank", null, "btn btn-default btn-sm no-ajax-link", null, "glyphicons
-                        // glyphicons-download-alt");
                         DOM4JUtils.addAttribute(bulkDownload, "title", title);
                     } else {
                         bulkDownload = DOM4JUtils.generateLinkElement("#", null, null, "btn btn-default btn-sm disabled", null,
@@ -481,61 +471,124 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      */
     private Element getToolbarLiveEditionGroup(PortalControllerContext portalControllerContext, DocumentDTO documentDto, BasicPermissions permissions,
             Bundle bundle) throws PortletException {
+        // Portlet request
+        PortletRequest portletRequest = portalControllerContext.getRequest();
+
         // Document path
         String path = documentDto.getPath();
+        // Document type
+        DocumentType documentType = documentDto.getType();
 
-        // Text
-        String onlyOfficeText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE");
-        String onlyOfficeWithLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITH_LOCK");
-        String onlyOfficeWithoutLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITHOUT_LOCK");
-        String onlyOfficeReadOnlyText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_READ_ONLY");
+        // Publication infos
+        BasicPublicationInfos publicationInfos;
+        // Nuxeo drive indicator
+        boolean drive;
+        if (permissions.isEditableByUser() && (documentType != null) && documentType.isFile() && documentType.isLiveEditable()) {
+            publicationInfos = this.repository.getPublicationInfos(portalControllerContext, documentDto.getDocument());
+            drive = StringUtils.isNotEmpty(publicationInfos.getDriveUrl()) || publicationInfos.isDriveEnabled();
+        } else {
+            publicationInfos = null;
+            drive = false;
+        }
 
-        // URL
-        String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeText, true);
-        String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeText, false);
 
         // Live edition group
         Element liveEditionGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm hidden-xs");
+        // Dropdown
+        Element dropdownGroup;
+        Element dropdownMenu;
+        if (permissions.isEditableByUser() && (documentDto.isLiveEditable() || drive)) {
+            // Dropdown group
+            dropdownGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm");
 
-        if (permissions.isEditableByUser()) {
-            // OnlyOffice (with lock)
-            Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeText,
-                    "glyphicons glyphicons-pencil");
-            liveEditionGroup.add(onlyOffice);
+            // Dropdown button
+            Element dropdownButton = DOM4JUtils.generateElement("button", "btn btn-default dropdown-toggle", null);
+            DOM4JUtils.addAttribute(dropdownButton, "type", "button");
+            DOM4JUtils.addDataAttribute(dropdownButton, "toggle", "dropdown");
+            dropdownGroup.add(dropdownButton);
 
-            // OnlyOffice dropdown group
-            Element onlyOfficeDropdownGroup = DOM4JUtils.generateDivElement("btn-group btn-group-sm");
-            liveEditionGroup.add(onlyOfficeDropdownGroup);
+            // Dropdown button caret
+            Element dropdownButtonCaret = DOM4JUtils.generateElement("span", "caret", StringUtils.EMPTY);
+            dropdownButton.add(dropdownButtonCaret);
 
-            // OnlyOffice dropdown button
-            Element onlyOfficeDropdownButton = DOM4JUtils.generateElement("button", "btn btn-default dropdown-toggle", null);
-            DOM4JUtils.addAttribute(onlyOfficeDropdownButton, "type", "button");
-            DOM4JUtils.addDataAttribute(onlyOfficeDropdownButton, "toggle", "dropdown");
-            onlyOfficeDropdownGroup.add(onlyOfficeDropdownButton);
-
-            // OnlyOffice dropdown button caret
-            Element onlyOfficeDropdownButtonCaret = DOM4JUtils.generateElement("span", "caret", StringUtils.EMPTY);
-            onlyOfficeDropdownButton.add(onlyOfficeDropdownButtonCaret);
-
-            // OnlyOffice dropdown menu
-            Element onlyOfficeDropdownMenu = DOM4JUtils.generateElement("ul", "dropdown-menu dropdown-menu-right", null);
-            onlyOfficeDropdownGroup.add(onlyOfficeDropdownMenu);
-
-            // OnlyOffice (with lock)
-            Element onlyOfficeWithLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
-            onlyOfficeDropdownMenu.add(onlyOfficeWithLockDropdownItem);
-            Element onlyOfficeWithLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "no-ajax-link", onlyOfficeWithLockText);
-            onlyOfficeWithLockDropdownItem.add(onlyOfficeWithLockLink);
-
-            // OnlyOffice (without lock)
-            Element onlyOfficeWithoutLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
-            onlyOfficeDropdownMenu.add(onlyOfficeWithoutLockDropdownItem);
-            Element onlyOfficeWithoutLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "no-ajax-link", onlyOfficeWithoutLockText);
-            onlyOfficeWithoutLockDropdownItem.add(onlyOfficeWithoutLockLink);
+            // Dropdown menu
+            dropdownMenu = DOM4JUtils.generateElement("ul", "dropdown-menu dropdown-menu-right", null);
+            dropdownGroup.add(dropdownMenu);
         } else {
-            // OnlyOffice (read only)
-            Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeReadOnlyText);
-            liveEditionGroup.add(onlyOffice);
+            dropdownGroup = null;
+            dropdownMenu = null;
+        }
+
+        if (documentDto.isLiveEditable()) {
+            if (permissions.isEditableByUser()) {
+                String onlyOfficeTitle = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_TITLE");
+                String onlyOfficeWithLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITH_LOCK");
+                String onlyOfficeWithoutLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITHOUT_LOCK");
+
+                String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeTitle, true);
+                String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeWithoutLockText, false);
+
+
+                // OnlyOffice (with lock)
+                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeTitle,
+                        "glyphicons glyphicons-pencil");
+                liveEditionGroup.add(onlyOffice);
+
+                // OnlyOffice (with lock)
+                Element onlyOfficeWithLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
+                dropdownMenu.add(onlyOfficeWithLockDropdownItem);
+                Element onlyOfficeWithLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "no-ajax-link", onlyOfficeWithLockText);
+                onlyOfficeWithLockDropdownItem.add(onlyOfficeWithLockLink);
+
+                // OnlyOffice (without lock)
+                Element onlyOfficeWithoutLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
+                dropdownMenu.add(onlyOfficeWithoutLockDropdownItem);
+                Element onlyOfficeWithoutLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "no-ajax-link",
+                        onlyOfficeWithoutLockText);
+                onlyOfficeWithoutLockDropdownItem.add(onlyOfficeWithoutLockLink);
+            } else if (StringUtils.isNotEmpty(portletRequest.getRemoteUser())) {
+                String onlyOfficeReadOnlyTitle = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_READ_ONLY_TITLE");
+                String onlyOfficeReadOnlyText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_READ_ONLY");
+
+                String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeReadOnlyTitle, false);
+
+                // OnlyOffice (read only)
+                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeReadOnlyUrl, null, null, "btn btn-default no-ajax-link",
+                        onlyOfficeReadOnlyText);
+                liveEditionGroup.add(onlyOffice);
+            }
+        }
+
+        if (drive) {
+            if (documentDto.isLiveEditable()) {
+                // Divider
+                Element divider = DOM4JUtils.generateElement("li", "divider", StringUtils.EMPTY);
+                dropdownMenu.add(divider);
+            }
+
+            if (StringUtils.isNotEmpty(publicationInfos.getDriveUrl())) {
+                // Drive
+                Element driveDropdownItem = DOM4JUtils.generateElement("li", null, null);
+                dropdownMenu.add(driveDropdownItem);
+                Element driveLink = DOM4JUtils.generateLinkElement(publicationInfos.getDriveUrl(), null, null, "no-ajax-link",
+                        bundle.getString("FILE_BROWSER_TOOLBAR_DRIVE_EDIT"));
+                driveDropdownItem.add(driveLink);
+            } else {
+                // Drive not started warning
+                Element warning = DOM4JUtils.generateElement("li", "dropdown-header", bundle.getString("FILE_BROWSER_TOOLBAR_DRIVE_NOT_STARTED_WARNING"));
+                dropdownMenu.add(warning);
+
+                // Drive
+                Element driveDropdownItem = DOM4JUtils.generateElement("li", "disabled", null);
+                dropdownMenu.add(driveDropdownItem);
+                Element driveLink = DOM4JUtils.generateLinkElement("#", null, null, null, bundle.getString("FILE_BROWSER_TOOLBAR_DRIVE_EDIT"));
+                driveDropdownItem.add(driveLink);
+            }
+        }
+
+
+        if (dropdownGroup != null) {
+            liveEditionGroup.add(dropdownGroup);
         }
 
         return liveEditionGroup;

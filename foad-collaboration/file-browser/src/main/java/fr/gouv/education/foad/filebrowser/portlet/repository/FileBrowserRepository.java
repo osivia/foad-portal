@@ -8,6 +8,7 @@ import javax.portlet.PortletException;
 
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
+import org.osivia.portal.api.cms.impl.BasicPublicationInfos;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.user.UserPreferences;
 import org.osivia.portal.core.cms.CMSBinaryContent;
@@ -60,6 +61,17 @@ public interface FileBrowserRepository {
      * @throws PortletException
      */
     List<Document> getDocuments(PortalControllerContext portalControllerContext) throws PortletException;
+
+
+    /**
+     * Get publication infos.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param document Nuxeo document
+     * @return publication infos
+     * @throws PortletException
+     */
+    BasicPublicationInfos getPublicationInfos(PortalControllerContext portalControllerContext, Document document) throws PortletException;
 
 
     /**

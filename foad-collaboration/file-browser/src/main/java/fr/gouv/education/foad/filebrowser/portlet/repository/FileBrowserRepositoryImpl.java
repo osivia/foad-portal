@@ -30,6 +30,7 @@ import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.EcmDocument;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
+import org.osivia.portal.api.cms.impl.BasicPublicationInfos;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.urls.Link;
 import org.osivia.portal.api.user.UserPreferences;
@@ -159,6 +160,20 @@ public class FileBrowserRepositoryImpl implements FileBrowserRepository {
         }
 
         return documents;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BasicPublicationInfos getPublicationInfos(PortalControllerContext portalControllerContext, Document document) throws PortletException {
+        // Nuxeo controller
+        NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+        // Nuxeo document context
+        NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext(document.getPath());
+
+        return documentContext.getPublicationInfos(BasicPublicationInfos.class);
     }
 
 
