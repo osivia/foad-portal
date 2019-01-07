@@ -7,12 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.portlet.PortletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.DocumentContext;
+import org.osivia.portal.api.cms.DocumentType;
 import org.osivia.portal.api.cms.EcmDocument;
+import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.cms.impl.BasicPublicationInfos;
 import org.osivia.portal.api.context.PortalControllerContext;
+import org.osivia.portal.api.internationalization.Bundle;
+import org.osivia.portal.api.internationalization.IBundleFactory;
+import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.menubar.IMenubarService;
 import org.osivia.portal.api.menubar.MenubarContainer;
@@ -20,6 +29,15 @@ import org.osivia.portal.api.menubar.MenubarDropdown;
 import org.osivia.portal.api.menubar.MenubarGroup;
 import org.osivia.portal.api.menubar.MenubarItem;
 import org.osivia.portal.api.menubar.MenubarModule;
+import org.osivia.portal.api.urls.IPortalUrlFactory;
+import org.osivia.portal.api.urls.Link;
+import org.osivia.portal.core.constants.InternalConstants;
+
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
+import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
+import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
+import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
 
 /**
  * FOAD menubar module.
@@ -33,8 +51,14 @@ public class FoadMenubarModule implements MenubarModule {
     private static final String MERGED_DROPDOWN_MENU_ID = "MERGED";
 
 
+    /** Portal URL factory. */
+    private final IPortalUrlFactory portalUrlFactory;
     /** Menubar service. */
     private final IMenubarService menubarService;
+    /** Internationalization bundle factory. */
+    private final IBundleFactory bundleFactory;
+    /** Document DAO. */
+    private final DocumentDAO documentDao;
 
 
     /**
@@ -43,8 +67,16 @@ public class FoadMenubarModule implements MenubarModule {
     public FoadMenubarModule() {
         super();
 
+        // Portal URL factory
+        this.portalUrlFactory = Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
         // Menubar service
         this.menubarService = Locator.findMBean(IMenubarService.class, IMenubarService.MBEAN_NAME);
+        // Internationalization bundle factory
+        IInternationalizationService internationalizationService = Locator.findMBean(IInternationalizationService.class,
+                IInternationalizationService.MBEAN_NAME);
+        this.bundleFactory = internationalizationService.getBundleFactory(this.getClass().getClassLoader());
+        // Document DAO
+        this.documentDao = DocumentDAO.getInstance();
     }
 
 
@@ -67,6 +99,7 @@ public class FoadMenubarModule implements MenubarModule {
             DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
         this.removeItems(menubar, documentContext);
         this.mergeDropdownMenus(portalControllerContext, menubar);
+        this.addLiveEditionItems(portalControllerContext, menubar, documentContext);
     }
 
 
@@ -199,6 +232,134 @@ public class FoadMenubarModule implements MenubarModule {
             refresh.setOrder(4000);
             refresh.setDivider(true);
         }
+    }
+
+
+    /**
+     * Add live edition menubar items.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param menubar menubar
+     * @param documentContext document context
+     * @throws PortalException
+     */
+    private void addLiveEditionItems(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
+            DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
+        if ((documentContext != null) && (documentContext instanceof NuxeoDocumentContext)) {
+            NuxeoDocumentContext nuxeoDocumentContext = (NuxeoDocumentContext) documentContext;
+
+            // Document type
+            DocumentType documentType = nuxeoDocumentContext.getType();
+
+            if ((documentType != null) && documentType.isFile()) {
+                // Nuxeo controller
+                NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+                // Portlet request
+                PortletRequest request = portalControllerContext.getRequest();
+
+
+                // Publication infos
+                BasicPublicationInfos publicationInfos = nuxeoDocumentContext.getPublicationInfos(BasicPublicationInfos.class);
+                // Permissions
+                BasicPermissions permissions = nuxeoDocumentContext.getPermissions(BasicPermissions.class);
+                // Document DTO
+                DocumentDTO documentDto = this.documentDao.toDTO(nuxeoDocumentContext.getDoc());
+
+                // Internationalization bundle
+                Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
+
+                // Live edition dropdown
+                MenubarDropdown liveEditionDropdown = new MenubarDropdown("LIVE_EDITION", null, "glyphicons glyphicons-pencil", MenubarGroup.CMS, 6);
+                liveEditionDropdown.setReducible(false);
+                this.menubarService.addDropdown(portalControllerContext, liveEditionDropdown);
+
+
+                // OnlyOffice
+                if (documentDto.isLiveEditable()) {
+                    if (permissions.isEditableByUser()) {
+                        String onlyOfficeTitle = bundle.getString("MENUBAR_ONLYOFFICE_TITLE");
+
+                        // OnlyOffice (with lock)
+                        String onlyOfficeWithLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITH_LOCK");
+                        String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, true);
+                        MenubarItem onlyOfficeWithLock = new MenubarItem("ONLYOFFICE_WITH_LOCK", onlyOfficeWithLockText, null, liveEditionDropdown, 1,
+                                onlyOfficeWithLockUrl, null, null, null);
+                        menubar.add(onlyOfficeWithLock);
+
+                        // OnlyOffice (without lock)
+                        String onlyOfficeWithoutLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITHOUT_LOCK");
+                        String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, false);
+                        MenubarItem onlyOfficeWithoutLock = new MenubarItem("ONLYOFFICE_WITHOUT_LOCK", onlyOfficeWithoutLockText,
+                                null, liveEditionDropdown, 2, onlyOfficeWithoutLockUrl, null, null, null);
+                        menubar.add(onlyOfficeWithoutLock);
+                    } else if (StringUtils.isNotEmpty(request.getRemoteUser())) {
+                        // OnlyOffice (read only)
+                        String onlyOfficeTitle = bundle.getString("MENUBAR_ONLYOFFICE_READ_ONLY_TITLE");
+                        String onlyOfficeReadOnlyText = bundle.getString("MENUBAR_ONLYOFFICE_READ_ONLY");
+                        String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, false);
+                        MenubarItem onlyOfficeReadOnly = new MenubarItem("ONLYOFFICE_READ_ONLY", onlyOfficeReadOnlyText, null, liveEditionDropdown, 2,
+                                onlyOfficeReadOnlyUrl, null, null, null);
+                        menubar.add(onlyOfficeReadOnly);
+                    }
+                }
+
+
+                // Nuxeo drive
+                if (documentType.isLiveEditable() && permissions.isEditableByUser()
+                        && (StringUtils.isNotEmpty(publicationInfos.getDriveUrl()) || publicationInfos.isDriveEnabled())) {
+                    if (StringUtils.isNotEmpty(publicationInfos.getDriveUrl())) {
+                        MenubarItem drive = new MenubarItem("DRIVE", bundle.getString("MENUBAR_DRIVE_EDIT"), null, liveEditionDropdown, 4,
+                                publicationInfos.getDriveUrl(), null, null, null);
+                        drive.setDivider(true);
+                        menubar.add(drive);
+                    } else {
+                        // Drive not started warning
+                        MenubarItem driveWarning = new MenubarItem("DRIVE_WARNING", bundle.getString("MENUBAR_DRIVE_NOT_STARTED_WARNING"), liveEditionDropdown,
+                                3, null);
+                        driveWarning.setDisabled(true);
+                        driveWarning.setDivider(true);
+                        menubar.add(driveWarning);
+
+                        MenubarItem drive = new MenubarItem("DRIVE", bundle.getString("MENUBAR_DRIVE_EDIT"), null, liveEditionDropdown, 4, "#", null, null,
+                                null);
+                        drive.setDisabled(true);
+                        menubar.add(drive);
+                    }
+                }
+
+
+                // Download
+                if (documentType.isFile()) {
+                    Link link = nuxeoController.getLink(documentDto.getDocument(), "download");
+                    MenubarItem download = new MenubarItem("DOWNLOAD", bundle.getString("MENUBAR_DOWNLOAD"), "glyphicons glyphicons-download-alt",
+                            liveEditionDropdown, 5, link.getUrl(), "_blank", null, null);
+                    download.setDivider(true);
+                    menubar.add(download);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Get OnlyOffice URL.
+     *
+     * @param portalControllerContext portal controller context
+     * @param path document path
+     * @param title title
+     * @param lock lock indicator
+     * @return URL
+     * @throws PortalException
+     */
+    private String getOnlyOfficeUrl(PortalControllerContext portalControllerContext, String path, String title, boolean lock) throws PortalException {
+        // Window properties
+        Map<String, String> properties = new HashMap<>();
+        properties.put(Constants.WINDOW_PROP_URI, path);
+        properties.put("osivia.hideTitle", String.valueOf(1));
+        properties.put("osivia.onlyoffice.withLock", String.valueOf(lock));
+        properties.put(InternalConstants.PROP_WINDOW_TITLE, title);
+
+        return this.portalUrlFactory.getStartPortletUrl(portalControllerContext, OnlyofficeLiveEditHelper.ONLYOFFICE_PORTLET_INSTANCE, properties);
     }
 
 }
