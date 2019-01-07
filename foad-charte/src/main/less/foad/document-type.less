@@ -31,8 +31,9 @@
     }
     
     
-    // Note
-    &.document-type-note {
+    
+    // Note & glyphicons
+    &.document-type-note, &[data-glyphicons] {
         background-color: @gray;
     }
     
@@ -118,5 +119,100 @@
                 content: "\E009"; // film
             }
         }
+    }
+    
+    
+    .type-color(@type: ~"DocumentUrlContainer", @color: @yellow);
+    .type-color(@type: ~"ContextualLink", @color: @yellow);
+    .type-color(@type: ~"Agenda", @color: @orange);
+    .type-color(@type: ~"VEVENT", @color: @orange);
+    .type-color(@type: ~"FaqFolder", @color: @yellow);
+    .type-color(@type: ~"Question", @color: @yellow);
+    .type-color(@type: ~"Forum", @color: @violet);
+    .type-color(@type: ~"Thread", @color: @violet);
+    .type-color(@type: ~"AnnonceFolder", @color: @green);
+    .type-color(@type: ~"Annonce", @color: @green);
+    .type-color(@type: ~"Room", @color: @pink);
+    .type-color(@type: ~"Workspace", @color: @turquoise);
+    
+    .type-color(@type, @color) when (iscolor(@color)) {
+        &[data-type="@{type}"] {
+            background-color: @color;
+        }
+    }
+    
+    
+    .media-heading & {
+        @size: ceil(@font-size-h4 * @headings-line-height);
+        
+        display: inline-block;
+        vertical-align: top;
+        
+        height: @size;
+        width: @size;
+        
+        font-size: 8px;
+
+        &, i {
+            line-height: @size;
+        }
+        
+        
+        // Length
+        &[data-length="1"] {
+            font-size: 12px;
+        }
+        &[data-length="2"] {
+            font-size: 11px;
+        }
+        &[data-length="3"] {
+            font-size: 10px;
+        }
+    }
+}
+
+
+.menubar {
+    .dropdown-menu {
+        i {
+            &.flaticon {
+                @size: 15px;
+                
+                &:extend(.document-type);
+                
+                display: inline-block;
+                vertical-align: top;
+                
+                height: @size;
+                width: @size;
+                
+                font-size: 8px;
+                line-height: @size;
+                
+                &.flaticon-word {
+                    &:extend(.document-type[data-extension=doc]);
+                    
+                    &::before {
+                        content: "w";
+                    }
+                }
+                
+                &.flaticon-excel {
+                    &:extend(.document-type[data-extension=xls]);
+                    
+                    &::before {
+                        content: "x";
+                    }
+                }
+                
+                &.flaticon-powerpoint {
+                    &:extend(.document-type[data-extension=ppt]);
+                    
+                    &::before {
+                        content: "p";
+                    }
+                }
+            }
+        }   
     }
 }

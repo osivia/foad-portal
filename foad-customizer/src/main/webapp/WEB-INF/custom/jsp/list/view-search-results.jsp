@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 <%@ taglib uri="http://www.toutatice.fr/jsp/taglib/toutatice" prefix="ttc" %>
+<%@ taglib uri="https://tribu.phm.education.gouv.fr/jsp/taglib/foad" prefix="foad" %>
 
 <%@ page isELIgnored="false" %>
 
@@ -25,23 +26,15 @@
 <ol class="list-unstyled tiles">
     <c:forEach var="document" items="${documents}" varStatus="status">
         <!-- Document properties -->
-
 		<c:choose>
 			<c:when test="${document.type.name eq 'UserProfile'}">
-				<c:set var="vignetteUrl">
-					<ttc:pictureLink document="${document}"
-						property="userprofile:avatar" />
-				</c:set>
-
+				<c:set var="vignetteUrl"><ttc:pictureLink document="${document}" property="userprofile:avatar" /></c:set>
 			</c:when>
+            
 			<c:otherwise>
-				<c:set var="vignetteUrl">
-					<ttc:pictureLink document="${document}" property="ttc:vignette" />
-				</c:set>
-
+				<c:set var="vignetteUrl"><ttc:pictureLink document="${document}" property="ttc:vignette" /></c:set>
 			</c:otherwise>
 		</c:choose>
-
 		<c:set var="description" value="${document.properties['dc:description']}" />
         <c:set var="author" value="${document.properties['dc:lastContributor']}" />
         <c:set var="date" value="${empty document.properties['dc:modified'] ? document.properties['dc:created'] : document.properties['dc:modified']}" />
@@ -59,8 +52,20 @@
 		            <div class="media-body media-middle">
 		                <!-- Title -->
 		                <h3 class="h4 media-heading">
-		                    <i class="${document.icon}"></i>
-		                    <span><ttc:title document="${document}" openInSpaceTabs="true"/></span>
+		                    <!-- File Mime type -->
+                            <c:choose>
+                                <c:when test="${document.type.file}">
+                                    <foad:mimeTypeIcon mimeType="${document.properties['file:content']['mime-type']}" />
+                                </c:when>
+                                
+                                <c:when test="${not empty document.type.glyph}">
+                                    <span class="document-type" data-length="1" data-glyphicons data-type="${document.type.name}">
+                                        <i class="${document.type.glyph}"></i>
+                                    </span>
+                                </c:when>
+                            </c:choose>
+                            
+		                    <span><ttc:title document="${document}" openInSpaceTabs="true" /></span>
 		                </h3>
 		                
 		                <c:if test="${not (document.type.rootType or document.type.name eq 'UserProfile') }">
@@ -83,7 +88,7 @@
 		                        <span><op:formatRelativeDate value="${date}" /></span>
 		                        <c:if test="${not empty author}">
 		                            <span><op:translate key="DOCUMENT_METADATA_BY" /></span>
-		                            <span><ttc:user name="${author}" /></span>
+		                            <span><ttc:user name="${author}" linkable="false" /></span>
 		                        </c:if>
 		                    </p>
 		                </c:if>
