@@ -65,7 +65,16 @@
                                 </c:when>
                             </c:choose>
                             
-		                    <span><ttc:title document="${document}" openInSpaceTabs="true" /></span>
+                            <!-- Title -->
+                        	<c:choose>
+								<c:when test="${document.type.name eq 'UserProfile' }">
+									<span><ttc:user name="${document.properties['ttc_userprofile:login']}" linkable="true" showAvatar="false" /></span>
+		                    	</c:when>
+		                    	<c:otherwise>
+		                    		<span><ttc:title document="${document}" openInSpaceTabs="true"/></span>
+		                    	</c:otherwise>
+		                    </c:choose>
+                           
 		                </h3>
 		                
 		                <c:if test="${not (document.type.rootType or document.type.name eq 'UserProfile') }">

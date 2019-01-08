@@ -30,6 +30,9 @@
 <portlet:actionURL name="chgValidDate" var="chgValidDateUrl" >
 </portlet:actionURL>
 
+<portlet:actionURL name="updateWks" var="updateWksUrl" >
+</portlet:actionURL>
+
 <h3><op:translate key="INTEG_TITLE" /></h3>
 <p>
     <a href="${checkIntegrityUrl}" class="btn btn-default no-ajax-link">
@@ -82,6 +85,8 @@
            <form:checkbox path="purgeAll" cssClass="form-control" placeholder="${placeholder}" />
        </div>
    </div>  
+   
+   
       
    
    <button type="submit" name="btnName" value="test" class="btn btn-default no-ajax-link"><op:translate key="TEST_BUTTON" /></button>
@@ -133,3 +138,12 @@
 
 </form:form>
 
+<h3><op:translate key="UPDATE_TITLE" /></h3>
+<p>
+	<op:translate key="UPDATE_HELP" />  
+    <a href="${updateWksUrl}" class="btn btn-default no-ajax-link">
+   
+        <i class="glyphicons glyphicons-electricity"></i>    
+        <span><op:translate key="UPDATE_4416_BUTTON" /></span>
+    </a>
+</p>

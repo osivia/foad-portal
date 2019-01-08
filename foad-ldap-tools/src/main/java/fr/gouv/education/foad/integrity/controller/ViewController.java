@@ -278,6 +278,14 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 		}
     }
     
+    @ActionMapping(value = "updateWks")
+    public void updateWks(ActionRequest request, ActionResponse response) {
+    	
+    	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+
+    	service.updateWks(pcc);
+    }
+    
     /**
      * 
      * @return

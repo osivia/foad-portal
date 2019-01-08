@@ -425,6 +425,25 @@ public class IntegrityServiceImpl implements IntegrityService {
 
 	}
 
-
+	/* (non-Javadoc)
+	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#updateWks()
+	 */
+	@Override
+	public void updateWks(PortalControllerContext portalControllerContext) {
+		NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+        nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
+        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
+        nuxeoController.setAsynchronousCommand(false);
+        
+		Documents workspaces = (Documents) nuxeoController.executeNuxeoCommand(
+				new GetWorkspacesNotInVersionCommand("4.4.16"));
+		
+		for(Document workspace : workspaces) {
+			
+			nuxeoController.executeNuxeoCommand(new MigrationCommand(workspace));
+			
+		}
+		
+	}
 
 }
