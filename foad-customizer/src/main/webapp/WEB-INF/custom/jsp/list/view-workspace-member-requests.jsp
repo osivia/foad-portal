@@ -11,22 +11,35 @@
 
 <ul class="list-unstyled tiles">
     <c:forEach var="document" items="${documents}" varStatus="status">
+        <c:set var="workspaceType" value="${document.properties['workspaceType']}" />
+    
         <li>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <!-- Title -->
-                    <h3>
-                        <span><ttc:title document="${document}" /></span>
-                    </h3>
-                    
-                    <!-- Description -->
-                    <c:set var="description" value="${document.properties['dc:description']}" />
-                    <c:if test="${not empty description}">
-                        <p class="text-pre-wrap">${description}</p>
-                    </c:if>
+                    <div class="media">
+                        <div class="media-body">
+                            <!-- Title -->
+                            <h3>
+                                <span><ttc:title document="${document}" linkable="${(workspaceType.id eq 'PUBLIC') || (workspaceType.id eq 'PUBLIC_INVITATION')}" /></span>
+                            </h3>
+                            
+                            <!-- Description -->
+                            <c:set var="description" value="${document.properties['dc:description']}" />
+                            <c:if test="${not empty description}">
+                                <p class="text-pre-wrap">${description}</p>
+                            </c:if>
+                        </div>
+                        
+                        <!-- Vignette -->
+                        <c:set var="vignetteUrl"><ttc:pictureLink document="${document}" property="ttc:vignette" /></c:set>
+                        <c:if test="${not empty vignetteUrl}">
+                            <div class="media-right">
+                                <img src="${vignetteUrl}" alt="" class="media-object">
+                            </div>
+                        </c:if>
+                    </div>
                     
                     <!-- Type & action -->
-                    <c:set var="workspaceType" value="${document.properties['workspaceType']}" />
                     <c:if test="${not empty workspaceType or workspaceType.allowedInvitationRequests}">
                         <div class="actions">
                             <c:if test="${not empty workspaceType}">

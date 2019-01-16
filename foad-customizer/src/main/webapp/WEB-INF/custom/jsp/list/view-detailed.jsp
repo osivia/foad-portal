@@ -12,40 +12,50 @@
         <li>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <!-- File Mime type -->
-                    <c:choose>
-                        <c:when test="${document.type.file}">
-                            <div class="document-type-container">
-                                <foad:mimeTypeIcon mimeType="${document.properties['file:content']['mime-type']}" />
+                    <div class="media">
+                        <!-- File Mime type -->
+                        <c:choose>
+                            <c:when test="${document.type.file}">
+                                <div class="media-left">
+                                    <foad:mimeTypeIcon mimeType="${document.properties['file:content']['mime-type']}" />
+                                </div>
+                            </c:when>
+                            
+                            <c:when test="${document.type.name eq 'Note'}">
+                                <div class="media-left">
+                                    <span class="document-type document-type-note" data-display="note"></span>
+                                </div>
+                            </c:when>
+                        </c:choose>
+                        
+                        <div class="media-body">
+                            <!-- Title -->
+                            <h3 class="text-primary">
+                                <span><ttc:title document="${document}" /></span>
+                            </h3>
+                            
+                            <!-- Last edition informations -->
+                            <c:if test="${not document.type.rootType and not (document.type.name eq 'Room')}">
+                                <p>
+                                    <span class="date"><fmt:formatDate value="${document.properties['dc:modified']}" type="date" dateStyle="long" /></span>
+                                    <br>
+                                    <span><ttc:user name="${document.properties['dc:lastContributor']}" linkable="false" /></span>
+                                </p>
+                            </c:if>
+                            
+                            <!-- Description -->
+                            <c:set var="description" value="${document.properties['dc:description']}" />
+                            <c:if test="${not empty description}">
+                                <p class="text-pre-wrap">${description}</p>
+                            </c:if>
+                        </div>
+                    
+                        <!-- Vignette -->
+                        <c:set var="vignetteUrl"><ttc:pictureLink document="${document}" property="ttc:vignette" /></c:set>
+                        <c:if test="${not empty vignetteUrl}">
+                            <div class="media-right">
+                                <img src="${vignetteUrl}" alt="" class="media-object">
                             </div>
-                        </c:when>
-                        
-                        <c:when test="${document.type.name eq 'Note'}">
-                            <div class="document-type-container">
-                                <span class="document-type document-type-note" data-display="note"></span>
-                            </div>
-                        </c:when>
-                    </c:choose>
-                
-                    <div>
-                        <!-- Title -->
-                        <h3 class="text-primary">
-                            <span><ttc:title document="${document}" /></span>
-                        </h3>
-                        
-                        <!-- Last edition informations -->
-                        <c:if test="${not document.type.rootType and not (document.type.name eq 'Room')}">
-                            <p>
-                                <span class="date"><fmt:formatDate value="${document.properties['dc:modified']}" type="date" dateStyle="long" /></span>
-                                <br>
-                                <span><ttc:user name="${document.properties['dc:lastContributor']}" linkable="false" /></span>
-                            </p>
-                        </c:if>
-                        
-                        <!-- Description -->
-                        <c:set var="description" value="${document.properties['dc:description']}" />
-                        <c:if test="${not empty description}">
-                            <p class="text-pre-wrap">${description}</p>
                         </c:if>
                     </div>
                 </div>

@@ -14,12 +14,20 @@
         .box-shadow(@shadow: 0 1px 4px fade(@gray, 50%));
     }
     
-    .panel-body {
+    .panel-body, .media {
         &, > div {
             > :last-child {
                 margin-bottom: 0; 
             }
         }
+    }
+    
+    .media-left {
+        padding-right: @padding-base-horizontal;
+    }
+    
+    .media-object {
+        max-width: 60px;
     }
     
     h3 {
@@ -83,16 +91,6 @@
     
     .date {
         font-weight: 500;
-    }
-    
-    .document-type-container, .flat-color-event {
-        float: left;
-    
-        margin-right: @padding-base-horizontal;
-        
-        ~ * {
-            overflow: hidden;
-        }
     }
     
     .flat-color-event {
