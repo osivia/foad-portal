@@ -203,7 +203,7 @@ public class FoadMenubarModule implements MenubarModule {
         MenubarDropdown merged = this.menubarService.getDropdown(portalControllerContext, MERGED_DROPDOWN_MENU_ID);
         if (merged == null) {
             merged = new MenubarDropdown(MERGED_DROPDOWN_MENU_ID, null, "glyphicons glyphicons-option-vertical", MenubarGroup.GENERIC, 40);
-            merged.setReducible(false);
+            merged.setReducible(true);
             this.menubarService.addDropdown(portalControllerContext, merged);
         }
 
