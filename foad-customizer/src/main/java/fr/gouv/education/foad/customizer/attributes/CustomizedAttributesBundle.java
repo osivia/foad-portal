@@ -12,6 +12,7 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -467,7 +468,7 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
                 if (navigationItem.getNativeItem() instanceof Document) {
                     Document document = (Document) navigationItem.getNativeItem();
 
-                    if ("Room".equals(document.getType())) {
+                    if ("Room".equals(document.getType()) && BooleanUtils.isTrue(document.getProperties().getBoolean("ttc:showInMenu"))) {
                         rooms.add(document);
 
                         List<Document> children = this.getRooms(cmsService, cmsContext, rootPath, document.getPath());
