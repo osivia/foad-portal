@@ -15,7 +15,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.portal.common.i18n.LocalizedString;
 import org.jboss.portal.core.controller.ControllerCommand;
 import org.jboss.portal.core.controller.ControllerContext;
 import org.jboss.portal.core.controller.ControllerException;
@@ -168,8 +167,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         // Page
         Page page = renderPageCommand.getPage();
 
+        // Current document
+        Document document = this.getCurrentDocument(renderPageCommand);
         // Current root document
-        Document rootDocument = this.getCurrentRootDocument(renderPageCommand);
+        Document rootDocument = this.getCurrentRootDocument(controllerContext, document);
 
 
         List<String> applisToLogout = new ArrayList<String>(applications);
@@ -223,7 +224,52 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         }
 
         // Page content title
-        this.computePageContentTitle(portalControllerContext, page, rootDocument, attributes);
+        this.computePageContentTitle(portalControllerContext, page, document, attributes);
+    }
+
+
+    /**
+     * Get current document.
+     * 
+     * @param renderPageCommand render page command
+     * @return document, may be null
+     */
+    private Document getCurrentDocument(RenderPageCommand renderPageCommand) {
+        // Controller context
+        ControllerContext controllerContext = renderPageCommand.getControllerContext();
+
+        // CMS service
+        ICMSService cmsService = this.cmsServiceLocator.getCMSService();
+        // CMS context
+        CMSServiceCtx cmsContext = new CMSServiceCtx();
+        cmsContext.setControllerContext(controllerContext);
+
+        // Current page
+        Page page = renderPageCommand.getPage();
+        // Content path
+        String path = this.getContentPath(controllerContext, page);
+
+        // CMS item
+        CMSItem cmsItem;
+        if (StringUtils.isEmpty(path)) {
+            cmsItem = null;
+        } else {
+            try {
+                cmsItem = cmsService.getContent(cmsContext, path);
+            } catch (CMSException e) {
+                cmsItem = null;
+            }
+        }
+
+        // Document
+        Document document;
+        if ((cmsItem != null) && (cmsItem.getNativeItem() instanceof Document)) {
+            document = (Document) cmsItem.getNativeItem();
+        } else {
+            document = null;
+        }
+
+        return document;
     }
 
 
@@ -255,33 +301,29 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
     /**
      * Get current root document.
      * 
-     * @param renderPageCommand render page command
+     * @param controllerContext controller context
+     * @param document current document, may be null
      * @return root document, may be null
      */
-    private Document getCurrentRootDocument(RenderPageCommand renderPageCommand) {
-        // Controller context
-        ControllerContext controllerContext = renderPageCommand.getControllerContext();
-
+    private Document getCurrentRootDocument(ControllerContext controllerContext, Document document) {
         // CMS service
         ICMSService cmsService = this.cmsServiceLocator.getCMSService();
         // CMS context
         CMSServiceCtx cmsContext = new CMSServiceCtx();
         cmsContext.setControllerContext(controllerContext);
 
-        // Current page
-        Page page = renderPageCommand.getPage();
-        // Current CMS base path
-        String basePath = page.getProperty("osivia.cms.basePath");
-
-        // Space CMS item
-        CMSItem cmsItem = null;
-        if (StringUtils.isNotEmpty(basePath)) {
+        // CMS item
+        CMSItem cmsItem;
+        if (document == null) {
+            cmsItem = null;
+        } else {
             // Path
-            String path = basePath;
+            String path;
             // Document type
             DocumentType type;
 
             try {
+                path = document.getPath();
                 cmsItem = cmsService.getSpaceConfig(cmsContext, path);
                 type = cmsItem.getType();
 
@@ -294,19 +336,19 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
                     type = cmsItem.getType();
                 }
             } catch (CMSException e) {
-                // Do nothing
+                cmsItem = null;
             }
         }
 
-        // Space document
-        Document document;
+        // Root document
+        Document rootDocument;
         if ((cmsItem != null) && (cmsItem.getNativeItem() instanceof Document)) {
-            document = (Document) cmsItem.getNativeItem();
+            rootDocument = (Document) cmsItem.getNativeItem();
         } else {
-            document = null;
+            rootDocument = null;
         }
 
-        return document;
+        return rootDocument;
     }
 
 
@@ -475,10 +517,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
      * 
      * @param portalControllerContext portal controller context
      * @param page page
-     * @param rootDocument root document
+     * @param document current document, may be null
      * @param attributes attributes map
      */
-    private void computePageContentTitle(PortalControllerContext portalControllerContext, Page page, Document rootDocument, Map<String, Object> attributes) {
+    private void computePageContentTitle(PortalControllerContext portalControllerContext, Page page, Document document, Map<String, Object> attributes) {
         // Controller context
         ControllerContext controllerContext = ControllerContextAdapter.getControllerContext(portalControllerContext);
         // HTTP servlet request
@@ -488,32 +530,25 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(locale);
         
-        // Base path
-        String basePath = page.getProperty("osivia.cms.basePath");
-        // Content path
-        String contentPath = this.getContentPath(controllerContext, page);
         // Maximized window
         Window maximizedWindow = PortalObjectUtils.getMaximizedWindow(controllerContext, page);
         
         
-
+        // Content title
         String contentTitle;
 
         if (maximizedWindow != null) {
             contentTitle = null;
-        } else if (StringUtils.isNotEmpty(contentPath) && !StringUtils.equals(basePath, contentPath)) {
-            contentTitle = null;
-        } else if ((rootDocument != null) && "Workspace".equals(rootDocument.getType())) {
-            contentTitle = rootDocument.getString("ttcs:welcomeTitle");
+        } else if ((document != null) && ("Workspace".equals(document.getType()) || "Room".equals(document.getType()))) {
+            contentTitle = StringUtils.trimToNull(document.getString("ttcs:welcomeTitle"));
 
-            if (StringUtils.isBlank(contentTitle)) {
-                contentTitle = bundle.getString("WORKSPACE_WELCOME_TITLE_DEFAULT");
+            if ("Workspace".equals(document.getType())) {
+                contentTitle = StringUtils.defaultIfEmpty(contentTitle, bundle.getString("WORKSPACE_WELCOME_TITLE_DEFAULT"));
             }
         } else if (StringUtils.startsWith(page.getName(), "home-")) {
             contentTitle = bundle.getString("HOME_CONTENT_TITLE");
         } else {
-            LocalizedString displayName = page.getDisplayName();
-            contentTitle = displayName.getString(locale, true);
+            contentTitle = null;
         }
 
         attributes.put(PAGE_CONTENT_TITLE, contentTitle);
