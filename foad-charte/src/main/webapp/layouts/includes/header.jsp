@@ -26,7 +26,7 @@
                     <c:otherwise>
                         <!-- Logo EN -->
                         <div class="logo-en hidden-xs">
-                            <img src="${contextPath}/img/logo-en.png" alt="Minist&egrave;re de l'&Eacute;ducation nationale">
+                            <img src="${contextPath}/img/logo-en.jpg" alt="Minist&egrave;re de l'&Eacute;ducation nationale et de la Jeunesse">
                         </div>
                     </c:otherwise>
                 </c:choose>
