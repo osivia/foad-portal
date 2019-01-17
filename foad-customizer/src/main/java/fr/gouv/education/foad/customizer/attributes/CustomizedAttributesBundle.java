@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,10 +61,14 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 
     /** SSO applications attribute name. */
     private static final String APPLICATIONS = "osivia.sso.applications";
-    /** Toolbar help URL. */
-    private static final String TOOLBAR_HELP_URL = "toolbar.help.url";
     /** CGU URL. */
     private static final String CGU_URL = "cgu.url";
+    /** Help FAQ URL. */
+    private static final String HELP_FAQ_URL = "help.faq.url";
+    /** Help tutorials URL. */
+    private static final String HELP_TUTORIALS_URL = "help.tutorials.url";
+    /** Help contact URL. */
+    private static final String HELP_CONTACT_URL = "help.contact.url";
 
     /** Piwik url */
 	private static final String STATS_SERVER_URL = "stats.server.url";
@@ -118,8 +123,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         // Attributes names
         this.names = new HashSet<String>();
         this.names.add(APPLICATIONS);
-        this.names.add(TOOLBAR_HELP_URL);
         this.names.add(CGU_URL);
+        this.names.add(HELP_FAQ_URL);
+        this.names.add(HELP_TUTORIALS_URL);
+        this.names.add(HELP_CONTACT_URL);
         this.names.add(STATS_SERVER_URL);
         this.names.add(STATS_SERVER_SITEID);
         this.names.add(STATS_DIM_SPACEID);
@@ -174,8 +181,8 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         Document rootDocument = this.getCurrentRootDocument(controllerContext, document);
 
 
-        List<String> applisToLogout = new ArrayList<String>(applications);
         // SSO applications
+        List<String> applisToLogout = new ArrayList<String>(applications);
         if (portalControllerContext != null && portalControllerContext.getHttpServletRequest() != null) {
             String headerUrlRetour = portalControllerContext.getHttpServletRequest().getHeader(FIM_URL_RETOUR);
             if (StringUtils.isNotBlank(headerUrlRetour)) {
@@ -189,32 +196,41 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         }
         attributes.put(APPLICATIONS, applisToLogout);
 
-        // Toolbar help URL
-        String helpUrl;
-        String helpPath = System.getProperty("help.path");
-        if (StringUtils.isBlank(helpPath)) {
-            helpUrl = null;
+
+        // CGU
+        String cguUrl = this.getUrlFromProperty(portalControllerContext, "osivia.services.cgu.path");
+        attributes.put(CGU_URL, cguUrl);
+
+
+        // Help FAQ
+        String faqUrl = this.getUrlFromProperty(portalControllerContext, "help.faq.path");
+        attributes.put(HELP_FAQ_URL, faqUrl);
+
+        // Help tutorials
+        String tutorialsUrl = this.getUrlFromProperty(portalControllerContext, "help.tutorials.path");
+        attributes.put(HELP_TUTORIALS_URL, tutorialsUrl);
+
+        // Help contact
+        String contactUrl;
+        String mailto = System.getProperty("help.contact.mailto");
+        if (StringUtils.isBlank(mailto)) {
+            contactUrl = null;
         } else {
-            if (!StringUtils.startsWith(helpPath, "/")) {
-                // WebId
-                helpPath = NuxeoController.webIdToCmsPath(helpPath);
+            StringBuilder builder = new StringBuilder();
+            builder.append("mailto:");
+            builder.append(mailto);
+
+            // Subject
+            String subject = System.getProperty("help.contact.subject");
+            if (StringUtils.isNotBlank(subject)) {
+                builder.append("?subject=");
+                builder.append(StringEscapeUtils.escapeHtml(subject));
             }
 
-            helpUrl = this.portalUrlFactory.getCMSUrl(portalControllerContext, null, helpPath, null, null, null, null, null, null, null);
+            contactUrl = builder.toString();
         }
-        attributes.put(TOOLBAR_HELP_URL, helpUrl);
+        attributes.put(HELP_CONTACT_URL, contactUrl);
 
-        // CGU URL
-        String cguPath = page.getProperty("osivia.services.cgu.path");
-        if (StringUtils.isNotBlank(cguPath)) {
-            if (!StringUtils.startsWith(cguPath, "/")) {
-                // WebId
-                cguPath = NuxeoController.webIdToCmsPath(cguPath);
-            }
-
-            String cguUrl = this.portalUrlFactory.getCMSUrl(portalControllerContext, null, cguPath, null, null, null, null, null, null, null);
-            attributes.put(CGU_URL, cguUrl);
-        }
 
         if (rootDocument != null) {
             // Statistics
@@ -553,6 +569,35 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         }
 
         attributes.put(PAGE_CONTENT_TITLE, contentTitle);
+    }
+
+
+    /**
+     * Get URL from system property.
+     * 
+     * @param portalControllerContext portal controller context
+     * @param property system property
+     * @return URL
+     */
+    private String getUrlFromProperty(PortalControllerContext portalControllerContext, String property) {
+        // Path
+        String path = System.getProperty(property);
+
+        // URL
+        String url;
+
+        if (StringUtils.isBlank(path)) {
+            url = null;
+        } else {
+            if (!StringUtils.startsWith(path, "/")) {
+                // WebId
+                path = NuxeoController.webIdToCmsPath(path);
+            }
+
+            url = this.portalUrlFactory.getCMSUrl(portalControllerContext, null, path, null, null, null, null, null, null, null);
+        }
+
+        return url;
     }
 
 
