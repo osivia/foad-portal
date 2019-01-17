@@ -3,6 +3,9 @@
 // -----------------------------------------------------
 
 
+@pulse-color: @brand-warning;
+
+
 .toolbar {
     margin-top: floor(@line-height-computed / 2);
     padding-bottom: 0;
@@ -69,18 +72,19 @@
     
     button[name="open-tasks"] {
         &[data-tasks-count]:not([data-tasks-count="0"]) {
-            color: @brand-warning;
-            
             i {
+                color: @pulse-color;
                 border-radius: 50%;
                 
-                .animation-name(@name: pulse);
+                .animation-name(@name: ~"pulse, blink");
                 .animation-duration(@duration: 2s);
                 .animation-iteration-count(@iteration-count: infinite);
             }
             
             &:hover, &:focus {
-                color: darken(@brand-warning, 15%);
+                i {
+                    color: darken(@pulse-color, 15%) !important;                    
+                }
             }
         }
     }
@@ -102,14 +106,38 @@
 
 @keyframes pulse {
     0% {
-        .box-shadow(@shadow: 0 0 0 fade(@brand-warning, 100%));
-    }   
+        .box-shadow(@shadow: 0 0 0 fade(tint(@pulse-color, 50%), 100%));
+    }
+    
+    35% {
+        .box-shadow(@shadow: 0 0 10px fade(tint(@pulse-color, 50%), 100%));
+    }
     
     70% {
-        .box-shadow(@shadow: 0 0 20px fade(@brand-warning, 0%));
+        .box-shadow(@shadow: 0 0 20px fade(tint(@pulse-color, 50%), 0%));
     } 
     
     100% {
-        .box-shadow(@shadow: 0 0 0 fade(@brand-warning, 0%));
+        .box-shadow(@shadow: 0 0 0 fade(tint(@pulse-color, 50%), 0%));
     }
 }
+
+
+@keyframes blink {
+    0% {
+        color: @pulse-color;
+    }
+    
+    35% {
+        color: tint(@pulse-color, 50%);
+    }
+    
+    70% {
+        color: @pulse-color;
+    }
+    
+    100% {
+        color: @pulse-color;
+    }
+}
+
