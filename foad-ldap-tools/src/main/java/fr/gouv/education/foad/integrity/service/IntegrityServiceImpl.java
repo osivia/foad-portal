@@ -47,6 +47,8 @@ import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoCommandContext;
 @Service
 public class IntegrityServiceImpl implements IntegrityService {
 
+	private static final Integer MAX_PURGE = 5000;
+
 	private Log log = LogFactory.getLog("org.osivia.directory.v2");
 	
 	@Autowired
@@ -171,10 +173,12 @@ public class IntegrityServiceImpl implements IntegrityService {
 		for(Person p : persons) {
 			logins.add(p.getUid());
 		}
-		
+		Integer totalPurgeCount = 0;
+
 		int count = purgeUsers(portalControllerContext, logins , test);
-		
-		while(!test && count > 0) {
+		totalPurgeCount = totalPurgeCount + count;
+				
+		while(!test && count > 0 && totalPurgeCount < MAX_PURGE) {
 			persons = personService.findByNoConnectionDate(search);
 			
 			logins = new ArrayList<>();
@@ -183,6 +187,8 @@ public class IntegrityServiceImpl implements IntegrityService {
 			}
 			
 			count = purgeUsers(portalControllerContext, logins , test);
+			totalPurgeCount = totalPurgeCount + count;
+
 		}
 		
 		
