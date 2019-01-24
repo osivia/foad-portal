@@ -126,11 +126,21 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
+                    
+                
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+                
+    <!-- New version -->
+   	<span class="input-group-btn">
+        <a href="?newVersion=true" class="btn btn-success btn-block">
+			<op:translate key="NEW_VERSION_TOGGLE" />
+		</a>
+	</span>    
 
     <c:if test="${not requestScope['osivia.spaceSite']}">
         <div class="col-xs-12 drawer-toolbar-tabs">

@@ -63,6 +63,14 @@
                 <c:out value="${requestScope['osivia.toolbar.administrationContent']}" escapeXml="false" />
             
                 <ul class="nav navbar-nav navbar-right">
+		            <!-- New version -->
+		            <li>
+		            	<span class="input-group-btn">
+			                <a href="?newVersion=true" class="btn btn-success">
+			        			<op:translate key="NEW_VERSION_TOGGLE" />
+			        		</a>
+		        		</span>
+	        		</li>                   
                     <!-- Help -->
                     <c:if test="${not empty helpUrl}">
                         <li>
