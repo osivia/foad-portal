@@ -25,13 +25,14 @@
             <div class="row flexbox">
                 <!-- Drawer -->
                 <div id="drawer" class="col-sm-4 col-md-3 flexbox">
+
+                    <div class="flexbox scrollbox">
+                        <p:region regionName="col-1" />
+                    </div>
                     <div class="row">
                         <p:region regionName="drawer-toolbar" />
                     </div>
                     
-                    <div class="flexbox scrollbox">
-                        <p:region regionName="col-1" />
-                    </div>
                 </div>
                 
                 <div class="col-sm-8 col-md-9 flexbox">

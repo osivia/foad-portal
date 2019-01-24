@@ -1,5 +1,6 @@
 <%@ taglib uri="portal-layout" prefix="p" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 
 <%@ page contentType="text/html" isELIgnored="false"%>
 
@@ -36,6 +37,17 @@
                 <!-- Toolbar -->
                 <div class="toolbar">
                     <ul class="list-inline">
+                    	<li>
+		                   	<!-- Toggle old version -->
+		
+			            	<span class="hidden-xs input-group-btn">
+				                <a href="?oldVersion=true" class="btn btn-default">
+				        			<op:translate key="OLD_VERSION_TOGGLE" />
+				        		</a>
+			        		</span>
+                    	</li>
+                    
+                    
                         <!-- Administration -->
                         <p:region regionName="toolbar-administration" />
                         

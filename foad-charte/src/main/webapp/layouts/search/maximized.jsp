@@ -26,19 +26,6 @@
                 <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
                     <!-- Content header -->
                     <jsp:include page="../includes/content-header.jsp" />
-                
-                    <p:region regionName="search-toolbar" />
-                    
-                    <div class="row">
-                        <!-- Drawer -->
-                        <div id="drawer">
-                            <p:region regionName="drawer-toolbar" />
-                            
-                            <div class="col-xs-12">
-                                <p:region regionName="search-filters" />
-                            </div>
-                        </div>
-                    </div>
                     
                     <p:region regionName="maximized" />
                 </div>

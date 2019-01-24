@@ -36,6 +36,14 @@
             <version>${jboss-portal.version}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.portal</groupId>
+            <artifactId>portal-server-lib</artifactId>
+            <version>${jboss-portal.version}</version>
+            <scope>provided</scope>
+        </dependency>
+          
  
  		<!-- Directory -->
  		<dependency>
