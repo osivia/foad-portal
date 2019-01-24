@@ -4,7 +4,7 @@
 
     <groupId>fr.gouv.education.foad</groupId>
     <artifactId>foad-parent</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.4.15-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>FOAD - Parent</name>
@@ -13,7 +13,7 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.15.5</toutatice.version>
+        <toutatice.version>4.4.15-SNAPSHOT</toutatice.version>
         
         <!-- Directory -->
         <directory.version>4.4.15</directory.version>
