@@ -35,9 +35,6 @@
                         
                         <!-- Drawer -->
                         <div id="drawer" class="col-sm-5 col-lg-4">
-                            <div class="row">
-                                <p:region regionName="drawer-toolbar" />
-                            </div>
                             
                             <div class="flexbox scrollbox">
                                 <p:region regionName="search-filters" />

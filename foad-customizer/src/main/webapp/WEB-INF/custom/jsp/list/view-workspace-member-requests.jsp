@@ -20,7 +20,7 @@
                         <div class="media-body">
                             <!-- Title -->
                             <h3>
-                                <span><ttc:title document="${document}" linkable="${(workspaceType.id eq 'PUBLIC') || (workspaceType.id eq 'PUBLIC_INVITATION')}" /></span>
+                                <span><ttc:title document="${document}" openInSpaceTabs="true" linkable="${(workspaceType.id eq 'PUBLIC') || (workspaceType.id eq 'PUBLIC_INVITATION')}" /></span>
                             </h3>
                             
                             <!-- Description -->

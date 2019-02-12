@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.portlet.PortletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.portal.core.controller.ControllerContext;
 import org.jboss.portal.core.model.portal.Page;
 import org.jboss.portal.core.model.portal.Window;
 import org.jboss.portal.theme.impl.render.dynamic.DynaRenderOptions;
@@ -30,6 +33,8 @@ import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
+import org.osivia.portal.api.notifications.INotificationsService;
+import org.osivia.portal.api.notifications.NotificationsType;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.core.constants.InternalConstants;
 
@@ -55,6 +60,10 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
 
     /** CGU level session attribute. */
     private static final String CGU_LEVEL_SESSION_ATTRIBUTE = "osivia.services.cgu.level";
+    
+    
+	private static final String COOKIE_NEW_VERSION = "version4416Accepted";
+	private static final String COOKIE_ROUTE = "ROUTEID";
 
 
     /** Portal URL factory. */
@@ -71,7 +80,8 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
     /** Customization modules repository. */
     private ICustomizationModulesRepository repository;
 
-
+	private INotificationsService notificationService;
+	
     /**
      * Constructor.
      */
@@ -86,6 +96,8 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
         IInternationalizationService internationalizationService = Locator.findMBean(IInternationalizationService.class,
                 IInternationalizationService.MBEAN_NAME);
         this.bundleFactory = internationalizationService.getBundleFactory(this.getClass().getClassLoader());
+        
+		notificationService = Locator.findMBean(INotificationsService.class, INotificationsService.MBEAN_NAME);
 
         // Customization module metadata
         this.metadatas = new CustomizationModuleMetadatas();
@@ -121,6 +133,7 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
     public void customize(String customizationId, CustomizationContext customizationContext) {
         // Portal controller context
         PortalControllerContext portalControllerContext = customizationContext.getPortalControllerContext();
+        
         // Customization attributes
         Map<String, Object> attributes = customizationContext.getAttributes();
         // Project customization configuration
@@ -166,11 +179,17 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             if (StringUtils.isNotEmpty(configuration.getCMSPath())) {
                 this.cguRedirection(portalControllerContext, configuration, principal, bundle);
             }
+            
+        }
+        if (configuration.isBeforeInvocation()) {
+        	oldVersionRedirection(customizationContext);
         }
     }
 
 
-    /**
+
+
+	/**
      * First connection redirection.
      *
      * @param portalControllerContext portal controller context
@@ -299,5 +318,86 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             }
         }
     }
+    
 
+    /**
+	 * Check if redirection to the new version is needed.
+	 */
+	private void oldVersionRedirection(CustomizationContext ctx) {
+			
+		Map<String, Object> attributes = ctx.getAttributes();
+	
+	    // Project customization configuration
+	    IProjectCustomizationConfiguration configuration = (IProjectCustomizationConfiguration) attributes
+	            .get(IProjectCustomizationConfiguration.CUSTOMIZER_ATTRIBUTE_CONFIGURATION);
+	    
+	    HttpServletRequest request = configuration.getHttpServletRequest();
+		if(request != null) {
+			
+			// Lecture cookie
+			Cookie newVersionAccepted = null;
+			Cookie route = null;
+			
+			if(request.getCookies() != null) {
+				for(Cookie c : request.getCookies()) {
+					if(c.getName().equals(COOKIE_NEW_VERSION)) {
+						newVersionAccepted = c;
+					}
+					if(c.getName().equals(COOKIE_ROUTE)) {
+						route = c;
+					}
+				}
+			}
+			
+			HttpServletResponse response = configuration.getHttpServletResponse();
+		
+			// Si paramètre de requête transmis...
+			if(request.getParameter("oldVersion") != null) {
+				String oldVersion = request.getParameter("oldVersion");
+	
+				// Si choix utilisateut tranmis, suppression du cookie
+				Boolean booleanObject = BooleanUtils.toBooleanObject(oldVersion);
+			
+				newVersionAccepted = new Cookie(COOKIE_NEW_VERSION, booleanObject.toString());
+				newVersionAccepted.setMaxAge(0); // mise à 0 pour destruction du cookie
+				newVersionAccepted.setPath("/");
+				response.addCookie(newVersionAccepted);
+
+				changeRoute(ctx, configuration, route, response, booleanObject);
+				
+			}
+		
+	
+		}
+	}
+
+	/**
+	 * Change route to the portal hosting the old version 
+	 * @param ctx
+	 * @param configuration
+	 * @param route
+	 * @param response
+	 * @param booleanObject
+	 */
+	private void changeRoute(CustomizationContext ctx, IProjectCustomizationConfiguration configuration, Cookie route,
+			HttpServletResponse response, Boolean booleanObject) {
+		// Si ancienne version, modification de la route portail vers aller vers les anciens noeuds
+		if(booleanObject) {
+			route = new Cookie(COOKIE_ROUTE, "");
+			route.setPath("/");
+			route.setMaxAge(0);
+			response.addCookie(route);
+			
+			PortalControllerContext portalControllerContext = ctx.getPortalControllerContext();
+		    ControllerContext cc = (ControllerContext) portalControllerContext.getControllerCtx();
+		    String redirection = cc.getServerInvocation().getServerContext().getPortalContextPath();
+		    
+		    if(configuration.getCMSPath() != null) {
+		    	redirection = redirection + "/cms/" + configuration.getCMSPath();
+		    }
+		    						
+			configuration.setRedirectionURL(redirection);
+
+		}
+	}
 }
