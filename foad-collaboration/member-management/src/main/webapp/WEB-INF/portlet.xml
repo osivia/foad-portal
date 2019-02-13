@@ -15,7 +15,7 @@
         </init-param>
         <init-param>
             <name>contextConfigLocation</name>
-            <value>fr.gouv.education.foad.membermgmt.config.MemberManagementCustomConfiguration</value>
+            <value>fr.gouv.education.foad.portlet.configuration.CustomizedMemberManagementConfiguration</value>
         </init-param>
         
         <expiration-cache>180</expiration-cache>
@@ -33,7 +33,16 @@
     
     <portlet>
         <portlet-name>osivia-services-workspace-member-management-plugin</portlet-name>
-        <portlet-class>org.osivia.services.workspace.plugin.MemberManagementPlugin</portlet-class>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        
+        <init-param>
+            <name>contextClass</name>
+            <value>org.osivia.portal.api.portlet.AnnotationPortletApplicationContext</value>
+        </init-param>
+        <init-param>
+            <name>contextConfigLocation</name>
+            <value>fr.gouv.education.foad.plugin.configuration.CustomizedMemberManagementPluginConfiguration</value>
+        </init-param>
         
         <expiration-cache>180</expiration-cache>
 
