@@ -27,7 +27,16 @@
     }
     
     .media-object {
-        max-width: 60px;
+        @object-size: 60px;
+        
+        max-width: @object-size;
+        
+        &.avatar {
+            height: @object-size;
+            max-height: unset;
+            width: @object-size;
+            max-width: unset;
+        }
     }
     
     h3 {
