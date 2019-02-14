@@ -44,6 +44,7 @@
         <c:set var="date" value="${empty document.properties['dc:modified'] ? document.properties['dc:created'] : document.properties['dc:modified']}" />
         <c:set var="workspaceType" value="${document.properties['workspaceType']}" />
         <c:set var="memberStatus" value="${document.properties['memberStatus']}" />
+        <c:set var="linkable" value="${document.type.name ne 'Workspace' or workspaceType ne 'PRIVATE' or memberStatus.id eq 'member' or requestScope['osivia.isAdministrator']}" />
     
         <li>
             <div class="panel panel-default">
@@ -71,11 +72,11 @@
                                 <!-- Title -->
                                 <c:choose>
                                     <c:when test="${document.type.name eq 'UserProfile'}">
-                                        <span><ttc:user name="${document.properties['ttc_userprofile:login']}" linkable="true" showAvatar="false" /></span>
+                                        <span><ttc:user name="${document.properties['ttc_userprofile:login']}" linkable="${linkable}" showAvatar="false" /></span>
                                     </c:when>
                                     
                                     <c:otherwise>
-                                        <span><ttc:title document="${document}" linkable="${workspaceType ne 'PRIVATE' or memberStatus.id eq 'member'}" openInSpaceTabs="true" /></span>
+                                        <span><ttc:title document="${document}" linkable="${linkable}" openInSpaceTabs="true" /></span>
                                     </c:otherwise>
                                 </c:choose>
                             </h3>
