@@ -231,10 +231,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         }
         attributes.put(HELP_CONTACT_URL, contactUrl);
 
-
+        // Statistics
+        this.computeStatistics(portalControllerContext, rootDocument, attributes);
+        
         if (rootDocument != null) {
-            // Statistics
-            this.computeStatistics(portalControllerContext, rootDocument, attributes);
 
             // Workspace tabs
             this.computeWorkspaceTabs(renderPageCommand, rootDocument, attributes);
@@ -379,11 +379,12 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
      */
     private void computeStatistics(PortalControllerContext portalControllerContext, Document rootDocument, Map<String, Object> attributes)
             throws ControllerException {
-        String spaceTitle = rootDocument.getTitle();
-        attributes.put(SPACE_TITLE, spaceTitle);
-
-        String spaceId = rootDocument.getString("webc:url");
-        attributes.put(SPACE_ID, spaceId);
+    	if (rootDocument != null) {
+	        String spaceTitle = rootDocument.getTitle();
+	        attributes.put(SPACE_TITLE, spaceTitle);
+	        String spaceId = rootDocument.getString("webc:url");
+	        attributes.put(SPACE_ID, spaceId);
+    	}
 
         if (StringUtils.isNotBlank(System.getProperty(STATS_SERVER_URL))) {
             attributes.put(STATS_SERVER_URL, System.getProperty(STATS_SERVER_URL));
