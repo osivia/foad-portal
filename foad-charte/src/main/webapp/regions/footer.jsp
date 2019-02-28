@@ -18,7 +18,7 @@
             <li>
                 <i class="glyphicons glyphicons-copyright-mark"></i>
                 <span>${requestScope['osivia.header.application.name']}</span>
-                <span>2018</span>
+                <span>2019</span>
             </li>
             
             <!-- CGU -->
