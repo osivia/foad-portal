@@ -28,7 +28,7 @@ public class GetWorkspacesNotInVersionCommand implements INuxeoCommand {
 	@Override
 	public Object execute(Session nuxeoSession) throws Exception {
 		OperationRequest request = nuxeoSession.newRequest("Document.QueryES");
-        request.set("query", "SELECT * FROM Workspace WHERE ecm:path STARTSWITH '/default-domain/workspaces' AND ttc:modelVersion <> '"+workspaceVersion+"'");
+        request.set("query", "SELECT * FROM Document WHERE (ecm:primaryType = 'Workspace' OR ecm:primaryType = 'Room') AND ecm:path STARTSWITH '/default-domain/workspaces' AND ttc:modelVersion <> '"+workspaceVersion+"' ");
         //request.setHeader(Constants.HEADER_NX_SCHEMAS, "dublincore, toutatice, toutatice_space, webcontainer");
         request.set("pageSize", 1000);
         request.set("currentPageIndex", 0);

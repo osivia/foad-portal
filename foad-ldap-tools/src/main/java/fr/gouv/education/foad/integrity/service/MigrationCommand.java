@@ -54,7 +54,7 @@ public class MigrationCommand implements INuxeoCommand {
         
         migratePictureBooks(documentService);
         
-		log.info("Migration / execute - "+workspace.getTitle() + " ("+workspace.getPath()+")");
+		log.info("Migration / execute - "+workspace.getTitle() + " ("+workspace.getPath()+") model="+workspace.getProperties().getString("ttc:modelVersion"));
         
         documentService.setProperty(workspace, "ttc:pageTemplate", null);
         documentService.setProperty(workspace, "ttc:modelVersion", "4.4.16");
@@ -66,12 +66,12 @@ public class MigrationCommand implements INuxeoCommand {
 
 	private void migratePictureBooks(DocumentService documentService) throws Exception {
 
-		Documents pictureBooks = documentService.query("SELECT * FROM PictureBook WHERE ecm:path STARTSWITH '"+workspace.getPath()+"' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
+		Documents pictureBooks = documentService.query("SELECT * FROM Document WHERE ecm:primaryType = 'PictureBook' AND ecm:path STARTSWITH '"+workspace.getPath()+"' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
         List<DocRef> pbooksToRemove = new ArrayList<>();
         
         for(Document pictureBook : pictureBooks) {
 
-        	Documents pictures = documentService.query("SELECT * FROM Picture WHERE ecm:path STARTSWITH '"+pictureBook.getPath()+"' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
+        	Documents pictures = documentService.query("SELECT * FROM Document WHERE ecm:primaryType = 'Picture' AND ecm:path STARTSWITH '"+pictureBook.getPath()+"' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
         	
         	if(pictures.size() > 0) {
         		

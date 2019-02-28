@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
 import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoCommandContext;
 
 /**
@@ -444,11 +445,23 @@ public class IntegrityServiceImpl implements IntegrityService {
 		Documents workspaces = (Documents) nuxeoController.executeNuxeoCommand(
 				new GetWorkspacesNotInVersionCommand("4.4.16"));
 		
+		log.info("begin updateWks "+workspaces.size());
+		
 		for(Document workspace : workspaces) {
 			
-			nuxeoController.executeNuxeoCommand(new MigrationCommand(workspace));
+			try {
+				nuxeoController.executeNuxeoCommand(new MigrationCommand(workspace));
+			}
+			catch (NuxeoException e) {
+				
+				log.error("Error in migration of : "+workspace.getTitle());
+				nuxeoController.executeNuxeoCommand(new MigrationInErrorCommand(workspace));
+
+			}
 			
 		}
+		
+		log.info("end updateWks");
 		
 	}
 
