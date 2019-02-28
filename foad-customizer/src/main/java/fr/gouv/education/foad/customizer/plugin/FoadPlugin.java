@@ -119,7 +119,7 @@ public class FoadPlugin extends AbstractPluginPortlet {
     	List<FragmentType> fragmentTypes = this.getFragmentTypes(context);
     	
     	// Deny from local accounts
-    	FragmentType denyFromLocalAccounts = new FragmentType("denyFromLocalAccounts", "Fragment interdit aux utilisateurs locaux", new DenyFromLocalAccountsFragment(null, true));
+    	FragmentType denyFromLocalAccounts = new FragmentType("denyFromLocalAccounts", "Fragment interdit aux utilisateurs locaux", new DenyFromLocalAccountsFragment(portletContext));
     	fragmentTypes.add(denyFromLocalAccounts);
     	
     	// Tile
