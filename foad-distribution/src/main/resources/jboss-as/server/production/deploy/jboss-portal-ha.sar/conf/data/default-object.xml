@@ -450,12 +450,8 @@ return nuxeoRequest.toString();</value>
                             <value>Utiliser Tribu</value>
                         </property>
                         <property>
-                            <name>osivia.propertyName</name>
-                            <value>note:note</value>
-                        </property>
-                        <property>
                             <name>osivia.fragmentTypeId</name>
-                            <value>tile</value>
+                            <value>denyFromLocalAccounts</value>
                         </property>
                         <property>
                             <name>osivia.cms.uri</name>
