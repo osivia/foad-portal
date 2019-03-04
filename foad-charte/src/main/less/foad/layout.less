@@ -15,6 +15,14 @@ main {
         > .page-header {
             display: none;
         }
+        
+        &.flexbox {
+            overflow-y: auto;
+            
+            > .flexbox {
+                min-height: 300px;
+            }
+        }
     }
     
     @media (max-width: @screen-xs-max) {
