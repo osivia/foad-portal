@@ -12,17 +12,20 @@ import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.notifications.NotificationsType;
+import org.osivia.services.workspace.portlet.model.ChangeRoleForm;
 import org.osivia.services.workspace.portlet.model.Invitation;
 import org.osivia.services.workspace.portlet.model.InvitationEditionForm;
 import org.osivia.services.workspace.portlet.model.InvitationRequest;
 import org.osivia.services.workspace.portlet.model.InvitationRequestsForm;
 import org.osivia.services.workspace.portlet.model.InvitationsCreationForm;
 import org.osivia.services.workspace.portlet.model.InvitationsForm;
+import org.osivia.services.workspace.portlet.model.Member;
 import org.osivia.services.workspace.portlet.model.MemberManagementOptions;
 import org.osivia.services.workspace.portlet.service.MemberManagementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 
 /**
  * Customized member management portlet service implementation.
@@ -31,10 +34,11 @@ import org.springframework.stereotype.Service;
  * @author Loïc Billon
  * @author Cédric Krommenhoek
  * @see MemberManagementServiceImpl
+ * @see CustomizedMemberManagementService
  */
 @Service
 @Primary
-public class CustomizedMemberManagementServiceImpl extends MemberManagementServiceImpl {
+public class CustomizedMemberManagementServiceImpl extends MemberManagementServiceImpl implements CustomizedMemberManagementService {
 
     /** Tribu local identifier suffix. */
     private static final String TRIBU_LOCAL = "@tribu.local";
@@ -156,6 +160,21 @@ public class CustomizedMemberManagementServiceImpl extends MemberManagementServi
         }
 
         return localAccounsAreOwner;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validateChangeRoleForm(ChangeRoleForm form, Errors errors) {
+        if (WorkspaceRole.OWNER.equals(form.getRole())) {
+            for (Member member : form.getSelectedMembers()) {
+                if (StringUtils.endsWith(member.getId(), TRIBU_LOCAL)) {
+                    errors.rejectValue("role", "LocalAccountCannotBeOwner", new Object[]{member.getDisplayName()}, null);
+                }
+            }
+        }
     }
 
 }
