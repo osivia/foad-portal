@@ -12,15 +12,13 @@ import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.notifications.NotificationsType;
-import org.osivia.services.workspace.portlet.model.ChangeRoleForm;
+import org.osivia.services.workspace.portlet.model.AbstractChangeRoleForm;
 import org.osivia.services.workspace.portlet.model.Invitation;
 import org.osivia.services.workspace.portlet.model.InvitationEditionForm;
-import org.osivia.services.workspace.portlet.model.InvitationRequest;
-import org.osivia.services.workspace.portlet.model.InvitationRequestsForm;
 import org.osivia.services.workspace.portlet.model.InvitationsCreationForm;
 import org.osivia.services.workspace.portlet.model.InvitationsForm;
-import org.osivia.services.workspace.portlet.model.Member;
 import org.osivia.services.workspace.portlet.model.MemberManagementOptions;
+import org.osivia.services.workspace.portlet.model.MemberObject;
 import org.osivia.services.workspace.portlet.service.MemberManagementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -104,30 +102,6 @@ public class CustomizedMemberManagementServiceImpl extends MemberManagementServi
 
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateInvitationRequests(PortalControllerContext portalControllerContext, MemberManagementOptions options, InvitationRequestsForm form)
-            throws PortletException {
-        List<String> identifiers = new ArrayList<>();
-        for (InvitationRequest member : form.getRequests()) {
-            if (member.getRole().equals(WorkspaceRole.OWNER)) {
-                identifiers.add(member.getId());
-            }
-        }
-
-        boolean localAccountsOwner = checkLocalAccounts(portalControllerContext, identifiers);
-
-        if (!localAccountsOwner) {
-            super.updateInvitationRequests(portalControllerContext, options, form);
-        } else {
-            this.invalidateLoadedForms();
-            this.getInvitationRequestsForm(portalControllerContext);
-        }
-    }
-
-
-    /**
      * Main check based on pattern id "xxxx@tribu.local".
      * If validation fails, we fire a notification.
      * 
@@ -167,9 +141,9 @@ public class CustomizedMemberManagementServiceImpl extends MemberManagementServi
      * {@inheritDoc}
      */
     @Override
-    public void validateChangeRoleForm(ChangeRoleForm form, Errors errors) {
+    public void validateChangeRoleForm(AbstractChangeRoleForm<?> form, Errors errors) {
         if (WorkspaceRole.OWNER.equals(form.getRole())) {
-            for (Member member : form.getSelectedMembers()) {
+            for (MemberObject member : form.getMembers()) {
                 if (StringUtils.endsWith(member.getId(), TRIBU_LOCAL)) {
                     errors.rejectValue("role", "LocalAccountCannotBeOwner", new Object[]{member.getDisplayName()}, null);
                 }

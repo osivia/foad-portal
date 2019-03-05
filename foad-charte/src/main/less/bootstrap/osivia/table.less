@@ -58,7 +58,7 @@
         background-color: @brand-primary;
         border-color: darken(@brand-primary, 5%);
 
-        &, a, .text-muted {
+        &, a, [class^="text"] {
             color: #fff;
         }
     }
@@ -77,6 +77,13 @@
     
         padding: 0 @table-cell-padding;
     }
+}
+
+
+// Toolbar
+
+.portal-table-toolbar-container {
+    min-height: @input-height-small;
 }
 
 

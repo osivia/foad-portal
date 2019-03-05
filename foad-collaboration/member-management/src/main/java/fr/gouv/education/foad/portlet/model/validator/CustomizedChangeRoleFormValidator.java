@@ -1,6 +1,6 @@
 package fr.gouv.education.foad.portlet.model.validator;
 
-import org.osivia.services.workspace.portlet.model.ChangeRoleForm;
+import org.osivia.services.workspace.portlet.model.AbstractChangeRoleForm;
 import org.osivia.services.workspace.portlet.model.validator.ChangeRoleFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -40,7 +40,7 @@ public class CustomizedChangeRoleFormValidator extends ChangeRoleFormValidator {
         super.validate(target, errors);
 
         // Form
-        ChangeRoleForm form = (ChangeRoleForm) target;
+        AbstractChangeRoleForm<?> form = (AbstractChangeRoleForm<?>) target;
 
         this.service.validateChangeRoleForm(form, errors);
     }

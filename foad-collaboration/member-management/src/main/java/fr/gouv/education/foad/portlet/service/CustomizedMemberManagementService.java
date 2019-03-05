@@ -1,6 +1,6 @@
 package fr.gouv.education.foad.portlet.service;
 
-import org.osivia.services.workspace.portlet.model.ChangeRoleForm;
+import org.osivia.services.workspace.portlet.model.AbstractChangeRoleForm;
 import org.osivia.services.workspace.portlet.service.MemberManagementService;
 import org.springframework.validation.Errors;
 
@@ -17,6 +17,6 @@ public interface CustomizedMemberManagementService extends MemberManagementServi
      * @param form form
      * @param errors errors
      */
-    void validateChangeRoleForm(ChangeRoleForm form, Errors errors);
+    void validateChangeRoleForm(AbstractChangeRoleForm<?> form, Errors errors);
 
 }
