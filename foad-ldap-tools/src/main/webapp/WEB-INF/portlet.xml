@@ -29,4 +29,43 @@
         </portlet-info>
     </portlet>
 
+    <portlet>
+        <portlet-name>foad-room</portlet-name>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+
+        <init-param>
+            <name>contextClass</name>
+            <value>org.osivia.portal.api.portlet.AnnotationPortletApplicationContext</value>
+        </init-param>
+        <init-param>
+            <name>contextConfigLocation</name>
+            <value>fr.gouv.education.foad.room.Config</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        
+        <portlet-info>
+            <title>Room mig</title>
+        </portlet-info>
+    </portlet>
+    
+    
+    <!-- Plugin -->
+    <portlet>
+        <portlet-name>foad-room-plugin</portlet-name>
+        <portlet-class>fr.gouv.education.foad.room.plugin.RoomPlugin</portlet-class>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+        </supports>
+
+        <portlet-info>
+            <title>Plugin</title>
+        </portlet-info>
+    </portlet>    
+
 </portlet-app>
