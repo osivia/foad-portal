@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document repository="default" id="2362264d-3d85-4c15-ba05-43f52e8752f4">
+<document repository="default" id="55c55700-9cba-47fe-a7ac-36a81c4bec18">
   <system>
     <type>ProcedureModel</type>
-    <path>default-domain/procedures/models/invitation</path>
+    <path>default-domain/procedures/procedures-models/invitation</path>
     <lifecycle-state>project</lifecycle-state>
     <lifecycle-policy>undefined</lifecycle-policy>
     <facet>Versionable</facet>
@@ -16,446 +16,469 @@
   </system>
   <schema xmlns:uid="http://project.nuxeo.com/geide/schemas/uid/" name="uid">
     <uid:uid><![CDATA[]]></uid:uid>
-    <uid:minor_version/>
     <uid:major_version/>
+    <uid:minor_version/>
+  </schema>
+  <schema xmlns:ttc="http://www.nuxeo.org/ecm/project/schemas/ACRENNES2/toutatice" name="toutatice">
+    <ttc:isPreloadedOnLogin><![CDATA[false]]></ttc:isPreloadedOnLogin>
+    <ttc:abstract><![CDATA[]]></ttc:abstract>
+    <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
+    <ttc:explicitUrl><![CDATA[]]></ttc:explicitUrl>
+    <ttc:images/>
+    <ttc:domainID><![CDATA[default-domain]]></ttc:domainID>
+    <ttc:hiddenInNavigation/>
+    <ttc:webid><![CDATA[procedure_invitation]]></ttc:webid>
+    <ttc:publicationDate/>
+    <ttc:theme><![CDATA[]]></ttc:theme>
+    <ttc:extensionUrl><![CDATA[]]></ttc:extensionUrl>
+    <ttc:keywords/>
+    <ttc:commentsForbidden/>
+    <ttc:pageTemplate><![CDATA[]]></ttc:pageTemplate>
+    <ttc:childrenPageTemplate><![CDATA[]]></ttc:childrenPageTemplate>
+    <ttc:pageScope><![CDATA[]]></ttc:pageScope>
+    <ttc:showInMenu><![CDATA[false]]></ttc:showInMenu>
+    <ttc:tabOrder><![CDATA[0]]></ttc:tabOrder>
+    <ttc:contextualizeExternalContents><![CDATA[false]]></ttc:contextualizeExternalContents>
+    <ttc:editorialTitle><![CDATA[]]></ttc:editorialTitle>
+    <ttc:contextualizeInternalContents><![CDATA[false]]></ttc:contextualizeInternalContents>
+    <ttc:useES><![CDATA[false]]></ttc:useES>
+    <ttc:hideMetadatas/>
+    <ttc:lstTargetedPublic/>
+    <ttc:vignette/>
+    <ttc:selectors><![CDATA[]]></ttc:selectors>
+    <ttc:queryPart><![CDATA[]]></ttc:queryPart>
+    <ttc:spaceID><![CDATA[8658dea1-7032-4d1f-9110-41c650b3fc0f]]></ttc:spaceID>
+  </schema>
+  <schema xmlns:foad="http://www.osivia.com/ecm/project/schemas/cns" name="foad_doc">
+    <foad:academie><![CDATA[]]></foad:academie>
   </schema>
   <schema xmlns:dc="http://www.nuxeo.org/ecm/schemas/dublincore/" name="dublincore">
+    <dc:description><![CDATA[]]></dc:description>
+    <dc:language><![CDATA[]]></dc:language>
+    <dc:coverage><![CDATA[]]></dc:coverage>
+    <dc:valid/>
     <dc:creator><![CDATA[admin]]></dc:creator>
-    <dc:source><![CDATA[]]></dc:source>
+    <dc:modified><![CDATA[2019-03-06T16:10:24.00Z]]></dc:modified>
+    <dc:lastContributor><![CDATA[admin]]></dc:lastContributor>
+    <dc:format><![CDATA[]]></dc:format>
+    <dc:expired/>
+    <dc:rights><![CDATA[]]></dc:rights>
+    <dc:created><![CDATA[2018-10-18T12:37:45.66Z]]></dc:created>
+    <dc:title><![CDATA[Invitation]]></dc:title>
+    <dc:issued/>
     <dc:nature><![CDATA[]]></dc:nature>
+    <dc:subjects/>
     <dc:contributors>
       <item><![CDATA[admin]]></item>
     </dc:contributors>
-    <dc:created><![CDATA[2018-02-13T09:41:58.73Z]]></dc:created>
-    <dc:description><![CDATA[]]></dc:description>
-    <dc:rights><![CDATA[]]></dc:rights>
-    <dc:subjects/>
+    <dc:source><![CDATA[]]></dc:source>
     <dc:publisher><![CDATA[]]></dc:publisher>
-    <dc:valid/>
-    <dc:format><![CDATA[]]></dc:format>
-    <dc:issued/>
-    <dc:modified><![CDATA[2018-07-26T08:10:35.00Z]]></dc:modified>
-    <dc:language><![CDATA[]]></dc:language>
-    <dc:coverage><![CDATA[]]></dc:coverage>
-    <dc:expired/>
-    <dc:lastContributor><![CDATA[admin]]></dc:lastContributor>
-    <dc:title><![CDATA[Invitation]]></dc:title>
-  </schema>
-  <schema xmlns:ttc="http://www.nuxeo.org/ecm/project/schemas/ACRENNES2/toutatice" name="toutatice">
-    <ttc:childrenPageTemplate><![CDATA[]]></ttc:childrenPageTemplate>
-    <ttc:selectors><![CDATA[]]></ttc:selectors>
-    <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
-    <ttc:spaceID><![CDATA[aaff1644-6764-4015-ac61-46c5d6e6511a]]></ttc:spaceID>
-    <ttc:pageScope><![CDATA[]]></ttc:pageScope>
-    <ttc:contextualizeInternalContents><![CDATA[false]]></ttc:contextualizeInternalContents>
-    <ttc:extensionUrl><![CDATA[]]></ttc:extensionUrl>
-    <ttc:isPreloadedOnLogin><![CDATA[false]]></ttc:isPreloadedOnLogin>
-    <ttc:webid><![CDATA[procedure_invitation]]></ttc:webid>
-    <ttc:keywords/>
-    <ttc:abstract><![CDATA[]]></ttc:abstract>
-    <ttc:explicitUrl><![CDATA[]]></ttc:explicitUrl>
-    <ttc:useES><![CDATA[false]]></ttc:useES>
-    <ttc:queryPart><![CDATA[]]></ttc:queryPart>
-    <ttc:contextualizeExternalContents><![CDATA[false]]></ttc:contextualizeExternalContents>
-    <ttc:showInMenu><![CDATA[false]]></ttc:showInMenu>
-    <ttc:hiddenInNavigation/>
-    <ttc:tabOrder><![CDATA[0]]></ttc:tabOrder>
-    <ttc:commentsForbidden/>
-    <ttc:hideMetadatas/>
-    <ttc:publicationDate/>
-    <ttc:domainID><![CDATA[default-domain]]></ttc:domainID>
-    <ttc:editorialTitle><![CDATA[]]></ttc:editorialTitle>
-    <ttc:vignette/>
-    <ttc:pageTemplate><![CDATA[]]></ttc:pageTemplate>
-    <ttc:images/>
-    <ttc:theme><![CDATA[]]></ttc:theme>
-    <ttc:lstTargetedPublic/>
   </schema>
   <schema xmlns:pcd="http://www.nuxeo.org/ecm/project/schemas/osivia/models/procedure" name="procedure">
-    <pcd:startingStep><![CDATA[init]]></pcd:startingStep>
-    <pcd:globalVariablesDefinitions/>
-    <pcd:procedureType/>
     <pcd:webIdParent><![CDATA[]]></pcd:webIdParent>
+    <pcd:startingStep><![CDATA[init]]></pcd:startingStep>
+    <pcd:procedureObjects/>
     <pcd:authorizedActors/>
+    <pcd:procedureType/>
+    <pcd:globalVariablesDefinitions/>
     <pcd:steps>
       <step>
-        <stringMsg><![CDATA[]]></stringMsg>
-        <index><![CDATA[0]]></index>
-        <actionIdYes><![CDATA[]]></actionIdYes>
-        <actionIdClosable><![CDATA[]]></actionIdClosable>
-        <reference><![CDATA[init]]></reference>
-        <acquitable><![CDATA[false]]></acquitable>
-        <endStepMsg><![CDATA[]]></endStepMsg>
         <closable><![CDATA[false]]></closable>
-        <globalVariablesReferences/>
-        <name><![CDATA[Initialisation]]></name>
-        <actionIdDefault><![CDATA[start]]></actionIdDefault>
-        <actors/>
         <notifiable><![CDATA[false]]></notifiable>
+        <stringMsg><![CDATA[]]></stringMsg>
+        <actionIdClosable><![CDATA[]]></actionIdClosable>
+        <index><![CDATA[0]]></index>
+        <endStepMsg><![CDATA[]]></endStepMsg>
+        <acquitable><![CDATA[false]]></acquitable>
+        <actionIdNo><![CDATA[]]></actionIdNo>
+        <reference><![CDATA[init]]></reference>
+        <actors/>
+        <actionIdDefault><![CDATA[start]]></actionIdDefault>
+        <notifEmail><![CDATA[false]]></notifEmail>
+        <name><![CDATA[Initialisation]]></name>
+        <globalVariablesReferences/>
         <actions>
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter1,0]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterPath><![CDATA[1,0]]></filterPath>
+                <filterName><![CDATA[Mail pour rejoindre avec reply-to]]></filterName>
+                <filterInstanceId><![CDATA[SendMailFilter1,0]]></filterInstanceId>
                 <argumentsList>
                   <argument>
+                    <argumentName><![CDATA[body]]></argumentName>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}
 
 Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailFrom]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailTo]]></argumentName>
+                    <argumentValue><![CDATA[tribu-invitation@noreply.eduction.gouv.fr]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
+                    <argumentName><![CDATA[mailReplyTo]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
                     <argumentName><![CDATA[continue]]></argumentName>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentValue><![CDATA[true]]></argumentValue>
                   </argument>
-                </argumentsList>
-                <filterName><![CDATA[Mail pour rejoindre l'espace]]></filterName>
-                <filterPath><![CDATA[1,0]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
-                <filterId><![CDATA[IfFilter]]></filterId>
-                <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[Si user non enregistré]]></filterName>
-                <filterPath><![CDATA[2]]></filterPath>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter2,0]]></filterInstanceId>
-                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
                 <argumentsList>
                   <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${uid}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[IfFilter]]></filterId>
+                <filterPath><![CDATA[2]]></filterPath>
+                <filterName><![CDATA[Si user non enregistré]]></filterName>
+                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[IfFilter]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[Si user enregistré]]></filterName>
+                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterPath><![CDATA[2,0]]></filterPath>
+                <filterName><![CDATA[Mail d'inscription avec reply-to]]></filterName>
+                <filterInstanceId><![CDATA[SendMailFilter2,0]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[body]]></argumentName>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}.
 
 Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailFrom]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailTo]]></argumentName>
+                    <argumentValue><![CDATA[tribu-invitation@noreply.eduction.gouv.fr]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
+                    <argumentName><![CDATA[mailReplyTo]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
                     <argumentName><![CDATA[continue]]></argumentName>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[Mail d'inscription]]></filterName>
-                <filterPath><![CDATA[2,0]]></filterPath>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterId><![CDATA[SET_NOTIFICATION_MESSAGE]]></filterId>
+                <filterPath><![CDATA[3]]></filterPath>
+                <filterName/>
+                <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE3]]></filterInstanceId>
                 <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[${uid}]]></argumentValue>
+                    <argumentName><![CDATA[message]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentValue/>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
-                <filterId><![CDATA[IfFilter]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[IfCondition]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[Si user enregistré]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
               </filter>
             </filtersList>
-            <label><![CDATA[Démarrer]]></label>
             <actionId><![CDATA[start]]></actionId>
+            <label><![CDATA[Démarrer]]></label>
             <stepReference><![CDATA[invitation]]></stepReference>
           </action>
         </actions>
-        <notifEmail><![CDATA[false]]></notifEmail>
-        <actionIdNo><![CDATA[]]></actionIdNo>
+        <actionIdYes><![CDATA[]]></actionIdYes>
       </step>
       <step>
-        <stringMsg><![CDATA[${user:link(procedureInitiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
-        <index><![CDATA[1]]></index>
-        <actionIdYes><![CDATA[accept]]></actionIdYes>
-        <actionIdClosable><![CDATA[]]></actionIdClosable>
-        <reference><![CDATA[invitation]]></reference>
-        <acquitable><![CDATA[true]]></acquitable>
-        <endStepMsg><![CDATA[]]></endStepMsg>
         <closable><![CDATA[false]]></closable>
-        <globalVariablesReferences/>
-        <name><![CDATA[Invitation]]></name>
-        <actionIdDefault><![CDATA[]]></actionIdDefault>
-        <actors/>
         <notifiable><![CDATA[true]]></notifiable>
+        <stringMsg><![CDATA[${user:link(procedureInitiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
+        <actionIdClosable><![CDATA[]]></actionIdClosable>
+        <index><![CDATA[1]]></index>
+        <endStepMsg><![CDATA[]]></endStepMsg>
+        <acquitable><![CDATA[true]]></acquitable>
+        <actionIdNo><![CDATA[decline]]></actionIdNo>
+        <reference><![CDATA[invitation]]></reference>
+        <actors/>
+        <actionIdDefault><![CDATA[]]></actionIdDefault>
+        <notifEmail><![CDATA[false]]></notifEmail>
+        <name><![CDATA[Invitation]]></name>
+        <globalVariablesReferences/>
         <actions>
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE1]]></filterInstanceId>
-                <filterId><![CDATA[SET_NOTIFICATION_MESSAGE]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[message]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[DeleteOnEnding3]]></filterInstanceId>
                 <filterId><![CDATA[DeleteOnEnding]]></filterId>
-                <argumentsList/>
-                <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[3]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
-                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
-                <argumentsList/>
                 <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
+                <filterInstanceId><![CDATA[DeleteOnEnding3]]></filterInstanceId>
+                <argumentsList/>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterPath><![CDATA[2]]></filterPath>
+                <filterName><![CDATA[Confirmation à l'hôte]]></filterName>
+                <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
                 <argumentsList>
                   <argument>
+                    <argumentName><![CDATA[body]]></argumentName>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[Bonjour,
 
 ${user:name(uid)} a accepté votre invitation à rejoindre l'espace ${document:title(documentPath)}.
 ]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailFrom]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue/>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
                     <argumentName><![CDATA[continue]]></argumentName>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentValue><![CDATA[]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailTo]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:name(uid)} a accepté votre invitation]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:name(uid)} a accepté votre invitation]]></argumentValue>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[Confirmation à l'hôte]]></filterName>
-                <filterPath><![CDATA[2]]></filterPath>
+              </filter>
+              <filter>
+                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
+                <argumentsList/>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SET_NOTIFICATION_MESSAGE]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE1]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[message]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></argumentValue>
+                  </argument>
+                </argumentsList>
               </filter>
             </filtersList>
-            <label><![CDATA[Accepter]]></label>
             <actionId><![CDATA[accept]]></actionId>
+            <label><![CDATA[Accepter]]></label>
             <stepReference><![CDATA[endStep]]></stepReference>
           </action>
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
-                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
                 <argumentsList>
                   <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterPath><![CDATA[2]]></filterPath>
+                <filterName><![CDATA[Confirmation à l'hôte]]></filterName>
+                <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[body]]></argumentName>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[Bonjour,
 
 ${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${document:title(documentPath)}.
 ]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailFrom]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
                     <argumentName><![CDATA[continue]]></argumentName>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentValue><![CDATA[true]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailTo]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:name(uid)} a refusé votre invitation]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailObject]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[Confirmation à l'hôte]]></filterName>
-                <filterPath><![CDATA[2]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[DECLINE_WORKSPACE_INVITATION0]]></filterInstanceId>
-                <filterId><![CDATA[DECLINE_WORKSPACE_INVITATION]]></filterId>
-                <argumentsList/>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
-              </filter>
-              <filter>
-                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentValue><![CDATA[${user:name(uid)} a refusé votre invitation]]></argumentValue>
                   </argument>
                 </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[DECLINE_WORKSPACE_INVITATION]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
                 <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
+                <filterInstanceId><![CDATA[DECLINE_WORKSPACE_INVITATION0]]></filterInstanceId>
+                <argumentsList/>
               </filter>
             </filtersList>
-            <label><![CDATA[Refuser]]></label>
             <actionId><![CDATA[decline]]></actionId>
+            <label><![CDATA[Refuser]]></label>
             <stepReference><![CDATA[declined]]></stepReference>
           </action>
           <action>
             <filtersList>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter1]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[Mail de relance]]></filterName>
+                <filterInstanceId><![CDATA[SendMailFilter1]]></filterInstanceId>
                 <argumentsList>
                   <argument>
+                    <argumentName><![CDATA[body]]></argumentName>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}.
 
 Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailFrom]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[mailTo]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[Relance de l'invitation à rejoindre un espace]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
                   </argument>
                   <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[Relance de l'invitation à rejoindre un espace]]></argumentValue>
+                  </argument>
+                  <argument>
                     <argumentName><![CDATA[continue]]></argumentName>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentValue><![CDATA[true]]></argumentValue>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[Mail de relance]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
                 <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
                 <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[${uid}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${uid}]]></argumentValue>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
               </filter>
             </filtersList>
-            <label><![CDATA[Relancer]]></label>
             <actionId><![CDATA[resend]]></actionId>
+            <label><![CDATA[Relancer]]></label>
             <stepReference><![CDATA[invitation]]></stepReference>
           </action>
         </actions>
-        <notifEmail><![CDATA[false]]></notifEmail>
-        <actionIdNo><![CDATA[decline]]></actionIdNo>
+        <actionIdYes><![CDATA[accept]]></actionIdYes>
       </step>
       <step>
-        <stringMsg><![CDATA[${user:link(uid)} a refusé l'invitation à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
-        <index><![CDATA[2]]></index>
-        <actionIdYes><![CDATA[]]></actionIdYes>
-        <actionIdClosable><![CDATA[close]]></actionIdClosable>
-        <reference><![CDATA[declined]]></reference>
-        <acquitable><![CDATA[false]]></acquitable>
-        <endStepMsg><![CDATA[]]></endStepMsg>
         <closable><![CDATA[true]]></closable>
-        <globalVariablesReferences/>
-        <name><![CDATA[Invitation refusée]]></name>
-        <actionIdDefault><![CDATA[close]]></actionIdDefault>
-        <actors/>
         <notifiable><![CDATA[true]]></notifiable>
+        <stringMsg><![CDATA[${user:link(uid)} a refusé l'invitation à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
+        <actionIdClosable><![CDATA[close]]></actionIdClosable>
+        <index><![CDATA[2]]></index>
+        <endStepMsg><![CDATA[]]></endStepMsg>
+        <acquitable><![CDATA[false]]></acquitable>
+        <actionIdNo><![CDATA[]]></actionIdNo>
+        <reference><![CDATA[declined]]></reference>
+        <actors/>
+        <actionIdDefault><![CDATA[close]]></actionIdDefault>
+        <notifEmail><![CDATA[true]]></notifEmail>
+        <name><![CDATA[Invitation refusée]]></name>
+        <globalVariablesReferences/>
         <actions>
           <action>
             <filtersList/>
-            <label><![CDATA[Fermer]]></label>
             <actionId><![CDATA[close]]></actionId>
+            <label><![CDATA[Fermer]]></label>
             <stepReference><![CDATA[endStep]]></stepReference>
           </action>
         </actions>
-        <notifEmail><![CDATA[true]]></notifEmail>
-        <actionIdNo><![CDATA[]]></actionIdNo>
+        <actionIdYes><![CDATA[]]></actionIdYes>
       </step>
     </pcd:steps>
     <pcd:authorizedGroups/>
-    <pcd:procedureObjects/>
-  </schema>
-  <schema xmlns:foad="http://www.osivia.com/ecm/project/schemas/cns" name="foad_doc">
-    <foad:academie/>
   </schema>
 </document>

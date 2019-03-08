@@ -32,6 +32,14 @@
             <version>${collaboration.version}</version>
             <classifier>classes</classifier>
         </dependency>         
+        
+        <!-- ACL modifications -->
+ 		<dependency>
+            <groupId>org.osivia.services.workspace</groupId>
+            <artifactId>osivia-services-workspace-acl-management</artifactId>
+            <version>${collaboration.version}</version>
+            <classifier>classes</classifier>
+        </dependency>         
     
     </dependencies>
     

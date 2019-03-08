@@ -16,7 +16,7 @@
         <toutatice.version>4.4.16-SNAPSHOT</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.16-SNAPSHOT</directory.version>
+        <directory.version>4.4.16.1</directory.version>
         
         <!-- Collaboration -->
         <collaboration.version>4.4.16-SNAPSHOT</collaboration.version>
