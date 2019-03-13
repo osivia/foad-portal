@@ -13,17 +13,17 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.16-SNAPSHOT</toutatice.version>
+        <toutatice.version>4.4.17</toutatice.version>
         
         <!-- Directory -->
         <directory.version>4.4.16.1</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.16-SNAPSHOT</collaboration.version>
+        <collaboration.version>4.4.17</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4</tasks.version>
-        <procedure.version>4.4.15.4</procedure.version>
+        <procedure.version>4.4.17</procedure.version>
         <cgu.version>4.4</cgu.version>
         <onlyoffice.version>4.4.15.4</onlyoffice.version>
         <document-creation.version>4.4.14</document-creation.version>
@@ -191,6 +191,17 @@
                         <wtpversion>2.0</wtpversion>
                     </configuration>
                 </plugin>
+
+				<!-- Disable strict javadoc checking since java8 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<configuration>
+						<additionalOptions>
+							<additionalOption>-Xdoclint:none</additionalOption>
+						</additionalOptions>
+					</configuration>
+				</plugin>
             
             </plugins>
         </pluginManagement>
