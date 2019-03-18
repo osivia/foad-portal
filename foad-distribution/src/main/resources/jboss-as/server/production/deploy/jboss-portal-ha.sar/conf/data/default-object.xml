@@ -978,7 +978,7 @@ return nuxeoRequest.toString();</value>
                             </property>
                             <property>
                                 <name>osivia.cms.style</name>
-                                <value>search-results</value>
+                                <value>workspace-search-results</value>
                             </property>
                             <property>
                                 <name>osivia.beanShell</name>
