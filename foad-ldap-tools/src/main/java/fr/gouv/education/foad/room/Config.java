@@ -7,6 +7,7 @@ import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
 import org.osivia.portal.api.notifications.INotificationsService;
+import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
  *
  */
 @Configuration
-@ComponentScan(basePackages = {"fr.gouv.education.foad.room", "org.osivia.services.workspace.portlet"})
+@ComponentScan(basePackages = {"fr.gouv.education.foad.room", "org.osivia.services.workspace.portlet.repository.command"})
 public class Config {
 
     /**
@@ -93,5 +94,16 @@ public class Config {
     @Bean
     public WorkspaceService getWorkspaceService() {
     	return DirServiceFactory.getService(WorkspaceService.class);
+    }
+    
+    
+    /**
+     * Get portal URL factory.
+     *
+     * @return portal URL factory
+     */
+    @Bean(name = "urlFactoryForRoomMig")
+    public IPortalUrlFactory getPortalUrlFactory() {
+        return Locator.findMBean(IPortalUrlFactory.class, IPortalUrlFactory.MBEAN_NAME);
     }
 }

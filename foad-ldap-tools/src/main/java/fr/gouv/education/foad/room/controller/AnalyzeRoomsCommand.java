@@ -133,7 +133,7 @@ public class AnalyzeRoomsCommand implements INuxeoCommand {
 			
 			// Ne contient pas autre chose
 			request = nuxeoSession.newRequest("Document.QueryES");
-	        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType NOT IN ( 'File','Folder','Audio','Video','Note','Staple','Agenda') AND ttc:spaceID = '"+rm.getId()+"' "+FILTER_NOT_IN_TRASH);
+	        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType NOT IN ( 'File','Folder','Audio','Video','Note','Staple','Agenda', 'VEVENT') AND ttc:spaceID = '"+rm.getId()+"' "+FILTER_NOT_IN_TRASH);
 	        Documents docsToWarn = (Documents) request.execute();
 	        
 	        if(docsToWarn.size() > 0) {

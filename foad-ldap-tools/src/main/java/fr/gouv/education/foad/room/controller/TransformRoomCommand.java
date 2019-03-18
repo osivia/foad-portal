@@ -78,6 +78,13 @@ public class TransformRoomCommand implements INuxeoCommand {
 	        	rm.setState(State.SKIP);
 	        	nbRoomsSkipped++;
 	        }
+	        else if(rm.getState() != State.NEW) {
+	        	
+	    		log.error(" Cette salle avait été marquée en erreur et ne sera pas traitée.");
+	        	
+	        	rm.setState(State.SKIP);
+	        	nbRoomsSkipped++;
+	        }
 	        else {
 		        // Document service
 		        DocumentService documentService = nuxeoSession.getAdapter(DocumentService.class);

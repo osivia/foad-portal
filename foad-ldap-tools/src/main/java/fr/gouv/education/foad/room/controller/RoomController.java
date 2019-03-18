@@ -31,6 +31,7 @@ import org.osivia.portal.api.windows.PortalWindow;
 import org.osivia.portal.api.windows.WindowFactory;
 import org.osivia.services.workspace.portlet.repository.command.GetPermissionsCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -84,6 +85,7 @@ public class RoomController extends CMSPortlet implements PortletConfigAware, Po
     
     /** Portal URL factory. */
     @Autowired
+    @Qualifier("urlFactoryForRoomMig")
     private IPortalUrlFactory portalUrlFactory;    
     
     /**
@@ -289,4 +291,5 @@ public class RoomController extends CMSPortlet implements PortletConfigAware, Po
         this.portletContext = portletContext;
     }
 
+    
 }
