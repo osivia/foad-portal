@@ -126,18 +126,18 @@ public class AnalyzeRoomsCommand implements INuxeoCommand {
 	        }
 
 			
-			// Ne contient pas autre chose
+			// Ne contient pas autre chose, qui devra être déplacé à la racine de l'espace.
 			request = nuxeoSession.newRequest("Document.QueryES");
-	        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType NOT IN ( 'File','Folder','Audio','Video','Note','Staple','Agenda', 'VEVENT') AND ttc:spaceID = '"+rm.getId()+"' "+FILTER_NOT_IN_TRASH);
+	        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType NOT IN ( 'File','Folder','Audio','Video','Note','Staple') AND ecm:parentId = '"+rm.getId()+"' "+FILTER_NOT_IN_TRASH);
 	        Documents docsToWarn = (Documents) request.execute();
 	        
 	        if(docsToWarn.size() > 0) {
 	        
 		    	for(Document docToWarn : docsToWarn) {
-			        log.info(" La salle contient un document "+docToWarn.getTitle()+ " ("+docToWarn.getType()+") qui sera perdu");
+			        log.info(" La salle contient un document "+docToWarn.getTitle()+ " ("+docToWarn.getType()+") qui sera déplacé dans l'espace parent.");
+		    		
 		    	}
-		    	rm.setState(State.ERROR);
-		        nbRoomsInError++;
+		    	rm.setMiscDocs(docsToWarn);
 
 	        }
 				

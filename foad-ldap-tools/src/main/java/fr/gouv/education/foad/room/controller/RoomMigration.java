@@ -25,6 +25,7 @@ public class RoomMigration implements Comparable<RoomMigration>{
 	private boolean emptyFolder = false;
 	private JSONArray localArray;
 	private Document targetFolder;
+	private Documents miscDocs;
 	
 	/**
 	 * @param id
@@ -173,5 +174,23 @@ public class RoomMigration implements Comparable<RoomMigration>{
 		return targetFolder;
 	}
 
+
+	/**
+	 * @param docsToWarn
+	 */
+	public void setMiscDocs(Documents miscDocs) {
+		this.miscDocs = miscDocs;
+		
+	}
+
+
+	/**
+	 * @return the miscDocs
+	 */
+	public Documents getMiscDocs() {
+		return miscDocs;
+	}
+
+	
 	
 }

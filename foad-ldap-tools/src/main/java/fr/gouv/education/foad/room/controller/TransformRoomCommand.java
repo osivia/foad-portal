@@ -95,7 +95,7 @@ public class TransformRoomCommand implements INuxeoCommand {
 		        
 				Document parent = documentService.getParent(rm.getRoom());
 				
-				// Déplacement du dossier documents
+				// Déplacement des dossiers documents
 				Document targetFolder = null;
 				if(rm.isEmptyFolder()) {
 					log.info(" Création d'un dossier vide "+rm.getRoom().getTitle());
@@ -115,6 +115,12 @@ public class TransformRoomCommand implements INuxeoCommand {
 						documentService.move(folder, targetFolder);
 					}
 				}
+				// Déplacement des contenus divers
+				for(Document misc : rm.getMiscDocs()) {
+					log.info(" Déplacment de "+misc.getTitle()+" vers l'espace parent ");
+					documentService.move(misc, parent);
+				}
+				
 				documentService.setProperty(targetFolder, "ttc:webid", webid);
 				documentService.setProperty(targetFolder, "dc:title", rm.getRoom().getTitle());
 	
@@ -154,7 +160,7 @@ public class TransformRoomCommand implements INuxeoCommand {
 		
 		
 		boolean publicEntry = false;
-		boolean inherited = true;
+		boolean blockInherit = false;
 		for (int i = 0; i < localArray.size(); i++) {
 		    JSONObject object = localArray.getJSONObject(i);
 
@@ -180,7 +186,7 @@ public class TransformRoomCommand implements INuxeoCommand {
 		            permission.getValues().add(object.getString("permission"));
 		        }
 		    } else {
-		        inherited = false;
+		    	blockInherit = true;
 		    }
 		}
 		
@@ -192,7 +198,14 @@ public class TransformRoomCommand implements INuxeoCommand {
         DocumentSecurityService securityService = nuxeoSession.getAdapter(DocumentSecurityService.class);
         
         securityService.addPermissions(rm.getTargetFolder(), dtoPerms, DocumentSecurityService.LOCAL_ACL,
-        		inherited);
+        		blockInherit);
+        
+        // Apply perms to other documents moved up
+        for(Document misc : rm.getMiscDocs()) {
+            securityService.addPermissions(misc, dtoPerms, DocumentSecurityService.LOCAL_ACL,
+            		blockInherit);
+            
+        }
 		
 	}	
 	
