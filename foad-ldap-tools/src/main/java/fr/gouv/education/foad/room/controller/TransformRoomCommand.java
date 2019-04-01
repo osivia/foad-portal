@@ -102,12 +102,6 @@ public class TransformRoomCommand implements INuxeoCommand {
 	
 					targetFolder = documentService.createDocument(parent, "Folder",webid);
 				}
-				else if(rm.getRootFolders().size() == 1) {
-					log.info(" Déplacement du dossier documents unique dans le dossier "+rm.getRoom().getTitle());
-	
-					targetFolder = documentService.move(rm.getRootFolders().get(0), parent);
-	
-				}
 				else {
 					
 					log.info(" Regroupement des documents dans un dossier "+rm.getRoom().getTitle());

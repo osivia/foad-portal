@@ -122,11 +122,6 @@ public class AnalyzeRoomsCommand implements INuxeoCommand {
 			        log.info(" La salle contient "+rootFolder.getTitle()+ " ("+rootFolder.getType()+") à migrer.");
 
 	        	}
-		        if(rootFolders.size() > 1) {
-
-			        log.warn(" La salle contient plusieurs sous-éléments à migrer ! Un dossier du nom de la salle sera créé.");
-			        
-		        }
 	        	
 	        }
 

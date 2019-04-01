@@ -199,7 +199,6 @@ public class RoomController extends CMSPortlet implements PortletConfigAware, Po
         	String cmsUrl = this.portalUrlFactory.getCMSUrl(portalControllerContext, null, path, null, null, IPortalUrlFactory.DISPLAYCTX_REFRESH, null, null, null, null);
             response.sendRedirect(cmsUrl);
 
-        	
 
         }
         	
@@ -218,34 +217,6 @@ public class RoomController extends CMSPortlet implements PortletConfigAware, Po
         for(RoomMigration rm : form.getLrm()) {
         	
         	INuxeoCommand command;
-        	
-        	// Vérification, aucun dossier ne contient d'ACLs
-        	if(!rm.isEmptyFolder()) {
-	        	for(Document rootFolder : rm.getRootFolders()) {
-	        		
-	        		command = this.applicationContext.getBean(GetPermissionsCommand.class, rootFolder);
-	                JSONObject result = (JSONObject) nuxeoController.executeNuxeoCommand(command);
-	
-	                if (result != null) {
-	
-	                    // JSON local array
-	                    JSONArray localArray = result.getJSONArray("local");
-	                    
-	                    if(localArray.size() > 0) {
-	                    	
-	                        log.error("La salle "+rm.getRoom().getTitle()+" contient un dossier "+rootFolder.getTitle()+ " possédant des droits spécifiques qui ne seront pas repris.");
-	                        log.error(" "+localArray.toString());
-	                        
-	                        if(rm.getState() == State.NEW) {
-	                        	rm.setState(State.ERROR);
-	                        	nbRoomsInError++;
-	                        }
-	                    }
-	
-	                }
-	
-	        	}
-        	}
         	
         	// Vérification, la salle contient des ACLs à préserver
         	
