@@ -83,21 +83,27 @@ public class CustomizedMemberManagementPluginServiceImpl implements CustomizedMe
     public String getFilter(PortalControllerContext portalControllerContext) {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
-        // Current user
-        String user = request.getRemoteUser();
-
-        // User values
-        Set<String> values = this.getUserValues(user);
-
+        
         StringBuilder builder = new StringBuilder();
-        builder.append("ecm:acl IN ('");
-        builder.append(StringUtils.join(values, "', '"));
-        builder.append("') ");
 
-        if (user != null) {
-            builder.append("OR (ecm:primaryType = 'Workspace' ");
-            builder.append("AND ttcs:spaceMembers/*/login <> '").append(user).append("' ");
-            builder.append("AND ttcs:visibility = '").append(WorkspaceType.PRIVATE).append("')");
+        Boolean administrator = Boolean.TRUE.equals(request.getAttribute("osivia.isAdministrator"));
+
+        if(!administrator) {
+	        // Current user
+	        String user = request.getRemoteUser();
+	
+	        // User values
+	        Set<String> values = this.getUserValues(user);
+	
+	        builder.append("ecm:acl IN ('");
+	        builder.append(StringUtils.join(values, "', '"));
+	        builder.append("') ");
+	
+	        if (user != null) {
+	            builder.append("OR (ecm:primaryType = 'Workspace' ");
+	            builder.append("AND ttcs:spaceMembers/*/login <> '").append(user).append("' ");
+	            builder.append("AND ttcs:visibility = '").append(WorkspaceType.PRIVATE).append("')");
+	        }
         }
 
         return builder.toString();
