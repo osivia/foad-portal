@@ -7,13 +7,17 @@
 <div class="fragment-tile">
     <a href="${targetLink.url}" ${targetLink.external ? 'target="_blank"' : ''} class="panel panel-default">
         <span class="panel-body">
-            <!-- Title -->
-            <span class="title"><ttc:title document="${document}" linkable="false"/></span>
-            
-            <!-- Description -->
-            <c:set var="description" value="${document.properties['dc:description']}" />
-            <c:if test="${not empty description}">
-                <span class="description">${description}</span>
+        
+            <c:if test="${not empty document}">
+	        
+	            <!-- Title -->
+	            <span class="title"><ttc:title document="${document}" linkable="false"/></span>
+	            
+	            <!-- Description -->
+	            <c:set var="description" value="${document.properties['dc:description']}" />
+	            <c:if test="${not empty description}">
+	                <span class="description">${description}</span>
+	            </c:if>
             </c:if>
         </span>
     </a>

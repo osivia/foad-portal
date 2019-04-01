@@ -481,6 +481,10 @@ return nuxeoRequest.toString();</value>
                             <name>target</name>
                             <value>procedure_space-creation</value>
                         </property>
+				        <property>
+				          <name>osivia.hideEmptyPortlet</name>
+				          <value>1</value>
+				        </property>                        
                     </properties>
                     <height>0</height>
                 </window>
