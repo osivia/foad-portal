@@ -59,13 +59,27 @@ $JQry(function() {
 		
 		// Checkbox
 		$JQry(".file-browser-checkbox a").click(function(event) {
-			var $target = $JQry(event.target);
-			var $selectee = $target.closest(".file-browser-selectee");
+			var $target = $JQry(event.target).closest("a");
 			
-			if ($selectee.hasClass("ui-selected")) {
-				$selectee.removeClass("ui-selected bg-primary border-primary");
+			if ($target.closest(".file-browser-table-header-group").length) {
+				var $table = $target.closest(".file-browser-table");
+				var $selectee = $table.find(".file-browser-selectee");
+				
+				if ($target.hasClass("checked")) {
+					$selectee.removeClass("ui-selected bg-primary border-primary");
+					$target.removeClass("checked");
+				} else {
+					$selectee.addClass("ui-selected bg-primary border-primary");
+					$target.addClass("checked");
+				}
 			} else {
-				$selectee.addClass("ui-selected bg-primary border-primary");
+				var $selectee = $target.closest(".file-browser-selectee");
+				
+				if ($selectee.hasClass("ui-selected")) {
+					$selectee.removeClass("ui-selected bg-primary border-primary");
+				} else {
+					$selectee.addClass("ui-selected bg-primary border-primary");
+				}
 			}
 			
 			// Update toolbar
@@ -461,6 +475,8 @@ $JQry(window).resize(function() {
 
 function updateFileBrowserToolbar($target) {
 	var $browser = $target.closest(".file-browser");
+	var allSelected = ($browser.find(".file-browser-selectee").length === $browser.find(".ui-selected").length);
+	var $selectAll = $browser.find(".file-browser-table-header-group .file-browser-checkbox a");
 	var $toolbar = $browser.find(".file-browser-toolbar");
 	var $selectee = $browser.find(".file-browser-selectee");
 	var $selected = $browser.find(".ui-selected");
@@ -503,6 +519,14 @@ function updateFileBrowserToolbar($target) {
 			$JQry(document).ready();
 		}
 	});
+	
+	
+	// Update "select all" checkbox
+	if ($selectAll.hasClass("checked") && !allSelected) {
+		$selectAll.removeClass("checked");
+	} else if (!$selectAll.hasClass("checked") && allSelected) {
+		$selectAll.addClass("checked");
+	}
 }
 
 

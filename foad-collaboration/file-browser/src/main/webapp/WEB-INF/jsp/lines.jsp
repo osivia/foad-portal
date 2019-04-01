@@ -6,6 +6,9 @@
 <%@ taglib uri="https://tribu.phm.education.gouv.fr/jsp/taglib/foad" prefix="foad" %>
 
 
+<c:set var="checkboxTitle"><op:translate key="TABLE_CHECKBOX_TITLE" /></c:set>
+
+
 <div class="file-browser-table-container">
     <div class="file-browser-filler">
         <!-- Table -->
@@ -32,7 +35,9 @@
                             <a href="${url}">
                                 <span><op:translate key="FILE_BROWSER_SORT_TITLE" /></span>
                                 <c:if test="${form.criteria.sort.id eq 'title'}">
-                                    <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                    <small>
+                                        <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                    </small>
                                 </c:if>
                             </a>
                         </div>
@@ -51,7 +56,9 @@
                             <a href="${url}">
                                 <span><op:translate key="FILE_BROWSER_SORT_LAST_MODIFICATION" /></span>
                                 <c:if test="${form.criteria.sort.id eq 'last-modification'}">
-                                    <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                    <small>
+                                        <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                    </small>
                                 </c:if>
                             </a>
                         </div>
@@ -70,7 +77,9 @@
                             <a href="${url}">
                                 <span><op:translate key="FILE_BROWSER_SORT_FILE_SIZE" /></span>
                                 <c:if test="${form.criteria.sort.id eq 'file-size'}">
-                                    <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                    <small>
+                                        <i class="glyphicons glyphicons-arrow-${form.criteria.alt ? 'up' : 'down'}"></i>
+                                    </small>
                                 </c:if>
                             </a>
                         </div>
@@ -79,7 +88,14 @@
                 
                 <!-- Checkbox -->
                 <div class="file-browser-table-cell" data-column="checkbox">
-                    <div class="file-browser-cell" data-column="checkbox"></div>
+                    <div class="file-browser-cell" data-column="checkbox">
+                        <div class="file-browser-checkbox">
+                            <c:set var="title"><op:translate key="TABLE_SELECT_ALL_CHECKBOX_TITLE" /></c:set>
+                            <a href="javascript:;" class="no-ajax-link" title="${title}">
+                                <i class="glyphicons glyphicons-unchecked"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -170,7 +186,7 @@
                                 <div class="file-browser-table-cell" data-column="checkbox">
                                     <div class="file-browser-cell">
                                         <div class="file-browser-checkbox">
-                                            <a href="javascript:;" class="no-ajax-link">
+                                            <a href="javascript:;" class="no-ajax-link" title="${checkboxTitle}">
                                                 <i class="glyphicons glyphicons-unchecked"></i>
                                             </a>
                                         </div>
