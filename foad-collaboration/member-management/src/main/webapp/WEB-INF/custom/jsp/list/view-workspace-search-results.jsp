@@ -114,15 +114,14 @@
                                             <span><op:translate key="LIST_TEMPLATE_${workspaceType.key}" /></span>
                                         </span>
                                     </c:if>
-                                    
+
                                     <c:choose>
                                         <c:when test="${not empty memberStatus}">
                                             <span class="label label-${memberStatus.color}">
                                                 <span><op:translate key="${memberStatus.key}" /></span>
                                             </span>
                                         </c:when>
-                                        
-                                        <c:when test="${workspaceType.allowedInvitationRequests}">
+                                        <c:when test="${workspaceType.allowedInvitationRequests and not empty pageContext.request.remoteUser}">
                                             <portlet:actionURL name="createRequest" var="createRequestUrl">
                                                 <portlet:param name="id" value="${document.properties['webc:url']}" />
                                             </portlet:actionURL>
