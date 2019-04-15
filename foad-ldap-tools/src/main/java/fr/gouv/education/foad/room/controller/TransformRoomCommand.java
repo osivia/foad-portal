@@ -95,9 +95,13 @@ public class TransformRoomCommand implements INuxeoCommand {
 		        
 				Document parent = documentService.getParent(rm.getRoom());
 				
+				request = nuxeoSession.newRequest("Document.QueryES");
+		        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType IN ('Folder','Note') AND ecm:parentId = '"+rm.getId()+"' "+AnalyzeRoomsCommand.FILTER_NOT_IN_TRASH);
+		        Documents rootFolders = (Documents) request.execute();				
+				
 				// Déplacement des dossiers documents
 				Document targetFolder = null;
-				if(rm.isEmptyFolder()) {
+				if(rootFolders.isEmpty()) {
 					log.info(" Création d'un dossier vide "+rm.getRoom().getTitle());
 	
 					targetFolder = documentService.createDocument(parent, "Folder",webid);
@@ -108,7 +112,7 @@ public class TransformRoomCommand implements INuxeoCommand {
 	
 					targetFolder = documentService.createDocument(parent, "Folder", webid);
 	
-					for(Document folder : rm.getRootFolders()) {
+					for(Document folder : rootFolders) {
 						
 						log.info("  Document "+folder.getTitle());
 	

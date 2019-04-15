@@ -21,11 +21,9 @@ public class RoomMigration implements Comparable<RoomMigration>{
 	private int levelOfPath;
 	private State state = State.NEW;
 	private Document room;
-	private Documents rootFolders;
-	private boolean emptyFolder = false;
 	private JSONArray localArray;
 	private Document targetFolder;
-	private Documents miscDocs;
+	private Documents miscDocs = new Documents();
 	
 	/**
 	 * @param id
@@ -81,22 +79,6 @@ public class RoomMigration implements Comparable<RoomMigration>{
 	}
 
 	/**
-	 * @param rootFolders
-	 */
-	public void setRootFolders(Documents rootFolders) {
-		this.rootFolders = rootFolders;
-		
-	}
-
-	/**
-	 * @param b
-	 */
-	public void setEmptyFolder(boolean emptyFolder) {
-		this.emptyFolder  = emptyFolder;
-		
-	}
-
-	/**
 	 * @return the room
 	 */
 	public Document getRoom() {
@@ -108,20 +90,6 @@ public class RoomMigration implements Comparable<RoomMigration>{
 	 */
 	public void setRoom(Document room) {
 		this.room = room;
-	}
-
-	/**
-	 * @return the rootFolders
-	 */
-	public Documents getRootFolders() {
-		return rootFolders;
-	}
-
-	/**
-	 * @return the emptyFolder
-	 */
-	public boolean isEmptyFolder() {
-		return emptyFolder;
 	}
 
 	/**

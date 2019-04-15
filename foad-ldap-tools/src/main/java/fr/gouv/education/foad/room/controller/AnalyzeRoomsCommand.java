@@ -111,12 +111,10 @@ public class AnalyzeRoomsCommand implements INuxeoCommand {
 	        Documents rootFolders = (Documents) request.execute();
 	        
 	        if(rootFolders.size() == 0) {
-	        	rm.setEmptyFolder(true);
 		        log.info(" La salle ne contient pas de dossier document, un dossier vide sera créé.");
 
 	        }
 	        else {
-	        	rm.setRootFolders(rootFolders);
 	        	
 	        	for(Document rootFolder : rootFolders) {
 			        log.info(" La salle contient "+rootFolder.getTitle()+ " ("+rootFolder.getType()+") à migrer.");
@@ -128,7 +126,7 @@ public class AnalyzeRoomsCommand implements INuxeoCommand {
 			
 			// Ne contient pas autre chose, qui devra être déplacé à la racine de l'espace.
 			request = nuxeoSession.newRequest("Document.QueryES");
-	        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType NOT IN ( 'File','Folder','Audio','Video','Note','Staple') AND ecm:parentId = '"+rm.getId()+"' "+FILTER_NOT_IN_TRASH);
+	        request.set("query", "SELECT * FROM Document WHERE ecm:primaryType NOT IN ( 'File','Folder','Audio','Video','Note','Staple', 'Room') AND ecm:parentId = '"+rm.getId()+"' "+FILTER_NOT_IN_TRASH);
 	        Documents docsToWarn = (Documents) request.execute();
 	        
 	        if(docsToWarn.size() > 0) {
