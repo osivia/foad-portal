@@ -91,6 +91,7 @@ public class TransformRoomCommand implements INuxeoCommand {
 		        
 		        // Mémorisation et desaffectation du webid de la salle
 		        String webid = rm.getRoom().getProperties().getString("ttc:webid");
+		        Boolean showInMenu = rm.getRoom().getProperties().getBoolean("ttc:showInMenu");
 				documentService.setProperty(rm.getRoom(), "ttc:webid", webid + "_old");
 		        
 				Document parent = documentService.getParent(rm.getRoom());
@@ -101,16 +102,22 @@ public class TransformRoomCommand implements INuxeoCommand {
 				
 				// Déplacement des dossiers documents
 				Document targetFolder = null;
-				if(rootFolders.isEmpty()) {
-					log.info(" Création d'un dossier vide "+rm.getRoom().getTitle());
+				
+				log.info(" Création d'un dossier "+rm.getRoom().getTitle());
+				targetFolder = documentService.createDocument(parent, "Folder",webid);
+				documentService.setProperty(targetFolder, "ttc:webid", webid);
+				documentService.setProperty(targetFolder, "dc:title", rm.getRoom().getTitle());
 	
-					targetFolder = documentService.createDocument(parent, "Folder",webid);
+				if(!showInMenu) {
+					documentService.setProperty(targetFolder, "ttc:showInMenu", "false");
 				}
-				else {
-					
+				
+				
+				rm.setTargetFolder(targetFolder);
+				
+				if(!rootFolders.isEmpty()) {
+
 					log.info(" Regroupement des documents dans un dossier "+rm.getRoom().getTitle());
-	
-					targetFolder = documentService.createDocument(parent, "Folder", webid);
 	
 					for(Document folder : rootFolders) {
 						
@@ -121,15 +128,22 @@ public class TransformRoomCommand implements INuxeoCommand {
 				}
 				// Déplacement des contenus divers
 				for(Document misc : rm.getMiscDocs()) {
-					log.info(" Déplacment de "+misc.getTitle()+" vers l'espace parent ");
-					documentService.move(misc, parent);
+					
+					// Tester si il y a du contenu
+					request = nuxeoSession.newRequest("Document.QueryES");
+			        request.set("query", "SELECT * FROM Document WHERE ecm:parentId = '"+misc.getId()+"' "+AnalyzeRoomsCommand.FILTER_NOT_IN_TRASH);
+			        Documents children = (Documents) request.execute();				
+
+					if(children.size() > 0) {
+						log.info(" Déplacment de "+misc.getTitle()+" vers l'espace parent ");
+						documentService.move(misc, parent);
+					}
+					else {
+						log.info(" Suppression de "+misc.getTitle()+" (service vide) ");
+
+					}
 				}
-				
-				documentService.setProperty(targetFolder, "ttc:webid", webid);
-				documentService.setProperty(targetFolder, "dc:title", rm.getRoom().getTitle());
-	
-	
-				rm.setTargetFolder(targetFolder);
+
 				
 				
 				if(rm.getLocalArray() != null && rm.getState() == State.NEW) {
