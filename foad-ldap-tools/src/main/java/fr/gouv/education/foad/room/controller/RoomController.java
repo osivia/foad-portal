@@ -171,7 +171,7 @@ public class RoomController extends CMSPortlet implements PortletConfigAware, Po
         if(!runExec) {
         	
             log.info("===========");
-            log.info("Début analyse,");
+            log.info("Début analyse, "+path);
         	
             nuxeoController.setAsynchronousCommand(false);
             

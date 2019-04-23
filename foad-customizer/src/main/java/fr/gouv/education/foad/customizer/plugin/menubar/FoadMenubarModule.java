@@ -132,7 +132,7 @@ public class FoadMenubarModule implements MenubarModule {
      */
     private void removeItems(List<MenubarItem> menubar, DocumentContext<? extends EcmDocument> documentContext) {
         // Identifiers
-        List<String> identifiers = Arrays.asList("SYNCHRONIZE_ACTION", "REMOTE_PUBLISHING_URL", "ADD_AUDIO", "ADD_VIDEO", "ADD_TOUTATICEPAD");
+        List<String> identifiers = Arrays.asList("SYNCHRONIZE_ACTION", "REMOTE_PUBLISHING_URL", "ADD_TOUTATICEPAD");
         BasicPublicationInfos publicationInfos = documentContext.getPublicationInfos(BasicPublicationInfos.class);
         if (publicationInfos.isDraft()) {
             identifiers.add("VALIDATION_WF_URL");
