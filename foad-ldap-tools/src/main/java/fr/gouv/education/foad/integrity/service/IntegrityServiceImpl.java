@@ -35,6 +35,7 @@ import org.osivia.services.workspace.portlet.repository.MemberManagementReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.gouv.education.foad.integrity.controller.DeleteDocForm;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
 import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoCommandContext;
@@ -463,6 +464,20 @@ public class IntegrityServiceImpl implements IntegrityService {
 		
 		log.info("end updateWks");
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#deleteDoc(fr.gouv.education.foad.integrity.controller.DeleteDocForm)
+	 */
+	@Override
+	public void deleteDoc(DeleteDocForm form, PortalControllerContext portalControllerContext) {
+		
+		NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
+        nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
+        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
+        nuxeoController.setAsynchronousCommand(false);
+		
+        nuxeoController.executeNuxeoCommand(new DeleteDocumentCommand(form.getUuid()));
 	}
 
 }

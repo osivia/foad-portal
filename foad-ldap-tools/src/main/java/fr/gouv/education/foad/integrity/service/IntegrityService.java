@@ -7,6 +7,8 @@ import javax.portlet.PortletException;
 
 import org.osivia.portal.api.context.PortalControllerContext;
 
+import fr.gouv.education.foad.integrity.controller.DeleteDocForm;
+
 /**
  * service interface.
  *
@@ -81,6 +83,12 @@ public interface IntegrityService {
 	 * @param portalControllerContext
 	 */
 	void updateWks(PortalControllerContext portalControllerContext);
+
+	/**
+	 * @param form
+	 * @param portalControllerContext
+	 */
+	void deleteDoc(DeleteDocForm form, PortalControllerContext portalControllerContext);
 
 
 

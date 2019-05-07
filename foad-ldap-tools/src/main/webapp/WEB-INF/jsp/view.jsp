@@ -147,3 +147,27 @@
         <span><op:translate key="UPDATE_4416_BUTTON" /></span>
     </a>
 </p>
+
+
+
+<!-- Supprimer une entrée -->
+<portlet:actionURL name="deleteDoc" var="deleteDocUrl" >
+</portlet:actionURL>
+
+<h3>Supprimer une entrée</h3>
+<form:form action="${deleteDocUrl}" method="post" modelAttribute="deleteDocForm" cssClass="form-horizontal" role="form">
+
+	<!-- Logins -->
+   <div class="form-group">
+       <c:set var="placeholder">UUID Nuxeo</c:set>
+       <form:label path="uuid" cssClass="control-label col-sm-3 col-lg-2">UUID Nuxeo</form:label>
+       <div class="col-sm-9 col-lg-10">
+           <form:input path="uuid" rows="3" cssClass="form-control" placeholder="${placeholder}" />
+       </div>
+   </div>  
+   
+   <button type="submit" name="btnName" value="run"  class="btn btn-danger no-ajax-link">
+   		<i class="glyphicons glyphicons-electricity"></i>
+   		<op:translate key="DELETE" />
+   	</button>
+</form:form>

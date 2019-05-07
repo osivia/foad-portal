@@ -211,6 +211,14 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     	
     }
     
+    
+    @ActionMapping(value = "deleteDoc")
+    public void deleteDoc(@ModelAttribute DeleteDocForm form, ActionRequest request, ActionResponse response) throws PortletException {
+    	
+    	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+
+    	service.deleteDoc(form,pcc);
+    }
 
 
     @ActionMapping(value = "chgValidDate")
@@ -296,6 +304,15 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     	
     }
     
+    /**
+     * 
+     * @return
+     */
+    @ModelAttribute
+    public DeleteDocForm getDeleteDocForm() {
+    	return new DeleteDocForm();
+    	
+    }
     
     /**
      * 
