@@ -203,7 +203,7 @@
                 </property>
                 <property>
                     <name>osivia.services.cgu.level</name>
-                    <value>1</value>
+                    <value>2</value>
                 </property>
             </properties>
             
@@ -710,7 +710,14 @@ return nuxeoRequest.toString();</value>
             <page>
                 <page-name>Administration</page-name>
                 <display-name xml:lang="fr">Administration</display-name>
-                <properties />
+                
+                <properties>
+                        <!-- Layout -->
+                    <property>
+                        <name>layout.id</name>
+                        <value>foad-1-col</value>
+                    </property>
+                </properties>
                 <security-constraint>
                     <policy-permission>
                         <action-name>view</action-name>

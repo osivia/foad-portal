@@ -36,18 +36,7 @@
             <div class="col">
                 <!-- Toolbar -->
                 <div class="toolbar">
-                    <ul class="list-inline">
-                    	<li>
-		                   	<!-- Toggle old version -->
-		
-			            	<span class="hidden-xs input-group-btn">
-				                <a href="?oldVersion=true" class="btn btn-default">
-				        			<op:translate key="OLD_VERSION_TOGGLE" />
-				        		</a>
-			        		</span>
-                    	</li>
-                    
-                    
+                    <ul class="list-inline">                   
                         <!-- Administration -->
                         <p:region regionName="toolbar-administration" />
                         

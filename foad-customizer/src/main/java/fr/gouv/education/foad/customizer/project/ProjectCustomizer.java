@@ -181,9 +181,9 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
             }
             
         }
-        if (configuration.isBeforeInvocation()) {
-        	oldVersionRedirection(customizationContext);
-        }
+//        if (configuration.isBeforeInvocation()) {
+//        	oldVersionRedirection(customizationContext);
+//        }
     }
 
 
@@ -320,84 +320,84 @@ public class ProjectCustomizer extends CMSPortlet implements ICustomizationModul
     }
     
 
-    /**
-	 * Check if redirection to the new version is needed.
-	 */
-	private void oldVersionRedirection(CustomizationContext ctx) {
-			
-		Map<String, Object> attributes = ctx.getAttributes();
-	
-	    // Project customization configuration
-	    IProjectCustomizationConfiguration configuration = (IProjectCustomizationConfiguration) attributes
-	            .get(IProjectCustomizationConfiguration.CUSTOMIZER_ATTRIBUTE_CONFIGURATION);
-	    
-	    HttpServletRequest request = configuration.getHttpServletRequest();
-		if(request != null) {
-			
-			// Lecture cookie
-			Cookie newVersionAccepted = null;
-			Cookie route = null;
-			
-			if(request.getCookies() != null) {
-				for(Cookie c : request.getCookies()) {
-					if(c.getName().equals(COOKIE_NEW_VERSION)) {
-						newVersionAccepted = c;
-					}
-					if(c.getName().equals(COOKIE_ROUTE)) {
-						route = c;
-					}
-				}
-			}
-			
-			HttpServletResponse response = configuration.getHttpServletResponse();
-		
-			// Si paramètre de requête transmis...
-			if(request.getParameter("oldVersion") != null) {
-				String oldVersion = request.getParameter("oldVersion");
-	
-				// Si choix utilisateut tranmis, suppression du cookie
-				Boolean booleanObject = BooleanUtils.toBooleanObject(oldVersion);
-			
-				newVersionAccepted = new Cookie(COOKIE_NEW_VERSION, booleanObject.toString());
-				newVersionAccepted.setMaxAge(0); // mise à 0 pour destruction du cookie
-				newVersionAccepted.setPath("/");
-				response.addCookie(newVersionAccepted);
-
-				changeRoute(ctx, configuration, route, response, booleanObject);
-				
-			}
-		
-	
-		}
-	}
-
-	/**
-	 * Change route to the portal hosting the old version 
-	 * @param ctx
-	 * @param configuration
-	 * @param route
-	 * @param response
-	 * @param booleanObject
-	 */
-	private void changeRoute(CustomizationContext ctx, IProjectCustomizationConfiguration configuration, Cookie route,
-			HttpServletResponse response, Boolean booleanObject) {
-		// Si ancienne version, modification de la route portail vers aller vers les anciens noeuds
-		if(booleanObject) {
-			route = new Cookie(COOKIE_ROUTE, "");
-			route.setPath("/");
-			route.setMaxAge(0);
-			response.addCookie(route);
-			
-			PortalControllerContext portalControllerContext = ctx.getPortalControllerContext();
-		    ControllerContext cc = (ControllerContext) portalControllerContext.getControllerCtx();
-		    String redirection = cc.getServerInvocation().getServerContext().getPortalContextPath();
-		    
-		    if(configuration.getCMSPath() != null) {
-		    	redirection = redirection + "/cms/" + configuration.getCMSPath();
-		    }
-		    						
-			configuration.setRedirectionURL(redirection);
-
-		}
-	}
+//    /**
+//	 * Check if redirection to the new version is needed.
+//	 */
+//	private void oldVersionRedirection(CustomizationContext ctx) {
+//			
+//		Map<String, Object> attributes = ctx.getAttributes();
+//	
+//	    // Project customization configuration
+//	    IProjectCustomizationConfiguration configuration = (IProjectCustomizationConfiguration) attributes
+//	            .get(IProjectCustomizationConfiguration.CUSTOMIZER_ATTRIBUTE_CONFIGURATION);
+//	    
+//	    HttpServletRequest request = configuration.getHttpServletRequest();
+//		if(request != null) {
+//			
+//			// Lecture cookie
+//			Cookie newVersionAccepted = null;
+//			Cookie route = null;
+//			
+//			if(request.getCookies() != null) {
+//				for(Cookie c : request.getCookies()) {
+//					if(c.getName().equals(COOKIE_NEW_VERSION)) {
+//						newVersionAccepted = c;
+//					}
+//					if(c.getName().equals(COOKIE_ROUTE)) {
+//						route = c;
+//					}
+//				}
+//			}
+//			
+//			HttpServletResponse response = configuration.getHttpServletResponse();
+//		
+//			// Si paramètre de requête transmis...
+//			if(request.getParameter("oldVersion") != null) {
+//				String oldVersion = request.getParameter("oldVersion");
+//	
+//				// Si choix utilisateut tranmis, suppression du cookie
+//				Boolean booleanObject = BooleanUtils.toBooleanObject(oldVersion);
+//			
+//				newVersionAccepted = new Cookie(COOKIE_NEW_VERSION, booleanObject.toString());
+//				newVersionAccepted.setMaxAge(0); // mise à 0 pour destruction du cookie
+//				newVersionAccepted.setPath("/");
+//				response.addCookie(newVersionAccepted);
+//
+//				changeRoute(ctx, configuration, route, response, booleanObject);
+//				
+//			}
+//		
+//	
+//		}
+//	}
+//
+//	/**
+//	 * Change route to the portal hosting the old version 
+//	 * @param ctx
+//	 * @param configuration
+//	 * @param route
+//	 * @param response
+//	 * @param booleanObject
+//	 */
+//	private void changeRoute(CustomizationContext ctx, IProjectCustomizationConfiguration configuration, Cookie route,
+//			HttpServletResponse response, Boolean booleanObject) {
+//		// Si ancienne version, modification de la route portail vers aller vers les anciens noeuds
+//		if(booleanObject) {
+//			route = new Cookie(COOKIE_ROUTE, "");
+//			route.setPath("/");
+//			route.setMaxAge(0);
+//			response.addCookie(route);
+//			
+//			PortalControllerContext portalControllerContext = ctx.getPortalControllerContext();
+//		    ControllerContext cc = (ControllerContext) portalControllerContext.getControllerCtx();
+//		    String redirection = cc.getServerInvocation().getServerContext().getPortalContextPath();
+//		    
+//		    if(configuration.getCMSPath() != null) {
+//		    	redirection = redirection + "/cms/" + configuration.getCMSPath();
+//		    }
+//		    						
+//			configuration.setRedirectionURL(redirection);
+//
+//		}
+//	}
 }
