@@ -25,12 +25,15 @@
                 <include>org.osivia.services.directory:osivia-services-directory-ear:ear:${directory.version}</include>
                 <!-- Collaboration -->
                 <include>${project.groupId}:foad-collaboration-ear:ear:${project.version}</include>
+                <include>org.osivia.services.workspace:osivia-services-workspace-quota:war:${project.groupId}</include>
+                
                 <!-- Other services -->
                 <include>org.osivia.services:osivia-services-tasks:war:${tasks.version}</include>
                 <include>org.osivia.services:osivia-services-procedure:war:${procedure.version}</include>
                 <include>org.osivia.services.cgu:osivia-services-cgu-portail:war:${cgu.version}</include>
                 <include>org.osivia.services:osivia-services-onlyoffice:war:${onlyoffice.version}</include>
                 <include>org.osivia.services:osivia-services-document-creation:war:${document-creation.version}</include>
+
             </includes>
         </dependencySet>
         

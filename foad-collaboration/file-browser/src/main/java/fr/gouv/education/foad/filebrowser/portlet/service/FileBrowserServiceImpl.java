@@ -120,7 +120,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     public FileBrowserView getView(PortalControllerContext portalControllerContext, String viewId) throws PortletException {
         // View
         FileBrowserView view;
-        
+
         if (StringUtils.isEmpty(viewId)) {
             // Current document
             NuxeoDocumentContext documentContext = this.repository.getCurrentDocumentContext(portalControllerContext);
@@ -130,20 +130,19 @@ public class FileBrowserServiceImpl implements FileBrowserService {
 
             // User preferences
             UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
-            
-            if(userPreferences != null) {
-            // 	Saved view
-            	String savedView = userPreferences.getFolderDisplayMode(webId);
+
+            if (userPreferences != null) {
+                // Saved view
+                String savedView = userPreferences.getFolderDisplayMode(webId);
                 view = FileBrowserView.fromId(savedView);
+            } else {
+                view = FileBrowserView.DEFAULT;
             }
-            else {
-            	view = FileBrowserView.DEFAULT;
-            }
-            
+
         } else {
             view = FileBrowserView.fromId(viewId);
         }
-        
+
         return view;
     }
 
@@ -162,8 +161,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         // User preferences
         UserPreferences userPreferences = this.repository.getUserPreferences(portalControllerContext);
 
-        if(userPreferences != null) {
-        	userPreferences.updateFolderDisplayMode(webId, view.getId());
+        if (userPreferences != null) {
+            userPreferences.updateFolderDisplayMode(webId, view.getId());
         }
     }
 
@@ -553,8 +552,7 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeReadOnlyTitle, false);
 
                 // OnlyOffice (read only)
-                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeReadOnlyUrl, null, null, "btn btn-default no-ajax-link",
-                        onlyOfficeReadOnlyText);
+                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeReadOnlyUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeReadOnlyText);
                 liveEditionGroup.add(onlyOffice);
             }
         }
@@ -1028,6 +1026,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     public void duplicate(PortalControllerContext portalControllerContext, String path) throws PortletException {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
+        // Portlet response
+        PortletResponse response = portalControllerContext.getResponse();
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
 
@@ -1039,13 +1039,23 @@ public class FileBrowserServiceImpl implements FileBrowserService {
             String message = bundle.getString("FILE_BROWSER_DUPLICATE_SUCCESS_MESSAGE");
             this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
         } catch (NuxeoException e) {
-            // Notification
-            String message = bundle.getString("FILE_BROWSER_DUPLICATE_ERROR_MESSAGE");
+            String message = e.getUserMessage(portalControllerContext);
+
+            if (message == null) {
+                // Notification
+                message = bundle.getString("FILE_BROWSER_DUPLICATE_ERROR_MESSAGE");
+            }
             this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.ERROR);
         }
 
         // Refresh navigation
         request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+
+        // Update public render parameter for associated portlets refresh
+        if (response instanceof ActionResponse) {
+            ActionResponse actionResponse = (ActionResponse) response;
+            actionResponse.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
+        }
     }
 
 
@@ -1152,6 +1162,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     public void upload(PortalControllerContext portalControllerContext, FileBrowserForm form) throws PortletException, IOException {
         // Portlet request
         PortletRequest request = portalControllerContext.getRequest();
+        // Portlet response
+        PortletResponse response = portalControllerContext.getResponse();
         // Internationalization bundle
         Bundle bundle = this.bundleFactory.getBundle(request.getLocale());
 
@@ -1168,12 +1180,22 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
             } catch (NuxeoException e) {
                 // Notification
-                String message = bundle.getString("FILE_BROWSER_UPLOAD_ERROR_MESSAGE");
+                String message = e.getUserMessage(portalControllerContext);
+
+                if (message == null) {
+                    message = bundle.getString("FILE_BROWSER_UPLOAD_ERROR_MESSAGE");
+                }
                 this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.ERROR);
             }
 
             // Refresh navigation
             request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+
+            // Update public render parameter for associated portlets refresh
+            if (response instanceof ActionResponse) {
+                ActionResponse actionResponse = (ActionResponse) response;
+                actionResponse.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
+            }
         }
     }
 
