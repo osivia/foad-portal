@@ -1171,13 +1171,15 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         List<MultipartFile> upload = form.getUpload();
 
         if (CollectionUtils.isNotEmpty(upload)) {
+            
+            
+            
+            
+            
             try {
                 // Import
                 this.repository.importFiles(portalControllerContext, upload);
 
-                // Notification
-                String message = bundle.getString("FILE_BROWSER_UPLOAD_SUCCESS_MESSAGE");
-                this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.SUCCESS);
             } catch (NuxeoException e) {
                 // Notification
                 String message = e.getUserMessage(portalControllerContext);
@@ -1185,17 +1187,10 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 if (message == null) {
                     message = bundle.getString("FILE_BROWSER_UPLOAD_ERROR_MESSAGE");
                 }
-                this.notificationsService.addSimpleNotification(portalControllerContext, message, NotificationsType.ERROR);
+                
+                request.getPortletSession().setAttribute("uploadMsg", message);
             }
 
-            // Refresh navigation
-            request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
-
-            // Update public render parameter for associated portlets refresh
-            if (response instanceof ActionResponse) {
-                ActionResponse actionResponse = (ActionResponse) response;
-                actionResponse.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
-            }
         }
     }
 
@@ -1206,6 +1201,44 @@ public class FileBrowserServiceImpl implements FileBrowserService {
     @Override
     public void updateMenubar(PortalControllerContext portalControllerContext) throws PortletException {
         this.repository.updateMenubar(portalControllerContext);
+    }
+
+
+    @Override
+    public void endUpload(PortalControllerContext portalControllerContext) throws PortletException {
+        
+        // Portlet request
+        PortletRequest request = portalControllerContext.getRequest();
+        // Portlet response
+        PortletResponse response = portalControllerContext.getResponse();
+        
+        // Internationalization bundle
+        Bundle bundle = this.bundleFactory.getBundle(request.getLocale());        
+
+        // Refresh navigation
+        request.setAttribute(Constants.PORTLET_ATTR_UPDATE_CONTENTS, Constants.PORTLET_VALUE_ACTIVATE);
+
+        // Update public render parameter for associated portlets refresh
+        if (response instanceof ActionResponse) {
+            ActionResponse actionResponse = (ActionResponse) response;
+            actionResponse.setRenderParameter("dnd-update", String.valueOf(System.currentTimeMillis()));
+        }
+        
+        
+        String message = (String) request.getPortletSession().getAttribute("uploadMsg");
+        NotificationsType type;
+        
+        request.getPortletSession().removeAttribute("uploadMsg");
+        
+        if(StringUtils.isEmpty(message))   {
+            message = bundle.getString("FILE_BROWSER_UPLOAD_SUCCESS_MESSAGE");
+            type =  NotificationsType.SUCCESS;
+        }   else    {
+            type = NotificationsType.ERROR;
+        }
+        
+        this.notificationsService.addSimpleNotification(portalControllerContext, message, type);
+        
     }
 
 }

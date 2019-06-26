@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.osivia.org/jsp/taglib/osivia-portal" prefix="op" %>
 
 
-<portlet:renderURL copyCurrentRenderParameters="true" var="callbackUrl" />
+<portlet:actionURL  name="endUpload" copyCurrentRenderParameters="true" var="callbackUrl" />
 
 <portlet:actionURL name="upload" copyCurrentRenderParameters="true" var="uploadUrl" />
 
