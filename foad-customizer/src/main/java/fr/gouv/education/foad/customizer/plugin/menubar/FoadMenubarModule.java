@@ -1,15 +1,12 @@
 package fr.gouv.education.foad.customizer.plugin.menubar;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.portlet.PortletRequest;
-
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
+import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
+import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
+import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.osivia.portal.api.Constants;
 import org.osivia.portal.api.PortalException;
@@ -23,41 +20,44 @@ import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.internationalization.IInternationalizationService;
 import org.osivia.portal.api.locator.Locator;
-import org.osivia.portal.api.menubar.IMenubarService;
-import org.osivia.portal.api.menubar.MenubarContainer;
-import org.osivia.portal.api.menubar.MenubarDropdown;
-import org.osivia.portal.api.menubar.MenubarGroup;
-import org.osivia.portal.api.menubar.MenubarItem;
-import org.osivia.portal.api.menubar.MenubarModule;
+import org.osivia.portal.api.menubar.*;
 import org.osivia.portal.api.urls.IPortalUrlFactory;
 import org.osivia.portal.api.urls.Link;
 import org.osivia.portal.core.constants.InternalConstants;
 
-import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
-import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
-import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
-import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
-import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
+import javax.portlet.PortletRequest;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * FOAD menubar module.
- * 
+ *
  * @author Cédric Krommenhoek
  * @see MenubarModule
  */
 public class FoadMenubarModule implements MenubarModule {
 
-    /** Merged dropdown menu identifier. */
+    /**
+     * Merged dropdown menu identifier.
+     */
     private static final String MERGED_DROPDOWN_MENU_ID = "MERGED";
 
 
-    /** Portal URL factory. */
+    /**
+     * Portal URL factory.
+     */
     private final IPortalUrlFactory portalUrlFactory;
-    /** Menubar service. */
+    /**
+     * Menubar service.
+     */
     private final IMenubarService menubarService;
-    /** Internationalization bundle factory. */
+    /**
+     * Internationalization bundle factory.
+     */
     private final IBundleFactory bundleFactory;
-    /** Document DAO. */
+    /**
+     * Document DAO.
+     */
     private final DocumentDAO documentDao;
 
 
@@ -85,7 +85,7 @@ public class FoadMenubarModule implements MenubarModule {
      */
     @Override
     public void customizeSpace(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
-            DocumentContext<? extends EcmDocument> spaceDocumentContext) throws PortalException {
+                               DocumentContext<? extends EcmDocument> spaceDocumentContext) throws PortalException {
         this.hideConfigurationItems(portalControllerContext, menubar);
         this.mergeDropdownMenus(portalControllerContext, menubar);
     }
@@ -96,7 +96,7 @@ public class FoadMenubarModule implements MenubarModule {
      */
     @Override
     public void customizeDocument(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
-            DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
+                                  DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
         this.removeItems(menubar, documentContext);
         this.mergeDropdownMenus(portalControllerContext, menubar);
         this.addLiveEditionItems(portalControllerContext, menubar, documentContext);
@@ -105,9 +105,9 @@ public class FoadMenubarModule implements MenubarModule {
 
     /**
      * Hide configuration menubar items.
-     * 
+     *
      * @param portalControllerContext portal controller context
-     * @param menubar menubar
+     * @param menubar                 menubar
      */
     private void hideConfigurationItems(PortalControllerContext portalControllerContext, List<MenubarItem> menubar) {
         // Configuration dropdown
@@ -126,8 +126,8 @@ public class FoadMenubarModule implements MenubarModule {
 
     /**
      * Remove menubar items.
-     * 
-     * @param menubar menubar
+     *
+     * @param menubar         menubar
      * @param documentContext document context
      */
     private void removeItems(List<MenubarItem> menubar, DocumentContext<? extends EcmDocument> documentContext) {
@@ -152,9 +152,9 @@ public class FoadMenubarModule implements MenubarModule {
 
     /**
      * Merge dropdown menus.
-     * 
+     *
      * @param portalControllerContext portal controller context
-     * @param menubar menubar
+     * @param menubar                 menubar
      */
     private void mergeDropdownMenus(PortalControllerContext portalControllerContext, List<MenubarItem> menubar) {
         // Dropdowns
@@ -237,14 +237,14 @@ public class FoadMenubarModule implements MenubarModule {
 
     /**
      * Add live edition menubar items.
-     * 
+     *
      * @param portalControllerContext portal controller context
-     * @param menubar menubar
-     * @param documentContext document context
+     * @param menubar                 menubar
+     * @param documentContext         document context
      * @throws PortalException
      */
     private void addLiveEditionItems(PortalControllerContext portalControllerContext, List<MenubarItem> menubar,
-            DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
+                                     DocumentContext<? extends EcmDocument> documentContext) throws PortalException {
         if ((documentContext != null) && (documentContext instanceof NuxeoDocumentContext)) {
             NuxeoDocumentContext nuxeoDocumentContext = (NuxeoDocumentContext) documentContext;
 
@@ -281,23 +281,25 @@ public class FoadMenubarModule implements MenubarModule {
 
                         // OnlyOffice (with lock)
                         String onlyOfficeWithLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITH_LOCK");
-                        String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, true);
+                        String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, true, true);
                         MenubarItem onlyOfficeWithLock = new MenubarItem("ONLYOFFICE_WITH_LOCK", onlyOfficeWithLockText, null, liveEditionDropdown, 1,
                                 onlyOfficeWithLockUrl, null, null, null);
                         menubar.add(onlyOfficeWithLock);
 
                         // OnlyOffice (without lock)
                         String onlyOfficeWithoutLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITHOUT_LOCK");
-                        String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, false);
+                        String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, true, false);
                         MenubarItem onlyOfficeWithoutLock = new MenubarItem("ONLYOFFICE_WITHOUT_LOCK", onlyOfficeWithoutLockText,
                                 null, liveEditionDropdown, 2, onlyOfficeWithoutLockUrl, null, null, null);
                         menubar.add(onlyOfficeWithoutLock);
-                    } else if (StringUtils.isNotEmpty(request.getRemoteUser())) {
+                    }
+
+                    if (StringUtils.isNotEmpty(request.getRemoteUser())) {
                         // OnlyOffice (read only)
                         String onlyOfficeTitle = bundle.getString("MENUBAR_ONLYOFFICE_READ_ONLY_TITLE");
                         String onlyOfficeReadOnlyText = bundle.getString("MENUBAR_ONLYOFFICE_READ_ONLY");
-                        String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, false);
-                        MenubarItem onlyOfficeReadOnly = new MenubarItem("ONLYOFFICE_READ_ONLY", onlyOfficeReadOnlyText, null, liveEditionDropdown, 2,
+                        String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, false, false);
+                        MenubarItem onlyOfficeReadOnly = new MenubarItem("ONLYOFFICE_READ_ONLY", onlyOfficeReadOnlyText, null, liveEditionDropdown, 3,
                                 onlyOfficeReadOnlyUrl, null, null, null);
                         menubar.add(onlyOfficeReadOnly);
                     }
@@ -345,17 +347,19 @@ public class FoadMenubarModule implements MenubarModule {
      * Get OnlyOffice URL.
      *
      * @param portalControllerContext portal controller context
-     * @param path document path
-     * @param title title
-     * @param lock lock indicator
+     * @param path                    document path
+     * @param title                   title
+     * @param edit                    edit mode indicator
+     * @param lock                    lock indicator
      * @return URL
      * @throws PortalException
      */
-    private String getOnlyOfficeUrl(PortalControllerContext portalControllerContext, String path, String title, boolean lock) throws PortalException {
+    private String getOnlyOfficeUrl(PortalControllerContext portalControllerContext, String path, String title, boolean edit, boolean lock) throws PortalException {
         // Window properties
         Map<String, String> properties = new HashMap<>();
         properties.put(Constants.WINDOW_PROP_URI, path);
         properties.put("osivia.hideTitle", String.valueOf(1));
+        properties.put("osivia.onlyoffice.mode", BooleanUtils.toString(edit, "edit", "view"));
         properties.put("osivia.onlyoffice.withLock", String.valueOf(lock));
         properties.put(InternalConstants.PROP_WINDOW_TITLE, title);
 
