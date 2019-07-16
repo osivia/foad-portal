@@ -19,10 +19,11 @@
     <ul class="folders">
         <c:forEach var="folder" items="${taskbar.folders}">
             <li ${folder.active ? 'class="active"' : ''}>
-                <a href="${folder.url}" class="no-ajax-link">
+                <a href="${folder.url}" class="no-ajax-link" data-type="folder">
+                    <i class="glyphicons glyphicons-folder-${folder.active ? 'open' : 'closed'}"></i>
                     <span>${folder.displayName}</span>
                 </a>
-                
+
                 <!-- Children -->
                 <c:if test="${folder.active and not empty folder.children}">
                     <div class="fancytree">
@@ -33,6 +34,10 @@
             </li>
         </c:forEach>
     </ul>
+
+    <c:if test="${not empty taskbar.folders and not empty taskbar.services}">
+        <hr>
+    </c:if>
     
     <!-- Services -->
     <ul class="services">
