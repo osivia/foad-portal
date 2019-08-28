@@ -4,129 +4,135 @@
 
 
 .taskbar {
-    @padding-left: 16px;
-    @icon-size: 32px;
-    @icon-margin: 8px;
-    
+  @padding-left: 16px;
+  @icon-size: 32px;
+  @icon-margin: 8px;
+
+  > ul {
+    padding-left: @padding-left;
+
+    list-style: none;
+
+    > li {
+      display: flex;
+      flex-direction: column;
+
+      margin-bottom: 12px;
+
+      > a {
+        display: flex;
+        align-items: center;
+
+        color: @gray;
+        font-weight: 700;
+        text-decoration: none;
+
+        i {
+          display: block;
+          flex-shrink: 0;
+          top: 0;
+          height: @icon-size;
+          width: @icon-size;
+
+          margin-right: @icon-margin;
+
+          color: @white;
+          background-color: @gray;
+          border-radius: 50%;
+          line-height: @icon-size;
+          text-align: center;
+
+          ~ * {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        &:hover, &:focus {
+          color: darken(@gray, 15%);
+
+          i {
+            background-color: darken(@gray, 10%);
+          }
+
+          span {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      &.active {
+        > a {
+          font-weight: 900;
+        }
+      }
+
+
+      .type-color(@type: ~"folder", @color: @blue-dark);
+
+      .type-color(@type: ~"bookmarks", @color: @yellow);
+      .type-color(@type: ~"calendar", @color: @orange);
+      .type-color(@type: ~"faq", @color: @yellow);
+      .type-color(@type: ~"forum", @color: @violet);
+      .type-color(@type: ~"news", @color: @green);
+      .type-color(@type: ~"statistics", @color: @turquoise);
+      .type-color(@type: ~"trash", @color: @pink);
+      .type-color(@type: ~"workspace_map", @color: @turquoise);
+      .type-color(@type: ~"workspace_participants", @color: @turquoise);
+
+      .type-color(@type: ~"administration", @color: @gray-light);
+
+      .type-color(@type, @color) when (iscolor(@color)) {
+        a[data-type="@{type}"] {
+          i {
+            background-color: @color;
+          }
+
+          &:hover, &:focus {
+            i {
+              background-color: darken(@color, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  hr {
+    border-color: @gray-light;
+  }
+
+
+  .fancytree {
+    padding-left: @icon-size + @icon-margin;
+
+    color: @gray-light;
+    font-weight: 500;
+
     > ul {
-        padding-left: @padding-left;
-
-        list-style: none;
-        
-        > li {
-            display: flex;
-            flex-direction: column;
-
-            margin-bottom: 12px;
-
-            > a {
-                display: flex;
-                align-items: center;
-
-                color: @gray;
-                font-weight: 700;
-                text-decoration: none;
-
-                i {
-                    display: block;
-                    top: 0;
-                    height: @icon-size;
-                    width: @icon-size;
-
-                    margin-right: @icon-margin;
-
-                    color: @white;
-                    background-color: @gray;
-                    border-radius: 50%;
-                    line-height: @icon-size;
-                    text-align: center;
-                }
-
-                &:hover, &:focus {
-                    color: darken(@gray, 15%);
-
-                    i {
-                        background-color: darken(@gray, 10%);
-                    }
-
-                    span {
-                        text-decoration: underline;
-                    }
-                }
-            }
-            
-            &.active {
-                > a {
-                    font-weight: 900;
-                }
-            }
-
-
-            .type-color(@type: ~"folder", @color: @blue-dark);
-
-            .type-color(@type: ~"bookmarks", @color: @yellow);
-            .type-color(@type: ~"calendar", @color: @orange);
-            .type-color(@type: ~"faq", @color: @yellow);
-            .type-color(@type: ~"forum", @color: @violet);
-            .type-color(@type: ~"news", @color: @green);
-            .type-color(@type: ~"statistics", @color: @turquoise);
-            .type-color(@type: ~"trash", @color: @pink);
-            .type-color(@type: ~"workspace_map", @color: @turquoise);
-            .type-color(@type: ~"workspace_participants", @color: @turquoise);
-
-            .type-color(@type: ~"administration", @color: @gray-light);
-
-            .type-color(@type, @color) when (iscolor(@color)) {
-                a[data-type="@{type}"] {
-                    i {
-                        background-color: @color;
-                    }
-
-                    &:hover, &:focus {
-                        i {
-                            background-color: darken(@color, 10%);
-                        }
-                    }
-                }
-            }
-        }
+      > li {
+        padding-bottom: 11px;
+      }
     }
 
-    
-    hr {
-        border-color: @gray-light;
+    li {
+      > a {
+        &::before {
+          display: none;
+        }
+      }
     }
-    
-    
-    .fancytree {
-        padding-left: @icon-size + @icon-margin;
-        
-        color: @gray-light;
-        font-weight: 500;
 
-        > ul {
-            > li {
-                padding-bottom: 11px;
-            }
-        }
-
-        li {
-            > a {
-                &::before {
-                    display: none;
-                }
-            }
-        }
-        
-        .taskbar-active {
-            > a, > span {
-                color: @gray;
-                font-weight: 900;
-            }
-        }
-        
-        .fancytree-icon {
-            display: none;
-        }
+    .taskbar-active {
+      > a, > span {
+        color: @gray;
+        font-weight: 900;
+      }
     }
+
+    .fancytree-icon {
+      display: none;
+    }
+  }
 }
