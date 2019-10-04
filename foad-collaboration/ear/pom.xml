@@ -285,6 +285,12 @@
                             <artifactId>osivia-services-workspace-trash</artifactId>
                             <contextRoot>/osivia-services-workspace-trash</contextRoot>
                         </webModule>
+                        <webModule>
+				            <groupId>org.osivia.services.workspace</groupId>
+				            <artifactId>osivia-services-workspace-quota</artifactId>
+            				<contextRoot>/osivia-services-workspace-quota</contextRoot>
+                        </webModule>
+                                                
                     </modules>
                 </configuration>
             </plugin>

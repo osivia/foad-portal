@@ -3,15 +3,20 @@
 // -----------------------------------------------------
 
 
-.form-control {
-    background-color: transparent;
+
+.form-control, .input-group-addon {
     border-style: none;
     border-width: 2px;
     border-bottom-style: solid;
-    
-    .border-bottom-radius(@radius: ~"0 !important");
 
-    .box-shadow(@shadow: none);
+    .border-bottom-radius(@radius: ~"0 !important");
+}
+
+
+.form-control {
+    background-color: transparent;
+
+    .box-shadow(@shadow: ~"none !important");
     .form-control-focus(@color: @brand-primary);
     .placeholder(@color: @gray-light);
 }

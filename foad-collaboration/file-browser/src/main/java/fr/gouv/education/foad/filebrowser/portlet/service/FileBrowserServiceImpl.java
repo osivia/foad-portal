@@ -1,27 +1,16 @@
 package fr.gouv.education.foad.filebrowser.portlet.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.MimeResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-import javax.portlet.PortletURL;
-import javax.portlet.ResourceURL;
-
+import fr.gouv.education.foad.filebrowser.portlet.configuration.FileBrowserConfiguration;
+import fr.gouv.education.foad.filebrowser.portlet.model.*;
+import fr.gouv.education.foad.filebrowser.portlet.model.comparator.FileBrowserItemComparator;
+import fr.gouv.education.foad.filebrowser.portlet.repository.FileBrowserRepository;
+import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
+import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
+import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
+import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
+import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.dom4j.Element;
@@ -52,20 +41,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.gouv.education.foad.filebrowser.portlet.configuration.FileBrowserConfiguration;
-import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserBulkDownloadContent;
-import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserForm;
-import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserItem;
-import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSort;
-import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserSortCriteria;
-import fr.gouv.education.foad.filebrowser.portlet.model.FileBrowserView;
-import fr.gouv.education.foad.filebrowser.portlet.model.comparator.FileBrowserItemComparator;
-import fr.gouv.education.foad.filebrowser.portlet.repository.FileBrowserRepository;
-import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
-import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
-import fr.toutatice.portail.cms.nuxeo.api.domain.DocumentDTO;
-import fr.toutatice.portail.cms.nuxeo.api.liveedit.OnlyofficeLiveEditHelper;
-import fr.toutatice.portail.cms.nuxeo.api.services.dao.DocumentDAO;
+import javax.portlet.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * File browser portlet service implementation.
@@ -524,8 +503,8 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 String onlyOfficeWithLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITH_LOCK");
                 String onlyOfficeWithoutLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITHOUT_LOCK");
 
-                String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeTitle, true);
-                String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeWithoutLockText, false);
+                String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeTitle, true, true);
+                String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeWithoutLockText, true, false);
 
 
                 // OnlyOffice (with lock)
@@ -545,15 +524,25 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 Element onlyOfficeWithoutLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "no-ajax-link",
                         onlyOfficeWithoutLockText);
                 onlyOfficeWithoutLockDropdownItem.add(onlyOfficeWithoutLockLink);
-            } else if (StringUtils.isNotEmpty(portletRequest.getRemoteUser())) {
+            }
+
+
+            if (StringUtils.isNotEmpty(portletRequest.getRemoteUser())) {
+                // OnlyOffice (read only)
                 String onlyOfficeReadOnlyTitle = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_READ_ONLY_TITLE");
                 String onlyOfficeReadOnlyText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_READ_ONLY");
+                String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeReadOnlyTitle, false, false);
 
-                String onlyOfficeReadOnlyUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeReadOnlyTitle, false);
-
-                // OnlyOffice (read only)
-                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeReadOnlyUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeReadOnlyText);
-                liveEditionGroup.add(onlyOffice);
+                if (permissions.isEditableByUser()) {
+                    Element onlyOfficeReadOnlyDropdownItem = DOM4JUtils.generateElement("li", null, null);
+                    dropdownMenu.add(onlyOfficeReadOnlyDropdownItem);
+                    Element onlyOfficeReadOnlyLink = DOM4JUtils.generateLinkElement(onlyOfficeReadOnlyUrl, null, null, "no-ajax-link", onlyOfficeReadOnlyText);
+                    onlyOfficeReadOnlyDropdownItem.add(onlyOfficeReadOnlyLink);
+                } else {
+                    Element onlyOfficeReadOnly = DOM4JUtils.generateLinkElement(onlyOfficeReadOnlyUrl, null, null, "btn btn-default no-ajax-link",
+                            onlyOfficeReadOnlyText);
+                    liveEditionGroup.add(onlyOfficeReadOnly);
+                }
             }
         }
 
@@ -764,15 +753,17 @@ public class FileBrowserServiceImpl implements FileBrowserService {
      * @param portalControllerContext portal controller context
      * @param path document path
      * @param title title
+     * @param edit edit mode indicator
      * @param lock lock indicator
      * @return URL
      * @throws PortletException
      */
-    private String getOnlyOfficeUrl(PortalControllerContext portalControllerContext, String path, String title, boolean lock) throws PortletException {
+    private String getOnlyOfficeUrl(PortalControllerContext portalControllerContext, String path, String title, boolean edit, boolean lock) throws PortletException {
         // Window properties
         Map<String, String> properties = new HashMap<>();
         properties.put(Constants.WINDOW_PROP_URI, path);
         properties.put("osivia.hideTitle", String.valueOf(1));
+        properties.put("osivia.onlyoffice.mode", BooleanUtils.toString(edit, "edit", "view"));
         properties.put("osivia.onlyoffice.withLock", String.valueOf(lock));
         properties.put(InternalConstants.PROP_WINDOW_TITLE, title);
 

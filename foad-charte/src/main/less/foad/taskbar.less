@@ -4,172 +4,135 @@
 
 
 .taskbar {
-    @padding-left: 16px;
-    
-    > ul {
-        list-style: none;
-        
-        > li {
-            > a {
-                font-weight: 700;
-                text-decoration: none;
-            }
-            
-            &.active {
-                > a {
-                    font-weight: 900;
-                }
-            }
+  @padding-left: 16px;
+  @icon-size: 32px;
+  @icon-margin: 8px;
+
+  > ul {
+    padding-left: @padding-left;
+
+    list-style: none;
+
+    > li {
+      display: flex;
+      flex-direction: column;
+
+      margin-bottom: 12px;
+
+      > a {
+        display: flex;
+        align-items: center;
+
+        color: @gray;
+        font-weight: 700;
+        text-decoration: none;
+
+        i {
+          display: block;
+          flex-shrink: 0;
+          top: 0;
+          height: @icon-size;
+          width: @icon-size;
+
+          margin-right: @icon-margin;
+
+          color: @white;
+          background-color: @gray;
+          border-radius: 50%;
+          line-height: @icon-size;
+          text-align: center;
+
+          ~ * {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
-    }
-    
-    
-    .folders {
-        @height: 48px;
-        @line-height: 20px;
-        
-        margin-bottom: 24px;
-        padding-left: 0;
-        
-        > li {
-            > a {
-                display: block;
-                
-                margin-bottom: floor(@line-height-computed / 2);
-                padding: floor((@height - @line-height) / 2) (@padding-left - 1);
-                
-                color: @white;
-                background-color: @gray;
-                border-radius: @border-radius-base;
-                font-size: 18px;
-                font-family: @font-family-serif;
-                line-height: @line-height;
-                
-                .box-shadow(@shadow: 0 1px 4px fade(@gray, 50%));
-                
-                &:hover, &:focus {
-                    background-color: darken(@gray, 10%);
-                }
-            }
+
+        &:hover, &:focus {
+          color: darken(@gray, 15%);
+
+          i {
+            background-color: darken(@gray, 10%);
+          }
+
+          span {
+            text-decoration: underline;
+          }
         }
-    }
-    
-    
-    .services, .administration {
-        @icon-size: 32px;
-        
-        padding-left: @padding-left;
-        
-        li {
-            display: flex;
-            
-            margin-bottom: 12px;
+      }
+
+      &.active {
+        > a {
+          font-weight: 900;
         }
-        
-        a {
-            display: flex;
-            align-items: center;
-            
-            color: @gray;
-            
+      }
+
+
+      .type-color(@type: ~"folder", @color: @blue-dark);
+
+      .type-color(@type: ~"bookmarks", @color: @yellow);
+      .type-color(@type: ~"calendar", @color: @orange);
+      .type-color(@type: ~"faq", @color: @yellow);
+      .type-color(@type: ~"forum", @color: @violet);
+      .type-color(@type: ~"news", @color: @green);
+      .type-color(@type: ~"statistics", @color: @turquoise);
+      .type-color(@type: ~"trash", @color: @pink);
+      .type-color(@type: ~"workspace_map", @color: @turquoise);
+      .type-color(@type: ~"workspace_participants", @color: @turquoise);
+
+      .type-color(@type: ~"administration", @color: @gray-light);
+
+      .type-color(@type, @color) when (iscolor(@color)) {
+        a[data-type="@{type}"] {
+          i {
+            background-color: @color;
+          }
+
+          &:hover, &:focus {
             i {
-                display: block;
-                top: 0;
-                height: @icon-size;
-                width: @icon-size;
-                
-                margin-right: 8px;
-                
-                color: @white;
-                background-color: @gray;
-                border-radius: 50%;
-                line-height: @icon-size;
-                text-align: center;
+              background-color: darken(@color, 10%);
             }
-            
-            &:hover, &:focus {
-                color: darken(@gray, 15%);
-                
-                i {
-                    background-color: darken(@gray, 10%);
-                }
-                
-                span {
-                    text-decoration: underline;
-                }
-            }
+          }
         }
-        
-        
-        .type-color(@type: ~"bookmarks", @color: @yellow);
-        .type-color(@type: ~"calendar", @color: @orange);
-        .type-color(@type: ~"faq", @color: @yellow);
-        .type-color(@type: ~"forum", @color: @violet);
-        .type-color(@type: ~"news", @color: @green);
-        .type-color(@type: ~"statistics", @color: @turquoise);
-        .type-color(@type: ~"trash", @color: @pink);
-        .type-color(@type: ~"workspace_map", @color: @turquoise);
-        .type-color(@type: ~"workspace_participants", @color: @turquoise);
-        
-        .type-color(@type: ~"administration", @color: @gray-light);
-        
-        .type-color(@type, @color) when (iscolor(@color)) {
-            a[data-type="@{type}"] {
-                i {
-                    background-color: @color;
-                }
-                
-                &:hover, &:focus {
-                    i {
-                        background-color: darken(@color, 10%);
-                    }
-                }
-            }
-        }
+      }
     }
-    
-    
-    hr {
-        border-color: @gray-light;
+  }
+
+
+  hr {
+    border-color: @gray-light;
+  }
+
+
+  .fancytree {
+    padding-left: @icon-size + @icon-margin;
+
+    color: @gray-light;
+    font-weight: 500;
+
+    > ul {
+      > li {
+        padding-bottom: 11px;
+      }
     }
-    
-    
-    .fancytree {
-        margin-bottom: @line-height-computed;
-        
-        color: @gray-light;
-        font-weight: 500;
-        
-        > ul {
-            > li {
-                margin-top: 11px;
-                padding-bottom: 11px;
-                
-                &:not(:last-child) {
-                    border-bottom-style: solid;
-                    border-width: 1px;
-                    border-color: @gray;             
-                }
-            }
+
+    li {
+      > a {
+        &::before {
+          display: none;
         }
-        
-        li {
-            > a {
-                &::before {
-                    display: none;
-                }
-            }
-        }
-        
-        .taskbar-active {
-            > a, > span {
-                color: @gray;
-                font-weight: 900;
-            }
-        }
-        
-        .fancytree-icon {
-            display: none;
-        }
+      }
     }
+
+    .taskbar-active {
+      > a, > span {
+        color: @gray;
+        font-weight: 900;
+      }
+    }
+
+    .fancytree-icon {
+      display: none;
+    }
+  }
 }

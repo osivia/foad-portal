@@ -90,6 +90,15 @@
                 &:hover, &:focus {
                     background-color: darken(@text-color, 15%);
                 }
+
+                &.disabled {
+                    cursor: @cursor-disabled;
+                    .opacity(.65);
+
+                    &:hover, &:focus {
+                        background-color: @text-color;
+                    }
+                }
             }
             
             > .label {
