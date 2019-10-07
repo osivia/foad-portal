@@ -147,7 +147,8 @@ public class AccountsController extends CMSPortlet implements PortletConfigAware
 
 		    	}
 		    	
-		    	workspaceService.removeMember(workspaceProfile.getWorkspaceId(), oldPerson.getDn());
+		    	// XXX: Pour l'instant on ne supprime pas l'ancienne affectation.
+		    	//workspaceService.removeMember(workspaceProfile.getWorkspaceId(), oldPerson.getDn());
 		    	
 		    	spaceCount = spaceCount +1;
 			}
