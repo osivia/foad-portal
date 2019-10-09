@@ -24,6 +24,7 @@ import org.osivia.directory.v2.model.ext.WorkspaceGroupType;
 import org.osivia.directory.v2.model.ext.WorkspaceMember;
 import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.directory.v2.service.WorkspaceService;
+import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.directory.v2.model.Person;
 import org.osivia.portal.api.internationalization.Bundle;
@@ -133,28 +134,41 @@ public class AccountsController extends CMSPortlet implements PortletConfigAware
 	    	profile.setType(WorkspaceGroupType.space_group);
 			List<CollabProfile> workspaces = workspaceService.findByCriteria(profile);
 			
-			Integer spaceCount = 0, localGroups = 0;
+			Integer spaceCount = 0, errCount = 0, localGroups = 0;
 			for(CollabProfile workspaceProfile : workspaces) {
 				
 				WorkspaceMember member = workspaceService.getMember(workspaceProfile.getWorkspaceId(), oldAccountUid);
-							
-		    	workspaceService.addOrModifyMember(workspaceProfile.getWorkspaceId(), newPerson.getDn(), member.getRole());
+				
+				try {
+			    	workspaceService.addOrModifyMember(workspaceProfile.getWorkspaceId(), newPerson.getDn(), member.getRole());
+			    	
+			    	for(CollabProfile localGroup : member.getLocalGroups()) {
+			    		workspaceService.addMemberToLocalGroup(workspaceProfile.getWorkspaceId(), localGroup.getDn(), newPerson.getDn());
+			    		
+			    		localGroups = localGroups +1;
+	
+			    	}
 		    	
-		    	for(CollabProfile localGroup : member.getLocalGroups()) {
-		    		workspaceService.addMemberToLocalGroup(workspaceProfile.getWorkspaceId(), localGroup.getDn(), newPerson.getDn());
-		    		
-		    		localGroups = localGroups +1;
-
-		    	}
-		    	
+				}
+				catch(Exception e) {
+					errCount = errCount +1;
+				}
 		    	// XXX: Pour l'instant on ne supprime pas l'ancienne affectation.
 		    	//workspaceService.removeMember(workspaceProfile.getWorkspaceId(), oldPerson.getDn());
 		    	
 		    	spaceCount = spaceCount +1;
 			}
 			
-			getNotificationsService().addSimpleNotification(pcc, bundle.getString("account.mig.success",
-					spaceCount, localGroups), NotificationsType.SUCCESS);
+
+			if(errCount > 0) {
+				getNotificationsService().addSimpleNotification(pcc, bundle.getString("account.mig.warning",
+						spaceCount, errCount), NotificationsType.WARNING);				
+			}
+			else {
+				getNotificationsService().addSimpleNotification(pcc, bundle.getString("account.mig.success",
+						spaceCount, localGroups), NotificationsType.SUCCESS);
+				
+			}
 		
     	}
     	
