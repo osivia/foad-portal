@@ -11,20 +11,18 @@ import javax.annotation.PreDestroy;
 import javax.naming.Name;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortalContext;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.jboss.portal.theme.render.renderer.ActionRendererContext;
+import org.apache.commons.lang.StringUtils;
 import org.osivia.directory.v2.model.CollabProfile;
 import org.osivia.directory.v2.model.ext.WorkspaceGroupType;
 import org.osivia.directory.v2.model.ext.WorkspaceMember;
 import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.directory.v2.service.WorkspaceService;
-import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.directory.v2.model.Person;
 import org.osivia.portal.api.internationalization.Bundle;
@@ -110,66 +108,75 @@ public class AccountsController extends CMSPortlet implements PortletConfigAware
 
     	}
     	else {
-	    	
-	    	Person newPerson = personService.getPerson(form.getNewAccountUid());
-	    	if(newPerson == null) {
-	    		newPerson = personService.getEmptyPerson();
-	    		newPerson.setUid(form.getNewAccountUid());
-	    		newPerson.setMail(form.getNewAccountUid());
-	    		newPerson.setSn(oldPerson.getSn());
-	    		newPerson.setGivenName(oldPerson.getGivenName());
-	    		newPerson.setCn(oldPerson.getCn());
-	    		newPerson.setDisplayName(oldPerson.getDisplayName());
-	    		personService.create(newPerson);
-	    		
-				getNotificationsService().addSimpleNotification(pcc, bundle.getString("account.mig.newAccount",
-						form.getNewAccountUid()), NotificationsType.INFO);
+    		String str = form.getNewAccountUids();
+    		String[] split = str.split(";");
+    		for(int i =0; i < split.length; i++) {
+    			String uid = StringUtils.trimToNull(split[i]);
+    			
+    			boolean newAccount = false;
+    	    	Person newPerson = personService.getPerson(uid);
+    	    	if(newPerson == null) {
+    	    		newPerson = personService.getEmptyPerson();
+    	    		newPerson.setUid(uid);
+    	    		newPerson.setMail(uid);
+    	    		newPerson.setSn(oldPerson.getSn());
+    	    		newPerson.setGivenName(oldPerson.getGivenName());
+    	    		newPerson.setCn(oldPerson.getCn());
+    	    		newPerson.setDisplayName(oldPerson.getDisplayName());
+    	    		personService.create(newPerson);
+    	    		
+    	    		newAccount = true;
 
-	    	}
-	    	
-	    	CollabProfile profile = workspaceService.getEmptyProfile();
-	    	List<Name> list = new ArrayList<Name>();
-	    	list.add(oldPerson.getDn());
-	    	profile.setUniqueMember(list);
-	    	profile.setType(WorkspaceGroupType.space_group);
-			List<CollabProfile> workspaces = workspaceService.findByCriteria(profile);
-			
-			Integer spaceCount = 0, errCount = 0, localGroups = 0;
-			for(CollabProfile workspaceProfile : workspaces) {
-				
-				WorkspaceMember member = workspaceService.getMember(workspaceProfile.getWorkspaceId(), oldAccountUid);
-				
-				try {
-			    	workspaceService.addOrModifyMember(workspaceProfile.getWorkspaceId(), newPerson.getDn(), member.getRole());
-			    	
-			    	for(CollabProfile localGroup : member.getLocalGroups()) {
-			    		workspaceService.addMemberToLocalGroup(workspaceProfile.getWorkspaceId(), localGroup.getDn(), newPerson.getDn());
-			    		
-			    		localGroups = localGroups +1;
-	
-			    	}
-		    	
-				}
-				catch(Exception e) {
-					errCount = errCount +1;
-				}
-		    	// XXX: Pour l'instant on ne supprime pas l'ancienne affectation.
-		    	//workspaceService.removeMember(workspaceProfile.getWorkspaceId(), oldPerson.getDn());
-		    	
-		    	spaceCount = spaceCount +1;
-			}
-			
 
-			if(errCount > 0) {
-				getNotificationsService().addSimpleNotification(pcc, bundle.getString("account.mig.warning",
-						spaceCount, errCount), NotificationsType.WARNING);				
-			}
-			else {
-				getNotificationsService().addSimpleNotification(pcc, bundle.getString("account.mig.success",
-						spaceCount, localGroups), NotificationsType.SUCCESS);
-				
-			}
-		
+    	    	}
+    	    	
+    	    	CollabProfile profile = workspaceService.getEmptyProfile();
+    	    	List<Name> list = new ArrayList<Name>();
+    	    	list.add(oldPerson.getDn());
+    	    	profile.setUniqueMember(list);
+    	    	profile.setType(WorkspaceGroupType.space_group);
+    			List<CollabProfile> workspaces = workspaceService.findByCriteria(profile);
+    			
+    			Integer spaceCount = 0, errCount = 0, localGroups = 0;
+    			for(CollabProfile workspaceProfile : workspaces) {
+    				
+    				WorkspaceMember member = workspaceService.getMember(workspaceProfile.getWorkspaceId(), oldAccountUid);
+    				
+    				try {
+    			    	workspaceService.addOrModifyMember(workspaceProfile.getWorkspaceId(), newPerson.getDn(), member.getRole());
+    			    	
+    			    	for(CollabProfile localGroup : member.getLocalGroups()) {
+    			    		workspaceService.addMemberToLocalGroup(workspaceProfile.getWorkspaceId(), localGroup.getDn(), newPerson.getDn());
+    			    		
+    			    		localGroups = localGroups +1;
+    	
+    			    	}
+    		    	
+    				}
+    				catch(Exception e) {
+    					errCount = errCount +1;
+    				}
+    		    	// XXX: Pour l'instant on ne supprime pas l'ancienne affectation.
+    		    	//workspaceService.removeMember(workspaceProfile.getWorkspaceId(), oldPerson.getDn());
+    		    	
+    		    	spaceCount = spaceCount +1;
+    			}
+    			
+    			String message = uid+ " : ";
+    			if(newAccount) {
+    				message = bundle.getString("account.mig.newAccount", uid);
+    			}
+    			if(errCount > 0) {
+    				
+    				getNotificationsService().addSimpleNotification(pcc, message.concat(bundle.getString("account.mig.warning",
+    						spaceCount, errCount)), NotificationsType.WARNING);				
+    			}
+    			else {
+    				getNotificationsService().addSimpleNotification(pcc, message.concat(bundle.getString("account.mig.success",
+    						spaceCount, localGroups)), NotificationsType.SUCCESS);
+    				
+    			}
+    		}
     	}
     	
     }

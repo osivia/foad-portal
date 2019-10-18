@@ -11,7 +11,7 @@ public class AccountsForm {
 
 	private String oldAccountUid;
 	
-	private String newAccountUid;
+	private String newAccountUids;
 	/**
 	 * @return the oldAccountUid
 	 */
@@ -25,16 +25,16 @@ public class AccountsForm {
 		this.oldAccountUid = oldAccountUid;
 	}
 	/**
-	 * @return the newAccountUid
+	 * @return the newAccountUids
 	 */
-	public String getNewAccountUid() {
-		return newAccountUid;
+	public String getNewAccountUids() {
+		return newAccountUids;
 	}
 	/**
 	 * @param newAccountUid the newAccountUid to set
 	 */
-	public void setNewAccountUid(String newAccountUid) {
-		this.newAccountUid = newAccountUid;
+	public void setNewAccountUids(String newAccountUids) {
+		this.newAccountUids = newAccountUids;
 	}
 	
 	

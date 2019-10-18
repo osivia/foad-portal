@@ -22,16 +22,18 @@
            <form:input path="oldAccountUid" cssClass="form-control" />
        </div>
    </div>
-   
-   <!-- New account -->
-   <div class="form-group">
-       <form:label path="newAccountUid" cssClass="control-label col-sm-3 col-lg-2"><op:translate key="account.mig.newAccountUid" /></form:label>
-       <div class="col-sm-9 col-lg-10">
-           <form:input path="newAccountUid" cssClass="form-control" />
-       </div>
-   </div>
-   
-   <button type="submit"  class="btn btn-primary no-ajax-link">
+
+	<!-- New account -->
+	<div class="form-group">
+		<form:label path="newAccountUids" cssClass="control-label">
+			<op:translate key="account.mig.newAccountUids" />
+		</form:label>
+		<div class="col-xs-12">
+			<form:textarea path="newAccountUids" cssClass="form-control" rows="5" />
+		</div>
+	</div>
+
+	<button type="submit"  class="btn btn-primary no-ajax-link">
    		<i class="glyphicons glyphicons-electricity"></i>
    		<op:translate key="account.mig.btn" />
    	</button>
