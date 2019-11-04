@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <document repository="default" id="99980478-71f5-4b2a-ab05-f4e9196464ec">
   <system>
     <type>ProcedureModel</type>
-    <path>depassement-de-quota</path>
+    <path>default-domain/procedures/procedures-models/depassement-de-quota</path>
     <lifecycle-state>undefined</lifecycle-state>
     <lifecycle-policy>undefined</lifecycle-policy>
     <facet>Versionable</facet>
@@ -60,7 +59,7 @@
     <dc:coverage/>
     <dc:valid/>
     <dc:creator><![CDATA[admin]]></dc:creator>
-    <dc:modified><![CDATA[2019-10-30T16:56:00.00Z]]></dc:modified>
+    <dc:modified><![CDATA[2019-11-01T21:51:34.00Z]]></dc:modified>
     <dc:lastContributor><![CDATA[admin]]></dc:lastContributor>
     <dc:format/>
     <dc:expired/>
@@ -104,19 +103,6 @@
             <filtersList>
               <filter>
                 <filterId><![CDATA[SET_ACTOR]]></filterId>
-                <filterPath><![CDATA[1]]></filterPath>
-                <filterName><![CDATA[Assignation aux propriétaires]]></filterName>
-                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[actor]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${workspaceId}_owner]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
                 <filterPath><![CDATA[0]]></filterPath>
                 <filterName><![CDATA[Assignation aux gestionnaires]]></filterName>
                 <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
@@ -125,6 +111,19 @@
                     <argumentName><![CDATA[actor]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentValue><![CDATA[${workspaceId}_admin]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[Assignation aux propriétaires]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${workspaceId}_owner]]></argumentValue>
                   </argument>
                 </argumentsList>
               </filter>
@@ -167,8 +166,22 @@
             <stepReference><![CDATA[endStep]]></stepReference>
           </action>
           <action>
-            <filtersList/>
-            <actionId><![CDATA[quota_request_action]]></actionId>
+            <filtersList>
+              <filter>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[role_workspace-management]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+            </filtersList>
+            <actionId><![CDATA[quotaRequest]]></actionId>
             <label><![CDATA[Demande quota]]></label>
             <stepReference><![CDATA[quota_request]]></stepReference>
           </action>
@@ -210,34 +223,50 @@
       </step>
       <step>
         <closable><![CDATA[false]]></closable>
-        <notifiable><![CDATA[false]]></notifiable>
-        <stringMsg/>
-        <actionIdClosable/>
+        <notifiable><![CDATA[true]]></notifiable>
+        <stringMsg><![CDATA[L'espace ${document:link(documentPath)} occupe actuellement ${spaceUsedInPercent} sur ${quota} autorisé. Les propriétaires demandent une augmentation de quota avec le message suivant : ${msg}]]></stringMsg>
+        <actionIdClosable><![CDATA[]]></actionIdClosable>
         <index><![CDATA[2]]></index>
         <endStepMsg><![CDATA[]]></endStepMsg>
         <acquitable><![CDATA[false]]></acquitable>
-        <actionIdNo/>
+        <actionIdNo><![CDATA[]]></actionIdNo>
         <reference><![CDATA[quota_request]]></reference>
         <actors/>
-        <actionIdDefault/>
+        <actionIdDefault><![CDATA[]]></actionIdDefault>
         <notifEmail><![CDATA[false]]></notifEmail>
         <name><![CDATA[Demande de quota supplémentaire]]></name>
         <globalVariablesReferences/>
         <actions>
           <action>
-            <filtersList/>
+            <filtersList>
+              <filter>
+                <filterId><![CDATA[DeleteOnEnding]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName/>
+                <filterInstanceId><![CDATA[DeleteOnEnding0]]></filterInstanceId>
+                <argumentsList/>
+              </filter>
+            </filtersList>
             <actionId><![CDATA[accept]]></actionId>
             <label><![CDATA[Accepter]]></label>
             <stepReference><![CDATA[endStep]]></stepReference>
           </action>
           <action>
-            <filtersList/>
+            <filtersList>
+              <filter>
+                <filterId><![CDATA[DeleteOnEnding]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName/>
+                <filterInstanceId><![CDATA[DeleteOnEnding0]]></filterInstanceId>
+                <argumentsList/>
+              </filter>
+            </filtersList>
             <actionId><![CDATA[refuse]]></actionId>
             <label><![CDATA[Refuser]]></label>
             <stepReference><![CDATA[warning]]></stepReference>
           </action>
         </actions>
-        <actionIdYes/>
+        <actionIdYes><![CDATA[]]></actionIdYes>
       </step>
     </pcd:steps>
     <pcd:authorizedGroups/>
