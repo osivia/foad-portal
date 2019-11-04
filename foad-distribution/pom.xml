@@ -75,13 +75,6 @@
             <type>ear</type>
         </dependency>
         
-        <dependency>
-        	<groupId>org.osivia.services.workspace</groupId>
-			<artifactId>osivia-services-workspace-quota</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-        </dependency>        
-        
         <!-- Other services -->
         <dependency>
             <groupId>org.osivia.services</groupId>
