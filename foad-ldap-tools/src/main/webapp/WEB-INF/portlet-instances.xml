@@ -42,4 +42,24 @@
             </security-constraint>
         </instance>
     </deployment>
+    
+    <deployment>
+        <if-exists>overwrite</if-exists>
+        <instance>
+            <display-name xml:lang="en">foad - migrate account</display-name>
+            <display-name xml:lang="fr">foad - Migrer un compte utilisateur</display-name>
+            <instance-id>foad-migrate-account-instance</instance-id>
+            <portlet-ref>foad-migrate-account</portlet-ref>
+            <security-constraint>
+                <policy-permission>
+                    <action-name>admin</action-name>
+                    <role-name>Administrators</role-name>
+                </policy-permission>
+                <policy-permission>
+                    <action-name>view</action-name>
+                    <unchecked />
+                </policy-permission>
+            </security-constraint>
+        </instance>
+    </deployment>    
 </deployments>
