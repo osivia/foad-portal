@@ -84,7 +84,7 @@
             
             
             <!-- Disconnection modal -->
-            <div id="disconnection" class="modal fade" data-apps="${op:join(requestScope['osivia.sso.applications'], '|')}" data-redirection="${requestScope['osivia.toolbar.signOutURL']}">
+            <div id="disconnection" class="modal fade" data-apps="${op:join(requestScope['osivia.sso.applications'], '|')}" data-redirection="${requestScope['osivia.sso.logout']}">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">

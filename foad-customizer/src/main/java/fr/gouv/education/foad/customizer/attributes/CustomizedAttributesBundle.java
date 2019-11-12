@@ -61,6 +61,9 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 
     /** SSO applications attribute name. */
     private static final String APPLICATIONS = "osivia.sso.applications";
+    /** SSO applications attribute name. */
+    private static final String MAIN_APP = "osivia.sso.logout";
+    
     /** CGU URL. */
     private static final String CGU_URL = "cgu.url";
     /** Help FAQ URL. */
@@ -122,6 +125,7 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 
         // Attributes names
         this.names = new HashSet<String>();
+        this.names.add(MAIN_APP);
         this.names.add(APPLICATIONS);
         this.names.add(CGU_URL);
         this.names.add(HELP_FAQ_URL);
@@ -183,14 +187,17 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 
         // SSO applications
         List<String> applisToLogout = new ArrayList<String>(applications);
+        // Default sign-out url
+        String portalLogout = (String) attributes.get(Constants.ATTR_TOOLBAR_SIGN_OUT_URL);
+        attributes.put(MAIN_APP, portalLogout);
+        
         if (portalControllerContext != null && portalControllerContext.getHttpServletRequest() != null) {
             String headerUrlRetour = portalControllerContext.getHttpServletRequest().getHeader(FIM_URL_RETOUR);
             if (StringUtils.isNotBlank(headerUrlRetour)) {
                 // Si Header FIM présent, logout portal en ajax + redirection vers FIM
                 // Sinon, logout classique portail
-                String portalLogout = (String) attributes.get(Constants.ATTR_TOOLBAR_SIGN_OUT_URL);
                 applisToLogout.add(portalLogout);
-                attributes.put(Constants.ATTR_TOOLBAR_SIGN_OUT_URL, headerUrlRetour);
+                attributes.put(MAIN_APP, headerUrlRetour);
 
             }
         }
