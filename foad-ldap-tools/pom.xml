@@ -13,7 +13,10 @@
 
     <name>FOAD - Integrity and LDAP tools</name>
     
-    
+   	<properties>
+		<springframework-ldap.version>2.1.0.RELEASE</springframework-ldap.version>
+	</properties>
+		
     <dependencies>
     
         
@@ -41,6 +44,21 @@
             <classifier>classes</classifier>
         </dependency>         
     
+		<!-- SpringFramework LDAP -->
+		<dependency>
+			<groupId>org.springframework.ldap</groupId>
+			<artifactId>spring-ldap-core</artifactId>
+			<version>${springframework-ldap.version}</version>
+			<scope>provided</scope>
+		</dependency>
+    
+        <!-- Commons CSV -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.2</version>
+        </dependency>
+            
     </dependencies>
     
 </project>
