@@ -12,11 +12,14 @@ public class BnsImportForm {
 
 	
 	public enum BnsProfile {
-		GE_COMMUN("bns_g1_commun_etab"),
-		GE_SPE("bns_g1_spe_etab"),
-		VT_COMMUN("bns_gt1_commun_etab"),
-		VT_SPE("bns_gt1_spe_etab"),
-		LV("bns_gt1_lv_etab");
+		GE_COMMUN("bns_g1_commun"),
+		GE_SPE("bns_g1_spe"),
+		VT_COMMUN("bns_gt1_commun"),
+		VT_SPE("bns_gt1_spe"),
+		LV("bns_gt1_lv"),
+		Proviseurs("bns_proviseurs"),
+		Inspecteurs("bns_inspecteurs")
+		;
 		
 		
 		private String profileName;
