@@ -415,21 +415,22 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                 	// #2052 - bulk download can be blocked
                 	boolean bulkEnabled = true;
                 	String forbiddenpath = System.getProperty("foad.bulkdownload.forbiddenpath");
-                	String[] split = forbiddenpath.split(",");
-                	
-                	for(FileBrowserItem item : form.getItems()) {
-                		String path = item.getDocument().getPath();
-                		
-                		for(int i=0; i < split.length; i++) {
-                			String trim = StringUtils.trim(split[i]);
-                			if(StringUtils.isNotBlank(trim)) {
-                        		if(path.startsWith(trim)) {
-                        			bulkEnabled = false;
-                        			break;
-                        		}
-                			}
-                		}
-                	}
+        			if(StringUtils.isNotBlank(forbiddenpath)) {
+                    	String[] split = forbiddenpath.split(",");
+                    	for(FileBrowserItem item : form.getItems()) {
+                    		String path = item.getDocument().getPath();
+                    		
+                    		for(int i=0; i < split.length; i++) {
+                    			String trim = StringUtils.trim(split[i]);
+                    			if(StringUtils.isNotBlank(trim)) {
+                            		if(path.startsWith(trim)) {
+                            			bulkEnabled = false;
+                            			break;
+                            		}
+                    			}
+                    		}
+                    	}
+        			}
                 	
                     // Bulk download
                 	if(bulkEnabled) {
