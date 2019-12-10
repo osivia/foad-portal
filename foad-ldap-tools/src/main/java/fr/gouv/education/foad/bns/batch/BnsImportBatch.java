@@ -11,15 +11,18 @@ import javax.portlet.PortletContext;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.portal.api.PortalException;
+import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.directory.v2.DirServiceFactory;
 import org.osivia.portal.api.directory.v2.model.Person;
 import org.springframework.ldap.support.LdapNameBuilder;
 
 import fr.gouv.education.foad.bns.controller.BnsImportForm;
+import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.batch.NuxeoBatch;
 
 public class BnsImportBatch extends NuxeoBatch {
@@ -92,6 +95,10 @@ public class BnsImportBatch extends NuxeoBatch {
     	    	// if person is unknown, initialize it.
     	    	if(person == null) {
     	    		person = personService.getEmptyPerson();
+    	    		
+    	    		// minify uid
+    	    		uid = StringUtils.lowerCase(uid);
+    	    		
     	    		person.setUid(uid);
     	    		person.setMail(uid);
     	    		person.setSn(uid);
@@ -99,6 +106,11 @@ public class BnsImportBatch extends NuxeoBatch {
     	    		person.setCn(uid);
     	    		person.setDisplayName(uid);
     	    		personService.create(person);
+    	    		
+    	    		// activate nuweo UserProfile
+    	    		INuxeoCommand command = new GetUserProfileCommand(uid);
+					getNuxeoController().executeNuxeoCommand(command);
+    	    		
     	    	}
     	    	
     	    	// Apply profile
