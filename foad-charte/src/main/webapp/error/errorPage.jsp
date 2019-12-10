@@ -101,7 +101,6 @@
                                         <c:when
                                             test="${(param['httpCode'] eq 401) || (param['httpCode'] eq 403) || (param['httpCode'] eq 404) || (param['httpCode'] eq 500)}">
                                             <span>${param['httpCode']}</span>
-                                            <small><op:translate key="ERROR_${param['httpCode']}" /></small>
                                         </c:when>
     
                                         <c:otherwise>
@@ -109,6 +108,10 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </h1>
+                                <h2 class="text-center">
+                                	<small><op:translate key="ERROR_${param['httpCode']}" /></small>
+                                </h2>
+                                
                             </div>
     
                             <c:if test="${(param['httpCode'] eq 401) || (param['httpCode'] eq 403) || (param['httpCode'] eq 404) || (param['httpCode'] eq 500)}">

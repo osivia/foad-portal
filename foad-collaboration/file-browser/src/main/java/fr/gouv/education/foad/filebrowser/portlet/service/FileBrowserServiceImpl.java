@@ -411,19 +411,41 @@ public class FileBrowserServiceImpl implements FileBrowserService {
                     Element singleSelectionGroup = this.getToolbarSingleSelectionGroup(portalControllerContext, view, documentDto, permissions, bundle);
                     toolbar.add(singleSelectionGroup);
                 } else {
+                	
+                	// #2052 - bulk download can be blocked
+                	boolean bulkEnabled = true;
+                	String forbiddenpath = System.getProperty("foad.bulkdownload.forbiddenpath");
+                	String[] split = forbiddenpath.split(",");
+                	
+                	for(FileBrowserItem item : form.getItems()) {
+                		String path = item.getDocument().getPath();
+                		
+                		for(int i=0; i < split.length; i++) {
+                			String trim = StringUtils.trim(split[i]);
+                			if(StringUtils.isNotBlank(trim)) {
+                        		if(path.startsWith(trim)) {
+                        			bulkEnabled = false;
+                        			break;
+                        		}
+                			}
+                		}
+                	}
+                	
                     // Bulk download
-                    Element bulkDownload;
-                    if (allFile) {
-                        String title = bundle.getString("FILE_BROWSER_TOOLBAR_DOWNLOAD");
-                        String url = this.getBulkDownloadUrl(portalControllerContext, selection);
-                        bulkDownload = DOM4JUtils.generateLinkElement(url, null, null, "btn btn-default btn-sm no-ajax-link", null,
-                                "glyphicons glyphicons-download-alt");
-                        DOM4JUtils.addAttribute(bulkDownload, "title", title);
-                    } else {
-                        bulkDownload = DOM4JUtils.generateLinkElement("#", null, null, "btn btn-default btn-sm disabled", null,
-                                "glyphicons glyphicons-download-alt");
-                    }
-                    toolbar.add(bulkDownload);
+                	if(bulkEnabled) {
+	                    Element bulkDownload;
+	                    if (allFile) {
+	                        String title = bundle.getString("FILE_BROWSER_TOOLBAR_DOWNLOAD");
+	                        String url = this.getBulkDownloadUrl(portalControllerContext, selection);
+	                        bulkDownload = DOM4JUtils.generateLinkElement(url, null, null, "btn btn-default btn-sm no-ajax-link", null,
+	                                "glyphicons glyphicons-download-alt");
+	                        DOM4JUtils.addAttribute(bulkDownload, "title", title);
+	                    } else {
+	                        bulkDownload = DOM4JUtils.generateLinkElement("#", null, null, "btn btn-default btn-sm disabled", null,
+	                                "glyphicons glyphicons-download-alt");
+	                    }
+	                    toolbar.add(bulkDownload);
+                	}
                 }
 
                 // Multiple selection
