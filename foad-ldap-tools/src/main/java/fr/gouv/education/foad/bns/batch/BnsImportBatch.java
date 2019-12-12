@@ -107,9 +107,9 @@ public class BnsImportBatch extends NuxeoBatch {
     	    		person.setDisplayName(uid);
     	    		personService.create(person);
     	    		
-    	    		// activate nuweo UserProfile
-    	    		INuxeoCommand command = new GetUserProfileCommand(uid);
-					getNuxeoController().executeNuxeoCommand(command);
+//    	    		// activate nuweo UserProfile
+//    	    		INuxeoCommand command = new GetUserProfileCommand(uid);
+//					getNuxeoController().executeNuxeoCommand(command);
     	    		
     	    	}
     	    	
