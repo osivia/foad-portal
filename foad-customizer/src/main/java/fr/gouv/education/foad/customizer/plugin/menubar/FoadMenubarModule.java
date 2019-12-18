@@ -132,12 +132,38 @@ public class FoadMenubarModule implements MenubarModule {
      */
     private void removeItems(List<MenubarItem> menubar, DocumentContext<? extends EcmDocument> documentContext) {
         // Identifiers
-        List<String> identifiers = Arrays.asList("SYNCHRONIZE_ACTION", "REMOTE_PUBLISHING_URL", "ADD_TOUTATICEPAD");
+        List<String> identifiers = new ArrayList<String>();
+        
+        identifiers.add("REMOTE_PUBLISHING_URL");
+        identifiers.add("SYNCHRONIZE_ACTION");
+        identifiers.add("ADD_TOUTATICEPAD");
         BasicPublicationInfos publicationInfos = documentContext.getPublicationInfos(BasicPublicationInfos.class);
         if (publicationInfos.isDraft()) {
             identifiers.add("VALIDATION_WF_URL");
         }
 
+        // #2052 - e-mail can be blocked
+        boolean mailEnabled = true;
+        String forbiddenpath = System.getProperty("foad.bulkdownload.forbiddenpath");
+    	String[] split = forbiddenpath.split(",");
+
+		String path = publicationInfos.getContentPath();
+		
+		for(int i=0; i < split.length; i++) {
+			String trim = StringUtils.trim(split[i]);
+			if(StringUtils.isNotBlank(trim)) {
+        		if(path.startsWith(trim)) {
+        			mailEnabled = false;
+        			break;
+        		}
+			}
+		}
+		if(!mailEnabled) {
+			identifiers.add("SHARE_BY_EMAIL");
+		}
+		
+		// -- end #2052
+        
         // Removed items
         List<MenubarItem> removedItems = new ArrayList<>(identifiers.size());
         for (MenubarItem item : menubar) {
