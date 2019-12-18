@@ -14,6 +14,9 @@
 
 <portlet:actionURL name="executeImport" var="executeImportUrl">
 </portlet:actionURL>
+<portlet:actionURL name="detectDuplicate" var="detectDuplicateUrl">
+</portlet:actionURL>
+
 
 <form:form  method="post" action="${executeImportUrl}" enctype="multipart/form-data" cssClass="form-horizontal" modelAttribute="form" role="form">
 
@@ -57,10 +60,34 @@
                 <i class="glyphicons glyphicons-floppy-disk"></i>
                 <span><op:translate key="SAVE" /></span>
             </button>
-
-           
         </div>
 	</div>
-	
+</form:form>
+<form:form  method="post" action="${detectDuplicateUrl}" cssClass="form-horizontal" modelAttribute="form" role="form">
+
+
+	<!-- Group -->
+    <div class="form-group">
+        <form:label path="duplicatePath" cssClass="col-sm-3 col-lg-6 control-label">Chemin espace avec doublons :</form:label>
+        <div class="col-sm-9 col-lg-6">
+            <div>
+	               <form:input path="duplicatePath" />
+            </div>
+            
+        </div>
+        <div>
+        	  <form:checkbox path="testOnly"/> Tester (n'applique pas de modifications).
+        </div>
+    </div>
+    
+	<!-- Buttons -->
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-9 col-lg-offset-2 col-lg-10">
+            <button type="submit" name="testDuplicate" class="btn btn-primary">
+                <i class="glyphicons glyphicons-floppy-disk"></i>
+                <span>Réparer fichiers dupliqués</span>
+            </button>
+        </div>
+	</div>    
 
 </form:form>

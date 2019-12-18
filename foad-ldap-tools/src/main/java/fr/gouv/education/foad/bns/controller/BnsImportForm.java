@@ -41,6 +41,10 @@ public class BnsImportForm {
 	private BnsProfile profile;
 
 	private File temporaryFile;
+	
+	private String duplicatePath;
+	
+	private boolean testOnly;
 
 	public AccountsFile getFile() {
 		return file;
@@ -70,6 +74,22 @@ public class BnsImportForm {
 	public void setTemporaryFile(File temporaryFile) {
 		this.temporaryFile = temporaryFile;
 		
+	}
+
+	public String getDuplicatePath() {
+		return duplicatePath;
+	}
+
+	public void setDuplicatePath(String duplicatePath) {
+		this.duplicatePath = duplicatePath;
+	}
+
+	public boolean isTestOnly() {
+		return testOnly;
+	}
+
+	public void setTestOnly(boolean testOnly) {
+		this.testOnly = testOnly;
 	}
 	
 	

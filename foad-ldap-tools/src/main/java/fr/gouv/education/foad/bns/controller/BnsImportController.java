@@ -3,7 +3,6 @@ package fr.gouv.education.foad.bns.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,25 +16,17 @@ import javax.portlet.PortletResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.nuxeo.ecm.automation.client.model.Document;
-import org.osivia.portal.api.Constants;
+import org.nuxeo.ecm.automation.client.model.Blob;
 import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.batch.IBatchService;
-import org.osivia.portal.api.cache.services.CacheInfo;
 import org.osivia.portal.api.context.PortalControllerContext;
-import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
 import org.osivia.portal.api.notifications.INotificationsService;
 import org.osivia.portal.api.notifications.NotificationsType;
-import org.osivia.portal.api.urls.IPortalUrlFactory;
-import org.osivia.portal.api.windows.PortalWindow;
-import org.osivia.portal.api.windows.WindowFactory;
-import org.osivia.services.workspace.portlet.repository.command.GetPermissionsCommand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,11 +40,9 @@ import org.springframework.web.portlet.context.PortletConfigAware;
 import org.springframework.web.portlet.context.PortletContextAware;
 
 import fr.gouv.education.foad.bns.batch.BnsImportBatch;
-import fr.gouv.education.foad.room.controller.RoomMigration.State;
 import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
-import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoCommandContext;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -171,6 +160,52 @@ public class BnsImportController extends CMSPortlet implements PortletConfigAwar
 
         
     }
+    
+    @ActionMapping(value = "detectDuplicate")
+    public void detectDuplicate(ActionRequest request, ActionResponse response, @ModelAttribute("form") BnsImportForm form) throws PortalException {
+    	
+    	PortalControllerContext pcc = new PortalControllerContext(getPortletContext(), request, response);
+		NuxeoController controller = new NuxeoController(pcc);
+		
+		INuxeoCommand command = new GetDuplicatesCommand(form.getDuplicatePath());
+		Blob json = (Blob) controller.executeNuxeoCommand(command);
+
+
+		try {
+			// get current quota
+			if (json != null) {
+				
+				log.warn("directory : "+form.getDuplicatePath() + (form.isTestOnly() ? " (test only)" : ""));
+
+
+				String jsonStr;
+
+				jsonStr = IOUtils.toString(json.getStream(), "UTF-8");
+
+				//log.warn(jsonStr);
+				
+				JSONObject duplicates = JSONObject.fromObject(jsonStr);
+				JSONArray docs = duplicates.getJSONArray("docs");
+				
+				for (int i = 0; i < docs.size(); i++) {
+				    JSONObject jsonobject = docs.getJSONObject(i);
+				    String path = jsonobject.getString("path");
+				    String count = jsonobject.getString("count");
+				    
+					log.warn(path+ " => "+count);
+					
+					if(!form.isTestOnly()) {
+						controller.executeNuxeoCommand(new RepareDuplicateCommand(path));
+					}
+				}
+				
+			}
+		
+		} catch (IOException e) {
+			throw new PortalException(e);
+		} 
+		
+    }
 
     
     /**
@@ -179,7 +214,9 @@ public class BnsImportController extends CMSPortlet implements PortletConfigAwar
      */
     @ModelAttribute("form")
     public BnsImportForm getChgValidDateForm() {
-    	return new BnsImportForm();
+    	BnsImportForm form = new BnsImportForm();
+    	form.setDuplicatePath("/default-domain/workspaces/bnsujet");
+    	return form;
     	
     }
 
