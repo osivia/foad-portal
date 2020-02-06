@@ -40,6 +40,7 @@ import org.springframework.web.portlet.context.PortletConfigAware;
 import org.springframework.web.portlet.context.PortletContextAware;
 
 import fr.gouv.education.foad.bns.batch.BnsImportBatch;
+import fr.gouv.education.foad.bns.batch.BnsRepareBatch;
 import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
@@ -213,14 +214,57 @@ public class BnsImportController extends CMSPortlet implements PortletConfigAwar
      * @return
      */
     @ModelAttribute("form")
-    public BnsImportForm getChgValidDateForm() {
+    public BnsImportForm getForm() {
     	BnsImportForm form = new BnsImportForm();
     	form.setDuplicatePath("/default-domain/workspaces/bnsujet");
     	return form;
     	
     }
+    
+    /**
+     * 
+     * @return
+     */
+    @ModelAttribute("repareform")
+    public BnsRepareForm getRepareForm() {
+    	BnsRepareForm form = new BnsRepareForm();
+    	return form;
+    	
+    }
 
 
+
+    /**
+     * 
+     *
+     * @param request action request
+     * @param response action response
+     * @throws PortletException
+     * @throws IOException 
+     * @throws PortalException 
+     * @throws ParseException 
+     */
+    @ActionMapping(value = "repareAccounts")
+    public void repareAccounts(ActionRequest request, ActionResponse response, @ModelAttribute("repareform") BnsRepareForm form) throws PortletException, IOException, ParseException, PortalException {
+        
+    	// Temporary file
+        MultipartFile upload = form.getFile().getUpload();
+        File temporaryFile = File.createTempFile("bnsrepare-", ".tmp");
+        temporaryFile.deleteOnExit();
+        upload.transferTo(temporaryFile);
+        form.setTemporaryFile(temporaryFile);
+        
+        // Prepare batch
+        BnsRepareBatch batch = new BnsRepareBatch(form);
+        batch.setPortletContext(portletContext);
+        batchService.addBatch(batch);
+        
+        PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+		getNotificationsService().addSimpleNotification(pcc, "Batch programmé", NotificationsType.SUCCESS);
+
+        
+    }
+    
     /**
      * {@inheritDoc}
      */

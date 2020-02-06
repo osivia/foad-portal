@@ -16,8 +16,10 @@
 </portlet:actionURL>
 <portlet:actionURL name="detectDuplicate" var="detectDuplicateUrl">
 </portlet:actionURL>
+<portlet:actionURL name="repareAccounts" var="repareAccountsUrl">
+</portlet:actionURL>
 
-
+<h3>Importer des comptes</h3>
 <form:form  method="post" action="${executeImportUrl}" enctype="multipart/form-data" cssClass="form-horizontal" modelAttribute="form" role="form">
 
 
@@ -63,6 +65,9 @@
         </div>
 	</div>
 </form:form>
+
+
+<h3>Vérifier les doublons</h3>
 <form:form  method="post" action="${detectDuplicateUrl}" cssClass="form-horizontal" modelAttribute="form" role="form">
 
 
@@ -90,4 +95,38 @@
         </div>
 	</div>    
 
+</form:form>
+
+
+<h3>Réparer les comptes (majuscules)</h3>
+<form:form  method="post" action="${repareAccountsUrl}" enctype="multipart/form-data" cssClass="form-horizontal" modelAttribute="repareform" role="form">
+
+
+	<!-- File -->
+    <div class="form-group">
+        <form:label path="file.upload" cssClass="col-sm-3 col-lg-6 control-label">Fichier</form:label>
+        <div class="col-sm-9 col-lg-6">
+            <div>
+                <!-- Upload -->
+                <label class="btn btn-sm btn-default btn-file">
+                    <i class="halflings halflings-folder-open"></i>
+                    <span>Importer</span>
+                    <form:input type="file" path="file.upload" />
+                </label>
+                <input type="submit" name="upload-avatar" class="hidden">
+                
+            </div>
+        </div>
+    </div>
+
+	<!-- Buttons -->
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-9 col-lg-offset-2 col-lg-10">
+            <!-- Save -->
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="glyphicons glyphicons-floppy-disk"></i>
+                <span>Réparer</span>
+            </button>
+        </div>
+	</div>
 </form:form>
