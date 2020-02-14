@@ -47,6 +47,7 @@ import org.osivia.portal.core.portalobjects.PortalObjectUtils;
 
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoConnectionProperties;
+import fr.toutatice.portail.cms.nuxeo.portlets.document.ViewDocumentPortlet;
 
 /**
  * Customized attributes bundle.
@@ -55,6 +56,10 @@ import fr.toutatice.portail.cms.nuxeo.api.services.NuxeoConnectionProperties;
  * @see IAttributesBundle
  */
 public class CustomizedAttributesBundle implements IAttributesBundle {
+	
+
+    /** Log. */
+    private final Log logger = LogFactory.getLog(CustomizedAttributesBundle.class);
 	
 	/** . */
     private static final String FIM_URL_RETOUR = "freduurlretour";
@@ -171,84 +176,93 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
      */
     @Override
     public void fill(RenderPageCommand renderPageCommand, PageRendition pageRendition, Map<String, Object> attributes) throws ControllerException {
-        // Controller context
-        ControllerContext controllerContext = renderPageCommand.getControllerContext();
-        // Portal controller context
-        PortalControllerContext portalControllerContext = new PortalControllerContext(controllerContext);
-
-        // Page
-        Page page = renderPageCommand.getPage();
-
-        // Current document
-        Document document = this.getCurrentDocument(renderPageCommand);
-        // Current root document
-        Document rootDocument = this.getCurrentRootDocument(controllerContext, document);
-
-
-        // SSO applications
-        List<String> applisToLogout = new ArrayList<String>(applications);
-        // Default sign-out url
-        String portalLogout = (String) attributes.get(Constants.ATTR_TOOLBAR_SIGN_OUT_URL);
-        attributes.put(MAIN_APP, portalLogout);
+    	
+    	try {
+    	
+	        // Controller context
+	        ControllerContext controllerContext = renderPageCommand.getControllerContext();
+	        // Portal controller context
+	        PortalControllerContext portalControllerContext = new PortalControllerContext(controllerContext);
+	
+	        // Page
+	        Page page = renderPageCommand.getPage();
+	
+	        // Current document
+	        Document document = this.getCurrentDocument(renderPageCommand);
+	        // Current root document
+	        Document rootDocument = this.getCurrentRootDocument(controllerContext, document);
+	
+	
+	        // SSO applications
+	        List<String> applisToLogout = new ArrayList<String>(applications);
+	        // Default sign-out url
+	        String portalLogout = (String) attributes.get(Constants.ATTR_TOOLBAR_SIGN_OUT_URL);
+	        attributes.put(MAIN_APP, portalLogout);
+	        
+	        if (portalControllerContext != null && portalControllerContext.getHttpServletRequest() != null) {
+	            String headerUrlRetour = portalControllerContext.getHttpServletRequest().getHeader(FIM_URL_RETOUR);
+	            if (StringUtils.isNotBlank(headerUrlRetour)) {
+	                // Si Header FIM présent, logout portal en ajax + redirection vers FIM
+	                // Sinon, logout classique portail
+	                applisToLogout.add(portalLogout);
+	                attributes.put(MAIN_APP, headerUrlRetour);
+	
+	            }
+	        }
+	        attributes.put(APPLICATIONS, applisToLogout);
+	
+	
+	        // CGU
+	        String cguUrl = this.getUrlFromProperty(portalControllerContext, "osivia.services.cgu.path");
+	        attributes.put(CGU_URL, cguUrl);
+	
+	
+	        // Help FAQ
+	        String faqUrl = this.getUrlFromProperty(portalControllerContext, "help.faq.path");
+	        attributes.put(HELP_FAQ_URL, faqUrl);
+	
+	        // Help tutorials
+	        String tutorialsUrl = this.getUrlFromProperty(portalControllerContext, "help.tutorials.path");
+	        attributes.put(HELP_TUTORIALS_URL, tutorialsUrl);
+	
+	        // Help contact
+	        String contactUrl;
+	        String mailto = System.getProperty("help.contact.mailto");
+	        if (StringUtils.isBlank(mailto)) {
+	            contactUrl = null;
+	        } else {
+	            StringBuilder builder = new StringBuilder();
+	            builder.append("mailto:");
+	            builder.append(mailto);
+	
+	            // Subject
+	            String subject = System.getProperty("help.contact.subject");
+	            if (StringUtils.isNotBlank(subject)) {
+	                builder.append("?subject=");
+	                builder.append(StringEscapeUtils.escapeHtml(subject));
+	            }
+	
+	            contactUrl = builder.toString();
+	        }
+	        attributes.put(HELP_CONTACT_URL, contactUrl);
+	
+	        // Statistics
+	        this.computeStatistics(portalControllerContext, rootDocument, attributes);
+	        
+	        if (rootDocument != null) {
+	
+	            // Workspace tabs
+	            this.computeWorkspaceTabs(renderPageCommand, rootDocument, attributes);
+	        }
+	
+	        // Page content title
+	        this.computePageContentTitle(portalControllerContext, page, document, attributes);
         
-        if (portalControllerContext != null && portalControllerContext.getHttpServletRequest() != null) {
-            String headerUrlRetour = portalControllerContext.getHttpServletRequest().getHeader(FIM_URL_RETOUR);
-            if (StringUtils.isNotBlank(headerUrlRetour)) {
-                // Si Header FIM présent, logout portal en ajax + redirection vers FIM
-                // Sinon, logout classique portail
-                applisToLogout.add(portalLogout);
-                attributes.put(MAIN_APP, headerUrlRetour);
-
-            }
-        }
-        attributes.put(APPLICATIONS, applisToLogout);
-
-
-        // CGU
-        String cguUrl = this.getUrlFromProperty(portalControllerContext, "osivia.services.cgu.path");
-        attributes.put(CGU_URL, cguUrl);
-
-
-        // Help FAQ
-        String faqUrl = this.getUrlFromProperty(portalControllerContext, "help.faq.path");
-        attributes.put(HELP_FAQ_URL, faqUrl);
-
-        // Help tutorials
-        String tutorialsUrl = this.getUrlFromProperty(portalControllerContext, "help.tutorials.path");
-        attributes.put(HELP_TUTORIALS_URL, tutorialsUrl);
-
-        // Help contact
-        String contactUrl;
-        String mailto = System.getProperty("help.contact.mailto");
-        if (StringUtils.isBlank(mailto)) {
-            contactUrl = null;
-        } else {
-            StringBuilder builder = new StringBuilder();
-            builder.append("mailto:");
-            builder.append(mailto);
-
-            // Subject
-            String subject = System.getProperty("help.contact.subject");
-            if (StringUtils.isNotBlank(subject)) {
-                builder.append("?subject=");
-                builder.append(StringEscapeUtils.escapeHtml(subject));
-            }
-
-            contactUrl = builder.toString();
-        }
-        attributes.put(HELP_CONTACT_URL, contactUrl);
-
-        // Statistics
-        this.computeStatistics(portalControllerContext, rootDocument, attributes);
-        
-        if (rootDocument != null) {
-
-            // Workspace tabs
-            this.computeWorkspaceTabs(renderPageCommand, rootDocument, attributes);
-        }
-
-        // Page content title
-        this.computePageContentTitle(portalControllerContext, page, document, attributes);
+    	}
+    	catch(NullPointerException ex) {
+    		logger.error("Error on loading attributes bundle", ex);
+    		throw new ControllerException(ex);
+    	}
     }
 
 
