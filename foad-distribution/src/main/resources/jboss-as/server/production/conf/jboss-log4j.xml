@@ -462,4 +462,29 @@
 
 		</layout>
 	</appender> 
+	
+	<!-- network modifications -->
+	<category name="network.errors" additivity="false">
+		<priority value="INFO" />
+		<appender-ref ref="NET_ERRORS_APPENDER" />
+	</category>
+	<appender name="NET_ERRORS_APPENDER"
+		class="org.jboss.logging.appender.DailyRollingFileAppender">
+		<errorHandler
+			class="org.jboss.logging.util.OnlyOnceErrorHandler" />
+		<param name="File"
+			value="${jboss.server.log.dir}/network_errors.log" />
+		<param name="Append" value="true" />
+
+		<!-- Rollover at midnight each day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+
+		<!-- Rollover at the top of each hour <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/> -->
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+
+		</layout>
+	</appender> 	
 </log4j:configuration>
