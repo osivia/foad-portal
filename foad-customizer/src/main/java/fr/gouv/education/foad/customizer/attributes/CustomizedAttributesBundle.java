@@ -177,8 +177,8 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
     @Override
     public void fill(RenderPageCommand renderPageCommand, PageRendition pageRendition, Map<String, Object> attributes) throws ControllerException {
     	
-    	try {
-    	
+//    	try {
+//    	
 	        // Controller context
 	        ControllerContext controllerContext = renderPageCommand.getControllerContext();
 	        // Portal controller context
@@ -258,11 +258,11 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 	        // Page content title
 	        this.computePageContentTitle(portalControllerContext, page, document, attributes);
         
-    	}
-    	catch(NullPointerException ex) {
-    		logger.error("Error on loading attributes bundle", ex);
-    		throw new ControllerException(ex);
-    	}
+//    	}
+//    	catch(NullPointerException ex) {
+//    		logger.error("Error on loading attributes bundle", ex);
+//    		throw new ControllerException(ex);
+//    	}
     }
 
 
@@ -488,12 +488,16 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
      * @return rooms, may be null
      */
     private List<Document> getRooms(ICMSService cmsService, CMSServiceCtx cmsContext, String rootPath, String parentPath) {
-        List<CMSItem> navigationItems;
+        List<CMSItem> navigationItems = null;;
         try {
             navigationItems = cmsService.getPortalNavigationSubitems(cmsContext, rootPath, parentPath);
+        } catch (NullPointerException e) {
+        	
+        	logger.warn("Can not compute rooms for space "+rootPath);
+        	
         } catch (CMSException e) {
             this.log.error(e.getMessage(), e.getCause());
-            navigationItems = null;
+
         }
 
         List<Document> rooms;
