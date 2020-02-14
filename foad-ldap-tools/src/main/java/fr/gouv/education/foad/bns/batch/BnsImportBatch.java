@@ -111,23 +111,30 @@ public class BnsImportBatch extends NuxeoBatch {
 	    		uid = uid.trim();
 	    		
 	    		if (StringUtils.isNotBlank(uid)) {
-	                Matcher matcher = this.mailPattern.matcher(uid);
-	                if (!matcher.matches()) {
-	                	log.info("Reject "+record.get(0));
+	    			
+	    			Person person = personService.getPerson(uid);
+	    			if(person != null) {
+	    				
+	        	    	// Apply profile
+	    				log.info("Import "+record.get(0)+ " to "+form.getProfile().getProfileName());
+	    				person.getProfiles().add(this.profile);
+	        	    	personService.update(person);
+	    				
+	    			}
+	    			else {
+	    				
+		                Matcher matcher = this.mailPattern.matcher(uid);
+		                if (!matcher.matches()) {
+		                	log.info("Reject "+record.get(0));
 
-	    				rejectsPrinter = getRejectPrinter();
-	    				rejectsPrinter.printRecord(uid);
-	    				hasRejects = true;
-	    				
-	                }
-	                
-	                else {
-	                	log.info("Import "+record.get(0)+ " to "+form.getProfile().getProfileName());
-	    				
-	        	    	Person person = personService.getPerson(uid);
-	        	    	
-	        	    	// if person is unknown, initialize it.
-	        	    	if(person == null) {
+		    				rejectsPrinter = getRejectPrinter();
+		    				rejectsPrinter.printRecord(uid);
+		    				hasRejects = true;
+		    				
+		                }
+		                else {
+		                	log.info("Create "+record.get(0)+ " and add to "+form.getProfile().getProfileName());
+
 	        	    		person = personService.getEmptyPerson();
 
     	    	    		person.setUid(uid);
@@ -136,19 +143,12 @@ public class BnsImportBatch extends NuxeoBatch {
     	    	    		person.setGivenName(uid);
     	    	    		person.setCn(uid);
     	    	    		person.setDisplayName(uid);
+    	    				person.getProfiles().add(this.profile);
+
     	    	    		personService.create(person);
-    	    	    		
-//	        	    	    		// activate nuweo UserProfile
-//	        	    	    		INuxeoCommand command = new GetUserProfileCommand(uid);
-//	        						getNuxeoController().executeNuxeoCommand(command);
-    	                
-	        	    	}
-	        	    	
-	        	    	// Apply profile
-	    				person.getProfiles().add(this.profile);
-	        	    	personService.update(person);
-	                }
-	    		
+		                }
+	    				
+	    			}
 	    		}
 	    		    	    	
 			}
