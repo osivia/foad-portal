@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document repository="default" id="55c55700-9cba-47fe-a7ac-36a81c4bec18">
+
+<document repository="default" id="998172d5-d7aa-4a6c-b71c-8bd922106d8b">
   <system>
     <type>ProcedureModel</type>
     <path>default-domain/procedures/procedures-models/invitation</path>
@@ -20,6 +21,7 @@
     <uid:minor_version/>
   </schema>
   <schema xmlns:ttc="http://www.nuxeo.org/ecm/project/schemas/ACRENNES2/toutatice" name="toutatice">
+    <ttc:modelVersion/>
     <ttc:isPreloadedOnLogin><![CDATA[false]]></ttc:isPreloadedOnLogin>
     <ttc:abstract><![CDATA[]]></ttc:abstract>
     <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
@@ -58,12 +60,12 @@
     <dc:coverage><![CDATA[]]></dc:coverage>
     <dc:valid/>
     <dc:creator><![CDATA[admin]]></dc:creator>
-    <dc:modified><![CDATA[2019-03-06T16:10:24.00Z]]></dc:modified>
+    <dc:modified><![CDATA[2020-04-22T11:30:36.00Z]]></dc:modified>
     <dc:lastContributor><![CDATA[admin]]></dc:lastContributor>
     <dc:format><![CDATA[]]></dc:format>
     <dc:expired/>
     <dc:rights><![CDATA[]]></dc:rights>
-    <dc:created><![CDATA[2018-10-18T12:37:45.66Z]]></dc:created>
+    <dc:created><![CDATA[2020-04-21T12:19:08.32Z]]></dc:created>
     <dc:title><![CDATA[Invitation]]></dc:title>
     <dc:issued/>
     <dc:nature><![CDATA[]]></dc:nature>
@@ -101,6 +103,87 @@
           <action>
             <filtersList>
               <filter>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${uid}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterPath><![CDATA[2,0]]></filterPath>
+                <filterName><![CDATA[Mail d'inscription avec reply-to]]></filterName>
+                <filterInstanceId><![CDATA[SendMailFilter2,0]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[body]]></argumentName>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
+                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+${invitationMessage}
+${command:link("Accepter", "accept", documentPath)}.
+
+Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailFrom]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[foad-tribu@noreply.phm.education.gouv.fr]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailReplyTo]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:email(initiator)}]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[continue]]></argumentName>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
+                  </argument>
+                  <argument>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[IfFilter]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[Si user enregistré]]></filterName>
+                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[IfFilter]]></filterId>
+                <filterPath><![CDATA[2]]></filterPath>
+                <filterName><![CDATA[Si user non enregistré]]></filterName>
+                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[IfCondition]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
                 <filterPath><![CDATA[1,0]]></filterPath>
                 <filterName><![CDATA[Mail pour rejoindre avec reply-to]]></filterName>
@@ -109,7 +192,7 @@
                   <argument>
                     <argumentName><![CDATA[body]]></argumentName>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}
 
@@ -143,96 +226,15 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
                 </argumentsList>
               </filter>
               <filter>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
-                <filterPath><![CDATA[0]]></filterPath>
-                <filterName><![CDATA[]]></filterName>
-                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[actor]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${uid}]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
-                <filterId><![CDATA[IfFilter]]></filterId>
-                <filterPath><![CDATA[2]]></filterPath>
-                <filterName><![CDATA[Si user non enregistré]]></filterName>
-                <filterInstanceId><![CDATA[IfFilter2]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[IfCondition]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${newUser}]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
-                <filterId><![CDATA[IfFilter]]></filterId>
-                <filterPath><![CDATA[1]]></filterPath>
-                <filterName><![CDATA[Si user enregistré]]></filterName>
-                <filterInstanceId><![CDATA[IfFilter1]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[IfCondition]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${not newUser}]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
-                <filterId><![CDATA[SendMailFilter]]></filterId>
-                <filterPath><![CDATA[2,0]]></filterPath>
-                <filterName><![CDATA[Mail d'inscription avec reply-to]]></filterName>
-                <filterInstanceId><![CDATA[SendMailFilter2,0]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[body]]></argumentName>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
-${invitationMessage}
-${command:link("Accepter", "accept", documentPath)}.
-
-Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.]]></argumentValue>
-                  </argument>
-                  <argument>
-                    <argumentName><![CDATA[mailFrom]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[foad-tribu@noreply.phm.education.gouv.fr]]></argumentValue>
-                  </argument>
-                  <argument>
-                    <argumentName><![CDATA[mailReplyTo]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
-                  </argument>
-                  <argument>
-                    <argumentName><![CDATA[continue]]></argumentName>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                  </argument>
-                  <argument>
-                    <argumentName><![CDATA[mailTo]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${user:email(uid)}]]></argumentValue>
-                  </argument>
-                  <argument>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[Invitation à rejoindre un espace]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
                 <filterId><![CDATA[SET_NOTIFICATION_MESSAGE]]></filterId>
                 <filterPath><![CDATA[3]]></filterPath>
-                <filterName/>
+                <filterName><![CDATA[]]></filterName>
                 <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE3]]></filterInstanceId>
                 <argumentsList>
                   <argument>
                     <argumentName><![CDATA[message]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue/>
+                    <argumentValue><![CDATA[]]></argumentValue>
                   </argument>
                 </argumentsList>
               </filter>
@@ -247,7 +249,7 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
       <step>
         <closable><![CDATA[false]]></closable>
         <notifiable><![CDATA[true]]></notifiable>
-        <stringMsg><![CDATA[${user:link(procedureInitiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
+        <stringMsg><![CDATA[${user:link(initiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <index><![CDATA[1]]></index>
         <endStepMsg><![CDATA[]]></endStepMsg>
@@ -262,6 +264,26 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
         <actions>
           <action>
             <filtersList>
+              <filter>
+                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
+                <argumentsList/>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SET_NOTIFICATION_MESSAGE]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE1]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[message]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
               <filter>
                 <filterId><![CDATA[DeleteOnEnding]]></filterId>
                 <filterPath><![CDATA[3]]></filterPath>
@@ -291,37 +313,17 @@ ${user:name(uid)} a accepté votre invitation à rejoindre l'espace ${document:t
                   <argument>
                     <argumentName><![CDATA[continue]]></argumentName>
                     <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentValue><![CDATA[]]></argumentValue>
+                    <argumentValue/>
                   </argument>
                   <argument>
                     <argumentName><![CDATA[mailTo]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
+                    <argumentValue><![CDATA[${user:email(initiator)}]]></argumentValue>
                   </argument>
                   <argument>
                     <argumentName><![CDATA[mailObject]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentValue><![CDATA[${user:name(uid)} a accepté votre invitation]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
-                <filterId><![CDATA[ACCEPT_WORKSPACE_INVITATION]]></filterId>
-                <filterPath><![CDATA[0]]></filterPath>
-                <filterName><![CDATA[]]></filterName>
-                <filterInstanceId><![CDATA[ACCEPT_WORKSPACE_INVITATION0]]></filterInstanceId>
-                <argumentsList/>
-              </filter>
-              <filter>
-                <filterId><![CDATA[SET_NOTIFICATION_MESSAGE]]></filterId>
-                <filterPath><![CDATA[1]]></filterPath>
-                <filterName><![CDATA[]]></filterName>
-                <filterInstanceId><![CDATA[SET_NOTIFICATION_MESSAGE1]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[message]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[Vous êtes désormais membre de l'espace ${document:link(documentPath)}.]]></argumentValue>
                   </argument>
                 </argumentsList>
               </filter>
@@ -332,19 +334,6 @@ ${user:name(uid)} a accepté votre invitation à rejoindre l'espace ${document:t
           </action>
           <action>
             <filtersList>
-              <filter>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
-                <filterPath><![CDATA[1]]></filterPath>
-                <filterName><![CDATA[]]></filterName>
-                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[actor]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
               <filter>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
                 <filterPath><![CDATA[2]]></filterPath>
@@ -372,12 +361,25 @@ ${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${document:ti
                   <argument>
                     <argumentName><![CDATA[mailTo]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
+                    <argumentValue><![CDATA[${user:email(initiator)}]]></argumentValue>
                   </argument>
                   <argument>
                     <argumentName><![CDATA[mailObject]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentValue><![CDATA[${user:name(uid)} a refusé votre invitation]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[1]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${initiator}]]></argumentValue>
                   </argument>
                 </argumentsList>
               </filter>
@@ -396,6 +398,19 @@ ${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${document:ti
           <action>
             <filtersList>
               <filter>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
+                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[]]></filterName>
+                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
+                <argumentsList>
+                  <argument>
+                    <argumentName><![CDATA[actor]]></argumentName>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentValue><![CDATA[${uid}]]></argumentValue>
+                  </argument>
+                </argumentsList>
+              </filter>
+              <filter>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
                 <filterPath><![CDATA[1]]></filterPath>
                 <filterName><![CDATA[Mail de relance]]></filterName>
@@ -404,7 +419,7 @@ ${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${document:ti
                   <argument>
                     <argumentName><![CDATA[body]]></argumentName>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentValue><![CDATA[${user:name(procedureInitiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}.
 
@@ -413,7 +428,7 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
                   <argument>
                     <argumentName><![CDATA[mailFrom]]></argumentName>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${user:email(procedureInitiator)}]]></argumentValue>
+                    <argumentValue><![CDATA[${user:email(initiator)}]]></argumentValue>
                   </argument>
                   <argument>
                     <argumentName><![CDATA[mailTo]]></argumentName>
@@ -429,19 +444,6 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
                     <argumentName><![CDATA[continue]]></argumentName>
                     <argumentType><![CDATA[BOOLEAN]]></argumentType>
                     <argumentValue><![CDATA[true]]></argumentValue>
-                  </argument>
-                </argumentsList>
-              </filter>
-              <filter>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
-                <filterPath><![CDATA[0]]></filterPath>
-                <filterName><![CDATA[]]></filterName>
-                <filterInstanceId><![CDATA[SET_ACTOR0]]></filterInstanceId>
-                <argumentsList>
-                  <argument>
-                    <argumentName><![CDATA[actor]]></argumentName>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentValue><![CDATA[${uid}]]></argumentValue>
                   </argument>
                 </argumentsList>
               </filter>
