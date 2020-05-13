@@ -46,6 +46,8 @@ public class BnsRepareBatch extends NuxeoBatch {
 	
 	public BnsRepareBatch(BnsRepareForm form) {
 		
+		super(form.getTemporaryFile().getName());
+		
 		personService = DirServiceFactory.getService(PersonUpdateService.class);
 		workspaceService = DirServiceFactory.getService(WorkspaceService.class);
 		
@@ -181,11 +183,6 @@ public class BnsRepareBatch extends NuxeoBatch {
 		}
 		return rejectsPrinter;
 	}	
-	
-	@Override
-	public String getBatchId() {
-		return form.getTemporaryFile().getName();
-	}
 
 	public void setPortletContext(PortletContext portletContext) {
 		BnsRepareBatch.portletContext = portletContext;

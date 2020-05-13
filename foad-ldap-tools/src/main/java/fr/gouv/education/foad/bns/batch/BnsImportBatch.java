@@ -51,6 +51,8 @@ public class BnsImportBatch extends NuxeoBatch {
 	
 	public BnsImportBatch(BnsImportForm form) {
 		
+		super(form.getTemporaryFile().getName());
+		
 		personService = DirServiceFactory.getService(PersonUpdateService.class);
 		
 		this.form = form;
@@ -182,12 +184,6 @@ public class BnsImportBatch extends NuxeoBatch {
 	}
 	
 	
-
-	@Override
-	public String getBatchId() {
-		return form.getTemporaryFile().getName();
-	}
-
 	public void setPortletContext(PortletContext portletContext) {
 		BnsImportBatch.portletContext = portletContext;
 	}
