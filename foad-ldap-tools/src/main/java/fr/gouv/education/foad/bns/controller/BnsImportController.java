@@ -193,7 +193,7 @@ public class BnsImportController extends CMSPortlet implements PortletConfigAwar
 				    String path = jsonobject.getString("path");
 				    String count = jsonobject.getString("count");
 				    
-					log.warn(path+ " => "+count);
+					log.warn(i+ " "+ path+ " => "+count);
 					
 					if(!form.isTestOnly()) {
 						controller.executeNuxeoCommand(new RepareDuplicateCommand(path));

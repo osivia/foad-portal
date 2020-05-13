@@ -26,23 +26,29 @@ public class RepareDuplicateCommand implements INuxeoCommand {
 	public Object execute(Session nuxeoSession) throws Exception {
 		
 		OperationRequest request = nuxeoSession.newRequest("Document.QueryES");
-        request.set("query", "SELECT * FROM Document WHERE ecm:path ='"+path+"' AND ecm:isVersion = 0");
+        request.set("query", "SELECT * FROM Document WHERE ecm:path ='"+path+"' "
+        		+ " AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
         Documents duplicates = (Documents) request.execute();
         
         DocumentService documentService = nuxeoSession.getAdapter(DocumentService.class);
         
         for(Document duplicate : duplicates) {
-        	log.warn(duplicate.getId());
-        	
-        	Document parent = documentService.getParent(new PathRef(path));
-        	
-        	String originalTitle = duplicate.getTitle();
-        	Document copy = documentService.copy(new IdRef(duplicate.getId()), parent);
-        	log.warn(copy.getId() + ", new path "+copy.getPath());
-        	
-        	documentService.remove(new IdRef(duplicate.getId()));
-        	documentService.setProperty(copy, "dc:title", originalTitle);
-        	
+        	try {
+	        	log.warn("Repare "+path+" ("+duplicate.getId()+")");
+	        	
+	        	Document parent = documentService.getParent(new PathRef(path));
+	        	
+	        	String originalTitle = duplicate.getTitle();
+	        	Document copy = documentService.copy(new IdRef(duplicate.getId()), parent);
+	        	log.warn("Relocate copy on "+copy.getId() + " with new path "+copy.getPath());
+	        	
+	        	documentService.remove(new IdRef(duplicate.getId()));
+	        	documentService.setProperty(copy, "dc:title", originalTitle);
+        	}
+        	catch(Exception e) {
+	        	log.error("Error when reparing "+path);
+
+        	}
         }
         
 		return null;
