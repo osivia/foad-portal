@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>fr.gouv.education.foad</groupId>
+        <artifactId>foad-parent</artifactId>
+        <version>4.4-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>foad-distribution-tribin</artifactId>
+
+    <name>FOAD - Distribution trib.in</name>
+    
+    
+    <properties>
+        <src-env>prod</src-env>
+        <dest-env>prod</dest-env>
+    </properties>
+    
+    
+    <dependencies>
+        
+        <!-- FOAD -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-charte-tribin</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>        
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-distribution</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        
+    </dependencies>
+    
+    
+    <profiles>
+    
+        <!-- Development environment -->
+        <profile>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <dest-env>dev</dest-env>
+                <src-env>dev</src-env>
+            </properties>
+        </profile>
+    
+        <!-- Unpack -->
+        <profile>
+            <id>unpack</id>
+            <dependencies>
+                <dependency>
+		            <groupId>${project.groupId}</groupId>
+		            <artifactId>foad-distribution</artifactId>
+		            <version>${project.version}</version>
+                    <type>zip</type>
+                </dependency>
+            </dependencies>
+            <build>
+                <defaultGoal>package</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+								            <groupId>${project.groupId}</groupId>
+								            <artifactId>foad-distribution</artifactId>
+								            <version>${project.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/foad-distribution</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <!-- Pack -->
+        <profile>
+            <id>pack</id>
+            <build>
+                <defaultGoal>package</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>zip</id>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                                    </descriptors>
+                                    <finalName>${project.artifactId}</finalName>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <attach>true</attach>
+                                </configuration>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+    </profiles>
+    
+</project>
+

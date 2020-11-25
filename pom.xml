@@ -49,6 +49,10 @@
         <module>foad-nx-custom</module>
         <module>foad-collaboration</module>
         <module>foad-distribution</module>
+        
+        <module>foad-charte-tribin</module>
+        <module>foad-distribution-tribin</module>
+        
     </modules>
     
     
