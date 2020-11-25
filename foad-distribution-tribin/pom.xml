@@ -29,13 +29,14 @@
             <type>war</type>
         </dependency>        
         
+        <!-- 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>foad-distribution</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
-        
+         -->
     </dependencies>
     
     
