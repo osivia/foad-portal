@@ -13,6 +13,7 @@ import org.osivia.portal.api.PortalException;
 import org.osivia.portal.api.cms.DocumentContext;
 import org.osivia.portal.api.cms.DocumentType;
 import org.osivia.portal.api.cms.EcmDocument;
+import org.osivia.portal.api.cms.Permissions;
 import org.osivia.portal.api.cms.impl.BasicPermissions;
 import org.osivia.portal.api.cms.impl.BasicPublicationInfos;
 import org.osivia.portal.api.context.PortalControllerContext;
@@ -163,6 +164,31 @@ public class FoadMenubarModule implements MenubarModule {
 		}
 		
 		// -- end #2052
+		
+		// Remove forum creation for contributors
+		boolean forumRemoved = false;
+		if(documentContext.getType().getName().equals("Forum")) {
+			BasicPermissions permissions = documentContext.getPermissions(BasicPermissions.class);
+			if(!permissions.isManageableByUser()) {
+				identifiers.add("ADD_FORUM");
+				forumRemoved = true;
+				
+			}
+		}
+		if(forumRemoved) {
+	        
+	        for (MenubarItem item : menubar) {
+	            if (item.getId().equals("ADD_THREAD")) {
+	            	Bundle bundle = bundleFactory.getBundle(null);
+	                item.setTitle(bundle.getString("ADD"));
+	                item.setGlyphicon("halflings halflings-plus");
+	            }
+	        }
+
+		}
+		// -- end remove forum creation
+		
+		// Change 
         
         // Removed items
         List<MenubarItem> removedItems = new ArrayList<>(identifiers.size());
