@@ -331,12 +331,12 @@ public class FoadMenubarModule implements MenubarModule {
                     if (permissions.isEditableByUser()) {
                         String onlyOfficeTitle = bundle.getString("MENUBAR_ONLYOFFICE_TITLE");
 
-                        // OnlyOffice (with lock)
-                        String onlyOfficeWithLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITH_LOCK");
-                        String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, true, true);
-                        MenubarItem onlyOfficeWithLock = new MenubarItem("ONLYOFFICE_WITH_LOCK", onlyOfficeWithLockText, null, liveEditionDropdown, 1,
-                                onlyOfficeWithLockUrl, null, null, null);
-                        menubar.add(onlyOfficeWithLock);
+//                        // OnlyOffice (with lock)
+//                        String onlyOfficeWithLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITH_LOCK");
+//                        String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, documentDto.getPath(), onlyOfficeTitle, true, true);
+//                        MenubarItem onlyOfficeWithLock = new MenubarItem("ONLYOFFICE_WITH_LOCK", onlyOfficeWithLockText, null, liveEditionDropdown, 1,
+//                                onlyOfficeWithLockUrl, null, null, null);
+//                        menubar.add(onlyOfficeWithLock);
 
                         // OnlyOffice (without lock)
                         String onlyOfficeWithoutLockText = bundle.getString("MENUBAR_ONLYOFFICE_WITHOUT_LOCK");
