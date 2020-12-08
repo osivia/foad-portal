@@ -201,10 +201,6 @@
                     <name>osivia.services.cgu.path</name>
                     <value>cgu</value>
                 </property>
-                <property>
-                    <name>osivia.services.cgu.level</name>
-                    <value>2</value>
-                </property>
             </properties>
             
             <security-constraint>
