@@ -1429,7 +1429,7 @@ String timestampPattern = DateFormatUtils.ISO_DATETIME_FORMAT.getPattern();&#13;
 String currentTimestamp = DateFormatUtils.format(System.currentTimeMillis(), timestampPattern);&#13;
 &#13;
 StringBuilder nuxeoRequest = new StringBuilder();&#13;
-nuxeoRequest.append("ecm:path STARTSWITH '").append(taskPath).append("' ");&#13;
+nuxeoRequest.append("ecm:path STARTSWITH '").append(basePath).append("' ");&#13;
 nuxeoRequest.append("AND ecm:primaryType = 'VEVENT' ");&#13;
 nuxeoRequest.append("AND vevent:dtstart > TIMESTAMP '").append(currentTimestamp).append("' ");&#13;
 nuxeoRequest.append("ORDER BY vevent:dtstart ASC");&#13;
@@ -1454,10 +1454,6 @@ return nuxeoRequest.toString();</value>
                             <property>
                                 <name>theme.dyna.partial_refresh_enabled</name>
                                 <value>true</value>
-                            </property>
-                            <property>
-                                <name>osivia.taskbar.linked.id</name>
-                                <value>CALENDAR</value>
                             </property>
                             <property>
                                 <name>osivia.cms.style</name>
@@ -2244,7 +2240,7 @@ String timestampPattern = DateFormatUtils.ISO_DATETIME_FORMAT.getPattern();&#13;
 String currentTimestamp = DateFormatUtils.format(System.currentTimeMillis(), timestampPattern);&#13;
 &#13;
 StringBuilder nuxeoRequest = new StringBuilder();&#13;
-nuxeoRequest.append("ecm:path STARTSWITH '").append(taskPath).append("' ");&#13;
+nuxeoRequest.append("ecm:path STARTSWITH '").append(basePath).append("' ");&#13;
 nuxeoRequest.append("AND ecm:primaryType = 'VEVENT' ");&#13;
 nuxeoRequest.append("AND vevent:dtstart > TIMESTAMP '").append(currentTimestamp).append("' ");&#13;
 nuxeoRequest.append("ORDER BY vevent:dtstart ASC");&#13;
@@ -2269,10 +2265,6 @@ return nuxeoRequest.toString();</value>
                             <property>
                                 <name>theme.dyna.partial_refresh_enabled</name>
                                 <value>true</value>
-                            </property>
-                            <property>
-                                <name>osivia.taskbar.linked.id</name>
-                                <value>CALENDAR</value>
                             </property>
                             <property>
                                 <name>osivia.cms.style</name>
