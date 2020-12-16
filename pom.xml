@@ -13,13 +13,13 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.23</toutatice.version>
+        <toutatice.version>4.4.23-jdk8</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.23</directory.version>
+        <directory.version>4.4.23-jdk8</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.23</collaboration.version>
+        <collaboration.version>4.4.23-jdk8</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4</tasks.version>
