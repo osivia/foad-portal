@@ -523,23 +523,15 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         if (documentDto.isLiveEditable()) {
             if (permissions.isEditableByUser()) {
                 String onlyOfficeTitle = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_TITLE");
-                String onlyOfficeWithLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITH_LOCK");
                 String onlyOfficeWithoutLockText = bundle.getString("FILE_BROWSER_TOOLBAR_ONLYOFFICE_WITHOUT_LOCK");
 
-                String onlyOfficeWithLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeTitle, true, true);
                 String onlyOfficeWithoutLockUrl = this.getOnlyOfficeUrl(portalControllerContext, path, onlyOfficeWithoutLockText, true, false);
 
 
                 // OnlyOffice (with lock)
-                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeTitle,
+                Element onlyOffice = DOM4JUtils.generateLinkElement(onlyOfficeWithoutLockUrl, null, null, "btn btn-default no-ajax-link", onlyOfficeTitle,
                         "glyphicons glyphicons-pencil");
                 liveEditionGroup.add(onlyOffice);
-
-                // OnlyOffice (with lock)
-                Element onlyOfficeWithLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
-                dropdownMenu.add(onlyOfficeWithLockDropdownItem);
-                Element onlyOfficeWithLockLink = DOM4JUtils.generateLinkElement(onlyOfficeWithLockUrl, null, null, "no-ajax-link", onlyOfficeWithLockText);
-                onlyOfficeWithLockDropdownItem.add(onlyOfficeWithLockLink);
 
                 // OnlyOffice (without lock)
                 Element onlyOfficeWithoutLockDropdownItem = DOM4JUtils.generateElement("li", null, null);
