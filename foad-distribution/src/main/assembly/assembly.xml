@@ -22,7 +22,7 @@
                 <!-- Toutatice CMS -->
                 <include>toutatice-portail.cms:toutatice-portail-cms-nuxeo-web:war:${toutatice.version}</include>
                 <!-- Directory -->
-                <include>org.osivia.services.directory:osivia-services-directory-ear:ear:${directory.version}</include>
+                <include>${project.groupId}:foad-directory-ear:ear:${project.version}</include>
                 <!-- Collaboration -->
                 <include>${project.groupId}:foad-collaboration-ear:ear:${project.version}</include>
                 <include>org.osivia.services.workspace:osivia-services-workspace-quota:war:${project.groupId}</include>
@@ -43,6 +43,7 @@
             <scope>runtime</scope>
             <includes>
                 <!-- Directory -->
+                <include>${project.groupId}:foad-directory-socle-interfaces:jar:${project.version}</include>
                 <include>org.osivia.services.directory.socle:osivia-services-directory-socle-interfaces:jar:${directory.version}</include>
                 <!-- Identity SSO -->
                 <include>org.osivia.portal.identity:osivia-portal-identity-sso-lib:jar:${identity-sso.version}</include>

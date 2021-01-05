@@ -56,16 +56,21 @@
         
         <!-- Directory -->
         <dependency>
-            <groupId>org.osivia.services.directory</groupId>
-            <artifactId>osivia-services-directory-ear</artifactId>
-            <version>${directory.version}</version>
-            <type>ear</type>
-        </dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-directory-socle-interfaces</artifactId>
+            <version>${project.version}</version>
+        </dependency>     
         <dependency>
             <groupId>org.osivia.services.directory.socle</groupId>
             <artifactId>osivia-services-directory-socle-interfaces</artifactId>
             <version>${directory.version}</version>
-        </dependency>
+        </dependency>           
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-directory-ear</artifactId>
+            <version>${project.version}</version>
+            <type>ear</type>
+        </dependency>        
 
         <!-- Collaboration -->        
         <dependency>
@@ -74,6 +79,8 @@
             <version>${project.version}</version>
             <type>ear</type>
         </dependency>
+        
+
         
         <!-- Other services -->
         <dependency>

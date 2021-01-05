@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.gouv.education.foad</groupId>
+		<artifactId>foad-directory-parent</artifactId>
+		<version>4.4-SNAPSHOT</version>
+	</parent>
+	
+    <artifactId>foad-directory-socle-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>FOAD - Directory socle parent</name>
+    
+    <properties>
+        <!-- Spring framework LDAP -->
+        <springframework-ldap.version>2.1.0.RELEASE</springframework-ldap.version>
+    </properties>
+
+    <modules>
+        <module>interfaces</module>
+        <module>implementations</module>
+        <module>packaging</module>
+    </modules>
+    
+    
+
+    <dependencyManagement>
+        <dependencies>
+        
+            <!-- Directory -->
+            <dependency>
+                <groupId>org.osivia.services.directory.socle</groupId>
+                <artifactId>osivia-services-directory-socle-implementations</artifactId>
+                <version>${directory.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osivia.services.directory.socle</groupId>
+                <artifactId>osivia-services-directory-socle-services</artifactId>
+                <version>${directory.version}</version>
+                <type>war</type>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <dependencies>
+    
+        <!-- Spring framework LDAP -->
+        <dependency>
+            <groupId>org.springframework.ldap</groupId>
+            <artifactId>spring-ldap-core</artifactId>
+            <version>${springframework-ldap.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
