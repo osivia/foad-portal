@@ -42,16 +42,22 @@
             <artifactId>portal-server-lib</artifactId>
             <version>${jboss-portal.version}</version>
             <scope>provided</scope>
-        </dependency>
-          
- 
- 		<!-- Directory -->
+	        </dependency>
+	
+	
+		<!-- Directory -->
  		<dependency>
             <groupId>org.osivia.services.directory.socle</groupId>
             <artifactId>osivia-services-directory-socle-interfaces</artifactId>
             <version>${directory.version}</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>foad-directory-socle-interfaces</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
         
         <!-- CMS nuxeo web fragments -->
         <dependency>

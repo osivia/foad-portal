@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
  * @author Loïc Billon
  * @since 4.4
  */
-@Component("person")
+@Component("TribuPerson")
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Entry(objectClasses = {"portalPerson"})
 @Primary
@@ -148,6 +148,8 @@ public final class TribuPersonImpl implements TribuPerson {
     public TribuPersonImpl() {
         super();
         this.profiles = new ArrayList<Name>();
+        this.rneExerc = new ArrayList<String>();
+        this.rneResp = new ArrayList<String>();
         this.avatar = new Link(StringUtils.EMPTY, false);
     }
 
