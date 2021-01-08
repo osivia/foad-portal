@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.osivia.services.directory.person</groupId>
             <artifactId>osivia-services-directory-person-card</artifactId>
-            <version>${project.version}</version>
+            <version>${directory.version}</version>
             <type>war</type>
         </dependency>
         
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.osivia.services.directory.person</groupId>
             <artifactId>osivia-services-directory-user-settings</artifactId>
-            <version>${project.version}</version>
+            <version>${directory.version}</version>
             <type>war</type>
         </dependency>
         
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.osivia.services.directory.person</groupId>
             <artifactId>osivia-services-directory-person-management</artifactId>
-            <version>${project.version}</version>
+            <version>${directory.version}</version>
             <type>war</type>
         </dependency>
          
@@ -52,7 +52,7 @@
          <dependency>
         	<groupId>org.osivia.services.directory.person</groupId>
     		<artifactId>osivia-services-directory-first-connection</artifactId>
-        	<version>${project.version}</version>
+        	<version>${directory.version}</version>
         	<type>war</type>
          </dependency>
          
