@@ -124,7 +124,7 @@
                   <argument>
                     <argumentName><![CDATA[body]]></argumentName>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}.
 
@@ -192,7 +192,7 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
                   <argument>
                     <argumentName><![CDATA[body]]></argumentName>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}
 
@@ -302,7 +302,7 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[Bonjour,
 
-${user:name(uid)} a accepté votre invitation à rejoindre l'espace ${document:title(documentPath)}.
+${user:name(uid)} a accepté votre invitation à rejoindre l'espace ${workspaceTitle}.
 ]]></argumentValue>
                   </argument>
                   <argument>
@@ -345,7 +345,7 @@ ${user:name(uid)} a accepté votre invitation à rejoindre l'espace ${document:t
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[Bonjour,
 
-${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${document:title(documentPath)}.
+${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${workspaceTitle}.
 ]]></argumentValue>
                   </argument>
                   <argument>
@@ -419,7 +419,7 @@ ${user:name(uid)} a refusé votre invitation à rejoindre l'espace ${document:ti
                   <argument>
                     <argumentName><![CDATA[body]]></argumentName>
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${document:title(documentPath)}.
+                    <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.
 ${invitationMessage}
 ${command:link("Accepter", "accept", documentPath)}.
 
@@ -458,7 +458,7 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
       <step>
         <closable><![CDATA[true]]></closable>
         <notifiable><![CDATA[true]]></notifiable>
-        <stringMsg><![CDATA[${user:link(uid)} a refusé l'invitation à rejoindre l'espace ${document:link(documentPath)}.]]></stringMsg>
+        <stringMsg><![CDATA[${user:link(uid)} a refusé l'invitation à rejoindre l'espace ${workspaceTitle}.]]></stringMsg>
         <actionIdClosable><![CDATA[close]]></actionIdClosable>
         <index><![CDATA[2]]></index>
         <endStepMsg><![CDATA[]]></endStepMsg>
