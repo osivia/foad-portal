@@ -589,7 +589,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
                 contentTitle = StringUtils.defaultIfEmpty(contentTitle, bundle.getString("WORKSPACE_WELCOME_TITLE_DEFAULT"));
             }
         } else if (StringUtils.startsWith(page.getName(), "home-")) {
-            contentTitle = bundle.getString("HOME_CONTENT_TITLE");
+        	
+        	String appName = System.getProperty("application.name", "Tribu");
+        	
+            contentTitle = bundle.getString("HOME_CONTENT_TITLE", appName);
         } else {
             contentTitle = null;
         }
