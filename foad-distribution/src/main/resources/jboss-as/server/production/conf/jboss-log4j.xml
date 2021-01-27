@@ -513,4 +513,29 @@
 		</layout>
 	</appender> 
 		
+		
+	<!-- CMS access log -->
+	<category name="org.osivia.portal.access" additivity="false">
+		<priority value="DEBUG" />
+		<appender-ref ref="CMS_ACCESS_APPENDER" />
+	</category>
+	<appender name="CMS_ACCESS_APPENDER"
+		class="org.jboss.logging.appender.DailyRollingFileAppender">
+		<errorHandler
+			class="org.jboss.logging.util.OnlyOnceErrorHandler" />
+		<param name="File"
+			value="${jboss.server.log.dir}/access.log" />
+		<param name="Append" value="true" />
+
+		<!-- Rollover at midnight each day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+
+		<!-- Rollover at the top of each hour <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/> -->
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d %m%n" />
+
+		</layout>
+	</appender> 		
 </log4j:configuration>
