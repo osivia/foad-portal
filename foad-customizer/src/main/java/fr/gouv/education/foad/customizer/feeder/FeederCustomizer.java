@@ -80,11 +80,11 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
     private String rneExerc = StringUtils.defaultIfBlank(System.getProperty("fim.headers.rneExerc"), "FrEduRne");
     private String rneExerc_sep = StringUtils.defaultIfBlank(System.getProperty("fim.headers.rneExerc.sep"), "\\$");
     private String rneResp = StringUtils.defaultIfBlank(System.getProperty("fim.headers.rneResp"), "FrEduRneResp");
-    private String rneResp_sep = StringUtils.defaultIfBlank(System.getProperty("fim.headers.rneExerc.sep"), "\\|");
+    private String rneResp_sep = StringUtils.defaultIfBlank(System.getProperty("fim.headers.rneExerc.sep"), "\\$");
 
     private String aca = StringUtils.defaultIfBlank(System.getProperty("fim.headers.aca"), "FrEduAca");
     private String codaca = StringUtils.defaultIfBlank(System.getProperty("fim.headers.codaca"), "codaca");
-    private String mailaca = StringUtils.defaultIfBlank(System.getProperty("fim.headers.mailaca"), "mailaca");
+    private String mailaca = StringUtils.defaultIfBlank(System.getProperty("fim.headers.mailaca"), "ctemail");
 
 
 
