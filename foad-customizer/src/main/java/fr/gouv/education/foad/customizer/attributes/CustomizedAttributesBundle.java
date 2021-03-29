@@ -58,7 +58,9 @@ import fr.toutatice.portail.cms.nuxeo.portlets.document.ViewDocumentPortlet;
 public class CustomizedAttributesBundle implements IAttributesBundle {
 	
 
-    /** Log. */
+    private static final String PORTAL_SIGNOUT = "/portal/signout";
+
+	/** Log. */
     private final Log logger = LogFactory.getLog(CustomizedAttributesBundle.class);
 	
 	/** . */
@@ -196,7 +198,7 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 	        // SSO applications
 	        List<String> applisToLogout = new ArrayList<String>(applications);
 	        // Default sign-out url
-	        String portalLogout = (String) attributes.get(Constants.ATTR_TOOLBAR_SIGN_OUT_URL);
+	        String portalLogout = PORTAL_SIGNOUT;
 	        attributes.put(MAIN_APP, portalLogout);
 	        
 	        if (portalControllerContext != null && portalControllerContext.getHttpServletRequest() != null) {
