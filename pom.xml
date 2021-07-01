@@ -13,13 +13,13 @@
     <properties>
         
         <!-- Toutatice -->
-        <toutatice.version>4.4.24.2</toutatice.version>
+        <toutatice.version>4.4.25</toutatice.version>
         
         <!-- Directory -->
-        <directory.version>4.4.24</directory.version>
+        <directory.version>4.4.25</directory.version>
         
         <!-- Collaboration -->
-        <collaboration.version>4.4.24</collaboration.version>
+        <collaboration.version>4.4.25</collaboration.version>
         
         <!-- Other services -->
         <tasks.version>4.4</tasks.version>
