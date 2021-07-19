@@ -1882,47 +1882,6 @@ return nuxeoRequest.toString();</value>
                         <security-constraint />
                         
                         <window>
-                            <window-name>foad-scope-selector-instance_1543334861101</window-name>
-                            <instance-ref>foad-scope-selector-instance</instance-ref>
-                            <region>col-6</region>
-                            <properties>
-                                <property>
-                                    <name>foad.scope-selector.id</name>
-                                    <value>scopePath</value>
-                                </property>
-                                <property>
-                                    <name>theme.order</name>
-                                    <value>0</value>
-                                </property>
-                                <property>
-                                    <name>osivia.ajaxLink</name>
-                                    <value>1</value>
-                                </property>
-                                <property>
-                                    <name>portal.windowContentType</name>
-                                    <value>portlet</value>
-                                </property>
-                                <property>
-                                    <name>osivia.hideDecorators</name>
-                                    <value>1</value>
-                                </property>
-                                <property>
-                                    <name>foad.scope-selector.label</name>
-                                    <value>Portée de la recherche</value>
-                                </property>
-                                <property>
-                                    <name>theme.dyna.partial_refresh_enabled</name>
-                                    <value>true</value>
-                                </property>
-                                <property>
-                                    <name>osivia.hideTitle</name>
-                                    <value>1</value>
-                                </property>
-                            </properties>
-                            <height>0</height>
-                        </window>
-                        
-                        <window>
                             <window-name>foad-taskbar-instance_1543243315932</window-name>
                             <instance-ref>foad-taskbar-instance</instance-ref>
                             <region>col-1</region>
@@ -2154,7 +2113,7 @@ nuxeoRequest.append(")) ");&#13;
 &#13;
 List search = params.get("search");&#13;
 if (search != null) {&#13;
-nuxeoRequest.append("AND ").append(NXQLFormater.formatTextSearch("dc:title",search)).append(" ");&#13;
+nuxeoRequest.append("AND ").append(NXQLFormater.formatAdvancedSearch(search)).append(" ");&#13;
 }&#13;
 &#13;
 List date = params.get("modified");&#13;
