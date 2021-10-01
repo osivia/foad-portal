@@ -1,7 +1,5 @@
 package fr.gouv.education.foad.generator.controller;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -55,27 +53,6 @@ public class ViewGeneratorController extends CMSPortlet implements PortletConfig
     public ViewGeneratorController() {
         super();
     }
-
-
-    /**
-     * Post-construct.
-     *
-     * @throws PortletException
-     */
-    @PostConstruct
-    public void postConstruct() throws PortletException {
-        super.init(this.portletConfig);
-    }
-
-
-    /**
-     * Pre-destroy.
-     */
-    @PreDestroy
-    public void preDestroy() {
-        super.destroy();
-    }
-
 
     /**
      * View render mapping.

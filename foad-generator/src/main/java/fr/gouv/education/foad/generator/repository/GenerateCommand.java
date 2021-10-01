@@ -70,20 +70,20 @@ public class GenerateCommand implements INuxeoCommand {
         Document docRoot = documentService.getDocument(new PathRef(path));
         
         Random random = new Random();
-        int folderId = 0;
-        int fileId = 0;
+        int folderId = 1;
+        int fileId = 1;
         
-        for(int i = 0; i < configuration.getNbOfRootFolers(); i++) {
+        for(int i = 1; i <= configuration.getNbOfRootFolers(); i++) {
         	
 			Document folder = createFolder(documentService, docRoot, random, Integer.toString(folderId));
 			folderId = folderId +1;
 			
-			for(int j = 0; j < configuration.getNbOfSubFolers(); j++) {
+			for(int j = 1; j <= configuration.getNbOfSubFolers(); j++) {
 				
 				Document subfolder = createFolder(documentService, folder, random, Integer.toString(folderId));
 				folderId = folderId +1;
 
-				for(int k = 0; k < configuration.getNbOfSubItems(); k++) {
+				for(int k = 1; k <= configuration.getNbOfSubItems(); k++) {
 					
 					createFile(documentService, random, subfolder, Integer.toString(fileId));
 					fileId = fileId + 1;
@@ -91,7 +91,7 @@ public class GenerateCommand implements INuxeoCommand {
 				
 			}
 			
-			for(int k = 0; k < configuration.getNbOfSubItems(); k++) {
+			for(int k = 1; k <= configuration.getNbOfSubItems(); k++) {
 				
 				createFile(documentService, random, folder, Integer.toString(fileId));
 				fileId = fileId + 1;
@@ -114,10 +114,11 @@ public class GenerateCommand implements INuxeoCommand {
 		properties.set("dc:title", "fichier-tmc-" +space_prefix+ "-" + id);
 		String user = "utilisateur-" + space_prefix + "-" + random.nextInt(configuration.getNbOfUsersPerWks()) + "@example.org";
 		properties.set("dc:creator", user);
+		properties.set("ttc:webid", "fichier-tmc-" +space_prefix+ "-" + id);
+
 		
 		if((random.nextInt(2) % 2) == 0) {
 			LOGGER.debug("Create note fichier-tmc-" +space_prefix+ "-" + id);
-
 			properties.set("note:note", fairy.textProducer().latinWord(12));
 
 			documentService.createDocument(folder, "Note", "fichier-tmc-" +space_prefix+ "-" + id, properties);
@@ -142,6 +143,8 @@ public class GenerateCommand implements INuxeoCommand {
 		LOGGER.info("Create folder dossier-tmc-" +space_prefix+ "-" +id);
 		PropertyMap properties = new PropertyMap();
 		properties.set("dc:title", "dossier-tmc-" +space_prefix+ "-" + id);
+		properties.set("ttc:webid", "dossier-tmc-" +space_prefix+ "-" + id);
+
 		String user = "utilisateur-" + space_prefix + "-" + random.nextInt(configuration.getNbOfUsersPerWks()) + "@example.org";
 		properties.set("dc:creator", user);
 		Document folder = documentService.createDocument(docRoot, "Folder", "dossier-tmc-" +space_prefix+ "-" +id, properties);

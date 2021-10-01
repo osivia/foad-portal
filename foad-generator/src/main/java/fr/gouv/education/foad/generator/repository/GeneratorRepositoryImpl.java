@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -22,6 +23,7 @@ import javax.portlet.PortletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+import org.nuxeo.ecm.automation.client.model.Document;
 import org.osivia.directory.v2.model.ext.WorkspaceRole;
 import org.osivia.directory.v2.service.PersonUpdateService;
 import org.osivia.directory.v2.service.WorkspaceService;
@@ -39,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.gouv.education.foad.generator.model.Configuration;
+import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
 import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
@@ -79,8 +82,6 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
     @Autowired
     private WorkspaceCreationService workspaceCreationService;
     
-    @Autowired
-    private WorkspaceEditionService workspaceEditionService;
     
     /**
      * Constructor.
@@ -186,18 +187,18 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         // Nuxeo controller
         NuxeoController nuxeoController = this.getNuxeoController(portalControllerContext);
         nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
-        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_PORTLET_CONTEXT);
+        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
         nuxeoController.setAsynchronousCommand(false);
 
         Locale locale = nuxeoController.getRequest().getLocale();
 
         Fairy fairy = Fairy.create(locale);
         
-        for(int i = 0; i < configuration.getNbOfworkspaces(); i++) {
+        for(int i = 1; i <= configuration.getNbOfworkspaces(); i++) {
         	
         	LOGGER.info("creating space  "+Integer.toString(i));
         	
-        	Person owner = createUser(portalControllerContext, fairy, i, 0);
+        	Person owner = createUser(portalControllerContext, fairy, i, 1);
 	        
         	String workspaceId = "espace-tmc-" + Integer.toString(i);
         	WorkspaceCreationForm form = new WorkspaceCreationForm();
@@ -207,11 +208,24 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         	
 			workspaceCreationService.create(portalControllerContext, form);
 			
+			
+			// Fix webid
+			NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext("/default-domain/workspaces/espace-tmc-" + Integer.toString(i));
+        	
+        	if(documentContext.getDoc() != null) {
+        		
+        		Document doc = documentContext.getDoc();
+        		INuxeoCommand command = new ModifyWebIdCommand(doc, workspaceId);
+    			nuxeoController.executeNuxeoCommand(command);
+        	}
+			
+			
+			
 			WorkspaceRole[] roles = WorkspaceRole.values();
 			int rolesSize = roles.length;
 			Random random = new Random();
 			
-			for(int j = 1; j < configuration.getNbOfUsersPerWks(); j++) {
+			for(int j = 2; j <= configuration.getNbOfUsersPerWks(); j++) {
 				Person createUser = createUser(portalControllerContext, fairy, i, j);
 				
 				LOGGER.debug("Adding user  "+createUser.getCn()+ " in " +workspaceId);
@@ -234,6 +248,8 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
 		String uid = "utilisateur-" + Integer.toString(i) + "-" + Integer.toString(j)+ "@example.org";
 		owner.setUid(uid);
 		owner.setMail(uid);
+		owner.setCreationDate(new Date());
+		owner.setLastConnection(new Date());
 		
 		io.codearte.jfairy.producer.person.Person personGen = fairy.person();
 		owner.setSn(personGen.firstName());
@@ -273,10 +289,10 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         
         NuxeoController nuxeoController = this.getNuxeoController(portalControllerContext);
         nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
-        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_PORTLET_CONTEXT);
+        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
         nuxeoController.setAsynchronousCommand(false);
         
-        for(int i = 0; i < configuration.getNbOfworkspaces(); i++) {
+        for(int i = 1; i <= configuration.getNbOfworkspaces(); i++) {
         	
         	
         	try {
@@ -284,13 +300,18 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         		NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext("/default-domain/workspaces/espace-tmc-" + Integer.toString(i));
         	
 	        	if(documentContext.getDoc() != null) {
-		        	WorkspaceEditionForm form = new WorkspaceEditionForm(documentContext.getDoc());
-		
-		    		workspaceEditionService.delete(portalControllerContext, form );
+	        		
+	        		Document doc = documentContext.getDoc();
+	        		String workspaceId = doc.getProperties().getString("webc:url");
+	        		
+	        		workspaceService.delete(workspaceId);
+	        		
+	        		INuxeoCommand command = new RemoveCommand(doc);
+					nuxeoController.executeNuxeoCommand(command);
 	        	}
         	}
         	catch(NuxeoException e) {
-        		LOGGER.warn("error deleting space number " + Integer.toString(i));
+        		LOGGER.error("error deleting space number " + Integer.toString(i), e);
         	}
         	
         }
