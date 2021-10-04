@@ -5,6 +5,7 @@ import javax.portlet.PortletException;
 import org.osivia.portal.api.context.PortalControllerContext;
 
 import fr.gouv.education.foad.generator.model.Configuration;
+import fr.gouv.education.foad.generator.model.GenerateForm;
 
 /**
  * Generator repository interface.
@@ -37,17 +38,19 @@ public interface GeneratorRepository {
      * Generate.
      *
      * @param portalControllerContext portal controller context
+     * @param form 
      * @throws PortletException
      */
-    void generate(PortalControllerContext portalControllerContext) throws PortletException;
+    void generate(PortalControllerContext portalControllerContext, GenerateForm form) throws PortletException;
 
 
     /**
      * Purge.
      * 
      * @param portalControllerContext portal controller context
+     * @param form 
      * @throws PortletException
      */
-    void purge(PortalControllerContext portalControllerContext) throws PortletException;
+    void purge(PortalControllerContext portalControllerContext, GenerateForm form) throws PortletException;
 
 }

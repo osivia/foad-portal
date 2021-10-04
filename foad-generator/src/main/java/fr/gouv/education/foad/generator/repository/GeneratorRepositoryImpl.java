@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.gouv.education.foad.generator.model.Configuration;
+import fr.gouv.education.foad.generator.model.GenerateForm;
 import fr.toutatice.portail.cms.nuxeo.api.INuxeoCommand;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoController;
 import fr.toutatice.portail.cms.nuxeo.api.NuxeoException;
@@ -177,7 +178,7 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
      * {@inheritDoc}
      */
     @Override
-    public void generate(PortalControllerContext portalControllerContext) throws PortletException {
+    public void generate(PortalControllerContext portalControllerContext, GenerateForm generateForm) throws PortletException {
     	
     	URL exampleFile = this.getClass().getResource("/WEB-INF/classes/example.doc");
     	
@@ -194,7 +195,17 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
 
         Fairy fairy = Fairy.create(locale);
         
-        for(int i = 1; i <= configuration.getNbOfworkspaces(); i++) {
+        int min = 1;
+        if(generateForm.getMinIndex() != null) {
+        	min = generateForm.getMinIndex();
+        }
+        
+        int max = configuration.getNbOfworkspaces();
+        if(generateForm.getMaxIndex() != null) {
+        	max = generateForm.getMaxIndex();
+        }
+        
+        for(int i = min; i <= max; i++) {
         	
         	LOGGER.info("creating space  "+Integer.toString(i));
         	
@@ -208,7 +219,6 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         	
 			workspaceCreationService.create(portalControllerContext, form);
 			
-			
 			// Fix webid
 			NuxeoDocumentContext documentContext = nuxeoController.getDocumentContext("/default-domain/workspaces/espace-tmc-" + Integer.toString(i));
         	
@@ -219,8 +229,6 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
     			nuxeoController.executeNuxeoCommand(command);
         	}
 			
-			
-			
 			WorkspaceRole[] roles = WorkspaceRole.values();
 			int rolesSize = roles.length;
 			Random random = new Random();
@@ -228,12 +236,19 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
 			for(int j = 2; j <= configuration.getNbOfUsersPerWks(); j++) {
 				Person createUser = createUser(portalControllerContext, fairy, i, j);
 				
-				LOGGER.debug("Adding user  "+createUser.getCn()+ " in " +workspaceId);
+				LOGGER.info("Adding user  "+createUser.getCn()+ " in " +workspaceId);
 				
 				workspaceService.addOrModifyMember(workspaceId, createUser.getDn(), roles[random.nextInt(rolesSize)]);
 			}
 			
-			nuxeoController.executeNuxeoCommand(new GenerateCommand(configuration, "/default-domain/workspaces/espace-tmc-" + Integer.toString(i) + "/documents", Integer.toString(i), fairy, exampleFile));
+//        }
+//        
+//        for(int i = 1; i <= configuration.getNbOfworkspaces(); i++) {
+	        NuxeoController nuxeoControllerAsync = this.getNuxeoController(portalControllerContext);
+	        nuxeoControllerAsync.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
+	        nuxeoControllerAsync.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
+	        nuxeoControllerAsync.setAsynchronousCommand(true);
+	        nuxeoControllerAsync.executeNuxeoCommand(new GenerateCommand(configuration, "/default-domain/workspaces/espace-tmc-" + Integer.toString(i) + "/documents", Integer.toString(i), fairy, exampleFile));
         }
         
     }
@@ -281,7 +296,7 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
      * {@inheritDoc}
      */
     @Override
-    public void purge(PortalControllerContext portalControllerContext) throws PortletException {
+    public void purge(PortalControllerContext portalControllerContext, GenerateForm generateForm) throws PortletException {
     	
         // Configuration
         Configuration configuration = this.getConfiguration(portalControllerContext);
@@ -292,7 +307,18 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
         nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
         nuxeoController.setAsynchronousCommand(false);
         
-        for(int i = 1; i <= configuration.getNbOfworkspaces(); i++) {
+        
+        int min = 1;
+        if(generateForm.getMinIndex() != null) {
+        	min = generateForm.getMinIndex();
+        }
+        
+        int max = configuration.getNbOfworkspaces();
+        if(generateForm.getMaxIndex() != null) {
+        	max = generateForm.getMaxIndex();
+        }
+        
+        for(int i = min; i <= max; i++) {
         	
         	
         	try {
@@ -311,31 +337,30 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
 	        	}
         	}
         	catch(NuxeoException e) {
-        		LOGGER.error("error deleting space number " + Integer.toString(i), e);
+        		LOGGER.error("error deleting space number " + Integer.toString(i));
         	}
         	
+            Person personsToDeleteQuery = personService.getEmptyPerson();
+        	String uid = "utilisateur-"+i+"-*";
+    		personsToDeleteQuery.setUid(uid);
+            
+    		
+    		
+    		List<Person> personsToDelete = personService.findByCriteria(personsToDeleteQuery);
+    		
+    		while(!personsToDelete.isEmpty()) {
+    		
+    			for(Person  p : personsToDelete) {
+    				
+    				LOGGER.warn("deleting "+p.getUid());
+    				personService.delete(p);
+    				
+    			}
+    			
+    			personsToDelete = personService.findByCriteria(personsToDeleteQuery);
+    		}
+        	
         }
-        
-        Person personsToDeleteQuery = personService.getEmptyPerson();
-    	String uid = "utilisateur-*";
-		personsToDeleteQuery.setUid(uid);
-        
-		
-		
-		List<Person> personsToDelete = personService.findByCriteria(personsToDeleteQuery);
-		
-		while(!personsToDelete.isEmpty()) {
-		
-			for(Person  p : personsToDelete) {
-				
-				LOGGER.warn("deleting "+p.getUid());
-				personService.delete(p);
-				
-			}
-			
-			personsToDelete = personService.findByCriteria(personsToDeleteQuery);
-		}
-
         
     }
 

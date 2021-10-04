@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.gouv.education.foad.generator.model.Configuration;
+import fr.gouv.education.foad.generator.model.GenerateForm;
 import fr.gouv.education.foad.generator.repository.GeneratorRepository;
 
 /**
@@ -56,8 +57,8 @@ public class GeneratorServiceImpl implements GeneratorService {
      * {@inheritDoc}
      */
     @Override
-    public void generate(PortalControllerContext portalControllerContext) throws PortletException {
-        this.repository.generate(portalControllerContext);
+    public void generate(PortalControllerContext portalControllerContext, GenerateForm form) throws PortletException {
+        this.repository.generate(portalControllerContext, form);
     }
 
 
@@ -65,8 +66,8 @@ public class GeneratorServiceImpl implements GeneratorService {
      * {@inheritDoc}
      */
     @Override
-    public void purge(PortalControllerContext portalControllerContext) throws PortletException {
-        this.repository.purge(portalControllerContext);
+    public void purge(PortalControllerContext portalControllerContext, GenerateForm form) throws PortletException {
+        this.repository.purge(portalControllerContext, form);
     }
 
 }
