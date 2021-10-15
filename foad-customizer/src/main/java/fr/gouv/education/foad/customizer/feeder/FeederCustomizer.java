@@ -52,7 +52,7 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
 
 
     /** Log. */
-    private final Logger log = Logger.getLogger(FeederCustomizer.class);
+    private final Logger fimlog = Logger.getLogger("fim");
 	
     /** Customizer name. */
     private static final String CUSTOMIZER_NAME = "foad.customizer.feeder";
@@ -233,8 +233,8 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
 							String header = request.getHeader(nextElement);
 							headerLogs.add(nextElement + " >> " + header);
 						}
-						e.printStackTrace();
-						log.error("Erreur traitement des headers " + e.getMessage() + " " +headerLogs);
+
+						fimlog.error("Erreur traitement des headers " + e.getMessage() + " " +headerLogs);
 					}
 				}
 
@@ -248,11 +248,14 @@ public class FeederCustomizer extends GenericPortlet implements ICustomizationMo
     	
     	if(person instanceof TribuPerson) {
     		TribuPerson tribuPerson = (TribuPerson) person;     
-            
+
+    		fimlog.info("----------------");
 
             Enumeration<String> headerNames = servletRequest.getHeaderNames();
             while(headerNames.hasMoreElements()) {
             	String nextElement = (String) headerNames.nextElement();
+            	
+            	fimlog.info("Traitement des headers " + nextElement + " " +servletRequest.getHeader(nextElement));
             	
             	if(nextElement.equalsIgnoreCase(employeeNumber) && StringUtils.isNotBlank(servletRequest.getHeader(employeeNumber))) {
             		tribuPerson.setHashNumen(servletRequest.getHeader(employeeNumber));

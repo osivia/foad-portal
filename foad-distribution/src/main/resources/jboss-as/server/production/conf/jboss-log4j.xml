@@ -537,5 +537,32 @@
 			<param name="ConversionPattern" value="%d %m%n" />
 
 		</layout>
+	</appender>
+	
+	
+	 		
+	<!-- Headers fim log -->
+	<category name="fim" additivity="false">
+		<priority value="INFO" />
+		<appender-ref ref="FIM_APPENDER" />
+	</category>
+	<appender name="FIM_APPENDER"
+		class="org.jboss.logging.appender.DailyRollingFileAppender">
+		<errorHandler
+			class="org.jboss.logging.util.OnlyOnceErrorHandler" />
+		<param name="File"
+			value="${jboss.server.log.dir}/fim.log" />
+		<param name="Append" value="true" />
+
+		<!-- Rollover at midnight each day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+
+		<!-- Rollover at the top of each hour <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/> -->
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern" value="%d %m%n" />
+
+		</layout>
 	</appender> 		
 </log4j:configuration>
