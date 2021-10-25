@@ -433,38 +433,6 @@ public class IntegrityServiceImpl implements IntegrityService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#updateWks()
-	 */
-	@Override
-	public void updateWks(PortalControllerContext portalControllerContext) {
-		NuxeoController nuxeoController = new NuxeoController(portalControllerContext);
-        nuxeoController.setAuthType(NuxeoCommandContext.AUTH_TYPE_SUPERUSER);
-        nuxeoController.setCacheType(CacheInfo.CACHE_SCOPE_NONE);
-        nuxeoController.setAsynchronousCommand(false);
-        
-		Documents workspaces = (Documents) nuxeoController.executeNuxeoCommand(
-				new GetWorkspacesNotInVersionCommand("4.4.16"));
-		
-		log.info("begin updateWks "+workspaces.size());
-		
-		for(Document workspace : workspaces) {
-			
-			try {
-				nuxeoController.executeNuxeoCommand(new MigrationCommand(workspace));
-			}
-			catch (NuxeoException e) {
-				
-				log.error("Error in migration of : "+workspace.getTitle());
-				nuxeoController.executeNuxeoCommand(new MigrationInErrorCommand(workspace));
-
-			}
-			
-		}
-		
-		log.info("end updateWks");
-		
-	}
 
 	/* (non-Javadoc)
 	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#deleteDoc(fr.gouv.education.foad.integrity.controller.DeleteDocForm)

@@ -30,8 +30,6 @@
 <portlet:actionURL name="chgValidDate" var="chgValidDateUrl" >
 </portlet:actionURL>
 
-<portlet:actionURL name="updateWks" var="updateWksUrl" >
-</portlet:actionURL>
 
 <h3><op:translate key="INTEG_TITLE" /></h3>
 <p>
@@ -138,17 +136,6 @@
 
 </form:form>
 
-<h3><op:translate key="UPDATE_TITLE" /></h3>
-<p>
-	<op:translate key="UPDATE_HELP" />  
-    <a href="${updateWksUrl}" class="btn btn-default no-ajax-link">
-   
-        <i class="glyphicons glyphicons-electricity"></i>    
-        <span><op:translate key="UPDATE_4416_BUTTON" /></span>
-    </a>
-</p>
-
-
 
 <!-- Supprimer une entrée -->
 <portlet:actionURL name="deleteDoc" var="deleteDocUrl" >
@@ -170,4 +157,34 @@
    		<i class="glyphicons glyphicons-electricity"></i>
    		<op:translate key="DELETE" />
    	</button>
+</form:form>
+
+
+<!-- NUMEN -->
+<portlet:actionURL name="supprNumen" var="supprNumenUrl" >
+</portlet:actionURL>
+
+<h3>Script de reprise des NUMEN</h3>
+<p>Supprime les NUMEN fournis dans le fichier joint</p>
+<form:form action="${supprNumenUrl}" method="post" enctype="multipart/form-data"
+	modelAttribute="supprNumenForm" cssClass="form-horizontal" role="form">
+
+	<div class="form-group">
+
+		<form:label path="file" cssClass="control-label col-sm-3 col-lg-2">Fichier des NUMEN</form:label>
+		<div class="col-sm-9 col-lg-10">
+			<form:input type="file" path="file.upload" />
+		</div>
+
+		<!-- Buttons -->
+		<div class="row">
+			<div class="col-sm-offset-3 col-sm-9 col-lg-offset-2 col-lg-10">
+				<!-- Save -->
+				<button type="submit" name="save" class="btn btn-primary">
+					<i class="glyphicons glyphicons-floppy-disk"></i> <span>Nettoyer</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
 </form:form>

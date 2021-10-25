@@ -28,6 +28,15 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+        	<groupId>${parent.groupId}</groupId>
+        	<artifactId>foad-directory-socle-interfaces</artifactId>
+        	<version>${parent.version}</version>
+        	<scope>provided</scope>
+        </dependency>
+        
+        
+        
         <!-- Workspace modifications -->
  		<dependency>
             <groupId>org.osivia.services.workspace</groupId>

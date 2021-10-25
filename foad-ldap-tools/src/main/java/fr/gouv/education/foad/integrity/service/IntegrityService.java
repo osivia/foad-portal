@@ -78,11 +78,6 @@ public interface IntegrityService {
 	void chgValidDate(PortalControllerContext portalControllerContext, Date validity, List<String> logins,
 			Boolean validityTest);
 
-	/**
-	 * Migration : create staple for last modifications, migration PictureBooks in Folders
-	 * @param portalControllerContext
-	 */
-	void updateWks(PortalControllerContext portalControllerContext);
 
 	/**
 	 * @param form

@@ -1,5 +1,7 @@
 package fr.gouv.education.foad.integrity.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import javax.portlet.RenderResponse;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.osivia.portal.api.PortalException;
+import org.osivia.portal.api.batch.IBatchService;
 import org.osivia.portal.api.context.PortalControllerContext;
 import org.osivia.portal.api.internationalization.Bundle;
 import org.osivia.portal.api.internationalization.IBundleFactory;
@@ -30,11 +34,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.context.PortletConfigAware;
 import org.springframework.web.portlet.context.PortletContextAware;
 
+import fr.gouv.education.foad.bns.batch.BnsImportBatch;
+import fr.gouv.education.foad.bns.controller.BnsImportForm;
+import fr.gouv.education.foad.integrity.batch.SupprNumenBatch;
 import fr.gouv.education.foad.integrity.service.IntegrityService;
 import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 
@@ -67,6 +75,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     @Autowired
     protected INotificationsService notificationsService;    
 
+	@Autowired
+	private IBatchService batchService;
 
     /**
      * Constructor.
@@ -286,14 +296,41 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 		}
     }
     
-    @ActionMapping(value = "updateWks")
-    public void updateWks(ActionRequest request, ActionResponse response) {
-    	
-    	PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+    
 
-    	service.updateWks(pcc);
+    /**
+     * 
+     *
+     * @param request action request
+     * @param response action response
+     * @throws PortletException
+     * @throws IOException 
+     * @throws PortalException 
+     * @throws ParseException 
+     */
+    @ActionMapping(value = "supprNumen")
+    public void supprNumen(ActionRequest request, ActionResponse response, @ModelAttribute("supprNumenForm") SupprNumenForm form) throws PortletException, IOException, ParseException, PortalException {
+        
+    	// Temporary file
+        MultipartFile upload = form.getFile().getUpload();
+        File temporaryFile = File.createTempFile("numen-", ".tmp");
+        temporaryFile.deleteOnExit();
+        upload.transferTo(temporaryFile);
+        form.setTemporaryFile(temporaryFile);
+        
+        // Prepare batch
+        SupprNumenBatch batch = new SupprNumenBatch(form);
+        batch.setPortletContext(portletContext);
+        batchService.addBatch(batch);
+        
+        PortalControllerContext pcc = new PortalControllerContext(portletContext, request, response);
+		getNotificationsService().addSimpleNotification(pcc, "Batch programmé", NotificationsType.SUCCESS);
+
+        
     }
     
+    
+
     /**
      * 
      * @return
@@ -323,8 +360,12 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     	return new PurgeUsersForm();
     	
     }
-        
-
+       
+    @ModelAttribute("supprNumenForm")
+    public SupprNumenForm getSupprNumenForm() {
+    	return new SupprNumenForm();
+    }
+    
     /**
      * {@inheritDoc}
      */
