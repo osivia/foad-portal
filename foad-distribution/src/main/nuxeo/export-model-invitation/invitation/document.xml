@@ -339,7 +339,9 @@ ${uid} a refusé votre invitation à rejoindre l'espace ${workspaceTitle}.]]></a
                     <argumentType><![CDATA[TEXTAREA]]></argumentType>
                     <argumentValue><![CDATA[${user:name(initiator)} vous a invité à rejoindre l'espace ${workspaceTitle}.
 ${invitationMessage}
-${command:linknoactor("Accepter", "accept", documentPath)}.
+${command:linknoactor("Accepter", "accept_current_login", documentPath)}.
+
+${command:linknoactor("Refuser", "decline", "")}
 
 Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation et Ressources.]]></argumentValue>
                   </argument>
