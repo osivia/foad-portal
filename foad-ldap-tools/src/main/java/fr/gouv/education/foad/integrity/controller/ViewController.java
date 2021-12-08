@@ -43,6 +43,7 @@ import org.springframework.web.portlet.context.PortletContextAware;
 import fr.gouv.education.foad.bns.batch.BnsImportBatch;
 import fr.gouv.education.foad.bns.controller.BnsImportForm;
 import fr.gouv.education.foad.integrity.batch.SupprNumenBatch;
+import fr.gouv.education.foad.integrity.batch.SupprUtilisateursNonCoBatch;
 import fr.gouv.education.foad.integrity.service.IntegrityService;
 import fr.toutatice.portail.cms.nuxeo.api.CMSPortlet;
 
@@ -77,6 +78,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
 	@Autowired
 	private IBatchService batchService;
+	private SupprUtilisateursNonCoBatch batch;
 
     /**
      * Constructor.
@@ -94,6 +96,18 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     @PostConstruct
     public void postConstruct() throws PortletException {
         super.init(this.portletConfig);
+        
+        try {
+	        batch = new SupprUtilisateursNonCoBatch();
+	        SupprUtilisateursNonCoBatch.setPortletContext(portletContext);
+	        batchService.addBatch(batch);
+        }
+        catch(ParseException e) {
+        	throw new PortletException(e);
+        }
+        catch(PortalException e) {
+        	throw new PortletException(e);
+        }
     }
 
 
@@ -103,6 +117,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     @PreDestroy
     public void preDestroy() {
         super.destroy();
+        
+        batchService.removeBatch(batch);
     }
 
 
