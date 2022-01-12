@@ -102,15 +102,22 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
         super.init(this.portletConfig);
         
         try {
-        	supprUtilisateursNonCoBatch = new SupprUtilisateursNonCoBatch();
-	        SupprUtilisateursNonCoBatch.setPortletContext(portletContext);
-	        batchService.addBatch(supprUtilisateursNonCoBatch);
-	        
-	        supprEspacesVidesBatch = new SupprEspacesVidesBatch();
-	        SupprEspacesVidesBatch.setPortletContext(portletContext);
-	        batchService.addBatch(supprEspacesVidesBatch);
-	        
-	        
+    		String batchUserenabled = System.getProperty("foad.purgeusers.enabled");
+    		// la propriété doit être non vide et à false pour désactiver le traitement
+    		if (batchUserenabled == null || BooleanUtils.toBoolean(batchUserenabled)) {
+            	supprUtilisateursNonCoBatch = new SupprUtilisateursNonCoBatch();
+    	        SupprUtilisateursNonCoBatch.setPortletContext(portletContext);
+    	        batchService.addBatch(supprUtilisateursNonCoBatch);
+    		}
+        	
+    		String batchSpaceEnabled = System.getProperty("foad.purgeespaces.enabled");
+    		// la propriété doit être non vide et à false pour désactiver le traitement
+    		if (batchSpaceEnabled == null || !BooleanUtils.toBoolean(batchSpaceEnabled)) {
+    	        supprEspacesVidesBatch = new SupprEspacesVidesBatch();
+    	        SupprEspacesVidesBatch.setPortletContext(portletContext);
+    	        batchService.addBatch(supprEspacesVidesBatch);
+    		}
+    		
         }
         catch(ParseException e) {
         	throw new PortletException(e);

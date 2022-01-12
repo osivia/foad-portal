@@ -132,12 +132,6 @@ public class SupprEspacesVidesBatch extends NuxeoBatch {
 	@Override
 	public String getJobScheduling() {
 
-		String enabled = System.getProperty("foad.purgeespaces.enabled");
-		// la propriété doit être non vide et à false pour désactiver le traitement
-		if (enabled != null && !BooleanUtils.toBoolean(enabled)) {
-			return null;
-		}
-		
 		String cron = System.getProperty("foad.purgeespaces.cron");
 		
 		if(StringUtils.isNotBlank(cron)) {
@@ -255,7 +249,7 @@ public class SupprEspacesVidesBatch extends NuxeoBatch {
 				}
 //									
 //				if(lastVisit.before(referenceDate)) {
-					log.info("L'espace " + workspace.getTitle() + " n'a pas été visite depuis le "+sdf.format(lastVisit));
+					log.info("L'espace " + workspace.getTitle() + " n'a pas été visité depuis le "+sdf.format(lastVisit));
 					spacesToPutInTrash.add(workspace);					
 					
 //				}
@@ -425,11 +419,6 @@ public class SupprEspacesVidesBatch extends NuxeoBatch {
 
 		int pageIndex = 0;
 		int pageCount = 1;
-//		Date referenceDate = new Date();
-//		Calendar c = Calendar.getInstance(); 
-//		c.setTime(referenceDate); 
-//		c.add(Calendar.MONTH, Math.negateExact(delaiJoursEspaceEnCorbeille));
-//		referenceDate = c.getTime();
 				
 		List<Document> spacesToRemove = new ArrayList<>();
 
@@ -445,6 +434,8 @@ public class SupprEspacesVidesBatch extends NuxeoBatch {
 			for (Document workspaceInTrash : workspacesInTrash.list()) {
 
 				spacesToRemove.add(workspaceInTrash);
+				log.info("L'Espace " + workspaceInTrash.getTitle() + " est dans la corbeille administrateur.");
+
 
 			}
 			pageIndex++;

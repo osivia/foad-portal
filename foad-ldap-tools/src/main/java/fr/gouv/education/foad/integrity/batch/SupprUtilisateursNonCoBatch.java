@@ -53,12 +53,6 @@ public class SupprUtilisateursNonCoBatch extends NuxeoBatch {
 	@Override
 	public String getJobScheduling() {
 		
-		String enabled = System.getProperty("foad.purgeusers.enabled");
-		// la propriété doit être non vide et à false pour désactiver le traitement
-		if (enabled != null && !BooleanUtils.toBoolean(enabled)) {
-			return null;
-		}
-
 		String cron = System.getProperty("foad.purgeusers.cron");
 		
 		if(StringUtils.isNotBlank(cron)) {
