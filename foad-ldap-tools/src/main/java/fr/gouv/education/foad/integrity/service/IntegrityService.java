@@ -41,16 +41,6 @@ public interface IntegrityService {
 	 */
 	void purgeAllInvit(PortalControllerContext portalControllerContext) throws PortletException;
 
-
-	/**
-	 * Remove all users with no connexion date
-	 * 
-	 * @param portalControllerContext
-	 * @param purge
-	 * @throws PortletException 
-	 */
-	void purgeAllUsers(PortalControllerContext portalControllerContext, Boolean test) throws PortletException;
-	
 	/**
 	 * Remove users with logins in argument
 	 * 

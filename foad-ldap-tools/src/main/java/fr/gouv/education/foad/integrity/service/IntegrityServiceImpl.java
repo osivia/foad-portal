@@ -160,41 +160,6 @@ public class IntegrityServiceImpl implements IntegrityService {
         return new NuxeoController(request, response, portletContext);
     }
 
-    /* (non-Javadoc)
-	 * @see fr.gouv.education.foad.integrity.service.IntegrityService#purgeUsers(org.osivia.portal.api.context.PortalControllerContext, boolean)
-	 */
-	@Override
-	public void purgeAllUsers(PortalControllerContext portalControllerContext, Boolean test) throws PortletException {
-		
-		Person search = personService.getEmptyPerson();
-		//search.setExternal(true);
-
-		List<Person> persons = personService.findByNoConnectionDate(search);
-		
-		List<String> logins = new ArrayList<>();
-		for(Person p : persons) {
-			logins.add(p.getUid());
-		}
-		Integer totalPurgeCount = 0;
-
-		int count = purgeUsers(portalControllerContext, logins , test);
-		totalPurgeCount = totalPurgeCount + count;
-				
-		while(!test && count > 0 && totalPurgeCount < MAX_PURGE) {
-			persons = personService.findByNoConnectionDate(search);
-			
-			logins = new ArrayList<>();
-			for(Person p : persons) {
-				logins.add(p.getUid());
-			}
-			
-			count = purgeUsers(portalControllerContext, logins , test);
-			totalPurgeCount = totalPurgeCount + count;
-
-		}
-		
-		
-	}
 	
     
 	/* (non-Javadoc)

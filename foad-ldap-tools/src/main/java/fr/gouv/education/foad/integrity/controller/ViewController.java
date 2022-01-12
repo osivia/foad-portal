@@ -42,6 +42,7 @@ import org.springframework.web.portlet.context.PortletContextAware;
 
 import fr.gouv.education.foad.bns.batch.BnsImportBatch;
 import fr.gouv.education.foad.bns.controller.BnsImportForm;
+import fr.gouv.education.foad.integrity.batch.SupprEspacesVidesBatch;
 import fr.gouv.education.foad.integrity.batch.SupprNumenBatch;
 import fr.gouv.education.foad.integrity.batch.SupprUtilisateursNonCoBatch;
 import fr.gouv.education.foad.integrity.service.IntegrityService;
@@ -78,7 +79,10 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
 
 	@Autowired
 	private IBatchService batchService;
-	private SupprUtilisateursNonCoBatch batch;
+	
+	private SupprUtilisateursNonCoBatch supprUtilisateursNonCoBatch;
+	
+	private SupprEspacesVidesBatch supprEspacesVidesBatch;
 
     /**
      * Constructor.
@@ -98,9 +102,15 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
         super.init(this.portletConfig);
         
         try {
-	        batch = new SupprUtilisateursNonCoBatch();
+        	supprUtilisateursNonCoBatch = new SupprUtilisateursNonCoBatch();
 	        SupprUtilisateursNonCoBatch.setPortletContext(portletContext);
-	        batchService.addBatch(batch);
+	        batchService.addBatch(supprUtilisateursNonCoBatch);
+	        
+	        supprEspacesVidesBatch = new SupprEspacesVidesBatch();
+	        SupprEspacesVidesBatch.setPortletContext(portletContext);
+	        batchService.addBatch(supprEspacesVidesBatch);
+	        
+	        
         }
         catch(ParseException e) {
         	throw new PortletException(e);
@@ -118,7 +128,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     public void preDestroy() {
         super.destroy();
         
-        batchService.removeBatch(batch);
+        batchService.removeBatch(supprUtilisateursNonCoBatch);
+        batchService.removeBatch(supprEspacesVidesBatch);
     }
 
 
@@ -210,11 +221,8 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
     		test = false;
     	}
     	
-    	if(form.getPurgeAll()) {
-	        this.service.purgeAllUsers(pcc, test);
 
-    	}
-    	else if(StringUtils.isNotBlank(form.getLogins())) {
+    	if(StringUtils.isNotBlank(form.getLogins())) {
 			
 			String[] split = form.getLogins().split(";");
 			List<String> logins = new ArrayList<String>();

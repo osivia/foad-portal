@@ -73,19 +73,7 @@
        <div class="col-sm-9 col-lg-10">
            <form:textarea path="logins" rows="3" cssClass="form-control" placeholder="${placeholder}" />
        </div>
-   </div>  
-   
-	<!-- Tout supprimer -->
-   <div class="form-group">
-       <c:set var="placeholder"><op:translate key="PURGEALL_BUTTON" /></c:set>
-       <form:label path="purgeAll" cssClass="control-label col-sm-3 col-lg-2"><op:translate key="PURGEALL_BUTTON" /></form:label>
-       <div class="col-sm-9 col-lg-10">
-           <form:checkbox path="purgeAll" cssClass="form-control" placeholder="${placeholder}" />
-       </div>
-   </div>  
-   
-   
-      
+   </div>       
    
    <button type="submit" name="btnName" value="test" class="btn btn-default no-ajax-link"><op:translate key="TEST_BUTTON" /></button>
    <button type="submit" name="btnName" value="run"  class="btn btn-danger no-ajax-link">
