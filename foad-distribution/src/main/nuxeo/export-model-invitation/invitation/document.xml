@@ -131,7 +131,7 @@ Pour voir l’espace, connectez-vous sur votre portail ARENA Rubrique Formation 
                   <argument>
                     <argumentName><![CDATA[continue]]></argumentName>
                     <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentValue><![CDATA[]]></argumentValue>
                   </argument>
                   <argument>
                     <argumentName><![CDATA[mailTo]]></argumentName>
@@ -327,7 +327,7 @@ ${uid} a refusé votre invitation à rejoindre l'espace ${workspaceTitle}.]]></a
                   <argument>
                     <argumentName><![CDATA[continue]]></argumentName>
                     <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentValue><![CDATA[]]></argumentValue>
                   </argument>
                   <argument>
                     <argumentName><![CDATA[mailTo]]></argumentName>
