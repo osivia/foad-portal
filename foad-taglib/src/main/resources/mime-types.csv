@@ -6,6 +6,8 @@ application/javascript,js,Fichier JavaScript,,glyphicons glyphicons-note
 application/json,json,Fichier JSON,,glyphicons glyphicons-note
 application/msword,doc,Document Word,W,
 application/ogg,ogx,Fichier OGG,,glyphicons glyphicons-film
+application/onlyoffice-docxf,docxf,Formulaire Onlyoffice,,glyphicons glyphicons-list-alt
+application/onlyoffice-oform,oform,Formulaire Onlyoffice,,glyphicons glyphicons-elections
 application/pdf,pdf,Fichier PDF,PDF,
 application/rtf,rtf,Fichier RTF,,glyphicons glyphicons-note
 application/vnd.ms-excel,xls,Feuille de calcul Excel,X,

@@ -2,10 +2,15 @@ package fr.gouv.education.foad.filebrowser.portlet.repository.command;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.automation.client.OperationRequest;
 import org.nuxeo.ecm.automation.client.Session;
+import org.nuxeo.ecm.automation.client.adapters.DocumentService;
 import org.nuxeo.ecm.automation.client.model.Blob;
 import org.nuxeo.ecm.automation.client.model.Blobs;
+import org.nuxeo.ecm.automation.client.model.Document;
+import org.nuxeo.ecm.automation.client.model.PathRef;
+import org.nuxeo.ecm.automation.client.model.PropertyMap;
 import org.nuxeo.ecm.automation.client.model.StreamBlob;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -48,21 +53,51 @@ public class ImportFilesCommand implements INuxeoCommand {
      */
     @Override
     public Object execute(Session nuxeoSession) throws Exception {
+    	
+		DocumentService adapter = nuxeoSession.getAdapter(DocumentService.class);
+    	
         // Blobs
         Blobs blobs = new Blobs(this.upload.size());
         for (MultipartFile multipartFile : this.upload) {
-            Blob blob = new StreamBlob(multipartFile.getInputStream(), multipartFile.getOriginalFilename(), multipartFile.getContentType());
-            blobs.add(blob);
+        	
+        	// special files
+        	if (StringUtils.endsWithIgnoreCase(multipartFile.getOriginalFilename(), ".docxf") ||
+        			StringUtils.endsWithIgnoreCase(multipartFile.getOriginalFilename(), ".oform")) {
+        		
+            	PropertyMap properties = new PropertyMap();
+            	properties.set("dc:title", multipartFile.getOriginalFilename());
+            	
+            	String doctype = "DocxfFile";
+            	if(StringUtils.endsWithIgnoreCase(multipartFile.getOriginalFilename(), ".oform")) {
+            		doctype = "OformFile";
+            	}
+            	
+        		Document doc = adapter.createDocument(new PathRef(path), doctype, null, properties);
+            	
+        		Blob binary = new StreamBlob(multipartFile.getInputStream(), multipartFile.getOriginalFilename(), 
+        				multipartFile.getContentType());
+        		
+            	adapter.setBlob(doc, binary, "file:content");
+        	}
+        	else {
+
+                Blob blob = new StreamBlob(multipartFile.getInputStream(), multipartFile.getOriginalFilename(), multipartFile.getContentType());
+                blobs.add(blob);	
+        	}
+        	
         }
 
-        // Operation request
-        OperationRequest operationRequest = nuxeoSession.newRequest("FileManager.Import");
-        operationRequest.setInput(blobs);
-        operationRequest.setHeader("nx_es_sync", String.valueOf(true));
-        operationRequest.setContextProperty("currentDocument", this.path);
-        operationRequest.set("overwite", true);
+        if(blobs.size() > 0) {
+	        // Operation request
+	        OperationRequest operationRequest = nuxeoSession.newRequest("FileManager.Import");
+	        operationRequest.setInput(blobs);
+	        operationRequest.setHeader("nx_es_sync", String.valueOf(true));
+	        operationRequest.setContextProperty("currentDocument", this.path);
+	        operationRequest.set("overwite", true);
+	        operationRequest.execute();
+        }
 
-        return operationRequest.execute();
+        return null;
     }
 
 

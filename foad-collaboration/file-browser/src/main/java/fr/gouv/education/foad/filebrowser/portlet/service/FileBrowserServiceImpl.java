@@ -55,7 +55,9 @@ import java.util.*;
 @Service
 public class FileBrowserServiceImpl implements FileBrowserService {
 
-    /** Sort criteria attribute. */
+
+
+	/** Sort criteria attribute. */
     private static final String SORT_CRITERIA_ATTRIBUTE = "foad.file-browser.criteria";
 
 
@@ -258,8 +260,20 @@ public class FileBrowserServiceImpl implements FileBrowserService {
         if ((type != null) && type.isFile()) {
             PropertyMap fileContent = nuxeoDocument.getProperties().getMap("file:content");
             if (fileContent != null) {
-                String mimeType = fileContent.getString("mime-type");
-                item.setMimeType(mimeType);
+            	
+            	// Special onlyoffice documents
+            	if(type.getName().equals(FileBrowserRepository.DOCXF_TYPE)) {
+            		item.setMimeType(FileBrowserRepository.DOCXF_MIMETYPE);
+            	}
+            	else if (type.getName().equals(FileBrowserRepository.OFORM_TYPE)) {
+            		item.setMimeType(FileBrowserRepository.OFORM_MIMETYPE);
+            	}
+            	// Other documents
+            	else {
+                    String mimeType = fileContent.getString("mime-type");
+                    item.setMimeType(mimeType);
+            	}
+            
             }
         }
 

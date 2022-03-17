@@ -15,6 +15,18 @@
                     <div class="media">
                         <!-- File Mime type -->
                         <c:choose>
+                        
+                            <c:when test="${document.type.name eq 'DocxfFile'}">
+                                <div class="media-left">
+                                    <foad:mimeTypeIcon mimeType="application/onlyoffice-docxf" />
+                                </div>
+                            </c:when>
+                            <c:when test="${document.type.name eq 'OformFile'}">
+                                <div class="media-left">
+                                    <foad:mimeTypeIcon mimeType="application/onlyoffice-oform" />
+                                </div>
+                            </c:when>
+                        
                             <c:when test="${document.type.file}">
                                 <div class="media-left">
                                     <foad:mimeTypeIcon mimeType="${document.properties['file:content']['mime-type']}" />

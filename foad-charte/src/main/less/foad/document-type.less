@@ -86,7 +86,9 @@
     &[data-extension=ppt], &[data-extension=pptx], &[data-extension=odp] {
         background-color: #d24625;
     }
-    
+    &[data-extension=docxf], &[data-extension=oform] {
+        background-color: #27ABA3
+    }
     
     // Unknown MIME type
     &[data-unknown] {
@@ -212,6 +214,14 @@
                         content: "p";
                     }
                 }
+                
+                &.flaticon-docxf {
+                    &:extend(.document-type[data-extension=docxf]);
+                    
+                    &::before {
+                       content: "\E530"; // list-alt
+                    }
+                }                
             }
         }   
     }

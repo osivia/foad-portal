@@ -23,6 +23,13 @@ import fr.toutatice.portail.cms.nuxeo.api.cms.NuxeoDocumentContext;
  */
 public interface FileBrowserRepository {
 
+
+    public static final String OFORM_TYPE = "OformFile";
+    public static final String OFORM_MIMETYPE = "application/onlyoffice-oform";
+
+    public static final String DOCXF_TYPE = "DocxfFile";
+    public static final String DOCXF_MIMETYPE = "application/onlyoffice-docxf";
+	
     /**
      * Get current path.
      * 
