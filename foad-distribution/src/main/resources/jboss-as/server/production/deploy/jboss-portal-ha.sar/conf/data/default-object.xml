@@ -1834,7 +1834,7 @@ return nuxeoRequest.toString();</value>
                                 <name>osivia.nuxeoRequest</name>
                                 <value>StringBuilder nuxeoRequest = new StringBuilder();&#13;
 nuxeoRequest.append("ecm:path STARTSWITH '").append(basePath).append("' ");&#13;
-nuxeoRequest.append("AND ecm:primaryType IN ('File', 'Picture', 'Audio', 'Video', 'Note') ");&#13;
+nuxeoRequest.append("AND ecm:primaryType IN ('File', 'Picture', 'Audio', 'Video', 'Note', 'DocxfFile', 'OformFile') ");&#13;
 nuxeoRequest.append("ORDER BY dc:modified DESC");&#13;
 return nuxeoRequest.toString();</value>
                             </property>
