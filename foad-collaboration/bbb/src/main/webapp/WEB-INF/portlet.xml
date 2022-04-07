@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<portlet-app
+    xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+    version="2.0">
+    
+    <portlet>
+        <portlet-name>foad-bbb</portlet-name>
+        <display-name>Accès visio BigBlueButton</display-name>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        
+        <init-param>
+            <name>contextClass</name>
+            <value>org.osivia.portal.api.portlet.AnnotationPortletApplicationContext</value>
+        </init-param>
+        
+        <init-param>
+            <name>contextConfigLocation</name>
+            <value>fr.gouv.education.foad.bbb.portlet.configuration.PortletConfig</value>
+        </init-param>
+        
+        <expiration-cache>180</expiration-cache>
+        
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Accès visio BigBlueButton</title>
+        </portlet-info>
+    </portlet>    
+        
+    
+    
+	<portlet>
+		<portlet-name>foad-bbb-Plugin</portlet-name>
+		<portlet-class>fr.gouv.education.foad.bbb.plugin.VisioPlugin</portlet-class>
+		<expiration-cache>180</expiration-cache>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+
+		<portlet-info>
+			<title>Accès visio BigBlueButton plugin</title>
+		</portlet-info>
+	</portlet>        
+    
+</portlet-app>

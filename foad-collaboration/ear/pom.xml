@@ -159,6 +159,15 @@
             <version>${collaboration.version}</version>
             <type>war</type>
         </dependency>        
+        
+        <!-- Big blue button -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>foad-bbb</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        
 
     </dependencies>
 
@@ -290,7 +299,11 @@
 				            <artifactId>osivia-services-workspace-quota</artifactId>
             				<contextRoot>/osivia-services-workspace-quota</contextRoot>
                         </webModule>
-                                                
+                        <webModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>foad-bbb</artifactId>
+                            <contextRoot>/foad-bbb</contextRoot>
+                        </webModule>  
                     </modules>
                 </configuration>
             </plugin>

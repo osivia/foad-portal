@@ -19,6 +19,7 @@
         <module>member-management</module>
         <module>search</module>
         <module>taskbar</module>
+        <module>bbb</module>
 
         <module>ear</module>
     </modules>
