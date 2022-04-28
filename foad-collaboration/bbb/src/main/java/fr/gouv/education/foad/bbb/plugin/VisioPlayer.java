@@ -10,6 +10,11 @@ import org.osivia.portal.api.player.Player;
 
 import fr.toutatice.portail.cms.nuxeo.api.player.INuxeoPlayerModule;
 
+/**
+ * 
+ * @author Loïc Billon
+ *
+ */
 public class VisioPlayer implements INuxeoPlayerModule {
 
 	@Override
@@ -22,6 +27,8 @@ public class VisioPlayer implements INuxeoPlayerModule {
             // Window properties
             Map<String, String> windowProperties = new HashMap<String, String>();
             windowProperties.put(Constants.WINDOW_PROP_URI, document.getPath());
+            windowProperties.put("osivia.title", document.getTitle());
+            windowProperties.put("osivia.hideTitle", "1");            
 
             Player props = new Player();
             props.setWindowProperties(windowProperties);

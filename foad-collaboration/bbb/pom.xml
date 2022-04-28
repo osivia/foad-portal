@@ -12,5 +12,21 @@
     <packaging>war</packaging>
 
     <name>FOAD - Accès BigBlueButton</name>
+    
+    <dependencies>
+		    <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    <version>2.2.12</version>
+		</dependency>
+		   <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.15</version>
+		</dependency>
+		   
+    </dependencies>
 
 </project>
