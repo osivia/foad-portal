@@ -112,7 +112,7 @@ public class ViewController extends CMSPortlet implements PortletConfigAware, Po
         	
     		String batchSpaceEnabled = System.getProperty("foad.purgeespaces.enabled");
     		// la propriété doit être non vide et à false pour désactiver le traitement
-    		if (batchSpaceEnabled == null || !BooleanUtils.toBoolean(batchSpaceEnabled)) {
+    		if (batchSpaceEnabled == null || BooleanUtils.toBoolean(batchSpaceEnabled)) {
     	        supprEspacesVidesBatch = new SupprEspacesVidesBatch();
     	        SupprEspacesVidesBatch.setPortletContext(portletContext);
     	        batchService.addBatch(supprEspacesVidesBatch);
