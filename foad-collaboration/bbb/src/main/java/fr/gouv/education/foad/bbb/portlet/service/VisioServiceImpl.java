@@ -6,9 +6,12 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -61,6 +64,19 @@ public class VisioServiceImpl implements VisioService {
 	private PersonService personService;
 	
 	private final Log log = LogFactory.getLog(this.getClass());
+
+	private Proxy proxy = null;
+	
+	public VisioServiceImpl() {
+		
+        Properties props = System.getProperties();
+		String proxyHost = props.getProperty("http.proxyHost");
+		if(StringUtils.isNotBlank(proxyHost)) {
+			int proxyPort = Integer.parseInt(props.getProperty("http.proxyPort", "3128"));
+				
+			proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+		}
+	}
 
 	@Override
 	public VisioForm getForm(PortalControllerContext pcc) throws VisioException, PortletException {
@@ -172,7 +188,15 @@ public class VisioServiceImpl implements VisioService {
 		StringBuffer response = null;
 		try {
 			URL u = new URL(url);
-			HttpURLConnection httpConnection = (HttpURLConnection) u.openConnection();
+			HttpURLConnection httpConnection;
+			
+			if(proxy != null) {
+				httpConnection = (HttpURLConnection) u.openConnection(proxy);
+			}
+			else {
+				httpConnection = (HttpURLConnection) u.openConnection();
+			}
+			
 			httpConnection.setUseCaches(false);
 			httpConnection.setDoOutput(true);
 			httpConnection.setRequestMethod("GET");
