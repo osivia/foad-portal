@@ -94,6 +94,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
     /** Current space identifier. */
     private static final String SPACE_ID = "stats.space.id";
     
+    /** Portal V2r. */
+    private static final String PV2_URL = "foad.portalv2.url";
+    
+    
     /** Current workspace tabs. */
     private static final String WORKSPACE_TABS = "workspace.tabs";
     /** Page content title. */
@@ -146,6 +150,8 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
         this.names.add(SPACE_ID);
         this.names.add(WORKSPACE_TABS);
         this.names.add(PAGE_CONTENT_TITLE);
+        
+        this.names.add(PV2_URL);
 
         // SSO applications
         this.applications = new ArrayList<String>();
@@ -260,6 +266,10 @@ public class CustomizedAttributesBundle implements IAttributesBundle {
 	        // Page content title
 	        this.computePageContentTitle(portalControllerContext, page, document, attributes);
         
+	        
+	        if (StringUtils.isNotBlank(System.getProperty(PV2_URL))) {
+	            attributes.put(PV2_URL, System.getProperty(PV2_URL));
+	        }
 //    	}
 //    	catch(NullPointerException ex) {
 //    		logger.error("Error on loading attributes bundle", ex);

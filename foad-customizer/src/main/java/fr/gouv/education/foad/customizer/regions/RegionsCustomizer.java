@@ -114,6 +114,10 @@ public class RegionsCustomizer extends GenericPortlet implements ICustomizationM
             renderedRegion.customizeRenderedRegion("toolbar-tasks", "/regions/toolbar-tasks.jsp");
             // Add toolbar user menu region
             renderedRegion.customizeRenderedRegion("toolbar-user-menu", "/regions/toolbar-user-menu.jsp");
+            
+            // Add toolbar V2 access
+            renderedRegion.customizeRenderedRegion("toolbar-v2-access", "/regions/toolbar-v2-access.jsp");
+            
             // Add content title region
             renderedRegion.customizeRenderedRegion("content-title", "/regions/content-title.jsp");
             // Add header title region

@@ -51,6 +51,11 @@
                         <!-- User menu -->
                         <p:region regionName="toolbar-user-menu" />
                     </ul>
+                    
+                    
+                    <p:region regionName="toolbar-v2-access" />
+                    	
+				    
                 </div>
             </div>
         </div>
