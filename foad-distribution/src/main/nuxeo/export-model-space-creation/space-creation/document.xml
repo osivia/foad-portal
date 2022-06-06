@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document repository="default" id="a32e8010-22a6-468f-b602-4227bcec87d2">
+<document repository="default" id="9e776c82-a026-4cf0-a30a-365a79004310">
   <system>
     <type>ProcedureModel</type>
-    <path>default-domain/procedures/models/space-creation</path>
+    <path>default-domain/procedures/procedures-models/space-creation</path>
     <lifecycle-state>project</lifecycle-state>
     <lifecycle-policy>undefined</lifecycle-policy>
     <facet>Versionable</facet>
@@ -26,15 +26,21 @@
     <dc:contributors>
       <item><![CDATA[admin]]></item>
     </dc:contributors>
-    <dc:created><![CDATA[2016-11-23T14:22:17.51Z]]></dc:created>
-    <dc:description><![CDATA[]]></dc:description>
+    <dc:created><![CDATA[2018-10-18T12:37:26.33Z]]></dc:created>
+    <dc:description><![CDATA[ Le refus d'une création d'espace peut intervenir dans les cas ou :
+
+Le nom proposé ne correspond pas à la description
+
+La description est absente ou pas claire, les demandes avec des noms comme "espace de tests, essai, espace collaboratif, Mon espace perso…)
+
+S'il s'agit d'espace de stockage ou d'espace personnel(ou portant votre nom).]]></dc:description>
     <dc:rights><![CDATA[]]></dc:rights>
     <dc:subjects/>
     <dc:publisher><![CDATA[]]></dc:publisher>
     <dc:valid/>
     <dc:format><![CDATA[]]></dc:format>
     <dc:issued/>
-    <dc:modified><![CDATA[2018-04-19T13:48:21.00Z]]></dc:modified>
+    <dc:modified><![CDATA[2022-05-31T07:55:13.00Z]]></dc:modified>
     <dc:language><![CDATA[]]></dc:language>
     <dc:coverage><![CDATA[]]></dc:coverage>
     <dc:expired/>
@@ -45,7 +51,7 @@
     <ttc:childrenPageTemplate><![CDATA[]]></ttc:childrenPageTemplate>
     <ttc:selectors><![CDATA[]]></ttc:selectors>
     <ttc:isOnline><![CDATA[false]]></ttc:isOnline>
-    <ttc:spaceID><![CDATA[aaff1644-6764-4015-ac61-46c5d6e6511a]]></ttc:spaceID>
+    <ttc:spaceID><![CDATA[8658dea1-7032-4d1f-9110-41c650b3fc0f]]></ttc:spaceID>
     <ttc:pageScope><![CDATA[]]></ttc:pageScope>
     <ttc:contextualizeInternalContents><![CDATA[false]]></ttc:contextualizeInternalContents>
     <ttc:extensionUrl><![CDATA[]]></ttc:extensionUrl>
@@ -63,6 +69,7 @@
     <ttc:commentsForbidden/>
     <ttc:hideMetadatas/>
     <ttc:publicationDate/>
+    <ttc:modelVersion/>
     <ttc:domainID><![CDATA[default-domain]]></ttc:domainID>
     <ttc:editorialTitle><![CDATA[]]></ttc:editorialTitle>
     <ttc:vignette/>
@@ -74,14 +81,6 @@
   <schema xmlns:pcd="http://www.nuxeo.org/ecm/project/schemas/osivia/models/procedure" name="procedure">
     <pcd:startingStep><![CDATA[init]]></pcd:startingStep>
     <pcd:globalVariablesDefinitions>
-      <definition>
-        <varOptions><![CDATA[
-          
-        ]]></varOptions>
-        <name><![CDATA[title]]></name>
-        <label><![CDATA[Titre]]></label>
-        <type><![CDATA[TEXT]]></type>
-      </definition>
       <definition>
         <varOptions><![CDATA[
           
@@ -98,9 +97,17 @@
         <label><![CDATA[Description]]></label>
         <type><![CDATA[TEXTAREA]]></type>
       </definition>
+      <definition>
+        <varOptions><![CDATA[
+          
+        ]]></varOptions>
+        <name><![CDATA[title]]></name>
+        <label><![CDATA[Titre]]></label>
+        <type><![CDATA[TEXT]]></type>
+      </definition>
     </pcd:globalVariablesDefinitions>
     <pcd:procedureType/>
-    <pcd:webIdParent/>
+    <pcd:webIdParent><![CDATA[]]></pcd:webIdParent>
     <pcd:authorizedActors/>
     <pcd:steps>
       <step>
@@ -110,7 +117,7 @@
         <actionIdClosable><![CDATA[]]></actionIdClosable>
         <reference><![CDATA[init]]></reference>
         <acquitable><![CDATA[false]]></acquitable>
-        <endStepMsg><![CDATA[La demande de création a été soumise.]]></endStepMsg>
+        <endStepMsg><![CDATA[Votre espace a bien été créé. Si vous ne le voyez pas, utilisez le bouton actualiser sur la page d’accueil.]]></endStepMsg>
         <closable><![CDATA[false]]></closable>
         <globalVariablesReferences>
           <globalVariablesReference>
@@ -195,7 +202,7 @@
             </filtersList>
             <label><![CDATA[Soumettre]]></label>
             <actionId><![CDATA[save]]></actionId>
-            <stepReference><![CDATA[question]]></stepReference>
+            <stepReference><![CDATA[endStep]]></stepReference>
           </action>
         </actions>
         <notifEmail><![CDATA[false]]></notifEmail>
@@ -218,24 +225,6 @@
         <actions>
           <action>
             <filtersList>
-              <filter>
-                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
-                <filterId><![CDATA[SET_ACTOR]]></filterId>
-                <argumentsList>
-                  <argument>
-                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[actor]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[group]]></argumentName>
-                  </argument>
-                </argumentsList>
-                <filterName><![CDATA[]]></filterName>
-                <filterPath><![CDATA[1]]></filterPath>
-              </filter>
               <filter>
                 <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
                 <filterId><![CDATA[SendMailFilter]]></filterId>
@@ -300,13 +289,6 @@ Pôle FOAD]]></argumentValue>
                 <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[0]]></filterPath>
               </filter>
-            </filtersList>
-            <label><![CDATA[Accepter]]></label>
-            <actionId><![CDATA[accept]]></actionId>
-            <stepReference><![CDATA[information]]></stepReference>
-          </action>
-          <action>
-            <filtersList>
               <filter>
                 <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
                 <filterId><![CDATA[SET_ACTOR]]></filterId>
@@ -316,9 +298,54 @@ Pôle FOAD]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
                     <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
+                  <argument>
+                    <argumentValue><![CDATA[]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[group]]></argumentName>
+                  </argument>
                 </argumentsList>
-                <filterName><![CDATA[Définir l'acteur]]></filterName>
+                <filterName><![CDATA[]]></filterName>
                 <filterPath><![CDATA[1]]></filterPath>
+              </filter>
+            </filtersList>
+            <label><![CDATA[Accepter]]></label>
+            <actionId><![CDATA[accept]]></actionId>
+            <stepReference><![CDATA[information]]></stepReference>
+          </action>
+          <action>
+            <filtersList>
+              <filter>
+                <filterInstanceId><![CDATA[SendMailFilter0]]></filterInstanceId>
+                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <argumentsList>
+                  <argument>
+                    <argumentValue><![CDATA[La demande de création d'espace ${title} (${description}) a été refusée.]]></argumentValue>
+                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
+                    <argumentName><![CDATA[body]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailFrom]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[true]]></argumentValue>
+                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
+                    <argumentName><![CDATA[continue]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailTo]]></argumentName>
+                  </argument>
+                  <argument>
+                    <argumentValue><![CDATA[Refus de création d'espace ${title}]]></argumentValue>
+                    <argumentType><![CDATA[TEXT]]></argumentType>
+                    <argumentName><![CDATA[mailObject]]></argumentName>
+                  </argument>
+                </argumentsList>
+                <filterName><![CDATA[Mail informatif aux administrateurs]]></filterName>
+                <filterPath><![CDATA[0]]></filterPath>
               </filter>
               <filter>
                 <filterInstanceId><![CDATA[SendMailFilter2]]></filterInstanceId>
@@ -367,37 +394,17 @@ Pôle FOAD]]></argumentValue>
                 <filterPath><![CDATA[2]]></filterPath>
               </filter>
               <filter>
-                <filterInstanceId><![CDATA[SendMailFilter0]]></filterInstanceId>
-                <filterId><![CDATA[SendMailFilter]]></filterId>
+                <filterInstanceId><![CDATA[SET_ACTOR1]]></filterInstanceId>
+                <filterId><![CDATA[SET_ACTOR]]></filterId>
                 <argumentsList>
                   <argument>
-                    <argumentValue><![CDATA[La demande de création d'espace ${title} (${description}) a été refusée.]]></argumentValue>
-                    <argumentType><![CDATA[TEXTAREA]]></argumentType>
-                    <argumentName><![CDATA[body]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
+                    <argumentValue><![CDATA[${procedureInitiator}]]></argumentValue>
                     <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailFrom]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[true]]></argumentValue>
-                    <argumentType><![CDATA[BOOLEAN]]></argumentType>
-                    <argumentName><![CDATA[continue]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[pole.foad@ac-toulouse.fr]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailTo]]></argumentName>
-                  </argument>
-                  <argument>
-                    <argumentValue><![CDATA[Refus de création d'espace ${title}]]></argumentValue>
-                    <argumentType><![CDATA[TEXT]]></argumentType>
-                    <argumentName><![CDATA[mailObject]]></argumentName>
+                    <argumentName><![CDATA[actor]]></argumentName>
                   </argument>
                 </argumentsList>
-                <filterName><![CDATA[Mail informatif aux administrateurs]]></filterName>
-                <filterPath><![CDATA[0]]></filterPath>
+                <filterName><![CDATA[Définir l'acteur]]></filterName>
+                <filterPath><![CDATA[1]]></filterPath>
               </filter>
             </filtersList>
             <label><![CDATA[Refuser]]></label>
@@ -471,6 +478,6 @@ Vous pouvez formuler une nouvelle demande d’espace en prenant en compte les pr
     <pcd:procedureObjects/>
   </schema>
   <schema xmlns:foad="http://www.osivia.com/ecm/project/schemas/cns" name="foad_doc">
-    <foad:academie/>
+    <foad:academie><![CDATA[]]></foad:academie>
   </schema>
 </document>
