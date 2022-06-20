@@ -283,16 +283,19 @@ public class SupprEspacesVidesBatch extends NuxeoBatch {
 					// Envoi mail
 					try {
 						String to = String.join(";", owners);
-						String object = "Désactivation de votre espace ".concat(spaceToPutInTrash.getTitle());
+						String object = "Archivage de votre espace ".concat(spaceToPutInTrash.getTitle());
 						
 				        StringBuilder body = new StringBuilder();
-				        body.append("<p>Suite à l’inactivité sur votre espace ");
+				        body.append("<p>Suite à l'inactivité observée sur votre espace ");
 				        body.append(spaceToPutInTrash.getTitle());
-				        body.append(" depuis plus de 10 mois, cet espace a été mis en corbeille. </p>");
+				        body.append(" depuis plus de 10 mois, celui-ci a été archivé.</p>");
 				        
-				        body.append("<p>Si vous voulez récupérer les documents qui y sont déposés, contactez le Pôle FOAD ");
+				        body.append("<p>Pour conserver votre espace, contactez le pôle FOAD ");
 				        body.append("(<a href=\"mailto:pole.foad@ac-toulouse.fr\">pole.foad@ac-toulouse.fr</a>).</p>");
 				        					
+				        body.append("<p>Sans retour de votre part, il sera supprimé dans un délai 2 mois.</p>");
+
+				        
 						sendMail(to, object, body);
 						
 						reporting.append("<li>");
