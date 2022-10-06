@@ -295,7 +295,6 @@ public class SupprEspacesVidesBatch extends NuxeoBatch {
 				        					
 				        body.append("<p>Sans retour de votre part, il sera supprimé dans un délai 2 mois.</p>");
 
-				        
 						sendMail(to, object, body);
 						
 						reporting.append("<li>");
