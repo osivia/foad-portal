@@ -41,19 +41,20 @@
     
     
     <modules>
-        <module>foad-taglib</module>
+        <!--<module>foad-taglib</module>
         <module>foad-charte</module>
         <module>foad-customizer</module>
-        <!-- <module>foad-generator</module>  -->
+        <module>foad-generator</module>
         <module>foad-ldap-tools</module>
-        <module>foad-nx-custom</module>
+
         <module>foad-directory</module>
         <module>foad-collaboration</module>
         <module>foad-distribution</module>
         
         <module>foad-charte-tribin</module>
-        <module>foad-distribution-tribin</module>
-        
+        <module>foad-distribution-tribin</module>-->
+
+        <module>foad-nx-custom</module>
     </modules>
     
     
